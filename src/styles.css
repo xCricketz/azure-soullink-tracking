@@ -177,7 +177,8 @@ h1, h2, h3, .val, .nick, .btn, .fab, .nm b, .pc .nm, .who-name { font-family: va
 .main {
   flex: 1;
   min-height: 0;
-  overflow: auto;
+  overflow-x: clip;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding: 0 16px calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 28px);
 }
@@ -347,7 +348,7 @@ input:focus, textarea:focus, .inp.focus { outline: none; border-color: var(--me)
 .halves { display: grid; grid-template-columns: 1fr 28px 1fr; align-items: stretch; }
 .half {
   position: relative; display: flex; align-items: center; gap: 8px; min-height: 72px; padding: 8px;
-  border-radius: var(--r-inner); background: var(--surface-2); overflow: visible; text-align: left;
+  border-radius: var(--r-inner); background: var(--surface-2); overflow: hidden; text-align: left;
   border: none; color: inherit; width: 100%;
 }
 .half.fisi { box-shadow: inset 3px 0 0 var(--fisi); }
