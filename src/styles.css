@@ -644,7 +644,7 @@ input:focus, textarea:focus, .inp.focus { outline: none; border-color: var(--me)
 .lg { text-align: center; }
 .logo { width: 64px; height: 64px; margin: 0 auto 6px; display: block; border-radius: 18px; filter: drop-shadow(0 0 24px rgba(185, 140, 255, 0.55)); }
 .lg h1 {
-  margin: 0; font: 400 22px/30px var(--font-pixel); letter-spacing: 0.08em;
+  margin: 0; font: 400 18px/26px var(--font-pixel); letter-spacing: 0.06em;
   background: linear-gradient(90deg, var(--fisi), var(--link), var(--seri));
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
@@ -875,10 +875,15 @@ button.wiki-hit {
 .stat-bar i { display: block; height: 100%; background: var(--me); border-radius: inherit; }
 .ability-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .ability-list li {
-  display: flex; justify-content: space-between; align-items: center; gap: 8px;
-  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
   font: 600 15px/20px var(--font-head);
 }
+.ability-list button {
+  width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  min-height: 48px; padding: 10px 12px; background: none; border: none; color: inherit;
+  text-align: left; font: inherit;
+}
+.ability-copy { margin: 0; font-size: 16px; line-height: 24px; }
 .ability-list small { color: var(--text-faint); font: 600 12px/1 var(--font-body); text-transform: uppercase; letter-spacing: 0.04em; }
 .evo, .evo ul { list-style: none; margin: 0; padding: 0; }
 .evo ul { margin-top: 4px; padding-left: 14px; border-left: 2px solid var(--border); }

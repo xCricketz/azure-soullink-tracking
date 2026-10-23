@@ -51,7 +51,7 @@ export function More() {
         <p className="stat-extra">Fisi {stats.fisi} · Seri {stats.seri} · most common type {stats.favorite ?? 'none yet'}</p>
         <button className="row" type="button" onClick={() => { setRules(app.run?.rules ?? DEFAULT_RULES); setRulesOpen(true) }}>
           <span className="ricon accent"><ScrollText size={18} aria-hidden="true" /></span>
-          <span className="rt">Rules<small>Soul-Link rules · shared with {PLAYERS[app.me === 'fisi' ? 'seri' : 'fisi'].name}</small></span>
+          <span className="rt">Rules<small>Fisi's Tracker rules · shared with {PLAYERS[app.me === 'fisi' ? 'seri' : 'fisi'].name}</small></span>
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
       </div>
@@ -116,7 +116,7 @@ export function More() {
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
       </div>
-      <p className="foot2">Soul-Link · v5 · Azure Platinum</p>
+      <p className="foot2">Fisi's Tracker · v6 · Azure Platinum</p>
 
       <BottomSheet open={rulesOpen} title="Rules" onClose={() => setRulesOpen(false)} footer={
         <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Save rules</button>

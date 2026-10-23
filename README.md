@@ -1,4 +1,4 @@
-# Soul-Link Tracker
+# Fisi's Tracker
 
 Privater Nuzlocke-Tracker für Fisi und Seri, Pokémon Azure Platinum. Installierbare PWA, Deutsch, dunkel als Standard.
 

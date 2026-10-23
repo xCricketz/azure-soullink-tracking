@@ -102,7 +102,7 @@ export function playerFromEmail(email?: string | null): PlayerId | null {
   return null
 }
 
-export const DEFAULT_RULES = `Soul-Link Nuzlocke – Azure Platinum
+export const DEFAULT_RULES = `Fisi's Tracker – Azure Platinum
 
 • First catch on each route counts. A taken route is off limits.
 • If a Pokémon faints, its soul partner faints too.

@@ -18,10 +18,10 @@ export default defineConfig({
         'icon-maskable-512.png',
       ],
       manifest: {
-        name: 'Soul-Link Tracker',
-        short_name: 'Soul-Link',
-        description: 'Soul-Link Nuzlocke for Fisi and Seri · Azure Platinum',
-        lang: 'de',
+        name: "Fisi's Tracker",
+        short_name: "Fisi's Tracker",
+        description: "Fisi's Tracker for Fisi and Seri · Azure Platinum",
+        lang: 'en',
         dir: 'ltr',
         start_url: '/azure-soullink-tracking/',
         scope: '/azure-soullink-tracking/',
@@ -37,6 +37,8 @@ export default defineConfig({
         ],
       },
       workbox: {
+        cacheId: 'fisi-tracker-v6',
+        cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff,woff2,ico,webmanifest}'],
         navigateFallback: 'index.html',
         runtimeCaching: [
