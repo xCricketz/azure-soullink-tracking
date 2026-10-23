@@ -1,7 +1,8 @@
 import { Archive, Ban, Check, ChevronDown, Dices, Heart, MapPin, Search, Skull } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { randomNickname } from '../data/nicknames'
-import { searchMons, type Mon } from '../lib/dex'
+import { groupTitle, routeTitle, routeTitleByKey } from '../data/routes'
+import { monById, searchMons, type Mon } from '../lib/dex'
 import { findRoute, nextOpenRoute, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type CatchDraft, type Status } from '../lib/types'
@@ -9,10 +10,10 @@ import { norm } from '../lib/text'
 import { BottomSheet, cx, Marked, SpritePlate, StatusChip, TypePills } from './ui'
 
 const SEGMENTS: { status: Status; label: string; icon: typeof Heart }[] = [
-  { status: 'alive', label: 'Lebt', icon: Heart },
+  { status: 'alive', label: 'Alive', icon: Heart },
   { status: 'boxed', label: 'Box', icon: Archive },
-  { status: 'dead', label: 'Gefallen', icon: Skull },
-  { status: 'missed', label: 'Verpasst', icon: Ban },
+  { status: 'dead', label: 'Fainted', icon: Skull },
+  { status: 'missed', label: 'Missed', icon: Ban },
 ]
 
 export function CatchSheet({
@@ -53,7 +54,7 @@ export function CatchSheet({
       deathCause: existing?.death_cause ?? '',
       epitaph: existing?.epitaph ?? '',
     })
-    setQuery(existing?.pokemon ?? '')
+    setQuery(monById(existing?.dex_id)?.en ?? existing?.pokemon ?? '')
     setRouteQuery('')
     setPickingRoute(!route)
     setCustomName('')
@@ -69,7 +70,7 @@ export function CatchSheet({
   const routeChoices = rows.filter((row) => {
     const needle = norm(routeQuery)
     if (!needle) return true
-    return norm(row.route.name).includes(needle) || norm(row.route.en).includes(needle)
+    return norm(row.route.name).includes(needle) || norm(row.route.en).includes(needle) || norm(groupTitle(row.route.group)).includes(needle)
   })
   const showResults = Boolean(query.trim()) && !(draft?.dexId && draft.pokemon && norm(query) === norm(draft.pokemon))
 
@@ -84,12 +85,12 @@ export function CatchSheet({
   return (
     <BottomSheet
       open={open && Boolean(draft)}
-      title="Fang eintragen"
+      title="Log a catch"
       onClose={onClose}
       footer={
         <button className="btn btn-primary" type="button" onClick={() => void save()} disabled={busy}>
           <Check size={18} strokeWidth={2.75} aria-hidden="true" />
-          {busy ? 'Speichere…' : 'Speichern'}
+          {busy ? 'Saving…' : 'Save'}
         </button>
       }
     >
@@ -106,26 +107,26 @@ export function CatchSheet({
               <>
                 <SpritePlate id={partner.dex_id} alt={partner.pokemon ?? 'Pokémon'} size="sm" />
                 <p>
-                  <span className="lbl">{partnerMeta.possessive} Fang</span>
+                  <span className="lbl">{partnerMeta.possessive} catch</span>
                   <strong>
-                    {partner.pokemon ?? 'Pokémon'}
+                    {monById(partner.dex_id)?.en ?? partner.pokemon ?? 'Pokémon'}
                     {partner.nickname ? ` „${partner.nickname}“` : ''}
                   </strong>
                 </p>
                 <StatusChip status={partner.status} />
               </>
             ) : (
-              <p>{partner?.status === 'missed' ? `${partnerMeta.name} hat die Route verpasst.` : `${partnerMeta.name} hat hier noch nichts eingetragen.`}</p>
+              <p>{partner?.status === 'missed' ? `${partnerMeta.name} missed this route.` : `${partnerMeta.name} hasn’t logged anything here.`}</p>
             )}
           </div>
 
           <div className="fl">
-            Route / Ort
-            {draft.route && draft.route === next?.name && <em>nächste offene Route</em>}
+            Route
+            {draft.route && draft.route === next?.name && <em>next open route</em>}
           </div>
           <button className="inp" type="button" onClick={() => setPickingRoute((value) => !value)}>
             <MapPin size={18} aria-hidden="true" />
-            <span className="grow">{draft.route || 'Route wählen'}</span>
+            <span className="grow">{draft.route ? routeTitleByKey(draft.route) : 'Choose a route'}</span>
             <ChevronDown size={18} aria-hidden="true" />
           </button>
           {pickingRoute && (
@@ -133,8 +134,8 @@ export function CatchSheet({
               <input
                 value={routeQuery}
                 onChange={(event) => setRouteQuery(event.target.value)}
-                placeholder="Route suchen"
-                aria-label="Route suchen"
+                placeholder="Search routes"
+                aria-label="Search routes"
                 enterKeyHint="search"
               />
               <div className="picker-list">
@@ -157,15 +158,14 @@ export function CatchSheet({
                           nickname: existing?.nickname ?? draft.nickname,
                           status: existing?.status ?? draft.status,
                         })
-                        if (existing?.pokemon) setQuery(existing.pokemon)
+                        if (existing?.pokemon) setQuery(monById(existing.dex_id)?.en ?? existing.pokemon)
                         setPickingRoute(false)
                       }}
                     >
                       <span>
-                        <strong>{row.route.name}</strong>
-                        <em>{row.route.en}</em>
+                        <strong>{routeTitle(row.route)}</strong>
                       </span>
-                      {taken ? <em>schon belegt</em> : row.route.name === draft.route ? <em>gewählt</em> : null}
+                      {taken ? <em>taken</em> : row.route.name === draft.route ? <em>selected</em> : null}
                     </button>
                   )
                 })}
@@ -174,8 +174,8 @@ export function CatchSheet({
                 <input
                   value={customName}
                   onChange={(event) => setCustomName(event.target.value)}
-                  placeholder="Eigenen Ort anlegen"
-                  aria-label="Eigenen Ort anlegen"
+                  placeholder="Add a custom place"
+                  aria-label="Add a custom place"
                   maxLength={40}
                 />
                 <button
@@ -189,7 +189,7 @@ export function CatchSheet({
                     setPickingRoute(false)
                   }}
                 >
-                  Anlegen
+                  Add
                 </button>
               </div>
             </div>
@@ -206,12 +206,12 @@ export function CatchSheet({
                     setQuery(event.target.value)
                     setDraft({ ...draft, dexId: null, pokemon: null })
                   }}
-                  placeholder="Name oder Nummer"
-                  aria-label="Pokémon suchen"
+                  placeholder="Name or number"
+                  aria-label="Search Pokémon"
                   autoComplete="off"
                   enterKeyHint="search"
                 />
-                {query.trim() && <span className="hit-count">{results.length} Treffer</span>}
+                {query.trim() && <span className="hit-count">{results.length} results</span>}
               </div>
               {showResults && (
                 <div className="res" role="listbox" aria-label="Pokémon">
@@ -222,30 +222,30 @@ export function CatchSheet({
                       query={query}
                       selected={draft.dexId === mon.id}
                       onPick={() => {
-                        setDraft({ ...draft, dexId: mon.id, pokemon: mon.de })
-                        setQuery(mon.de)
+                        setDraft({ ...draft, dexId: mon.id, pokemon: mon.en })
+                        setQuery(mon.en)
                       }}
                     />
                   ))}
-                  {!results.length && <p className="hint">Kein Pokémon mit diesem Namen.</p>}
+                  {!results.length && <p className="hint">No Pokémon with that name.</p>}
                 </div>
               )}
 
-              <div className="fl">Spitzname <em>optional</em></div>
+              <div className="fl">Nickname <em>optional</em></div>
               <div className="nickrow">
                 <div className="inp">
                   <input
                     value={draft.nickname}
                     maxLength={24}
                     onChange={(event) => setDraft({ ...draft, nickname: event.target.value })}
-                    placeholder="Spitzname"
-                    aria-label="Spitzname"
+                    placeholder="Nickname"
+                    aria-label="Nickname"
                   />
                 </div>
                 <button
                   className="dice"
                   type="button"
-                  aria-label="Zufälligen Spitznamen würfeln"
+                  aria-label="Roll a random nickname"
                   onClick={() => setDraft({ ...draft, nickname: randomNickname(draft.nickname) })}
                 >
                   <Dices size={22} aria-hidden="true" />
@@ -275,7 +275,7 @@ export function CatchSheet({
           </div>
 
           <details className="more-details">
-            <summary>Mehr Details (Level, Notiz)</summary>
+            <summary>More details (level, note)</summary>
             {draft.status !== 'missed' && (
               <label className="field">
                 <span>Level</span>
@@ -289,25 +289,25 @@ export function CatchSheet({
               </label>
             )}
             <label className="field">
-              <span>Notiz</span>
+                <span>Note</span>
               <textarea
                 value={draft.note}
                 maxLength={280}
                 onChange={(event) => setDraft({ ...draft, note: event.target.value })}
                 rows={2}
-                aria-label="Notiz"
+                aria-label="Note"
               />
             </label>
             {draft.status === 'dead' && (
               <>
                 <label className="field">
-                  <span>Ursache</span>
+                  <span>Cause</span>
                   <input
                     value={draft.deathCause}
                     maxLength={160}
                     onChange={(event) => setDraft({ ...draft, deathCause: event.target.value })}
-                    placeholder="von Rivale Lucas' Garados"
-                    aria-label="Todesursache"
+                    placeholder="by rival Lucas’s Gyarados"
+                    aria-label="Cause of death"
                   />
                 </label>
                 <label className="field">
@@ -316,7 +316,7 @@ export function CatchSheet({
                     value={draft.epitaph}
                     maxLength={140}
                     onChange={(event) => setDraft({ ...draft, epitaph: event.target.value })}
-                    placeholder="Ruhe in Frieden, tapferer Freund."
+                    placeholder="Rest in peace, brave friend."
                     aria-label="Epitaph"
                   />
                 </label>
@@ -332,12 +332,12 @@ export function CatchSheet({
 function MonRow({ mon, query, selected, onPick }: { mon: Mon; query: string; selected: boolean; onPick: () => void }) {
   return (
     <button className={cx('r', selected && 'sel')} type="button" role="option" aria-selected={selected} onClick={onPick}>
-      <SpritePlate id={mon.id} alt={mon.de} size="sm" />
+      <SpritePlate id={mon.id} alt={mon.en} size="sm" />
       <span className="nm">
-        <Marked text={mon.de} query={query} />
+        <Marked text={mon.en} query={query} />
         <small>#{mon.id}</small>
       </span>
-      <TypePills names={[mon.t1]} />
+      <TypePills id={mon.id} />
       {selected && <Check size={18} aria-hidden="true" />}
     </button>
   )

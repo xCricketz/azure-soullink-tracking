@@ -1,5 +1,6 @@
 import { Archive, Ban, Heart, Loader2, Skull, WifiOff, X, type LucideIcon } from 'lucide-react'
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { gen4TypeNames } from '../data/typechart'
 import { monTypes, spriteSources, typeKey } from '../lib/dex'
 import { useToasts } from '../lib/toast'
 import { shortStatus } from '../lib/text'
@@ -38,7 +39,7 @@ export function SpritePlate({
   dim?: boolean
   grave?: boolean
 }) {
-  const type = monTypes(id)[0]
+  const type = (id && id <= 493 ? gen4TypeNames(id)[0] : monTypes(id)[0])
   return (
     <span className={cx('plate', size, dim && 'dim', grave && 'grave')} style={typeStyle(type)}>
       <PlateImage id={id} alt={alt} size={size} />
@@ -64,7 +65,7 @@ function PlateImage({ id, alt, size }: { id?: number | null; alt: string; size: 
 }
 
 export function TypePills({ id, names }: { id?: number | null; names?: string[] }) {
-  const list = (names ?? monTypes(id)).filter(Boolean)
+  const list = (names ?? (id && id <= 493 ? gen4TypeNames(id) : monTypes(id))).filter(Boolean)
   if (!list.length) return null
   return (
     <span className="tys">
@@ -99,7 +100,7 @@ const STATUS_ICONS: Record<Status | 'open', LucideIcon> = {
 
 export function StatusChip({ status }: { status: Status | 'open'; inTeam?: boolean }) {
   const Icon = STATUS_ICONS[status]
-  const label = status === 'open' ? 'Offen' : shortStatus(status)
+  const label = status === 'open' ? 'Open' : shortStatus(status)
   return (
     <span className={cx('st', status === 'open' ? 'missed' : status)}>
       <Icon size={12} strokeWidth={2.5} aria-hidden="true" />
@@ -109,7 +110,7 @@ export function StatusChip({ status }: { status: Status | 'open'; inTeam?: boole
 }
 
 export function SyncIndicator({ state }: { state: SyncState }) {
-  const full = state === 'live' ? 'Live' : state === 'syncing' ? 'Synchronisiere…' : 'Offline – Änderungen werden gespeichert'
+  const full = state === 'live' ? 'Live' : state === 'syncing' ? 'Syncing…' : 'Offline – changes will be saved'
   const short = state === 'offline' ? 'Offline' : full
   return (
     <p className={cx('sync', state)} role="status" aria-live="polite" title={full}>
@@ -180,7 +181,7 @@ export function BottomSheet({
           <button
             className="handle"
             type="button"
-            aria-label="Verschieben oder schließen"
+            aria-label="Move or close"
             onPointerDown={(event) => {
               startY.current = event.clientY
               event.currentTarget.setPointerCapture(event.pointerId)
@@ -202,7 +203,7 @@ export function BottomSheet({
           </button>
           <div className="sh-h">
             <h2 id={titleId}>{title}</h2>
-            <button className="x" type="button" aria-label="Schließen" onClick={onClose}>
+            <button className="x" type="button" aria-label="Close" onClick={onClose}>
               <X size={18} aria-hidden="true" />
             </button>
           </div>

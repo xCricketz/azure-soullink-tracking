@@ -4,20 +4,21 @@ import { InstallHint } from '../components/InstallHint'
 import { LinkCard } from '../components/LinkCard'
 import { BottomSheet, cx, SpritePlate, StatusChip } from '../components/ui'
 import { marksFor } from '../data/marks'
+import { groupTitle, routeTitle } from '../data/routes'
 import { suggestedCap } from '../lib/caps'
 import { nextLeader } from '../lib/gym'
 import { countPairs, graveRows, isLinked, matchesFilter, matchesQuery, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { PLAYERS, type RouteFilter, type Status } from '../lib/types'
-import { monName } from '../lib/text'
+import { monName, speciesName } from '../lib/text'
 
 const CHIPS: { id: RouteFilter; label: string }[] = [
-  { id: 'all', label: 'Alle' },
-  { id: 'open', label: 'Offen' },
-  { id: 'alive', label: 'Lebt' },
+  { id: 'all', label: 'All' },
+  { id: 'open', label: 'Open' },
+  { id: 'alive', label: 'Alive' },
   { id: 'boxed', label: 'Box' },
-  { id: 'dead', label: 'Gefallen' },
-  { id: 'missed', label: 'Verpasst' },
+  { id: 'dead', label: 'Fainted' },
+  { id: 'missed', label: 'Missed' },
 ]
 
 export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onWiki: (id: number) => void }) {
@@ -44,9 +45,9 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
 
   return (
     <div className="screen">
-      <div className="progress" role="group" aria-label="Run-Überblick">
+      <div className="progress" role="group" aria-label="Run overview">
         <button className="ptile" type="button" onClick={() => setEditor('badges')}>
-          <div className="lbl">Orden</div>
+          <div className="lbl">Badges</div>
           <div className="val">{badges}<small>/ 8</small></div>
           <div className="badges" aria-hidden="true">
             {Array.from({ length: 8 }, (_, index) => <b key={index} className={index < badges ? 'on' : ''} />)}
@@ -54,23 +55,23 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
         </button>
         <div className="ptile">
           <button className="ptile-hit" type="button" onClick={() => setEditor('cap')}>
-            <div className="lbl">Levelcap</div>
+            <div className="lbl">Level cap</div>
             <div className="val">{cap ?? '–'}</div>
-            {leader && <div className="species">Nächste: {leader.name}</div>}
+            {leader && <div className="species">Next: {leader.name}</div>}
           </button>
           {suggestion && suggestion.level !== cap && (
             <button
               className="cap-suggest"
               type="button"
-              aria-label={`Levelcap auf ${suggestion.label}, Lv ${suggestion.level} setzen`}
+              aria-label={`Set level cap to ${suggestion.label}, Lv ${suggestion.level}`}
               onClick={() => void app.saveProgress({ level_cap: suggestion.level })}
             >
-              Vorschlag Lv {suggestion.level}
+              Suggest Lv {suggestion.level}
             </button>
           )}
         </div>
         <div className="ptile">
-          <div className="lbl">Paare</div>
+          <div className="lbl">Pairs</div>
           <div className="val">{countPairs(rows)}</div>
           <div className="species">
             <span className="alive-ink">{living} ♥</span> · <span className="dead-ink">{fallen} ✝</span>
@@ -86,7 +87,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
         <button
           className={cx('chip', searching && 'on')}
           type="button"
-          aria-label={searching ? 'Suche schließen' : 'Route oder Pokémon suchen'}
+          aria-label={searching ? 'Close search' : 'Search routes or Pokémon'}
           aria-pressed={searching}
           onClick={() => { setSearching((value) => !value); setQuery('') }}
         >
@@ -98,16 +99,16 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
           className="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Route, Pokémon, Spitzname"
-          aria-label="Suche"
+          placeholder="Route, Pokémon, nickname"
+          aria-label="Search"
           autoFocus
         />
       )}
       {app.catches.length === 0 && <InstallHint />}
       {app.catches.length === 0 && (
         <div className="banner">
-          <strong>Los geht's!</strong>
-          <p>Trag deinen ersten Fang ein.</p>
+          <strong>Let’s go!</strong>
+          <p>Log your first catch.</p>
         </div>
       )}
       <div className="route-list">
@@ -117,7 +118,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
           const number = rows.findIndex((item) => item.route.name === row.route.name) + 1
           return (
             <div key={row.route.name}>
-              {showGroup && <h3 className="group-label">{row.route.group}</h3>}
+              {showGroup && <h3 className="group-label">{groupTitle(row.route.group)}</h3>}
               <LinkCard
                 route={row.route}
                 index={number}
@@ -134,43 +135,42 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
             </div>
           )
         })}
-        {!visible.length && <p className="hint center">Keine Route passt.</p>}
+        {!visible.length && <p className="hint center">No route matches.</p>}
       </div>
 
-      <BottomSheet open={editor === 'badges'} title="Orden" onClose={() => setEditor(null)}>
+      <BottomSheet open={editor === 'badges'} title="Badges" onClose={() => setEditor(null)}>
         <div className="stepper">
-          <button type="button" className="dice" aria-label="Orden zurück" disabled={badges <= 0} onClick={() => void app.saveProgress({ badges: badges - 1 })}>
+          <button type="button" className="dice" aria-label="Fewer badges" disabled={badges <= 0} onClick={() => void app.saveProgress({ badges: badges - 1 })}>
             <Minus />
           </button>
           <strong>{badges} / 8</strong>
-          <button type="button" className="dice" aria-label="Orden dazu" disabled={badges >= 8} onClick={() => void app.saveProgress({ badges: badges + 1 })}>
+          <button type="button" className="dice" aria-label="One more badge" disabled={badges >= 8} onClick={() => void app.saveProgress({ badges: badges + 1 })}>
             <Plus />
           </button>
         </div>
-        <p className="hint center">Gilt für euch beide. {leader ? `Als Nächstes: ${leader.name} in ${leader.city}, Ass Lv. ${leader.ace}.` : 'Alle acht Orden sind da.'}</p>
+        <p className="hint center">Applies to both of you. {leader ? `Next: ${leader.name} in ${leader.city}, ace Lv. ${leader.ace}.` : 'All eight badges are here.'}</p>
       </BottomSheet>
-      <BottomSheet open={editor === 'cap'} title="Levelcap" onClose={() => setEditor(null)}>
+      <BottomSheet open={editor === 'cap'} title="Level cap" onClose={() => setEditor(null)}>
         <div className="stepper">
-          <button type="button" className="dice" aria-label="Levelcap senken" disabled={!cap} onClick={() => void app.saveProgress({ level_cap: cap && cap > 1 ? cap - 1 : null })}>
+          <button type="button" className="dice" aria-label="Lower the level cap" disabled={!cap} onClick={() => void app.saveProgress({ level_cap: cap && cap > 1 ? cap - 1 : null })}>
             <Minus />
           </button>
           <strong>{cap ?? '–'}</strong>
-          <button type="button" className="dice" aria-label="Levelcap erhöhen" disabled={cap === 100} onClick={() => void app.saveProgress({ level_cap: Math.min(100, (cap ?? 0) + 1) })}>
+          <button type="button" className="dice" aria-label="Raise the level cap" disabled={cap === 100} onClick={() => void app.saveProgress({ level_cap: Math.min(100, (cap ?? 0) + 1) })}>
             <Plus />
           </button>
         </div>
         {suggestion && suggestion.level !== cap && (
           <button className="btn btn-primary cap-apply" type="button" onClick={() => void app.saveProgress({ level_cap: suggestion.level })}>
-            {suggestion.label} · Lv {suggestion.level} übernehmen
+            Use {suggestion.label} · Lv {suggestion.level}
           </button>
         )}
-        <p className="hint center">{suggestion ? `Nächster dokumentierter Cap: ${suggestion.label}, Lv ${suggestion.level}.` : 'Ihr seid über dem letzten dokumentierten Cap.'} Die Liste gilt für den Normal-Modus.</p>
+        <p className="hint center">{suggestion ? `Next documented cap: ${suggestion.label}, Lv ${suggestion.level}.` : 'You’re past the last documented cap.'} The list is for Normal mode.</p>
       </BottomSheet>
 
-      <BottomSheet open={Boolean(detailRow)} title={detailRow?.route.name ?? 'Route'} onClose={() => setDetail(null)}>
+      <BottomSheet open={Boolean(detailRow)} title={detailRow ? routeTitle(detailRow.route) : 'Route'} onClose={() => setDetail(null)}>
         {detailRow && (
           <div className="detail">
-            <p className="hint">{detailRow.route.en}</p>
             {marksFor(detailRow.route.name).map((mark) => (
               <p key={`${mark.kind}-${mark.label}`} className="route-note"><b>{mark.label}.</b> {mark.detail}</p>
             ))}
@@ -189,27 +189,27 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
                           <button
                             className="wiki-hit"
                             type="button"
-                            aria-label={`${row.pokemon ?? 'Pokémon'} im Pokéwiki`}
+                            aria-label={`${speciesName(row)} in the Pokédex`}
                             onClick={() => { setDetail(null); onWiki(row.dex_id as number) }}
                           >
-                            <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} dim={row.status === 'dead'} />
+                            <SpritePlate id={row.dex_id} alt={speciesName(row)} dim={row.status === 'dead'} />
                           </button>
                         )}
                         <div>
-                          <h3>{row.nickname || row.pokemon || 'Verpasst'}</h3>
+                          <h3>{row.nickname || (row.status === 'missed' ? 'Missed' : speciesName(row))}</h3>
                           <p>
-                            {row.pokemon}
+                            {row.status === 'missed' ? 'No catch' : speciesName(row)}
                             {row.level ? ` · Lv. ${row.level}` : ''}
-                            {row.in_team ? ' · im Team' : ''}
+                            {row.in_team ? ' · in the team' : ''}
                           </p>
                           <StatusChip status={row.status} />
                         </div>
                       </div>
                       {row.note && <p>{row.note}</p>}
-                      {row.death_cause && <p>Ursache: {row.death_cause}</p>}
+                      {row.death_cause && <p>Cause: {row.death_cause}</p>}
                     </>
                   ) : (
-                    <p className="hint">{PLAYERS[side].name} hat noch nichts eingetragen.</p>
+                    <p className="hint">{PLAYERS[side].name} hasn’t logged anything yet.</p>
                   )}
                 </section>
               )
@@ -218,16 +218,16 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
               {detailRow[app.me] ? (
                 <>
                   <button className="btn btn-primary" type="button" onClick={() => { onLog(detailRow.route.name); setDetail(null) }}>
-                    Bearbeiten
+                    Edit
                   </button>
                   {detailRow[app.me]?.status === 'alive' && !detailRow[app.me]?.in_team && (
                     <button className="btn btn-ghost" type="button" onClick={() => detailRow[app.me] && void app.place(detailRow[app.me]!.id, 'team')}>
-                      Ins Team
+                      To the team
                     </button>
                   )}
                   {detailRow[app.me]?.in_team && (
                     <button className="btn btn-ghost" type="button" onClick={() => detailRow[app.me] && void app.place(detailRow[app.me]!.id, 'box')}>
-                      In die Box
+                      To the box
                     </button>
                   )}
                   <button
@@ -236,18 +236,18 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
                     onClick={() => {
                       const id = detailRow[app.me]?.id
                       if (!id) return
-                      if (window.confirm('Diesen Fang wirklich löschen?')) {
+                      if (window.confirm('Delete this catch?')) {
                         void app.deleteCatch(id)
                         setDetail(null)
                       }
                     }}
                   >
-                    Löschen
+                    Delete
                   </button>
                 </>
               ) : (
                 <button className="btn btn-primary" type="button" onClick={() => { onLog(detailRow.route.name); setDetail(null) }}>
-                  Fang eintragen
+                  Log a catch
                 </button>
               )}
             </div>
@@ -256,14 +256,14 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
         )}
       </BottomSheet>
 
-      <BottomSheet open={Boolean(mine)} title="Status ändern" onClose={() => setQuick(null)}>
+      <BottomSheet open={Boolean(mine)} title="Change status" onClose={() => setQuick(null)}>
         {mine && (
           <div className="stseg">
             {([
-              ['alive', 'Lebt', Heart],
+              ['alive', 'Alive', Heart],
               ['boxed', 'Box', Archive],
-              ['dead', 'Gefallen', Skull],
-              ['missed', 'Verpasst', Ban],
+              ['dead', 'Fainted', Skull],
+              ['missed', 'Missed', Ban],
             ] as const).map(([status, label, Icon]) => (
               <button
                 key={status}

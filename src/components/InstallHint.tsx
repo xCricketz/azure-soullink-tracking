@@ -21,17 +21,17 @@ export function InstallHint({ compact = false }: { compact?: boolean }) {
     return () => window.removeEventListener('bip-ready', onReady)
   }, [])
 
-  if (standalone) return compact ? <p className="hint">Die App ist installiert.</p> : null
+  if (standalone) return compact ? <p className="hint">The app is installed.</p> : null
   if (!compact && settings.installDismissed && !ios) return null
 
   return (
     <aside className="install">
       {ios ? (
-        <p>Tippe auf Teilen ⎋ und dann <strong>Zum Home-Bildschirm</strong>.</p>
+        <p>Tap Share and then <strong>Add to Home Screen</strong>.</p>
       ) : bip ? (
-        <p>Soul-Link als App auf den Startbildschirm legen.</p>
+        <p>Put Soul-Link on your home screen.</p>
       ) : (
-        <p>Im Browser-Menü „App installieren“ oder „Zum Home-Bildschirm“ wählen.</p>
+        <p>In the browser menu, choose Install app or Add to Home Screen.</p>
       )}
       <div className="install-actions">
         {bip && (
@@ -46,12 +46,12 @@ export function InstallHint({ compact = false }: { compact?: boolean }) {
               })
             }}
           >
-            App installieren
+            Install
           </button>
         )}
         {!compact && (
           <button className="btn btn-ghost" type="button" onClick={() => updateSettings({ installDismissed: true })}>
-            Später
+            Later
           </button>
         )}
       </div>

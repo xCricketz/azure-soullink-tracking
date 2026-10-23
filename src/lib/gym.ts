@@ -11,17 +11,17 @@ export interface GymLeader {
 }
 
 const COPY: Omit<GymLeader, 'ace'>[] = [
-  { gameName: 'Roark', name: 'Veit', city: 'Erzelingen', type: 'Gestein', field: 'Sandsturm', team: 'Nasgnet, Larvitar, Koknodon' },
-  { gameName: 'Gardenia', name: 'Silvana', city: 'Ewigenau', type: 'Pflanze', field: 'Regen', team: 'Chelcarain, Papungha, Roserade' },
-  { gameName: 'Fantina', name: 'Lamina', city: 'Herzhofen', type: 'Geist', field: '', team: 'Kryppuk, Drifzepeli, Gengar, Traunmagil' },
-  { gameName: 'Maylene', name: 'Hilda', city: 'Schleiede', type: 'Kampf', field: '', team: 'Lucario mit Expertengurt' },
-  { gameName: 'Wake', name: 'Wilhelm', city: 'Weideburg', type: 'Wasser', field: 'Regen, Doppelkampf', team: 'Garados, Morlord, Quappo, Bojelin' },
-  { gameName: 'Byron', name: 'Adam', city: 'Fleetburg', type: 'Stahl', field: 'Sandsturm, Doppelkampf', team: 'Aerodactyl, Bronzong, Kabutops, Stolloss, Bollterus' },
-  { gameName: 'Candice', name: 'Frida', city: 'Blizzach', type: 'Eis', field: 'Hagel, Doppelkampf', team: 'Rexblisar, Mamutel, Snibunna, Meditalis, Frosdedje' },
-  { gameName: 'Volkner', name: 'Volkner', city: 'Sonnewik', type: 'Elektro', field: 'Regen, Doppelkampf', team: 'Rotom-Wash, Blitza, Octillery, Ambidiffel, Luxtra, Elevoltek' },
+  { gameName: 'Roark', name: 'Roark', city: 'Oreburgh', type: 'Rock', field: 'Sandstorm', team: 'Nosepass, Larvitar, Cranidos' },
+  { gameName: 'Gardenia', name: 'Gardenia', city: 'Eterna', type: 'Grass', field: 'Rain', team: 'Roserade, Cherrim, Roserade' },
+  { gameName: 'Fantina', name: 'Fantina', city: 'Hearthome', type: 'Ghost', field: '', team: 'Misdreavus, Drifblim, Gengar, Mismagius' },
+  { gameName: 'Maylene', name: 'Maylene', city: 'Veilstone', type: 'Fighting', field: '', team: 'Lucario with an Expert Belt' },
+  { gameName: 'Wake', name: 'Wake', city: 'Pastoria', type: 'Water', field: 'Rain, doubles', team: 'Gyarados, Quagsire, Poliwrath, Floatzel' },
+  { gameName: 'Byron', name: 'Byron', city: 'Canalave', type: 'Steel', field: 'Sandstorm, doubles', team: 'Aerodactyl, Bronzong, Kabutops, Steelix, Bastiodon' },
+  { gameName: 'Candice', name: 'Candice', city: 'Snowpoint', type: 'Ice', field: 'Hail, doubles', team: 'Abomasnow, Mamoswine, Froslass, Medicham, Glaceon' },
+  { gameName: 'Volkner', name: 'Volkner', city: 'Sunyshore', type: 'Electric', field: 'Rain, doubles', team: 'Rotom-Wash, Jolteon, Octillery, Ambipom, Luxray, Electivire' },
 ]
 
-/** Azure Platinum gym order: Veit, Silvana, Lamina, Hilda, Wilhelm, Adam, Frida, Volkner. */
+/** Azure Platinum gym order: Roark, Gardenia, Fantina, Maylene, Wake, Byron, Candice, Volkner. */
 export const LEADERS: GymLeader[] = COPY.map((row) => {
   const src = guide.gyms.find((gym) => gym.leader === row.gameName)
   return { ...row, ace: src?.ace_level ?? 0 }

@@ -7,13 +7,13 @@ import {
   useState,
   type ReactNode,
 } from 'react'
-import { CUSTOM_ORDER_START, ROUTES } from '../data/routes'
+import { CUSTOM_ORDER_START, ROUTES, routeTitleByKey } from '../data/routes'
 import { asAlive, asDead, buildRow, partnerNeedsDeath, placeRow, reorderTeam, upsertLocal, withStatus } from '../lib/edits'
 import { countPairs, findRoute, pairRows } from '../lib/pairs'
 import { loadCustomRoutes, loadSettings, saveCustomRoutes, saveSettings } from '../lib/settings'
 import { supabase } from '../lib/supabase'
 import { pushToast } from '../lib/toast'
-import { clip, monName } from '../lib/text'
+import { clip, monName, speciesName } from '../lib/text'
 import {
   DEFAULT_RULES,
   PLAYERS,
@@ -91,10 +91,10 @@ function isNetwork(error: { message?: string } | null): boolean {
 
 function explain(error: { message?: string; code?: string }): string {
   const message = error.message ?? ''
-  if (error.code === '23505' || /duplicate|unique/i.test(message)) return 'Diese Route ist schon belegt.'
-  if (error.code === '42501' || /row-level security/i.test(message)) return 'Das darf nur der eigene Fang.'
+  if (error.code === '23505' || /duplicate|unique/i.test(message)) return 'This route is already taken.'
+  if (error.code === '42501' || /row-level security/i.test(message)) return 'You can only edit your own catch.'
   if (error.code === 'PGRST202' || /reset_run/i.test(message)) return 'missing-rpc'
-  return 'Speichern fehlgeschlagen.'
+  return 'Couldn’t save.'
 }
 
 function vibrate(ms: number) {
@@ -282,7 +282,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         rest.push(...pending.slice(index))
         break
       }
-      if (failed === 'hard') pushToast('Eine gespeicherte Änderung konnte nicht synchronisiert werden.')
+      if (failed === 'hard') pushToast('A saved change couldn’t be synced.')
     }
     storeOutbox(rest)
   }, [publishSync, storeOutbox])
@@ -294,14 +294,14 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     setPulse(next.route)
     window.setTimeout(() => setPulse((current) => (current === next.route ? null : current)), 650)
     pushToast(toastText, {
-      label: 'Rückgängig',
+      label: 'Undo',
       onClick: () => {
-        if (previous) void commit(previous, next, 'Wiederhergestellt')
+        if (previous) void commit(previous, next, 'It’s back')
         else {
           hush(next.id)
           writeCatches(catchesRef.current.filter((row) => row.id !== next.id))
           void sendDelete(next.id)
-          pushToast('Fang entfernt')
+          pushToast('Catch removed')
         }
       },
     })
@@ -336,7 +336,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       const dying = meaningful.find((item) => item.next && item.next.status === 'dead' && item.old?.status !== 'dead')
       if (dying?.next) {
         const other = catchesRef.current.find((row) => row.route === route && row.id !== dying.next?.id)
-        const text = `💀 ${monName(dying.next)} ist gefallen – ${monName(other)} ist auch tot.`
+        const text = `💀 ${monName(dying.next)} fainted — ${monName(other)} is gone too.`
         toastRoute(route, text)
         vibrate(200)
         if (settingsRef.current.notify) notify('Soul-Link', text)
@@ -346,9 +346,10 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       const created = meaningful.find((item) => item.next && !item.old && item.next.player !== me)
       if (created?.next) {
         const who = PLAYERS[created.next.player].name
+        const place = routeTitleByKey(route)
         const text = created.next.status === 'missed'
-          ? `${who} hat ${route} verpasst.`
-          : `${who} hat ${created.next.pokemon ?? 'ein Pokémon'} auf ${route} gefangen.`
+          ? `${who} missed ${place}.`
+          : `${who} caught ${speciesName(created.next)} on ${place}.`
         toastRoute(route, text)
         setGlow({ route, player: created.next.player })
         continue
@@ -356,11 +357,12 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       const updated = meaningful.find((item) => item.next && item.old && item.next.player !== me && item.next.status !== item.old.status)
       if (!updated?.next || !updated.old) continue
       const who = PLAYERS[updated.next.player].name
-      let text = `${who} hat ${monName(updated.next)} geändert.`
-      if (updated.next.status === 'boxed') text = `${who} hat ${monName(updated.next)} in die Box gelegt.`
-      if (updated.next.status === 'missed') text = `${who} hat ${route} verpasst.`
-      if (updated.next.status === 'alive' && updated.old.status === 'dead') text = `${who} hat ${monName(updated.next)} wiederbelebt.`
-      else if (updated.next.status === 'alive') text = `${who} hat ${monName(updated.next)} als lebend markiert.`
+      const place = routeTitleByKey(route)
+      let text = `${who} changed ${monName(updated.next)}.`
+      if (updated.next.status === 'boxed') text = `${who} boxed ${monName(updated.next)}.`
+      if (updated.next.status === 'missed') text = `${who} missed ${place}.`
+      if (updated.next.status === 'alive' && updated.old.status === 'dead') text = `${who} revived ${monName(updated.next)}.`
+      else if (updated.next.status === 'alive') text = `${who} marked ${monName(updated.next)} alive.`
       toastRoute(route, text)
       setGlow({ route, player: updated.next.player })
     }
@@ -391,13 +393,13 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       const { data: players, error: playerError } = await supabase.from('players').select('id')
       if (cancel) return
       if (playerError) {
-        setLoadError(isNetwork(playerError) ? 'Keine Verbindung. Sobald das Netz da ist, versuchen wir es nochmal.' : 'Die Spielerdaten konnten nicht geladen werden.')
+        setLoadError(isNetwork(playerError) ? 'No connection. We’ll try again when you’re back online.' : 'Couldn’t load the player data.')
         setLoaded(true)
         setSync('offline')
         return
       }
       if (!players?.length) {
-        setLoadError('Dein Konto ist noch nicht mit Fisi oder Seri verknüpft.')
+        setLoadError('This account isn’t linked to Fisi or Seri yet.')
         setLoaded(true)
         return
       }
@@ -408,7 +410,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         .order('created_at', { ascending: false })
       if (cancel) return
       if (runError) {
-        setLoadError('Der Run konnte nicht geladen werden.')
+        setLoadError('Couldn’t load the run.')
         setLoaded(true)
         return
       }
@@ -423,7 +425,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         const { data: rows, error: catchError } = await supabase.from('catches').select('*').eq('run_id', active.id)
         if (cancel) return
         if (catchError) {
-          setLoadError('Die Fänge konnten nicht geladen werden.')
+          setLoadError('Couldn’t load the catches.')
           setLoaded(true)
           return
         }
@@ -514,8 +516,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const linked = countPairs(rows)
     const living = rows.filter((row) => row.fisi?.status === 'alive' && row.seri?.status === 'alive').length
     const hits = [
-      { key: 'first-pair', text: 'Erstes Paar! Die Kette hält.', ok: linked >= 1 },
-      { key: 'ten-alive', text: '10 Paare überlebt. Sinnoh ist stolz.', ok: living >= 10 },
+      { key: 'first-pair', text: 'First pair! The chain holds.', ok: linked >= 1 },
+      { key: 'ten-alive', text: '10 pairs still standing. Sinnoh is proud.', ok: living >= 10 },
     ]
     setSettings((current) => {
       let milestones = current.milestones
@@ -539,7 +541,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       const next = { ...current, ...patch }
       if ((patch.badges ?? current.badges) >= 8 && current.badges < 8 && !next.milestones.includes('badges-8')) {
         next.milestones = [...next.milestones, 'badges-8']
-        pushToast('Achter Orden! Sinnoh ist stolz auf euch.')
+        pushToast('Eighth badge! Sinnoh is proud of you.')
       }
       saveSettings(next)
       return next
@@ -549,15 +551,15 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
   const saveCatch = useCallback(async (draft: CatchDraft): Promise<'saved' | 'death' | 'invalid'> => {
     const active = runRef.current
     if (!active) {
-      pushToast('Kein aktiver Run.')
+      pushToast('No active run.')
       return 'invalid'
     }
     if (!draft.route) {
-      pushToast('Wähl zuerst eine Route.')
+      pushToast('Pick a route first.')
       return 'invalid'
     }
     if (draft.status !== 'missed' && (!draft.dexId || !draft.pokemon)) {
-      pushToast('Welches Pokémon?')
+      pushToast('Which Pokémon?')
       return 'invalid'
     }
     const existing = catchesRef.current.find((row) => row.player === me && row.route === draft.route) ?? null
@@ -570,8 +572,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       }
     }
     const text = !existing
-      ? draft.status === 'missed' ? 'Route als verpasst gespeichert' : 'Fang gespeichert'
-      : 'Fang aktualisiert'
+      ? draft.status === 'missed' ? 'Route saved as missed' : 'Catch saved'
+      : 'Catch updated'
     await commit(next, existing, text)
     vibrate(20)
     return 'saved'
@@ -588,7 +590,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         return
       }
     }
-    await commit(next, row, 'Status geändert')
+    await commit(next, row, 'Status changed')
     if (status === 'dead') vibrate(200)
   }, [commit, me])
 
@@ -597,9 +599,9 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     if (!row || row.player !== me) return
     hush(id)
     writeCatches(catchesRef.current.filter((item) => item.id !== id))
-    pushToast('Fang gelöscht', {
-      label: 'Rückgängig',
-      onClick: () => { void commit(row, null, 'Wieder da') },
+    pushToast('Catch deleted', {
+      label: 'Undo',
+      onClick: () => { void commit(row, null, 'It’s back') },
     })
     const result = await sendDelete(id)
     if (result === 'error') writeCatches(upsertLocal(catchesRef.current, row))
@@ -609,15 +611,15 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const row = catchesRef.current.find((item) => item.id === id)
     if (!row || row.player !== me) return
     if (where === 'team' && row.status === 'missed') {
-      pushToast('Verpasste Routen kommen nicht ins Team.')
+      pushToast('Missed routes can’t join the team.')
       return
     }
     const next = placeRow(row, where, catchesRef.current)
     if (next === 'full') {
-      pushToast('Nur sechs Pokémon im Team.')
+      pushToast('Only six Pokémon in the team.')
       return
     }
-    await commit(next, row, where === 'team' ? 'Im Team' : 'In der Box')
+    await commit(next, row, where === 'team' ? 'On the team' : 'In the box')
   }, [commit, me])
 
   const moveTeam = useCallback(async (id: string, dir: -1 | 1) => {
@@ -637,8 +639,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         return
       }
     }
-    pushToast('Reihenfolge geändert', {
-      label: 'Rückgängig',
+    pushToast('Order changed', {
+      label: 'Undo',
       onClick: () => {
         writeCatches(previous)
         for (const row of previous.filter((item) => item.player === me && item.in_team)) {
@@ -653,7 +655,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const row = catchesRef.current.find((item) => item.id === id)
     if (!row || row.player !== me) return
     const next = { ...row, epitaph: clip(epitaph, 140) || null, updated_at: new Date().toISOString() }
-    await commit(next, row, 'Epitaph gespeichert')
+    await commit(next, row, 'Epitaph saved')
   }, [commit, me])
 
   const saveProgress = useCallback(async (patch: { badges?: number; level_cap?: number | null }) => {
@@ -666,14 +668,14 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     setRun(next)
     runRef.current = next
     if (nextPatch.badges === 8 && (active.badges ?? 0) < 8) {
-      pushToast('Achter Orden! Sinnoh ist stolz auf euch.')
+      pushToast('Eighth badge! Sinnoh is proud of you.')
     }
     const { error } = await supabase.from('runs').update({ ...nextPatch, updated_at: new Date().toISOString() }).eq('id', active.id)
     if (error) {
       setRun(active)
       runRef.current = active
       const missing = error.code === 'PGRST204' || /badges|level_cap|schema cache|column/i.test(error.message ?? '')
-      pushToast(missing ? 'Orden und Levelcap brauchen noch das Datenbank-Update.' : 'Konnte nicht gespeichert werden.')
+      pushToast(missing ? 'Badges and the level cap still need the database update.' : 'Couldn’t save.')
     }
   }, [])
 
@@ -684,11 +686,11 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     setRun(next)
     const { error } = await supabase.from('runs').update({ rules }).eq('id', active.id)
     if (error) {
-      pushToast('Regeln konnten nicht gespeichert werden.')
+      pushToast('Couldn’t save the rules.')
       setRun(active)
       return
     }
-    pushToast('Regeln gespeichert')
+    pushToast('Rules saved')
   }, [])
 
   const resetRun = useCallback(async (): Promise<'ok' | 'missing-rpc' | 'error'> => {
@@ -698,13 +700,13 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     if (error) {
       if (error.code === 'PGRST202' || /could not find the function/i.test(error.message)) return 'missing-rpc'
       if (isNetwork(error)) {
-        pushToast('Offline. Der Reset wartet, bis du wieder verbunden bist.')
+        pushToast('Offline. The reset will wait until you’re back online.')
         return 'error'
       }
       return 'error'
     }
     writeCatches([])
-    pushToast('Run zurückgesetzt.')
+    pushToast('Run reset.')
     return 'ok'
   }, [writeCatches])
 
@@ -715,13 +717,13 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       hush(row.id)
       await sendDelete(row.id)
     }
-    pushToast('Deine Fänge sind gelöscht.')
+    pushToast('Your catches are deleted.')
   }, [hush, me, sendDelete, writeCatches])
 
   const newRun = useCallback(async () => {
     const { error: offError } = await supabase.from('runs').update({ active: false }).eq('active', true)
     if (offError && !isNetwork(offError)) {
-      pushToast('Neuer Run fehlgeschlagen.')
+      pushToast('Couldn’t start a new run.')
       return
     }
     const { data, error } = await supabase
@@ -730,12 +732,12 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       .select('*')
       .single()
     if (error || !data) {
-      pushToast('Neuer Run fehlgeschlagen.')
+      pushToast('Couldn’t start a new run.')
       return
     }
     setRun(data as Run)
     writeCatches([])
-    pushToast('Neuer Run ist bereit.')
+    pushToast('New run is ready.')
   }, [writeCatches])
 
   const resolveDeath = useCallback(async (choice: 'both' | 'mine' | 'cancel', cause: string) => {
@@ -746,7 +748,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const trimmed = clip(cause, 160)
     const next = asDead({ ...prompt.next, death_cause: trimmed || prompt.next.death_cause }, trimmed)
     if (choice === 'mine') {
-      await commit(next, prompt.previous, 'In den Friedhof gelegt')
+      await commit(next, prompt.previous, 'Sent to the graveyard')
       vibrate(200)
       return
     }
@@ -755,8 +757,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     hush(prompt.partner.id)
     writeCatches(upsertLocal(upsertLocal(catchesRef.current, next), partnerDead))
     vibrate(200)
-    pushToast('Beide in den Friedhof gelegt', {
-      label: 'Rückgängig',
+    pushToast('Sent both to the graveyard', {
+      label: 'Undo',
       onClick: () => {
         hush(next.id)
         hush(prompt.partner.id)
@@ -782,7 +784,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       let restored = prompt.previous ? upsertLocal(catchesRef.current, prompt.previous) : catchesRef.current.filter((row) => row.id !== next.id)
       restored = upsertLocal(restored, prompt.partner)
       writeCatches(restored)
-      pushToast('Der Partner konnte nicht mitgezogen werden.')
+      pushToast('Couldn’t update the partner.')
     }
   }, [commit, death, hush, sendDelete, sendRpc, sendUpsert, writeCatches])
 
@@ -809,8 +811,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     if (mine) hush(mine.id)
     if (partner) hush(partner.id)
     writeCatches(catchesRef.current.map((row) => (row.route === routeName && row.status !== 'missed' ? asAlive(row) : row)))
-    pushToast('Wiederbelebt', {
-      label: 'Rückgängig',
+    pushToast('Revived', {
+      label: 'Undo',
       onClick: () => {
         if (mine) hush(mine.id)
         if (partner) hush(partner.id)
@@ -871,7 +873,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     return (
       <div className="boot">
         <p className="pixel">SOUL LINK</p>
-        <p>Verbinde…</p>
+        <p>Connecting…</p>
       </div>
     )
   }
@@ -882,7 +884,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         <p className="pixel">SOUL LINK</p>
         <p>{loadError}</p>
         <button className="btn btn-primary" type="button" onClick={() => window.location.reload()}>
-          Nochmal versuchen
+          Try again
         </button>
       </div>
     )

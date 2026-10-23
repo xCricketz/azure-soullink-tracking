@@ -1,9 +1,10 @@
 import { Flame, Swords, Unlink2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Dialog, SpritePlate } from '../components/ui'
+import { routeTitle } from '../data/routes'
 import { graveRows, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
-import { formatDate, monName } from '../lib/text'
+import { formatDate, monName, speciesName } from '../lib/text'
 
 export function Graveyard() {
   const app = useApp()
@@ -22,13 +23,13 @@ export function Graveyard() {
           <Flame />
           <Flame />
         </div>
-        <h2 className="pixel">FRIEDHOF</h2>
+        <h2 className="pixel">GRAVEYARD</h2>
         <div className="cnt">
           <b>{souls}</b>
-          {souls === 1 ? 'Seele verloren' : 'Seelen verloren'} · {tombs.length} {tombs.length === 1 ? 'Paar' : 'Paare'}
+          {souls === 1 ? 'soul lost' : 'souls lost'} · {tombs.length} {tombs.length === 1 ? 'pair' : 'pairs'}
         </div>
       </header>
-      {!tombs.length && <p className="empty-copy">Noch ist niemand gefallen. So soll es bleiben.</p>}
+      {!tombs.length && <p className="empty-copy">Nobody has fallen yet. Let’s keep it that way.</p>}
       <div className="tombs">
         {tombs.map((row) => {
           const when = row.fisi?.died_at || row.seri?.died_at
@@ -45,14 +46,14 @@ export function Graveyard() {
               }}
             >
               <div className="pair">
-                <Side label="Fisi" dex={row.fisi?.dex_id} species={row.fisi?.pokemon} player="fisi" />
+                <Side label="Fisi" dex={row.fisi?.dex_id} species={row.fisi ? speciesName(row.fisi) : null} player="fisi" />
                 <div className="chain"><span><Unlink2 aria-hidden="true" /></span></div>
-                <Side label="Seri" dex={row.seri?.dex_id} species={row.seri?.pokemon} player="seri" />
+                <Side label="Seri" dex={row.seri?.dex_id} species={row.seri ? speciesName(row.seri) : null} player="seri" />
               </div>
               <h3>{monName(row.fisi)} & {monName(row.seri)}</h3>
-              <div className="when">{row.route.name}{when ? ` · gefallen am ${formatDate(when)}` : ''}</div>
+              <div className="when">{routeTitle(row.route)}{when ? ` · fainted on ${formatDate(when)}` : ''}</div>
               {cause && <div className="cause"><Swords aria-hidden="true" />{cause}</div>}
-              <div className="ep">„{epitaphText || 'Ruhe in Frieden, tapferer Freund.'}“</div>
+              <div className="ep">“{epitaphText || 'Rest in peace, brave friend.'}”</div>
             </button>
           )
         })}
@@ -61,7 +62,7 @@ export function Graveyard() {
         <div className="overlay" onClick={() => setRoute(null)}>
           <div className="sheet-align" onClick={(event) => event.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="tomb-title">
             <div className="sheet">
-              <h2 id="tomb-title" className="sheet-title">{tomb.route.name}</h2>
+              <h2 id="tomb-title" className="sheet-title">{routeTitle(tomb.route)}</h2>
               <div className="sheet-body">
                 <p>{monName(tomb.fisi)} & {monName(tomb.seri)}</p>
                 {mine ? (
@@ -71,23 +72,23 @@ export function Graveyard() {
                       value={epitaph}
                       maxLength={140}
                       rows={3}
-                      placeholder="Ruhe in Frieden, tapferer Freund."
+                      placeholder="Rest in peace, brave friend."
                       aria-label="Epitaph"
                       onChange={(event) => setEpitaph(event.target.value)}
                     />
                   </label>
                 ) : (
-                  <p className="hint">Für diese Seite gibt es noch keinen eigenen Eintrag.</p>
+                  <p className="hint">This side doesn’t have its own entry yet.</p>
                 )}
               </div>
               <div className="sheet-foot stack">
                 {mine && (
                   <button className="btn btn-primary" type="button" onClick={() => void app.saveEpitaph(mine.id, epitaph)}>
-                    Epitaph speichern
+                    Save epitaph
                   </button>
                 )}
-                <button className="btn btn-ghost" type="button" onClick={() => setConfirm(true)}>Wiederbeleben</button>
-                <button className="btn btn-ghost" type="button" onClick={() => setRoute(null)}>Schließen</button>
+                <button className="btn btn-ghost" type="button" onClick={() => setConfirm(true)}>Revive</button>
+                <button className="btn btn-ghost" type="button" onClick={() => setRoute(null)}>Close</button>
               </div>
             </div>
           </div>
@@ -95,13 +96,13 @@ export function Graveyard() {
       )}
       <Dialog
         open={confirm}
-        title="Beide wiederbeleben?"
+        title="Revive both?"
         actions={[
-          { label: 'Ja, zurückholen', tone: 'primary', onClick: () => { if (route) void app.revivePair(route); setConfirm(false); setRoute(null) } },
-          { label: 'Zurück', tone: 'ghost', onClick: () => setConfirm(false) },
+          { label: 'Yes, bring them back', tone: 'primary', onClick: () => { if (route) void app.revivePair(route); setConfirm(false); setRoute(null) } },
+          { label: 'Back', tone: 'ghost', onClick: () => setConfirm(false) },
         ]}
       >
-        <p>Der Status wird für das Paar auf Lebt gesetzt. Ein Versehen lässt sich so zurücknehmen.</p>
+        <p>Status becomes Alive for the pair. You can undo a mistake.</p>
       </Dialog>
     </div>
   )

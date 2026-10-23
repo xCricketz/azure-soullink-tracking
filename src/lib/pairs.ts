@@ -1,4 +1,4 @@
-import { CUSTOM_ORDER_START, ROUTES, type RouteDef } from '../data/routes'
+import { CUSTOM_ORDER_START, ROUTES, groupTitle, type RouteDef } from '../data/routes'
 import type { Catch, CustomRoute, PlayerId, RouteFilter, Status } from './types'
 import { norm } from './text'
 
@@ -13,20 +13,20 @@ export function buildRouteList(catches: Catch[], custom: CustomRoute[]): RouteDe
   for (const route of ROUTES) map.set(route.name, route)
   for (const route of custom) {
     if (!map.has(route.name)) {
-      map.set(route.name, { name: route.name, en: 'Eigener Ort', order: route.order, group: 'Eigene Orte' })
+      map.set(route.name, { name: route.name, en: route.name, order: route.order, group: 'Custom' })
     }
   }
   for (const catchRow of catches) {
     if (!map.has(catchRow.route)) {
       map.set(catchRow.route, {
         name: catchRow.route,
-        en: 'Eigener Ort',
+        en: catchRow.route,
         order: catchRow.route_order ?? CUSTOM_ORDER_START,
-        group: 'Eigene Orte',
+        group: 'Custom',
       })
     }
   }
-  return [...map.values()].sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, 'de'))
+  return [...map.values()].sort((a, b) => a.order - b.order || a.en.localeCompare(b.en, 'en'))
 }
 
 export function pairRows(catches: Catch[], custom: CustomRoute[]): RouteRow[] {
@@ -61,6 +61,7 @@ export function matchesQuery(row: RouteRow, query: string): boolean {
     row.route.name,
     row.route.en,
     row.route.group,
+    groupTitle(row.route.group),
     row.fisi?.pokemon,
     row.fisi?.nickname,
     row.seri?.pokemon,
@@ -77,7 +78,7 @@ export function findRoute(name: string, custom: CustomRoute[]): RouteDef | null 
   const official = ROUTES.find((route) => norm(route.name) === norm(name) || norm(route.en) === norm(name))
   if (official) return official
   const extra = custom.find((route) => norm(route.name) === norm(name))
-  if (extra) return { name: extra.name, en: 'Eigener Ort', order: extra.order, group: 'Eigene Orte' }
+  if (extra) return { name: extra.name, en: extra.name, order: extra.order, group: 'Custom' }
   return null
 }
 

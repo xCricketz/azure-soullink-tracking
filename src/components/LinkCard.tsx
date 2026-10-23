@@ -1,7 +1,8 @@
 import { Hourglass, Link2, Plus, Skull, Unlink2 } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { marksFor } from '../data/marks'
-import type { RouteDef } from '../data/routes'
+import { routeTitle, type RouteDef } from '../data/routes'
+import { speciesName } from '../lib/text'
 import { bothAlive } from '../lib/pairs'
 import { PLAYERS, type Catch, type PlayerId } from '../lib/types'
 import { TrainerShot } from './TrainerShot'
@@ -59,7 +60,7 @@ export function LinkCard({
         <TrainerShot id="fisi" crop="avatar" className="lc-face" alt="Fisi" />
         <h2 className="route">
           <span className="no">#{index}</span>
-          {route.name}
+          {routeTitle(route)}
         </h2>
         <span className={cx('pairstate', state.tone)}>
           {state.tone === 'link' && <Link2 aria-hidden="true" />}
@@ -82,7 +83,7 @@ export function LinkCard({
           className={cx('chain', state.chain === 'broken' && 'broken', state.chain === 'wait' && 'wait', pulse && linked && 'pulse')}
           type="button"
           onClick={pokeChain}
-          aria-label={state.chain === 'on' ? 'Seelenkette' : 'Kette offen'}
+          aria-label={state.chain === 'on' ? 'Soul link' : 'Link open'}
         >
           <span>
             {state.chain === 'broken' ? <Unlink2 aria-hidden="true" /> : <Link2 aria-hidden="true" />}
@@ -98,7 +99,7 @@ export function LinkCard({
         <Half side="seri" catchRow={seri} mine={me === 'seri'} flash={pulse && me === 'seri'} onAdd={onAdd} onQuick={onQuick} onWiki={onWiki} />
       </div>
       {mine?.status === 'alive' && (me === 'fisi' ? seri : fisi)?.status === 'missed' && (
-        <p className="warn-line">unverlinkt – darf nicht ins Team</p>
+        <p className="warn-line">unlinked — can’t be in the team</p>
       )}
     </article>
   )
@@ -108,12 +109,12 @@ function pairState(fisi: Catch | undefined, seri: Catch | undefined, me: PlayerI
   const mine = me === 'fisi' ? fisi : seri
   const theirs = me === 'fisi' ? seri : fisi
   const partner = PLAYERS[me === 'fisi' ? 'seri' : 'fisi'].name
-  if (fisi?.status === 'dead' || seri?.status === 'dead') return { label: 'Gefallen', tone: 'dead' as const, chain: 'broken' as const }
-  if (fisi?.status === 'missed' || seri?.status === 'missed') return { label: 'Unverlinkt', tone: 'wait' as const, chain: 'broken' as const }
-  if (!mine && theirs) return { label: 'Wartet auf dich', tone: 'wait' as const, chain: 'wait' as const }
-  if (mine && !theirs) return { label: `Wartet auf ${partner}`, tone: 'wait' as const, chain: 'wait' as const }
-  if (mine && theirs) return { label: 'Verlinkt', tone: 'link' as const, chain: 'on' as const }
-  return { label: 'Offen', tone: 'wait' as const, chain: 'wait' as const }
+  if (fisi?.status === 'dead' || seri?.status === 'dead') return { label: 'Fainted', tone: 'dead' as const, chain: 'broken' as const }
+  if (fisi?.status === 'missed' || seri?.status === 'missed') return { label: 'Unlinked', tone: 'wait' as const, chain: 'broken' as const }
+  if (!mine && theirs) return { label: 'Waiting for you', tone: 'wait' as const, chain: 'wait' as const }
+  if (mine && !theirs) return { label: `Waiting for ${partner}`, tone: 'wait' as const, chain: 'wait' as const }
+  if (mine && theirs) return { label: 'Linked', tone: 'link' as const, chain: 'on' as const }
+  return { label: 'Open', tone: 'wait' as const, chain: 'wait' as const }
 }
 
 function Half({
@@ -146,11 +147,11 @@ function Half({
           }}
         >
           <Plus size={16} aria-hidden="true" />
-          Eintragen
+          Add
         </button>
       )
     }
-    return <div className={cx('half empty', side)}>{PLAYERS[side].name} hat noch nichts eingetragen</div>
+    return <div className={cx('half empty', side)}>{PLAYERS[side].name} hasn’t logged anything yet</div>
   }
   const missed = catchRow.status === 'missed'
   return (
@@ -198,21 +199,21 @@ function Half({
         <button
           className="wiki-hit"
           type="button"
-          aria-label={`${catchRow.pokemon ?? 'Pokémon'} im Pokéwiki`}
+          aria-label={`${speciesName(catchRow)} in the Pokédex`}
           onPointerDown={(event) => event.stopPropagation()}
           onClick={(event) => {
             event.stopPropagation()
             onWiki(catchRow.dex_id as number)
           }}
         >
-          <SpritePlate id={catchRow.dex_id} alt={catchRow.pokemon ?? 'Pokémon'} />
+          <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} />
         </button>
       ) : !missed ? (
-        <SpritePlate id={catchRow.dex_id} alt={catchRow.pokemon ?? 'Pokémon'} />
+        <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} />
       ) : null}
       <div className="meta">
-        <div className="nick">{catchRow.nickname || catchRow.pokemon || 'Verpasst'}</div>
-        <div className="species">{missed ? 'Kein Fang' : catchRow.pokemon}</div>
+        <div className="nick">{catchRow.nickname || (missed ? 'Missed' : speciesName(catchRow))}</div>
+        <div className="species">{missed ? 'No catch' : speciesName(catchRow)}</div>
         <StatusChip status={catchRow.status} />
       </div>
     </div>

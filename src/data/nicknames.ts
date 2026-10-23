@@ -1,13 +1,13 @@
 export const NICKNAMES = [
-  'Mochi', 'Blitzi', 'Knödel', 'Flauschi', 'Keks', 'Pudding', 'Wolke', 'Chili',
-  'Nudel', 'Funki', 'Krümel', 'Flocke', 'Turbo', 'Muffin', 'Schnuffel', 'Glitzer',
-  'Mini', 'Kartoffel', 'Pfirsich', 'Günther', 'Hildegard', 'Kevin', 'Uwe', 'Brigitte',
-  'Horst', 'Lore', 'Schatzi', 'Panzer', 'Flummi', 'Quark', 'Honig', 'Sturm',
-  'Peppi', 'Lulu', 'Momo', 'Socke', 'Kapitän', 'Button', 'Pixel', 'Marmelade',
-  'Sir Hopps', 'Zimtschnecke', 'Professor', 'Kirschkern', 'Bubu', 'Donnerschreck',
-  'Boss', 'Fiffi', 'Waldi', 'Kuno', 'Trude', 'Otto', 'Frieda', 'Linus',
-  'Pummel', 'Ziggy', 'Nero', 'Mira', 'Kroki', 'Bärchen', 'Funke', 'Nebel',
-  'Tofu', 'Gnocchi', 'Semmel', 'Brezel', 'Kakao', 'Zuckerstück', 'Mondschein',
+  'Mochi', 'Blitz', 'Noodle', 'Fluffy', 'Cookie', 'Pudding', 'Cloud', 'Chili',
+  'Sparky', 'Crumbs', 'Flake', 'Turbo', 'Muffin', 'Snuffles', 'Glitter',
+  'Mini', 'Spud', 'Peach', 'Bean', 'Pepper', 'Kevin', 'Otto', 'Britt',
+  'Skip', 'Lore', 'Honey', 'Tank', 'Bounce', 'Quark', 'Storm', 'Pip',
+  'Lulu', 'Momo', 'Sock', 'Captain', 'Button', 'Pixel', 'Jam',
+  'Sir Hops', 'Cinnamon', 'Professor', 'Cherry', 'Boo', 'Thunder',
+  'Boss', 'Fifi', 'Buddy', 'Kuno', 'Trudy', 'Frieda', 'Linus',
+  'Pudge', 'Ziggy', 'Nero', 'Mira', 'Croc', 'Bear', 'Spark', 'Mist',
+  'Tofu', 'Gnocchi', 'Bun', 'Pretzel', 'Cocoa', 'Sugar', 'Moonbeam',
 ]
 
 export function randomNickname(current?: string): string {

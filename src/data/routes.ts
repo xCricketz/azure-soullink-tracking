@@ -90,3 +90,36 @@ export const ROUTES: RouteDef[] = [
 ]
 
 export const CUSTOM_ORDER_START = 10000
+
+const GROUP_EN: Record<string, string> = {
+  Prolog: 'Prologue',
+  Jubelstadt: 'Jubilife',
+  Erzelingen: 'Oreburgh',
+  Ewigenau: 'Eterna',
+  Kraterberg: 'Mt. Coronet',
+  Herzhofen: 'Hearthome',
+  Schleiede: 'Veilstone',
+  Weideburg: 'Pastoria',
+  Fleetburg: 'Canalave',
+  Blizzach: 'Snowpoint',
+  Speersäule: 'Spear Pillar',
+  Sonnewik: 'Sunyshore',
+  Liga: 'League',
+  Besonderes: 'Special',
+  Kampfzone: 'Battle Zone',
+  Postgame: 'Postgame',
+  Custom: 'Custom',
+}
+
+/** English label. `name` stays the stored pair key. */
+export function routeTitle(route: { name: string; en: string }): string {
+  return route.en || route.name
+}
+
+export function routeTitleByKey(name: string): string {
+  return ROUTES.find((route) => route.name === name)?.en || name
+}
+
+export function groupTitle(group: string): string {
+  return GROUP_EN[group] ?? group
+}
