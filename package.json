@@ -1,0 +1,29 @@
+{
+  "name": "azure-soullink-tracking",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "icons": "node scripts/make-icons.mjs"
+  },
+  "dependencies": {
+    "@fontsource/press-start-2p": "^5.2.7",
+    "@fontsource/rubik": "^5.2.8",
+    "@supabase/supabase-js": "^2.78.0",
+    "lucide-react": "^0.546.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12",
+    "vite-plugin-pwa": "^1.1.0"
+  }
+}
