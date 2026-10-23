@@ -1,5 +1,6 @@
 import { ArrowRight, Lock } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { TrainerShot } from '../components/TrainerShot'
 import { BottomSheet, SpritePlate } from '../components/ui'
 import { supabase } from '../lib/supabase'
 import { authError, relativeWhen } from '../lib/text'
@@ -52,8 +53,8 @@ export function Login() {
             const meta = [player.device, badges != null ? `${badges} Orden` : '', when].filter(Boolean).join(' · ')
             return (
               <button key={id} className="pc" style={{ ['--pc' as string]: `var(--${id})` }} type="button" onClick={() => { setPicked(id); setError(''); setCode('') }}>
+                <TrainerShot id={id} crop="full" className="pc-figure" alt="" />
                 <div className="r1">
-                  <span className="av" aria-hidden="true">{player.letter}</span>
                   <span>
                     <span className="nm">{player.name}</span>
                     <span className="meta">{meta}</span>

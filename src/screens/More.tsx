@@ -1,6 +1,7 @@
 import { ArrowLeftRight, ChartColumn, ChevronRight, Download, Moon, RotateCcw, ScrollText, Smartphone, Sun } from 'lucide-react'
 import { useState } from 'react'
 import { InstallHint } from '../components/InstallHint'
+import { TrainerShot } from '../components/TrainerShot'
 import { BottomSheet, Dialog } from '../components/ui'
 import { monById } from '../lib/dex'
 import { useApp } from '../state/context'
@@ -24,7 +25,7 @@ export function More() {
   return (
     <div className="screen more">
       <section className={cxProfile(app.me)}>
-        <div className={`av ${app.me}`}>{me.letter}</div>
+        <TrainerShot id={app.me} crop="avatar" className={`av ${app.me}`} alt="" />
         <div className="t">
           <small>Profil</small>
           <b>Angemeldet als <span className={app.me}>{me.name}</span></b>
@@ -114,7 +115,7 @@ export function More() {
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
       </div>
-      <p className="foot2">Soul-Link · v2 · Azure Platinum</p>
+      <p className="foot2">Soul-Link · v3 · Azure Platinum</p>
 
       <BottomSheet open={rulesOpen} title="Regeln" onClose={() => setRulesOpen(false)} footer={
         <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Regeln speichern</button>

@@ -67,9 +67,9 @@ function Party({
 }) {
   const app = useApp()
   if (!rows.length && empty) {
-    return <EmptyState title="Noch kein Team. Fang was auf Route 201!" />
+    return <EmptyState title="Noch kein Team. Fang was auf Route 201!" trainer={owner} />
   }
-  if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} hat noch niemanden im Team.`} />
+  if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} hat noch niemanden im Team.`} trainer={owner} />
   return (
     <div className="team-grid">
       {rows.map((row, index) => {

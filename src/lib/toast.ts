@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { uid } from './id'
 
 export interface ToastItem {
   id: string
@@ -24,7 +25,7 @@ export function dismissToast(id: string) {
 }
 
 export function pushToast(text: string, action?: { label: string; onClick: () => void }, key?: string) {
-  const id = key ?? crypto.randomUUID()
+  const id = key ?? uid()
   if (key) dismissToast(key)
   const item: ToastItem = {
     id,

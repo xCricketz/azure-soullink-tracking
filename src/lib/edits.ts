@@ -1,3 +1,4 @@
+import { uid } from './id'
 import type { Catch, CatchDraft, PlayerId, Status } from './types'
 import { clip } from './text'
 
@@ -34,7 +35,7 @@ export function buildRow(
     }
   }
   return {
-    id: existing?.id ?? crypto.randomUUID(),
+    id: existing?.id ?? uid(),
     run_id: runId,
     player: me,
     route: draft.route,

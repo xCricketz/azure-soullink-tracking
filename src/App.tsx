@@ -1,11 +1,13 @@
-import { Ellipsis, MapPin, Plus, Skull } from 'lucide-react'
+import { BookOpen, Ellipsis, MapPin, Plus, Skull } from 'lucide-react'
 import { useEffect, useMemo, useState, type ComponentType, type ReactNode } from 'react'
 import { CatchSheet } from './components/CatchSheet'
 import { DeathDialog } from './components/DeathDialog'
+import { TrainerShot } from './components/TrainerShot'
 import { PokeballIcon, SyncIndicator, ToastHost } from './components/ui'
 import { teamOf } from './lib/edits'
 import { supabase } from './lib/supabase'
 import { greetingLine, playerFromEmail, PLAYERS, type TabId } from './lib/types'
+import { Guide } from './screens/Guide'
 import { Login, UnknownAccount } from './screens/Login'
 import { Graveyard } from './screens/Graveyard'
 import { More } from './screens/More'
@@ -17,6 +19,7 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'routes', label: 'Routen' },
   { id: 'team', label: 'Team' },
   { id: 'grave', label: 'Friedhof' },
+  { id: 'guide', label: 'Guide' },
   { id: 'more', label: 'Mehr' },
 ]
 
@@ -93,8 +96,17 @@ export function Shell() {
     title = <>Hey <span className={app.me}>{PLAYERS[app.me].name}</span> 👋</>
     sub = greet
   } else if (tab === 'team') {
-    title = 'Team'
+    title = (
+      <span className="team-title">
+        <TrainerShot id="fisi" crop="avatar" className="ht-face" alt="" />
+        Team
+        <TrainerShot id="seri" crop="avatar" className="ht-face seri" alt="" />
+      </span>
+    )
     sub = `${team.length} / 6 · Ø Lv ${average}${cap ? ` · Levelcap ${cap}` : ''}`
+  } else if (tab === 'guide') {
+    title = 'Guide'
+    sub = 'Azure Platinum · exklusiv'
   } else if (tab === 'grave') {
     title = 'Friedhof'
   }
@@ -112,6 +124,7 @@ export function Shell() {
         {tab === 'routes' && <Routes onLog={(route) => setSheet({ route })} />}
         {tab === 'team' && <Team />}
         {tab === 'grave' && <Graveyard />}
+        {tab === 'guide' && <Guide />}
         {tab === 'more' && <More />}
       </main>
       {tab === 'routes' && (
@@ -124,10 +137,11 @@ export function Shell() {
         {TABS.map((item) => (
           <button key={item.id} type="button" className="tab" aria-current={tab === item.id ? 'page' : undefined} onClick={() => setTab(item.id)}>
             <span className="ic">
-              {item.id === 'routes' && <MapPin size={22} strokeWidth={2} aria-hidden="true" />}
-              {item.id === 'team' && <PokeballIcon size={22} />}
-              {item.id === 'grave' && <Skull size={22} strokeWidth={2} aria-hidden="true" />}
-              {item.id === 'more' && <Ellipsis size={22} strokeWidth={2} aria-hidden="true" />}
+              {item.id === 'routes' && <MapPin size={20} strokeWidth={2} aria-hidden="true" />}
+              {item.id === 'team' && <PokeballIcon size={20} />}
+              {item.id === 'grave' && <Skull size={20} strokeWidth={2} aria-hidden="true" />}
+              {item.id === 'guide' && <BookOpen size={20} strokeWidth={2} aria-hidden="true" />}
+              {item.id === 'more' && <Ellipsis size={20} strokeWidth={2} aria-hidden="true" />}
             </span>
             <span>{item.label}</span>
           </button>

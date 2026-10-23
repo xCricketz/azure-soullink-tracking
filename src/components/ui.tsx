@@ -3,7 +3,8 @@ import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode 
 import { monTypes, spriteSources, typeKey } from '../lib/dex'
 import { useToasts } from '../lib/toast'
 import { shortStatus } from '../lib/text'
-import type { Status, SyncState } from '../lib/types'
+import type { PlayerId, Status, SyncState } from '../lib/types'
+import { TrainerShot } from './TrainerShot'
 
 export function cx(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(' ')
@@ -121,10 +122,10 @@ export function SyncIndicator({ state }: { state: SyncState }) {
   )
 }
 
-export function EmptyState({ title, action }: { title: string; action?: ReactNode }) {
+export function EmptyState({ title, action, trainer }: { title: string; action?: ReactNode; trainer?: PlayerId }) {
   return (
-    <div className="empty">
-      <PokeballIcon size={42} />
+    <div className={cx('empty', trainer && 'with-figure')}>
+      {trainer ? <TrainerShot id={trainer} crop="full" className="empty-figure" alt="" /> : <PokeballIcon size={42} />}
       <p>{title}</p>
       {action}
     </div>
