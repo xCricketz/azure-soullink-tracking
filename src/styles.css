@@ -644,7 +644,7 @@ input:focus, textarea:focus, .inp.focus { outline: none; border-color: var(--me)
 .lg { text-align: center; }
 .logo { width: 64px; height: 64px; margin: 0 auto 6px; display: block; border-radius: 18px; filter: drop-shadow(0 0 24px rgba(185, 140, 255, 0.55)); }
 .lg h1 {
-  margin: 0; font: 400 13px/20px var(--font-pixel); letter-spacing: 0.04em;
+  margin: 0; font: 400 18px/26px var(--font-pixel); letter-spacing: 0.06em;
   background: linear-gradient(90deg, var(--fisi), var(--link), var(--seri));
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
