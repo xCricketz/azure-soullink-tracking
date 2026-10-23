@@ -1,6 +1,6 @@
 import { ChevronLeft, ExternalLink } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { SpritePlate, TypePills, typeStyle } from '../components/ui'
+import { BottomSheet, SpritePlate, TypePills, typeStyle } from '../components/ui'
 import { NATURES, STAT_EN } from '../data/natures'
 import {
   GEN4_TYPES,
@@ -14,6 +14,7 @@ import {
   type Gen4Type,
 } from '../data/typechart'
 import listData from '../data/wiki-list.json'
+import { abilityText, loadAbilityText } from '../lib/abilities'
 import { monById } from '../lib/dex'
 import { loadWiki, peekWiki, type EvoNode, type WikiMon } from '../lib/pokeapi'
 import { norm } from '../lib/text'
@@ -196,6 +197,8 @@ export function WikiDetail({ id, onOpen, onClose }: { id: number; onOpen: (id: n
   const scroller = useRef<HTMLDivElement>(null)
   const [mon, setMon] = useState<WikiMon | null>(() => peekWiki(id))
   const [error, setError] = useState('')
+  const [ability, setAbility] = useState<{ name: string; hidden: boolean } | null>(null)
+  const [blurb, setBlurb] = useState('')
   const listed = BY_ID.get(id)
   const local = monById(id)
   const name = mon?.name ?? listed?.name ?? local?.en ?? `#${id}`
@@ -208,7 +211,20 @@ export function WikiDetail({ id, onOpen, onClose }: { id: number; onOpen: (id: n
 
   useEffect(() => {
     scroller.current?.scrollTo(0, 0)
+    setAbility(null)
   }, [id])
+
+  useEffect(() => {
+    if (!ability) return
+    setBlurb(abilityText(ability.name))
+    let live = true
+    void loadAbilityText(ability.name).then((text) => {
+      if (live) setBlurb(text)
+    })
+    return () => {
+      live = false
+    }
+  }, [ability])
 
   useEffect(() => {
     let live = true
@@ -260,10 +276,12 @@ export function WikiDetail({ id, onOpen, onClose }: { id: number; onOpen: (id: n
               </div>
               <h3 className="wiki-sec">Abilities</h3>
               <ul className="ability-list">
-                {mon.abilities.map((ability) => (
-                  <li key={`${ability.name}-${ability.hidden ? 'h' : 'n'}`}>
-                    {ability.name}
-                    {ability.hidden && <small>Hidden</small>}
+                {mon.abilities.map((row) => (
+                  <li key={`${row.name}-${row.hidden ? 'h' : 'n'}`}>
+                    <button type="button" onClick={() => setAbility(row)}>
+                      <span>{row.name}</span>
+                      {row.hidden && <small>Hidden</small>}
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -286,6 +304,10 @@ export function WikiDetail({ id, onOpen, onClose }: { id: number; onOpen: (id: n
           </a>
         </article>
       )}
+      <BottomSheet open={ability !== null} title={ability?.name ?? 'Ability'} onClose={() => setAbility(null)}>
+        {ability?.hidden && <p className="hint">Hidden</p>}
+        <p className="ability-copy" data-ability-text>{blurb}</p>
+      </BottomSheet>
     </div>
   )
 }

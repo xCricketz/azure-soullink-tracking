@@ -2,6 +2,7 @@ import { Flame, Swords, Unlink2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Dialog, SpritePlate } from '../components/ui'
 import { routeTitle } from '../data/routes'
+import { useHistoryLayer } from '../lib/history'
 import { graveRows, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { formatDate, monName, speciesName } from '../lib/text'
@@ -15,6 +16,7 @@ export function Graveyard() {
   const [confirm, setConfirm] = useState(false)
   const tomb = tombs.find((row) => row.route.name === route)
   const mine = tomb?.[app.me]
+  useHistoryLayer(route !== null, 'grave', () => setRoute(null))
 
   return (
     <div className="screen grave">

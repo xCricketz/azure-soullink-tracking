@@ -5,6 +5,7 @@ import { DeathDialog } from './components/DeathDialog'
 import { TrainerShot } from './components/TrainerShot'
 import { PokeballIcon, SyncIndicator, ToastHost } from './components/ui'
 import { teamOf } from './lib/edits'
+import { releaseLayer, upsertLayer } from './lib/history'
 import { clearHidden, markHidden, resumeNeedsStart } from './lib/start'
 import { supabase } from './lib/supabase'
 import { greetingLine, playerFromEmail, PLAYERS, type LoginPreview, type PlayerId, type TabId } from './lib/types'
@@ -74,7 +75,7 @@ function DemoGate() {
   if (!entered) {
     return <Login sessionPlayer="fisi" previewSeed={DEMO_PREVIEW} onContinue={enter} />
   }
-  if (!Demo) return <div className="boot"><p className="pixel">SOUL LINK</p><p>Connecting…</p></div>
+  if (!Demo) return <div className="boot"><p className="pixel">FISI'S TRACKER</p><p>Connecting…</p></div>
   return <Demo />
 }
 
@@ -104,7 +105,7 @@ function RealApp() {
   }
 
   if (!ready) {
-    return <div className="boot"><p className="pixel">SOUL LINK</p><p>Connecting…</p></div>
+    return <div className="boot"><p className="pixel">FISI'S TRACKER</p><p>Connecting…</p></div>
   }
   const me: PlayerId | null = email ? playerFromEmail(email) : null
   if (email && !me) return <UnknownAccount onOut={() => void supabase.auth.signOut()} />
@@ -134,6 +135,25 @@ export function Shell() {
     media.addEventListener('change', apply)
     return () => media.removeEventListener('change', apply)
   }, [app.settings.theme])
+
+  useEffect(() => {
+    if (tab === 'routes') {
+      releaseLayer('tab')
+      return
+    }
+    upsertLayer('tab', () => {
+      setTab('routes')
+      setWikiId(null)
+    })
+  }, [tab])
+
+  useEffect(() => {
+    if (wikiId == null) {
+      releaseLayer('wiki')
+      return
+    }
+    upsertLayer('wiki', () => setWikiId(null))
+  }, [wikiId])
 
   function openWiki(id: number) {
     if (id > 0) setWikiId(id)

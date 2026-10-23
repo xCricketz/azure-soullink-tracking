@@ -2,6 +2,7 @@ import { Archive, Ban, Heart, Loader2, Skull, WifiOff, X, type LucideIcon } from
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { gen4TypeNames } from '../data/typechart'
 import { monTypes, spriteSources, typeKey } from '../lib/dex'
+import { useHistoryLayer } from '../lib/history'
 import { useToasts } from '../lib/toast'
 import { shortStatus } from '../lib/text'
 import type { PlayerId, Status, SyncState } from '../lib/types'
@@ -152,6 +153,8 @@ export function BottomSheet({
   const startY = useRef(0)
   const closeRef = useRef(onClose)
   closeRef.current = onClose
+  const layerKey = useId()
+  useHistoryLayer(open, `sheet:${layerKey}`, () => closeRef.current())
   useEffect(() => {
     if (!open) return
     setSnap('full')
@@ -229,10 +232,15 @@ export function Dialog({
   actions: { label: string; onClick: () => void; tone?: 'primary' | 'danger' | 'ghost' }[]
 }) {
   const titleId = useId()
+  const closeRef = useRef<() => void>(() => {})
+  closeRef.current = () => {
+    actions.find((action) => action.tone === 'ghost')?.onClick()
+  }
+  useHistoryLayer(open, `dialog:${titleId}`, () => closeRef.current())
   useEffect(() => {
     if (!open) return
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') actions.find((action) => action.tone === 'ghost')?.onClick()
+      if (event.key === 'Escape') closeRef.current()
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)

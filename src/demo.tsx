@@ -20,7 +20,7 @@ import { AppContext, type AppContextValue } from './state/context'
 
 const RUN: Run = {
   id: 'demo-run',
-  name: 'Azure Platinum Soul-Link',
+  name: "Fisi's Tracker",
   rules: DEFAULT_RULES,
   active: true,
   badges: 3,

@@ -29,7 +29,7 @@ export function InstallHint({ compact = false }: { compact?: boolean }) {
       {ios ? (
         <p>Tap Share and then <strong>Add to Home Screen</strong>.</p>
       ) : bip ? (
-        <p>Put Soul-Link on your home screen.</p>
+        <p>Put Fisi's Tracker on your home screen.</p>
       ) : (
         <p>In the browser menu, choose Install app or Add to Home Screen.</p>
       )}

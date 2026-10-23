@@ -339,7 +339,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         const text = `💀 ${monName(dying.next)} fainted — ${monName(other)} is gone too.`
         toastRoute(route, text)
         vibrate(200)
-        if (settingsRef.current.notify) notify('Soul-Link', text)
+        if (settingsRef.current.notify) notify("Fisi's Tracker", text)
         setGlow({ route, player: dying.next.player === me ? otherPlayer(me) : dying.next.player })
         continue
       }
@@ -728,7 +728,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     }
     const { data, error } = await supabase
       .from('runs')
-      .insert({ name: 'Azure Platinum Soul-Link', rules: runRef.current?.rules || DEFAULT_RULES, active: true })
+      .insert({ name: "Fisi's Tracker", rules: runRef.current?.rules || DEFAULT_RULES, active: true })
       .select('*')
       .single()
     if (error || !data) {
@@ -872,7 +872,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
   if (!loaded) {
     return (
       <div className="boot">
-        <p className="pixel">SOUL LINK</p>
+        <p className="pixel">FISI'S TRACKER</p>
         <p>Connecting…</p>
       </div>
     )
@@ -881,7 +881,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
   if (loadError) {
     return (
       <div className="boot">
-        <p className="pixel">SOUL LINK</p>
+        <p className="pixel">FISI'S TRACKER</p>
         <p>{loadError}</p>
         <button className="btn btn-primary" type="button" onClick={() => window.location.reload()}>
           Try again

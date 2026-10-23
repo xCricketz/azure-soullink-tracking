@@ -58,7 +58,7 @@ export function Login({
       <div className="login-inner">
         <header className="lg">
           <img className="logo" src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" />
-          <h1 className="pixel">SOUL LINK</h1>
+          <h1 className="pixel">FISI'S TRACKER</h1>
           <p className="sub">Azure Platinum · Fisi & Seri</p>
           <h2>Who are you?</h2>
         </header>
@@ -160,7 +160,7 @@ export function Login({
 export function UnknownAccount({ onOut }: { onOut: () => void }) {
   return (
     <div className="boot">
-      <p className="pixel">SOUL LINK</p>
+      <p className="pixel">FISI'S TRACKER</p>
       <p>This account isn’t Fisi or Seri.</p>
       <button className="btn btn-primary" type="button" onClick={onOut}>Sign out</button>
     </div>
