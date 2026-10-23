@@ -44,9 +44,9 @@ export function WikiHome({ onOpen }: { onOpen: (id: number) => void }) {
       {outOfRange && <p className="hint">Nur Gen. 1–4 (#1–493).</p>}
       {!outOfRange && lookup && results.length === 0 && <p className="hint">Nichts gefunden.</p>}
       {results.length > 0 && (
-        <div className="wiki-list" role="listbox" aria-label="Vorschläge">
+        <div className="wiki-list" aria-label="Vorschläge">
           {results.map((mon) => (
-            <button key={mon.id} className="wiki-row" type="button" role="option" onClick={() => onOpen(mon.id)}>
+            <button key={mon.id} className="wiki-row" type="button" onClick={() => onOpen(mon.id)}>
               <SpritePlate id={mon.id} alt="" size="sm" />
               <span>
                 <b>{mon.de}</b>
