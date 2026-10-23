@@ -1,5 +1,5 @@
 import { BookOpen, Ellipsis, MapPin, Plus, Skull } from 'lucide-react'
-import { useEffect, useMemo, useState, type ComponentType, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { CatchSheet } from './components/CatchSheet'
 import { DeathDialog } from './components/DeathDialog'
 import { TrainerShot } from './components/TrainerShot'
@@ -8,7 +8,8 @@ import { teamOf } from './lib/edits'
 import { releaseLayer, upsertLayer } from './lib/history'
 import { clearHidden, markHidden, resumeNeedsStart } from './lib/start'
 import { supabase } from './lib/supabase'
-import { greetingLine, playerFromEmail, PLAYERS, type LoginPreview, type PlayerId, type TabId } from './lib/types'
+import { greetingLine, playerFromEmail, PLAYERS, type PlayerId, type TabId } from './lib/types'
+import { DemoApp } from './demo'
 import { Login, UnknownAccount } from './screens/Login'
 import { Graveyard } from './screens/Graveyard'
 import { More } from './screens/More'
@@ -25,18 +26,7 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'more', label: 'More' },
 ]
 
-const DEMO_PREVIEW: LoginPreview = {
-  badges: 3,
-  players: {
-    fisi: { last_at: new Date().toISOString(), team_count: 2, dex_ids: [25, 387] },
-    seri: { last_at: new Date().toISOString(), team_count: 1, dex_ids: [133] },
-  },
-}
-
 export default function App() {
-  if (import.meta.env.DEV && new URLSearchParams(window.location.search).has('demo')) {
-    return <DemoGate />
-  }
   return <RealApp />
 }
 
@@ -65,23 +55,10 @@ function useAppOpen() {
   return { entered, enter: () => setEntered(true) }
 }
 
-function DemoGate() {
-  const { entered, enter } = useAppOpen()
-  const [Demo, setDemo] = useState<ComponentType | null>(null)
-  useEffect(() => {
-    if (!entered) return
-    void import('./demo').then((mod) => setDemo(() => mod.DemoApp))
-  }, [entered])
-  if (!entered) {
-    return <Login sessionPlayer="fisi" previewSeed={DEMO_PREVIEW} onContinue={enter} />
-  }
-  if (!Demo) return <div className="boot"><p className="pixel">FISI'S TRACKER</p><p>Connecting…</p></div>
-  return <Demo />
-}
-
 function RealApp() {
   const [ready, setReady] = useState(false)
   const [email, setEmail] = useState<string | null>(null)
+  const [demo, setDemo] = useState(false)
   const { entered, enter } = useAppOpen()
 
   useEffect(() => {
@@ -104,12 +81,13 @@ function RealApp() {
     })
   }
 
+  if (demo) return <DemoApp onExit={() => setDemo(false)} />
   if (!ready) {
     return <div className="boot"><p className="pixel">FISI'S TRACKER</p><p>Connecting…</p></div>
   }
   const me: PlayerId | null = email ? playerFromEmail(email) : null
   if (email && !me) return <UnknownAccount onOut={() => void supabase.auth.signOut()} />
-  if (!entered || !me) return <Login sessionPlayer={me} onContinue={continueIn} />
+  if (!entered || !me) return <Login sessionPlayer={me} onContinue={continueIn} onDemo={() => setDemo(true)} />
   return (
     <AppProvider me={me}>
       <Shell />
@@ -190,13 +168,19 @@ export function Shell() {
   }
 
   return (
-    <div className="app" data-me={app.me} data-tab={tab}>
+    <div className="app" data-me={app.me} data-tab={tab} data-demo={app.demo ? '1' : '0'}>
+      {app.demo && (
+        <div className="demo-bar">
+          <span className="demo-pill">DEMO</span>
+          <button className="btn btn-ghost btn-sm" type="button" onClick={app.exitDemo}>Exit demo</button>
+        </div>
+      )}
       <header className="header">
         <div className="header-copy">
           <h1>{title}</h1>
           {sub && <p className="sub">{sub}</p>}
         </div>
-        <SyncIndicator state={app.sync} />
+        {app.demo ? null : <SyncIndicator state={app.sync} />}
       </header>
       <main className="main">
         {tab === 'routes' && <Routes onLog={(route) => setSheet({ route })} onWiki={openWiki} />}

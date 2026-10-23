@@ -29,7 +29,7 @@ export function More() {
         <TrainerShot id={app.me} crop="avatar" className={`av ${app.me}`} alt="" />
         <div className="t">
           <small>Profile</small>
-          <b>Signed in as <span className={app.me}>{me.name}</span></b>
+          <b>{app.demo ? 'Demo run as ' : 'Signed in as '}<span className={app.me}>{me.name}</span></b>
         </div>
         <button className="btn btn-ghost btn-sm swap" type="button" onClick={() => setSwitchOpen(true)}>
           <ArrowLeftRight size={16} aria-hidden="true" />
@@ -116,7 +116,7 @@ export function More() {
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
       </div>
-      <p className="foot2">Fisi's Tracker · v6 · Azure Platinum</p>
+      <p className="foot2">Fisi's Tracker · v7 · Azure Platinum</p>
 
       <BottomSheet open={rulesOpen} title="Rules" onClose={() => setRulesOpen(false)} footer={
         <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Save rules</button>

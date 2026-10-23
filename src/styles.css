@@ -152,6 +152,18 @@ h1, h2, h3, .val, .nick, .btn, .fab, .nm b, .pc .nm, .who-name { font-family: va
   background-image: radial-gradient(80% 40% at 50% 0%, rgba(185, 140, 255, 0.2), transparent 70%);
 }
 .app[data-tab="grave"] > .header { display: none; }
+.app[data-demo="1"] > .header { padding-top: 8px; }
+.demo-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: calc(6px + env(safe-area-inset-top)) 12px 6px;
+  background: color-mix(in srgb, var(--boxed) 16%, var(--bg));
+  border-bottom: 1px solid var(--border);
+}
+.demo-pill {
+  font: 700 12px/1 var(--font-head); letter-spacing: 0.08em;
+  padding: 5px 8px; border-radius: 999px; background: var(--boxed); color: #1a1204;
+}
+.demo-entry { margin-top: 12px; }
 
 .header {
   display: flex;
