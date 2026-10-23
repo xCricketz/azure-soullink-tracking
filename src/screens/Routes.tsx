@@ -3,6 +3,8 @@ import { useMemo, useState } from 'react'
 import { InstallHint } from '../components/InstallHint'
 import { LinkCard } from '../components/LinkCard'
 import { BottomSheet, cx, SpritePlate, StatusChip } from '../components/ui'
+import { marksFor } from '../data/marks'
+import { suggestedCap } from '../lib/caps'
 import { nextLeader } from '../lib/gym'
 import { countPairs, graveRows, isLinked, matchesFilter, matchesQuery, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
@@ -34,6 +36,7 @@ export function Routes({ onLog }: { onLog: (route?: string) => void }) {
   const badges = app.run?.badges ?? 0
   const cap = app.run?.level_cap ?? null
   const leader = nextLeader(badges)
+  const suggestion = suggestedCap(cap)
   const linked = rows.filter((row) => isLinked(row.fisi, row.seri))
   const living = linked.filter((row) => row.fisi?.status !== 'dead' && row.seri?.status !== 'dead').length
   const fallen = rows.filter((row) => row.fisi?.status === 'dead' || row.seri?.status === 'dead').length
@@ -49,11 +52,23 @@ export function Routes({ onLog }: { onLog: (route?: string) => void }) {
             {Array.from({ length: 8 }, (_, index) => <b key={index} className={index < badges ? 'on' : ''} />)}
           </div>
         </button>
-        <button className="ptile" type="button" onClick={() => setEditor('cap')}>
-          <div className="lbl">Levelcap</div>
-          <div className="val">{cap ?? '–'}</div>
-          {leader && <div className="species">Nächste: {leader}</div>}
-        </button>
+        <div className="ptile">
+          <button className="ptile-hit" type="button" onClick={() => setEditor('cap')}>
+            <div className="lbl">Levelcap</div>
+            <div className="val">{cap ?? '–'}</div>
+            {leader && <div className="species">Nächste: {leader.name}</div>}
+          </button>
+          {suggestion && suggestion.level !== cap && (
+            <button
+              className="cap-suggest"
+              type="button"
+              aria-label={`Levelcap auf ${suggestion.label}, Lv ${suggestion.level} setzen`}
+              onClick={() => void app.saveProgress({ level_cap: suggestion.level })}
+            >
+              Vorschlag Lv {suggestion.level}
+            </button>
+          )}
+        </div>
         <div className="ptile">
           <div className="lbl">Paare</div>
           <div className="val">{countPairs(rows)}</div>
@@ -131,7 +146,7 @@ export function Routes({ onLog }: { onLog: (route?: string) => void }) {
             <Plus />
           </button>
         </div>
-        <p className="hint center">Gilt für euch beide. {leader ? `Als Nächstes: ${leader}.` : 'Alle acht Orden sind da.'}</p>
+        <p className="hint center">Gilt für euch beide. {leader ? `Als Nächstes: ${leader.name} in ${leader.city}, Ass Lv. ${leader.ace}.` : 'Alle acht Orden sind da.'}</p>
       </BottomSheet>
       <BottomSheet open={editor === 'cap'} title="Levelcap" onClose={() => setEditor(null)}>
         <div className="stepper">
@@ -143,13 +158,21 @@ export function Routes({ onLog }: { onLog: (route?: string) => void }) {
             <Plus />
           </button>
         </div>
-        <p className="hint center">Manuell, für den nächsten Arena-Kampf.</p>
+        {suggestion && suggestion.level !== cap && (
+          <button className="btn btn-primary cap-apply" type="button" onClick={() => void app.saveProgress({ level_cap: suggestion.level })}>
+            {suggestion.label} · Lv {suggestion.level} übernehmen
+          </button>
+        )}
+        <p className="hint center">{suggestion ? `Nächster dokumentierter Cap: ${suggestion.label}, Lv ${suggestion.level}.` : 'Ihr seid über dem letzten dokumentierten Cap.'} Die Liste gilt für den Normal-Modus.</p>
       </BottomSheet>
 
       <BottomSheet open={Boolean(detailRow)} title={detailRow?.route.name ?? 'Route'} onClose={() => setDetail(null)}>
         {detailRow && (
           <div className="detail">
             <p className="hint">{detailRow.route.en}</p>
+            {marksFor(detailRow.route.name).map((mark) => (
+              <p key={`${mark.kind}-${mark.label}`} className="route-note"><b>{mark.label}.</b> {mark.detail}</p>
+            ))}
             {(['fisi', 'seri'] as const).map((side) => {
               const row = detailRow[side]
               return (

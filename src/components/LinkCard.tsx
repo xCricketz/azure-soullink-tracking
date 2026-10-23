@@ -1,8 +1,10 @@
 import { Hourglass, Link2, Plus, Skull, Unlink2 } from 'lucide-react'
 import { useRef, useState } from 'react'
+import { marksFor } from '../data/marks'
 import type { RouteDef } from '../data/routes'
 import { bothAlive } from '../lib/pairs'
 import { PLAYERS, type Catch, type PlayerId } from '../lib/types'
+import { TrainerShot } from './TrainerShot'
 import { cx, SpritePlate, StatusChip } from './ui'
 
 export function LinkCard({
@@ -35,6 +37,7 @@ export function LinkCard({
   const mine = me === 'fisi' ? fisi : seri
   const glowClass = glow ? (me === 'fisi' ? 'glow-seri' : 'glow-fisi') : false
   const linked = state.chain === 'on'
+  const marks = marksFor(route.name)
 
   function pokeChain(event: React.MouseEvent) {
     event.stopPropagation()
@@ -51,6 +54,7 @@ export function LinkCard({
   return (
     <article className={cx('lcard', state.tone === 'dead' && 'dead', glowClass)} onClick={onOpen}>
       <div className="top">
+        <TrainerShot id="fisi" crop="avatar" className="lc-face" alt="Fisi" />
         <h2 className="route">
           <span className="no">#{index}</span>
           {route.name}
@@ -61,7 +65,15 @@ export function LinkCard({
           {state.tone === 'wait' && <Hourglass aria-hidden="true" />}
           {state.label}
         </span>
+        <TrainerShot id="seri" crop="avatar" className="lc-face seri" alt="Seri" />
       </div>
+      {marks.length > 0 && (
+        <div className="rbads">
+          {marks.map((mark) => (
+            <span key={`${mark.kind}-${mark.label}`} className={cx('rbad', mark.kind)}>{mark.label}</span>
+          ))}
+        </div>
+      )}
       <div className="halves">
         <Half side="fisi" catchRow={fisi} mine={me === 'fisi'} flash={pulse && me === 'fisi'} onAdd={onAdd} onQuick={onQuick} />
         <button

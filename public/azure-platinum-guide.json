@@ -1,0 +1,996 @@
+{
+  "meta": {
+    "hack": "Pokémon Azure Platinum",
+    "base_game": "Pokémon Platinum (NDS)",
+    "languages": [
+      "EN",
+      "FR"
+    ],
+    "author": "Memory5ty7 (posts as 'memoryz57' on Reddit, 'memory5ty7' on Project Pokémon)",
+    "author_source": [
+      "https://drive.google.com/file/d/17OWNmGfcjzezMtWOMrLAVHR7nOG6jR75/view",
+      "https://projectpokemon.org/home/forums/topic/65095-pokemon-azure-platinum-enfr-expanded-anime-story-increased-difficulty-qol-changes-and-more/",
+      "https://www.reddit.com/r/PokemonROMhacks/comments/1cakrh8/pokemon_azure_platinum_enfr_expanded_anime_story/"
+    ],
+    "version": "1.2.0 (25/12/2025, latest per official Changelog.txt; patch file 'Azure 1-2 EN.xdelta'). Documentation files are labelled v1.1.1 (20/07/2024).",
+    "release_history": "1.0.0 (22/04/2024), 1.0.1 (23/04/2024), 1.0.2 (26/04/2024), 1.1.0 (22/06/2024), 1.1.1 (20/07/2024), 1.2.0 (25/12/2025)",
+    "status": "Completed (100% incl. postgame, per author)",
+    "sources": [
+      {
+        "name": "Official Google Drive folder (patch + documentation)",
+        "url": "https://drive.google.com/drive/folders/1iLw_l7els0PpDjWsPpUcBbcby3Fnn4Fb",
+        "type": "official"
+      },
+      {
+        "name": "Project Pokémon forum thread by memory5ty7 (2024-04-22)",
+        "url": "https://projectpokemon.org/home/forums/topic/65095-pokemon-azure-platinum-enfr-expanded-anime-story-increased-difficulty-qol-changes-and-more/",
+        "type": "official"
+      },
+      {
+        "name": "r/PokemonROMhacks release post by u/memoryz57",
+        "url": "https://www.reddit.com/r/PokemonROMhacks/comments/1cakrh8/pokemon_azure_platinum_enfr_expanded_anime_story/",
+        "type": "official (author post)"
+      },
+      {
+        "name": "r/PokemonROMhacks v1.1.0 post by u/memoryz57",
+        "url": "https://www.reddit.com/r/PokemonROMhacks/comments/1dquvhx/pok%C3%A9mon_azure_platinum_v110_difficulty_modes_and/",
+        "type": "official (author post)"
+      },
+      {
+        "name": "Docs: Changelog.txt",
+        "url": "https://drive.google.com/file/d/1i7fsM2fU2hdsPMgH5i-702HWm5DnfkLU/view",
+        "type": "official"
+      },
+      {
+        "name": "Docs: Presentation.txt",
+        "url": "https://drive.google.com/file/d/17OWNmGfcjzezMtWOMrLAVHR7nOG6jR75/view",
+        "type": "official"
+      },
+      {
+        "name": "Docs: Trainers - Normal.txt",
+        "url": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+        "type": "official"
+      },
+      {
+        "name": "Docs: Level Caps.txt",
+        "url": "https://drive.google.com/file/d/1fAz397J7J_uq8LYNNqCDi-Gh66Lhkgdk/view",
+        "type": "official"
+      },
+      {
+        "name": "Docs: Special Encounters.txt",
+        "url": "https://drive.google.com/file/d/1gM_xSIu0vql190phk-TS3yoOIAzF6kHK/view",
+        "type": "official"
+      },
+      {
+        "name": "Docs: Items.txt / QoL Changes.txt / Difficulty Options.txt / Postgame.txt / Trade Changes.txt / Wild Encounters.txt",
+        "url": "https://drive.google.com/drive/folders/1iLw_l7els0PpDjWsPpUcBbcby3Fnn4Fb",
+        "type": "official"
+      },
+      {
+        "name": "Pokepatched listing (build 1.1.1)",
+        "url": "https://pokepatched.com/hacks/pokemon-azure-platinum/",
+        "type": "secondary"
+      }
+    ],
+    "notes": "No PokeCommunity thread or GitHub/GitLab repo found; Discord exists (linked from the Project Pokémon thread) but not read. Unverified: anything not listed here.",
+    "generated": "2026-10-23"
+  },
+  "routes": [
+    {
+      "order": 1,
+      "name": "Twinleaf Town / Route 201",
+      "exclusive_notes": "Rival battle (cap 6→7). Starter Lv.5 on Route 201.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 2,
+      "name": "Lake Verity (1st)",
+      "exclusive_notes": "Anime rival Paul battles you (3x Starly Lv.6). Afterwards Difficulty options unlock in Porta-PC.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 3,
+      "name": "Sandgem Town",
+      "exclusive_notes": "Porta-PC obtained here (PC + heal anywhere).",
+      "source": "https://drive.google.com/file/d/1FG-qwEXVumquCfVQ_Oem40JwQB7IJQ-r/view",
+      "confidence": "official"
+    },
+    {
+      "order": 4,
+      "name": "Route 202",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 5,
+      "name": "Route 204 (Jubilife side)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 6,
+      "name": "Jubilife City / Trainers' School",
+      "exclusive_notes": "Anime character Conway battle at Trainers' School. Tall grass added in early cities.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 7,
+      "name": "Route 203",
+      "exclusive_notes": "Rival battle (cap → 16).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 8,
+      "name": "Oreburgh Gate",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 9,
+      "name": "Oreburgh Mine",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 10,
+      "name": "Oreburgh Mining Museum",
+      "exclusive_notes": "'Hunter ???' (Hunter J) boss battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 11,
+      "name": "Oreburgh Gym (Sandstorm)",
+      "exclusive_notes": "Gym 1 Roark.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 12,
+      "name": "Jubilife City (return)",
+      "exclusive_notes": "Tag battle with Dawn/Lucas as ally.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 13,
+      "name": "Route 204 (Floaroma side)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 14,
+      "name": "Floaroma Town",
+      "exclusive_notes": "Anime character Nando battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 15,
+      "name": "Valley Windworks",
+      "exclusive_notes": "Commander Mars (cap 20). Overworld Drifloon Lv.18 after beating Mars.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 16,
+      "name": "Route 205 (Floaroma side)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 17,
+      "name": "Eterna Forest",
+      "exclusive_notes": "Cheryl battle (cap 24), then Cheryl as ally.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 18,
+      "name": "Route 205 (Eterna side)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 19,
+      "name": "Route 211 (Eterna side)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 20,
+      "name": "Eterna City Gym (Rain)",
+      "exclusive_notes": "Gym 2 Gardenia. Advantaged starter gift in Eterna City; Togepi egg from Cynthia after Jupiter.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 21,
+      "name": "Eterna Galactic Building",
+      "exclusive_notes": "Commander Jupiter (cap 32).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 22,
+      "name": "Route 206",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 23,
+      "name": "Route 207",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 24,
+      "name": "Wayward Cave",
+      "exclusive_notes": "Anime character Mira battle (cap 36), then Mira as ally.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 25,
+      "name": "Route 207 (return)",
+      "exclusive_notes": "Dawn/Lucas battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 26,
+      "name": "Route 208",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 27,
+      "name": "Hearthome City Tag Battle Competition",
+      "exclusive_notes": "NEW anime-inspired tournament: partnered with Paul; faces Nando, Rival, Conway etc. (cap 40).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 28,
+      "name": "Hearthome City Gym",
+      "exclusive_notes": "Gym 3 Fantina. Eevee Lv.35 gift from Bebe.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 29,
+      "name": "Route 209",
+      "exclusive_notes": "Disadvantaged starter Lv.35 gift; Spiritomb Lv.40 overworld (needs Odd Keystone).",
+      "source": "https://drive.google.com/file/d/1gM_xSIu0vql190phk-TS3yoOIAzF6kHK/view",
+      "confidence": "official"
+    },
+    {
+      "order": 30,
+      "name": "Lost Tower",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 31,
+      "name": "Solaceon Ruins (5-turn Trick Room)",
+      "exclusive_notes": "Hunter J boss battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 32,
+      "name": "Solaceon Town",
+      "exclusive_notes": "Rival battle (cap → 50).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 33,
+      "name": "Route 210 (Solaceon side)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 34,
+      "name": "Cafe",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 35,
+      "name": "Route 215 (Rain)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 36,
+      "name": "Veilstone City Gym",
+      "exclusive_notes": "Gym 4 Maylene. Porygon Lv.40 gift in Veilstone.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 37,
+      "name": "Veilstone City",
+      "exclusive_notes": "Dawn/Lucas ally, then anime character Reggie (Paul's brother) double battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 38,
+      "name": "Route 214",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 39,
+      "name": "Seven Stars Restaurant",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 40,
+      "name": "Route 213",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 41,
+      "name": "Pastoria City",
+      "exclusive_notes": "Conway battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 42,
+      "name": "Pastoria City Gym (Rain)",
+      "exclusive_notes": "Gym 5 Wake (double battle).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 43,
+      "name": "Valor Lakefront / Lake Valor",
+      "exclusive_notes": "Paul battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 44,
+      "name": "Route 212 (both sides)",
+      "exclusive_notes": "Nando battle on Hearthome side.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 45,
+      "name": "Pokémon Mansion",
+      "exclusive_notes": "Manaphy egg from owner (postgame list).",
+      "source": "https://drive.google.com/file/d/1gM_xSIu0vql190phk-TS3yoOIAzF6kHK/view",
+      "confidence": "official"
+    },
+    {
+      "order": 46,
+      "name": "Route 210 (Celestic side)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 47,
+      "name": "Celestic Town",
+      "exclusive_notes": "Cyrus battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 48,
+      "name": "Route 211 (Celestic side) / Routes 219–221 / Oreburgh Gate / Fuego Ironworks (Sun) / Route 213 / Route 218",
+      "exclusive_notes": "Listed in this order between Celestic Town and Canalave City in the trainer docs (optional status not documented).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 49,
+      "name": "Canalave City",
+      "exclusive_notes": "Rival battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 50,
+      "name": "Iron Island",
+      "exclusive_notes": "Riley battle, then Riley as ally vs Galaxy Grunts; Riolu egg from Riley.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 51,
+      "name": "Canalave City Gym (Sandstorm)",
+      "exclusive_notes": "Gym 6 Byron (double battle).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 52,
+      "name": "Lake Valor (Rain) / Lake Verity (Sun)",
+      "exclusive_notes": "Commander Saturn; Commander Mars.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 53,
+      "name": "Route 216 / Route 217 (Hail)",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 54,
+      "name": "Snowpoint City Gym (Hail)",
+      "exclusive_notes": "Gym 7 Candice (double battle).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 55,
+      "name": "Snowpoint Temple",
+      "exclusive_notes": "Hunter J boss battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 56,
+      "name": "Acuity Lakefront",
+      "exclusive_notes": "Paul battle.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 57,
+      "name": "Galactic HQ",
+      "exclusive_notes": "Cyrus (double) and Saturn.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 58,
+      "name": "Mt. Coronet → Spear Pillar",
+      "exclusive_notes": "Rival ally; Mars, Jupiter, Cyrus (double).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 59,
+      "name": "Distortion World",
+      "exclusive_notes": "Cyrus; Giratina Lv.85 afterwards; lake trio Lv.80 after Giratina.",
+      "source": "https://drive.google.com/file/d/1gM_xSIu0vql190phk-TS3yoOIAzF6kHK/view",
+      "confidence": "official"
+    },
+    {
+      "order": 60,
+      "name": "Route 222 / Route 223",
+      "exclusive_notes": "No exclusive note documented (all trainers have new teams per docs).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 61,
+      "name": "Sunyshore City Gym (Rain)",
+      "exclusive_notes": "Gym 8 Volkner (double battle).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 62,
+      "name": "Sunyshore City",
+      "exclusive_notes": "Jasmine (Johto leader) double battle (cap → 90).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 63,
+      "name": "Lily of the Valley (NEW island)",
+      "exclusive_notes": "Anime-style Lily of the Valley Conference tournament: Dawn/Lucas, Nando, Mira, Conway, Riley, Rival, Paul.",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 64,
+      "name": "Victory Road",
+      "exclusive_notes": "Reggie (cap 94), Marley (cap 99, then ally).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 65,
+      "name": "Route 224",
+      "exclusive_notes": "Professor Rowan battle (6x Lv.99).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 66,
+      "name": "Pokémon League",
+      "exclusive_notes": "Elite Four Aaron (Rain), Bertha (Sandstorm), Flint (Sun), Lucian; Champion Cynthia (Lv.100).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 67,
+      "name": "POSTGAME: Operation AZURE areas",
+      "exclusive_notes": "Fuego Ironworks, Sunyshore, Galactic HQ, Snowpoint Temple (Brandon), Valor Lakefront (Memory5ty7, Wallace), Iron Island (Steven), Turnback Cave, Fight Area, Battle Frontier, Routes 225/226/227/228/229/230, Stark Mountain, Survival Area, Battleground, Lily of the Valley (Title Defense, PWT), Pokémon League rematch, Mt. Victory (NEW).",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    }
+  ],
+  "gyms": [
+    {
+      "order": 1,
+      "leader": "Roark",
+      "city": "Oreburgh City",
+      "type_and_conditions": "Rock; Sandstorm field",
+      "ace_level": 16,
+      "team_note": "Normal Mode team Lv.16 (Nosepass, Larvitar, Cranidos) (Normal Mode doc; Hard Mode teams differ, see 'Trainers - Hard.txt').",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 2,
+      "leader": "Gardenia",
+      "city": "Eterna City",
+      "type_and_conditions": "Grass; Rain field",
+      "ace_level": 30,
+      "team_note": "Grotle, Jumpluff, Roserade Lv.30 (Normal Mode doc; Hard Mode teams differ, see 'Trainers - Hard.txt').",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 3,
+      "leader": "Fantina",
+      "city": "Hearthome City",
+      "type_and_conditions": "Ghost",
+      "ace_level": 42,
+      "team_note": "Spiritomb, Drifblim, Gengar, Mismagius Lv.42 (Normal Mode doc; Hard Mode teams differ, see 'Trainers - Hard.txt').",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 4,
+      "leader": "Maylene",
+      "city": "Veilstone City",
+      "type_and_conditions": "Fighting",
+      "ace_level": 50,
+      "team_note": "Ace Lucario @ Expert Belt Lv.50 (Normal Mode doc; Hard Mode teams differ, see 'Trainers - Hard.txt').",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 5,
+      "leader": "Wake",
+      "city": "Pastoria City",
+      "type_and_conditions": "Water; Double battle, Rain",
+      "ace_level": 56,
+      "team_note": "Gyarados, Quagsire, Poliwrath, Floatzel Lv.56 (Normal Mode doc; Hard Mode teams differ, see 'Trainers - Hard.txt').",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 6,
+      "leader": "Byron",
+      "city": "Canalave City",
+      "type_and_conditions": "Steel; Double battle, Sandstorm",
+      "ace_level": 66,
+      "team_note": "Aerodactyl, Bronzong, Kabutops, Aggron, Bastiodon Lv.66 (Normal Mode doc; Hard Mode teams differ, see 'Trainers - Hard.txt').",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 7,
+      "leader": "Candice",
+      "city": "Snowpoint City",
+      "type_and_conditions": "Ice; Double battle, Hail",
+      "ace_level": 74,
+      "team_note": "Abomasnow, Mamoswine, Weavile, Medicham, Froslass Lv.74 (Normal Mode doc; Hard Mode teams differ, see 'Trainers - Hard.txt').",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "order": 8,
+      "leader": "Volkner",
+      "city": "Sunyshore City",
+      "type_and_conditions": "Electric; Double battle, Rain",
+      "ace_level": 85,
+      "team_note": "Rotom-Wash, Jolteon, Octillery, Ambipom, Luxray, Electivire Lv.85 (Normal Mode doc; Hard Mode teams differ, see 'Trainers - Hard.txt').",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    }
+  ],
+  "level_caps": {
+    "source": "https://drive.google.com/file/d/1fAz397J7J_uq8LYNNqCDi-Gh66Lhkgdk/view",
+    "confidence": "official",
+    "note": "From 'Level Caps.txt' (v1.1.1). Trainers doc shows minor label differences around Mira/Tournament.",
+    "caps": [
+      [
+        "Rival 1",
+        6
+      ],
+      [
+        "Paul 1",
+        7
+      ],
+      [
+        "Rival 2",
+        10
+      ],
+      [
+        "Roark",
+        16
+      ],
+      [
+        "Mars",
+        20
+      ],
+      [
+        "Cheryl 1",
+        24
+      ],
+      [
+        "Gardenia",
+        30
+      ],
+      [
+        "Jupiter 1",
+        32
+      ],
+      [
+        "Mira 1",
+        36
+      ],
+      [
+        "Tournament",
+        40
+      ],
+      [
+        "Fantina",
+        42
+      ],
+      [
+        "Rival 3",
+        45
+      ],
+      [
+        "Maylene",
+        50
+      ],
+      [
+        "Reggie 1",
+        51
+      ],
+      [
+        "Conway 2",
+        53
+      ],
+      [
+        "Wake",
+        56
+      ],
+      [
+        "Nando 2",
+        58
+      ],
+      [
+        "Cyrus 1",
+        61
+      ],
+      [
+        "Rival 4",
+        62
+      ],
+      [
+        "Riley 1",
+        64
+      ],
+      [
+        "Byron",
+        66
+      ],
+      [
+        "Mars 2",
+        67
+      ],
+      [
+        "Candice",
+        74
+      ],
+      [
+        "J 3",
+        75
+      ],
+      [
+        "Saturn 2",
+        78
+      ],
+      [
+        "Cyrus 4",
+        82
+      ],
+      [
+        "Jasmine",
+        85
+      ],
+      [
+        "Reggie 2",
+        90
+      ],
+      [
+        "Marley",
+        94
+      ],
+      [
+        "Rowan",
+        99
+      ],
+      [
+        "Elite Four",
+        100
+      ]
+    ]
+  },
+  "exclusives": [
+    {
+      "category": "npc",
+      "title": "Paul (anime rival)",
+      "description": "Recurring battles: Lake Verity (3x Starly), Lake Valor, Acuity Lakefront, Lily of the Valley; ally in Hearthome Tag Battle. Releases his starter in a scripted event; you can nickname 'Paul's Pokémon' on Route 209 (changelog).",
+      "location": "Lake Verity, Hearthome, Route 209, Lake Valor, Acuity Lakefront, Lily of the Valley",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "category": "npc",
+      "title": "Conway, Nando, Mira, Reggie (DP anime characters)",
+      "description": "Conway: Trainers' School, Hearthome, Pastoria, Lily of the Valley. Nando: Floaroma, Hearthome, Route 212, Lily of the Valley. Mira: Wayward Cave (then ally), Lily of the Valley. Reggie: Veilstone double battle, Victory Road; gives Soul Dew if Latias/Latios in party.",
+      "location": "Various",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "category": "npc",
+      "title": "Pokémon Hunter J",
+      "description": "Boss battles at Oreburgh Mining Museum ('Hunter ???'), Solaceon Ruins (5-turn Trick Room), Snowpoint Temple.",
+      "location": "Oreburgh, Solaceon Ruins, Snowpoint Temple",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "category": "npc",
+      "title": "Franchise guest characters",
+      "description": "Jasmine (Sunyshore double battle; gives Clear Bell after legendary beasts), Steven (Iron Island, Red/Jade Orb, Iron Plate), Wallace (Valor Lakefront, Blue Orb, Splash Plate), Brandon (Snowpoint Temple, Earth Plate), Prof. Oak (Eterna City, Kanto birds/Tidal Bell), Looker (arrests Charon at Stark Mountain), Buck (Battleground).",
+      "location": "Various (mostly postgame)",
+      "source": "https://drive.google.com/file/d/1FG-qwEXVumquCfVQ_Oem40JwQB7IJQ-r/view",
+      "confidence": "official"
+    },
+    {
+      "category": "npc",
+      "title": "Professor Rowan battle",
+      "description": "Rowan battles you on Route 224 before the League with six Lv.99 Pokémon incl. all three Sinnoh starter finals.",
+      "location": "Route 224",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "category": "npc",
+      "title": "Trainer Diamond (Mt. Victory)",
+      "description": "Secret 'very familiar trainer' at Mt. Victory summit (with Cynthia) after catching Arceus; team includes Pikachu, Lucario, Torterra, Mesprit, Dialga, Arceus, all Lv.100.",
+      "location": "Mt. Victory",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "category": "npc",
+      "title": "Memory5ty7 (the creator)",
+      "description": "Battle the hack's author in his house at Valor Lakefront after Operation AZURE starts; rematch (double, Ho-Oh + Lugia etc.) after beating Diamond. Reward: Master Ball (both battles, since v1.1.0). Beating him unlocks Celebi.",
+      "location": "Valor Lakefront",
+      "source": "https://drive.google.com/file/d/17AXKDoo7GOujno9U9hNSTH8DYLz6g_XR/view",
+      "confidence": "official"
+    },
+    {
+      "category": "event",
+      "title": "Hearthome Tag Battle Competition",
+      "description": "New anime-inspired tag tournament; partner Paul.",
+      "location": "Hearthome City",
+      "source": "https://drive.google.com/file/d/1-5Pvz7g8h38ZcMD75sSu0aeHicyQEE0s/view",
+      "confidence": "official"
+    },
+    {
+      "category": "area",
+      "title": "Lily of the Valley island & Conference",
+      "description": "New area with anime-style league tournament before Victory Road; postgame Title Defense and Pokémon World Tournament (v1.1.0+); new OST.",
+      "location": "Lily of the Valley",
+      "source": "https://drive.google.com/file/d/17AXKDoo7GOujno9U9hNSTH8DYLz6g_XR/view",
+      "confidence": "official"
+    },
+    {
+      "category": "area",
+      "title": "Mt. Victory",
+      "description": "New area on Lily of the Valley island, postgame after Arceus.",
+      "location": "Lily of the Valley island",
+      "source": "https://drive.google.com/file/d/17AXKDoo7GOujno9U9hNSTH8DYLz6g_XR/view",
+      "confidence": "official"
+    },
+    {
+      "category": "event",
+      "title": "Operation AZURE",
+      "description": "Delta-Episode-style postgame: talk to Rowan in Sandgem after League → National Dex, Battle Resort access; collect all 16 Arceus Plates → Azure Flute → catch Arceus (Lv.100) at Spear Pillar/Hall of Origin.",
+      "location": "Sandgem Town → all Sinnoh",
+      "source": "https://drive.google.com/file/d/17AXKDoo7GOujno9U9hNSTH8DYLz6g_XR/view",
+      "confidence": "official"
+    },
+    {
+      "category": "event",
+      "title": "Battleground & PWT",
+      "description": "After Charon's arrest at Stark Mountain: rematch every gym leader and allies at the Battleground (Survival Area). PWT: tournaments vs every gym leader, E4, champion and more.",
+      "location": "Survival Area / Lily of the Valley",
+      "source": "https://drive.google.com/file/d/17AXKDoo7GOujno9U9hNSTH8DYLz6g_XR/view",
+      "confidence": "official"
+    },
+    {
+      "category": "pokemon",
+      "title": "All 493 Pokémon obtainable",
+      "description": "Every Gen 1–4 Pokémon available in the wild or via evolution; all legendaries catchable (KOed ones can be rebattled after the League).",
+      "location": "Whole game",
+      "source": "https://drive.google.com/file/d/1175LNDVIxeL--0NX4k6lE1zQwl5CPqt9/view",
+      "confidence": "official"
+    },
+    {
+      "category": "gift",
+      "title": "Extra starters",
+      "description": "Starter Lv.5 (Route 201); type-advantaged starter Lv.5 from old lady in Eterna City; type-disadvantaged starter Lv.35 on Route 209.",
+      "location": "Route 201 / Eterna City / Route 209",
+      "source": "https://drive.google.com/file/d/1gM_xSIu0vql190phk-TS3yoOIAzF6kHK/view",
+      "confidence": "official"
+    },
+    {
+      "category": "gift",
+      "title": "Gift Pokémon",
+      "description": "Eevee Lv.35 (Bebe, Hearthome), Porygon Lv.40 (Veilstone house), Togepi egg (Cynthia, Eterna, after Jupiter), Riolu egg (Riley, Iron Island).",
+      "location": "See description",
+      "source": "https://drive.google.com/file/d/1gM_xSIu0vql190phk-TS3yoOIAzF6kHK/view",
+      "confidence": "official"
+    },
+    {
+      "category": "gift",
+      "title": "Changed in-game trades",
+      "description": "Oreburgh: Trapinch→Beldum; Eterna: Gligar→Munchlax; Snowpoint: Mamoswine→Chansey; Route 226: Feebas→Magikarp (6x31 IVs). Traded Pokémon always obey.",
+      "location": "Oreburgh / Eterna / Snowpoint / Route 226",
+      "source": "https://drive.google.com/file/d/1E48blIa63vIwcaYmysxYqPzbS9Y1fYNV/view",
+      "confidence": "official"
+    },
+    {
+      "category": "pokemon",
+      "title": "Postgame legendaries",
+      "description": "Kanto birds, Mewtwo/Mew, Johto beasts, Lugia/Ho-Oh (Mt. Victory), Regis, Lati@s, Hoenn weather trio (Routes 226/227/230), Jirachi, Deoxys, Celebi, Dialga/Palkia, Heatran, Regigigas, Cresselia, Darkrai, Manaphy, Shaymin, Arceus. Mostly Lv.80–90 and gated by Plates/Orbs/Bells.",
+      "location": "Various",
+      "source": "https://drive.google.com/file/d/1gM_xSIu0vql190phk-TS3yoOIAzF6kHK/view",
+      "confidence": "official"
+    },
+    {
+      "category": "item",
+      "title": "New key items replacing old ones",
+      "description": "VS Seeker→Porta-PC, Loot Sack→Ice Stone, Rule Book→Prism Scale, Seal Bag→Clear Bell, Red Chain→Tidal Bell, S.S. Ticket→Red Orb, Contest Pass→Blue Orb, Magma Stone→Jade Orb.",
+      "location": "Item list",
+      "source": "https://drive.google.com/file/d/1FG-qwEXVumquCfVQ_Oem40JwQB7IJQ-r/view",
+      "confidence": "official"
+    },
+    {
+      "category": "item",
+      "title": "Item rule changes",
+      "description": "No items usable in battle except Poké Balls. Vitamins unusable. Hyper Potion heals 120. All evolution items buyable; trade-evo items used directly to evolve. Rare Candy costs 1₽ in every mart.",
+      "location": "All marts",
+      "source": "https://drive.google.com/file/d/1FG-qwEXVumquCfVQ_Oem40JwQB7IJQ-r/view",
+      "confidence": "official"
+    },
+    {
+      "category": "move",
+      "title": "Future-gen moves & reworks",
+      "description": "Some later-gen moves added (e.g. High Horsepower, Volt Switch, Solar Blade); OHKO and some status moves reworked. v1.2.0 redid every learnset and removed happiness evolutions.",
+      "location": "Global",
+      "source": "https://drive.google.com/file/d/1i7fsM2fU2hdsPMgH5i-702HWm5DnfkLU/view",
+      "confidence": "official"
+    },
+    {
+      "category": "difficulty",
+      "title": "Difficulty modes",
+      "description": "Normal vs Hard trainer teams (Hard = v1.0.x teams, forces Set Mode; game starts in Hard by default). Toggle any time via Porta-PC after unlocking at Lake Verity (2nd visit).",
+      "location": "Porta-PC",
+      "source": "https://drive.google.com/file/d/1-D0jHh6d7ae39MFCRYPoWUGiH16g1vsk/view",
+      "confidence": "official"
+    },
+    {
+      "category": "difficulty",
+      "title": "Hard level cap",
+      "description": "Optional progressive hard cap = next boss's highest level; no EXP / Rare Candy at cap. Initial cap 6. Daycare locked until cap is 100.",
+      "location": "Porta-PC",
+      "source": "https://drive.google.com/file/d/1-D0jHh6d7ae39MFCRYPoWUGiH16g1vsk/view",
+      "confidence": "official"
+    },
+    {
+      "category": "nuzlocke",
+      "title": "Built-in Nuzlocke Mode",
+      "description": "Fainted Pokémon aren't healed (Pokécenter/NPC); no revival items (incl. Rare Candy); no Daycare. Losing a battle heals party and turns Nuzlocke Mode OFF. Pokémon put in the PC still get revived – enforce your own rules. Disabled in v1.0.2, fixed in v1.1.0.",
+      "location": "Porta-PC",
+      "source": "https://drive.google.com/file/d/1-D0jHh6d7ae39MFCRYPoWUGiH16g1vsk/view",
+      "confidence": "official"
+    },
+    {
+      "category": "nuzlocke",
+      "title": "Encounter-relevant facts",
+      "description": "Encounters don't change by time of day, Poké Radar or GBA slot; many tall-grass patches added (early cities); catch rate drastically improved; rare Pokémon x2 catch rate. Jubilife encounters fixed in v1.1.0/1.1.1.",
+      "location": "Global",
+      "source": "https://drive.google.com/file/d/1175LNDVIxeL--0NX4k6lE1zQwl5CPqt9/view",
+      "confidence": "official"
+    },
+    {
+      "category": "nuzlocke",
+      "title": "Mandatory trainers & tournaments",
+      "description": "Many trainers are now mandatory. Tournaments can freeze/softlock – author advises saving after every battle.",
+      "location": "Global",
+      "source": "https://drive.google.com/file/d/1i7fsM2fU2hdsPMgH5i-702HWm5DnfkLU/view",
+      "confidence": "official"
+    },
+    {
+      "category": "qol",
+      "title": "Porta-PC",
+      "description": "PC + full heal anywhere (Sandgem); later Name Rater, Move Deleter, Move Reminder, Hidden Power checker, Move Tutors, Difficulty, Operation AZURE plate tracker.",
+      "location": "Sandgem Town onward",
+      "source": "https://drive.google.com/file/d/1FG-qwEXVumquCfVQ_Oem40JwQB7IJQ-r/view",
+      "confidence": "official"
+    },
+    {
+      "category": "qol",
+      "title": "Speed & convenience",
+      "description": "Uncapped framerate, faster HP bars, shorter HM animations, reduced HM need, HMs forgettable, TMs unlimited, repel re-use prompt, trade evolutions without trading, no EVs.",
+      "location": "Global",
+      "source": "https://drive.google.com/file/d/1oY22AqsurahrK8ikaaTaG2nn-njyyNsE/view",
+      "confidence": "official"
+    },
+    {
+      "category": "qol",
+      "title": "Compatibility",
+      "description": "Console playable since v1.1.0 (tested on TwilightMenu++). Saves from older versions compatible via 'from imported save data size' option.",
+      "location": "—",
+      "source": "https://drive.google.com/file/d/1i7fsM2fU2hdsPMgH5i-702HWm5DnfkLU/view",
+      "confidence": "official"
+    },
+    {
+      "category": "randomizer",
+      "title": "Randomizer compatibility",
+      "description": "NOT documented by the author. The hack ships fixed custom encounters/teams; no official statement about running it through a randomizer. Unknown.",
+      "location": "—",
+      "source": "https://drive.google.com/file/d/17OWNmGfcjzezMtWOMrLAVHR7nOG6jR75/view",
+      "confidence": "official"
+    }
+  ]
+}
