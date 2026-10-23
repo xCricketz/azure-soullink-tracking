@@ -44,8 +44,10 @@ export interface AppContextValue {
   settings: Settings
   customRoutes: CustomRoute[]
   glow: { route: string; player: PlayerId } | null
+  pulse: string | null
   death: DeathPrompt | null
   updateSettings: (patch: Partial<Settings>) => void
+  saveProgress: (patch: { badges?: number; level_cap?: number | null }) => Promise<void>
   signOut: () => Promise<void>
   saveCatch: (draft: CatchDraft) => Promise<'saved' | 'death' | 'invalid'>
   setStatus: (id: string, status: Status) => Promise<void>
@@ -125,6 +127,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
   const [settings, setSettings] = useState<Settings>(() => loadSettings())
   const [customRoutes, setCustomRoutes] = useState<CustomRoute[]>(() => loadCustomRoutes())
   const [glow, setGlow] = useState<{ route: string; player: PlayerId } | null>(null)
+  const [pulse, setPulse] = useState<string | null>(null)
   const [death, setDeath] = useState<DeathPrompt | null>(null)
   const [loaded, setLoaded] = useState(false)
   const [loadError, setLoadError] = useState<string | null>(null)
@@ -288,6 +291,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const before = catchesRef.current
     hush(next.id)
     writeCatches(upsertLocal(before, next))
+    setPulse(next.route)
+    window.setTimeout(() => setPulse((current) => (current === next.route ? null : current)), 650)
     pushToast(toastText, {
       label: 'Rückgängig',
       onClick: () => {
@@ -375,7 +380,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
 
   useEffect(() => {
     if (!glow) return
-    const timer = window.setTimeout(() => setGlow(null), 700)
+    const timer = window.setTimeout(() => setGlow(null), 1200)
     return () => window.clearTimeout(timer)
   }, [glow])
 
@@ -651,6 +656,27 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     await commit(next, row, 'Epitaph gespeichert')
   }, [commit, me])
 
+  const saveProgress = useCallback(async (patch: { badges?: number; level_cap?: number | null }) => {
+    const active = runRef.current
+    if (!active) return
+    const nextPatch = { ...patch }
+    if (nextPatch.badges != null) nextPatch.badges = Math.min(8, Math.max(0, Math.round(nextPatch.badges)))
+    if (nextPatch.level_cap != null) nextPatch.level_cap = Math.min(100, Math.max(1, Math.round(nextPatch.level_cap)))
+    const next = { ...active, ...nextPatch }
+    setRun(next)
+    runRef.current = next
+    if (nextPatch.badges === 8 && (active.badges ?? 0) < 8) {
+      pushToast('Achter Orden! Sinnoh ist stolz auf euch.')
+    }
+    const { error } = await supabase.from('runs').update({ ...nextPatch, updated_at: new Date().toISOString() }).eq('id', active.id)
+    if (error) {
+      setRun(active)
+      runRef.current = active
+      const missing = error.code === 'PGRST204' || /badges|level_cap|schema cache|column/i.test(error.message ?? '')
+      pushToast(missing ? 'Orden und Levelcap brauchen noch das Datenbank-Update.' : 'Konnte nicht gespeichert werden.')
+    }
+  }, [])
+
   const saveRules = useCallback(async (rules: string) => {
     const active = runRef.current
     if (!active) return
@@ -821,8 +847,10 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     settings,
     customRoutes,
     glow,
+    pulse,
     death,
     updateSettings,
+    saveProgress,
     signOut,
     saveCatch,
     setStatus,

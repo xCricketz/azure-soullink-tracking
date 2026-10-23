@@ -1,45 +1,40 @@
-import { Check, Link2, Skull, Unlink } from 'lucide-react'
+import { Hourglass, Link2, Plus, Skull, Unlink2 } from 'lucide-react'
 import { useRef, useState } from 'react'
 import type { RouteDef } from '../data/routes'
-import { bothAlive, chainBroken, pairKind } from '../lib/pairs'
-import type { Catch, PlayerId } from '../lib/types'
-import { cx, Sprite, StatusChip } from './ui'
-
-const KIND_LABEL = {
-  open: 'Offen',
-  half: 'Halb',
-  linked: 'Verlinkt',
-  split: 'Gespalten',
-  dead: 'Gefallen',
-  miss: 'Unverlinkt',
-} as const
+import { bothAlive } from '../lib/pairs'
+import { PLAYERS, type Catch, type PlayerId } from '../lib/types'
+import { cx, SpritePlate, StatusChip } from './ui'
 
 export function LinkCard({
   route,
+  index,
   fisi,
   seri,
   me,
   glow,
+  pulse,
   onOpen,
   onAdd,
   onQuick,
 }: {
   route: RouteDef
+  index: number
   fisi?: Catch
   seri?: Catch
   me: PlayerId
   glow: boolean
+  pulse: boolean
   onOpen: () => void
   onAdd: () => void
   onQuick: () => void
 }) {
-  const kind = pairKind(fisi, seri)
-  const broken = chainBroken(fisi, seri)
+  const state = pairState(fisi, seri, me)
   const alive = bothAlive(fisi, seri)
   const [burst, setBurst] = useState(false)
   const taps = useRef<number[]>([])
   const mine = me === 'fisi' ? fisi : seri
   const glowClass = glow ? (me === 'fisi' ? 'glow-seri' : 'glow-fisi') : false
+  const linked = state.chain === 'on'
 
   function pokeChain(event: React.MouseEvent) {
     event.stopPropagation()
@@ -54,23 +49,30 @@ export function LinkCard({
   }
 
   return (
-    <article
-      className={cx('link-card', kind === 'dead' && 'is-dead', glowClass)}
-      onClick={onOpen}
-      aria-label={`${route.name}, ${KIND_LABEL[kind]}`}
-    >
-      <div className="link-top">
-        <h2>{route.name}</h2>
-        <span className={cx('pair-flag', kind)}>
-          {kind === 'linked' && <Check size={14} aria-hidden="true" />}
-          {kind === 'dead' && <Skull size={14} aria-hidden="true" />}
-          {KIND_LABEL[kind]}
+    <article className={cx('lcard', state.tone === 'dead' && 'dead', glowClass)} onClick={onOpen}>
+      <div className="top">
+        <h2 className="route">
+          <span className="no">#{index}</span>
+          {route.name}
+        </h2>
+        <span className={cx('pairstate', state.tone)}>
+          {state.tone === 'link' && <Link2 aria-hidden="true" />}
+          {state.tone === 'dead' && <Skull aria-hidden="true" />}
+          {state.tone === 'wait' && <Hourglass aria-hidden="true" />}
+          {state.label}
         </span>
       </div>
-      <div className="pair">
-        <Half side="fisi" catchRow={fisi} mine={me === 'fisi'} onAdd={onAdd} onQuick={onQuick} />
-        <button className={cx('chain', broken && 'broken')} type="button" onClick={pokeChain} aria-label={broken ? 'Kette unterbrochen' : 'Seelenkette'}>
-          {broken ? <Unlink size={22} /> : <Link2 size={22} />}
+      <div className="halves">
+        <Half side="fisi" catchRow={fisi} mine={me === 'fisi'} flash={pulse && me === 'fisi'} onAdd={onAdd} onQuick={onQuick} />
+        <button
+          className={cx('chain', state.chain === 'broken' && 'broken', state.chain === 'wait' && 'wait', pulse && linked && 'pulse')}
+          type="button"
+          onClick={pokeChain}
+          aria-label={state.chain === 'on' ? 'Seelenkette' : 'Kette offen'}
+        >
+          <span>
+            {state.chain === 'broken' ? <Unlink2 aria-hidden="true" /> : <Link2 aria-hidden="true" />}
+          </span>
           {burst && (
             <span className="burst" aria-hidden="true">
               {['-18px,-28px', '16px,-26px', '-26px,-6px', '24px,-4px', '-8px,-36px', '4px,-18px'].map((point) => (
@@ -79,7 +81,7 @@ export function LinkCard({
             </span>
           )}
         </button>
-        <Half side="seri" catchRow={seri} mine={me === 'seri'} onAdd={onAdd} onQuick={onQuick} />
+        <Half side="seri" catchRow={seri} mine={me === 'seri'} flash={pulse && me === 'seri'} onAdd={onAdd} onQuick={onQuick} />
       </div>
       {mine?.status === 'alive' && (me === 'fisi' ? seri : fisi)?.status === 'missed' && (
         <p className="warn-line">unverlinkt – darf nicht ins Team</p>
@@ -88,16 +90,30 @@ export function LinkCard({
   )
 }
 
+function pairState(fisi: Catch | undefined, seri: Catch | undefined, me: PlayerId) {
+  const mine = me === 'fisi' ? fisi : seri
+  const theirs = me === 'fisi' ? seri : fisi
+  const partner = PLAYERS[me === 'fisi' ? 'seri' : 'fisi'].name
+  if (fisi?.status === 'dead' || seri?.status === 'dead') return { label: 'Gefallen', tone: 'dead' as const, chain: 'broken' as const }
+  if (fisi?.status === 'missed' || seri?.status === 'missed') return { label: 'Unverlinkt', tone: 'wait' as const, chain: 'broken' as const }
+  if (!mine && theirs) return { label: 'Wartet auf dich', tone: 'wait' as const, chain: 'wait' as const }
+  if (mine && !theirs) return { label: `Wartet auf ${partner}`, tone: 'wait' as const, chain: 'wait' as const }
+  if (mine && theirs) return { label: 'Verlinkt', tone: 'link' as const, chain: 'on' as const }
+  return { label: 'Offen', tone: 'wait' as const, chain: 'wait' as const }
+}
+
 function Half({
   side,
   catchRow,
   mine,
+  flash,
   onAdd,
   onQuick,
 }: {
   side: PlayerId
   catchRow?: Catch
   mine: boolean
+  flash: boolean
   onAdd: () => void
   onQuick: () => void
 }) {
@@ -106,23 +122,24 @@ function Half({
     if (mine) {
       return (
         <button
-          className={cx('half empty mine', side)}
+          className={cx('half empty mine', side, flash && 'flash')}
           type="button"
           onClick={(event) => {
             event.stopPropagation()
             onAdd()
           }}
         >
-          <PlusLabel />
+          <Plus size={16} aria-hidden="true" />
+          Eintragen
         </button>
       )
     }
-    const name = side === 'fisi' ? 'Fisi' : 'Seri'
-    return <div className={cx('half empty', side)}>{name} hat noch nichts eingetragen</div>
+    return <div className={cx('half empty', side)}>{PLAYERS[side].name} hat noch nichts eingetragen</div>
   }
+  const missed = catchRow.status === 'missed'
   return (
     <div
-      className={cx('half', side)}
+      className={cx('half', side, flash && 'flash')}
       onPointerDown={(event) => {
         if (!mine) return
         press.current = {
@@ -161,19 +178,12 @@ function Half({
       }}
       onContextMenu={(event) => event.preventDefault()}
     >
-      <Sprite id={catchRow.dex_id} alt={catchRow.pokemon ?? 'Pokémon'} dim={catchRow.status === 'dead'} />
-      <div className="half-text">
-        <strong>{catchRow.nickname || catchRow.pokemon || 'Verpasst'}</strong>
-        <em>
-          {catchRow.status === 'missed' ? 'Kein Fang' : catchRow.pokemon}
-          {catchRow.level ? ` · Lv. ${catchRow.level}` : ''}
-        </em>
-        <StatusChip status={catchRow.status} inTeam={catchRow.in_team} />
+      {!missed && <SpritePlate id={catchRow.dex_id} alt={catchRow.pokemon ?? 'Pokémon'} />}
+      <div className="meta">
+        <div className="nick">{catchRow.nickname || catchRow.pokemon || 'Verpasst'}</div>
+        <div className="species">{missed ? 'Kein Fang' : catchRow.pokemon}</div>
+        <StatusChip status={catchRow.status} />
       </div>
     </div>
   )
-}
-
-function PlusLabel() {
-  return <span className="add-label">+ Eintragen</span>
 }

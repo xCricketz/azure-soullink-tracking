@@ -10,6 +10,19 @@ export function norm(value: string): string {
     .trim()
 }
 
+export function relativeWhen(iso?: string | null): string {
+  if (!iso) return ''
+  const then = new Date(iso).getTime()
+  if (Number.isNaN(then)) return ''
+  const minutes = Math.max(0, Math.round((Date.now() - then) / 60000))
+  if (minutes < 10) return 'gerade aktiv'
+  if (minutes < 60) return `zuletzt vor ${minutes} Min.`
+  const hours = Math.round(minutes / 60)
+  if (hours < 24) return `zuletzt vor ${hours} Std.`
+  const days = Math.round(hours / 24)
+  return `zuletzt vor ${days} Tg.`
+}
+
 export function formatDate(iso?: string | null): string {
   if (!iso) return ''
   const date = new Date(iso)

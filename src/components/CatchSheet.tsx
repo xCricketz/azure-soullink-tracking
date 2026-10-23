@@ -1,12 +1,12 @@
-import { Archive, Ban, Dices, Heart, Skull } from 'lucide-react'
+import { Archive, Ban, Check, ChevronDown, Dices, Heart, MapPin, Search, Skull } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { randomNickname } from '../data/nicknames'
 import { searchMons, type Mon } from '../lib/dex'
 import { findRoute, nextOpenRoute, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type CatchDraft, type Status } from '../lib/types'
-import { norm, shortStatus, statusLabel } from '../lib/text'
-import { BottomSheet, cx, Sprite, StatusChip } from './ui'
+import { norm } from '../lib/text'
+import { BottomSheet, cx, Marked, SpritePlate, StatusChip, TypePills } from './ui'
 
 const SEGMENTS: { status: Status; label: string; icon: typeof Heart }[] = [
   { status: 'alive', label: 'Lebt', icon: Heart },
@@ -60,16 +60,18 @@ export function CatchSheet({
     setBusy(false)
   }, [open, presetRoute])
 
-  const results = useMemo(() => searchMons(query), [query])
+  const results = useMemo(() => searchMons(query, 8), [query])
   const partner = draft
     ? app.catches.find((row) => row.player !== app.me && row.route === draft.route)
     : undefined
   const partnerMeta = PLAYERS[otherPlayer(app.me)]
+  const next = nextOpenRoute(rows, app.me)
   const routeChoices = rows.filter((row) => {
     const needle = norm(routeQuery)
     if (!needle) return true
     return norm(row.route.name).includes(needle) || norm(row.route.en).includes(needle)
   })
+  const showResults = Boolean(query.trim()) && !(draft?.dexId && draft.pokemon && norm(query) === norm(draft.pokemon))
 
   async function save() {
     if (!draft || busy) return
@@ -82,45 +84,50 @@ export function CatchSheet({
   return (
     <BottomSheet
       open={open && Boolean(draft)}
-      title={draft?.pokemon ? 'Fang bearbeiten' : 'Fang eintragen'}
+      title="Fang eintragen"
       onClose={onClose}
       footer={
-        <div className="sheet-actions">
-          <button className="btn btn-ghost" type="button" onClick={onClose}>Abbrechen</button>
-          <button className="btn btn-primary" type="button" onClick={() => void save()} disabled={busy}>
-            Speichern
-          </button>
-        </div>
+        <button className="btn btn-primary" type="button" onClick={() => void save()} disabled={busy}>
+          <Check size={18} strokeWidth={2.75} aria-hidden="true" />
+          {busy ? 'Speichere…' : 'Speichern'}
+        </button>
       }
     >
       {draft && (
-        <div className="form">
-          <div className="partner-banner">
-            {partner ? (
+        <form
+          className="form"
+          onSubmit={(event) => {
+            event.preventDefault()
+            void save()
+          }}
+        >
+          <div className={cx('partner', partnerMeta.id)}>
+            {partner && partner.status !== 'missed' ? (
               <>
-                <Sprite id={partner.dex_id} alt={partner.pokemon ?? 'Pokémon'} />
+                <SpritePlate id={partner.dex_id} alt={partner.pokemon ?? 'Pokémon'} size="sm" />
                 <p>
-                  <span>{partnerMeta.possessive} Fang</span>
+                  <span className="lbl">{partnerMeta.possessive} Fang</span>
                   <strong>
-                    {partner.status === 'missed'
-                      ? 'verpasst'
-                      : `${partner.pokemon ?? 'Pokémon'}${partner.nickname ? ` „${partner.nickname}“` : ''}`}
+                    {partner.pokemon ?? 'Pokémon'}
+                    {partner.nickname ? ` „${partner.nickname}“` : ''}
                   </strong>
                 </p>
-                <StatusChip status={partner.status} inTeam={partner.in_team} />
+                <StatusChip status={partner.status} />
               </>
             ) : (
-              <p>{partnerMeta.name} hat hier noch nichts eingetragen.</p>
+              <p>{partner?.status === 'missed' ? `${partnerMeta.name} hat die Route verpasst.` : `${partnerMeta.name} hat hier noch nichts eingetragen.`}</p>
             )}
           </div>
 
-          <label className="field">
-            <span>Route / Ort</span>
-            <button className="pick-current" type="button" onClick={() => setPickingRoute((value) => !value)}>
-              <strong>{draft.route || 'Route wählen'}</strong>
-              <em>{draft.route ? rows.find((row) => row.route.name === draft.route)?.route.en : 'Suche oder eigener Ort'}</em>
-            </button>
-          </label>
+          <div className="fl">
+            Route / Ort
+            {draft.route && draft.route === next?.name && <em>nächste offene Route</em>}
+          </div>
+          <button className="inp" type="button" onClick={() => setPickingRoute((value) => !value)}>
+            <MapPin size={18} aria-hidden="true" />
+            <span className="grow">{draft.route || 'Route wählen'}</span>
+            <ChevronDown size={18} aria-hidden="true" />
+          </button>
           {pickingRoute && (
             <div className="picker">
               <input
@@ -150,6 +157,7 @@ export function CatchSheet({
                           nickname: existing?.nickname ?? draft.nickname,
                           status: existing?.status ?? draft.status,
                         })
+                        if (existing?.pokemon) setQuery(existing.pokemon)
                         setPickingRoute(false)
                       }}
                     >
@@ -187,29 +195,11 @@ export function CatchSheet({
             </div>
           )}
 
-          <div className="segments" role="group" aria-label="Status">
-            {SEGMENTS.map((segment) => {
-              const Icon = segment.icon
-              const pressed = draft.status === segment.status
-              return (
-                <button
-                  key={segment.status}
-                  type="button"
-                  className={cx('seg', `is-${segment.status}`)}
-                  aria-pressed={pressed}
-                  onClick={() => setDraft({ ...draft, status: segment.status })}
-                >
-                  <Icon size={18} aria-hidden="true" />
-                  {segment.label}
-                </button>
-              )
-            })}
-          </div>
-
           {draft.status !== 'missed' && (
             <>
-              <label className="field">
-                <span>Pokémon</span>
+              <div className="fl">Pokémon</div>
+              <div className={cx('inp', showResults && 'focus')}>
+                <Search size={18} aria-hidden="true" />
                 <input
                   value={query}
                   onChange={(event) => {
@@ -221,56 +211,71 @@ export function CatchSheet({
                   autoComplete="off"
                   enterKeyHint="search"
                 />
-              </label>
-              {draft.dexId && draft.pokemon && norm(query) === norm(draft.pokemon) ? (
-                <div className="picked">
-                  <Sprite id={draft.dexId} alt={draft.pokemon} />
-                  <div>
-                    <strong>{draft.pokemon}</strong>
-                    <em>#{String(draft.dexId).padStart(3, '0')}</em>
-                  </div>
-                </div>
-              ) : (
-                <div className="picker-list mons">
-                  {query.trim() ? results.map((mon) => (
+                {query.trim() && <span className="hit-count">{results.length} Treffer</span>}
+              </div>
+              {showResults && (
+                <div className="res" role="listbox" aria-label="Pokémon">
+                  {results.map((mon) => (
                     <MonRow
                       key={mon.id}
                       mon={mon}
+                      query={query}
+                      selected={draft.dexId === mon.id}
                       onPick={() => {
                         setDraft({ ...draft, dexId: mon.id, pokemon: mon.de })
                         setQuery(mon.de)
                       }}
                     />
-                  )) : <p className="hint">Zwei, drei Buchstaben reichen.</p>}
-                  {query.trim() && !results.length && <p className="hint">Kein Pokémon mit diesem Namen.</p>}
+                  ))}
+                  {!results.length && <p className="hint">Kein Pokémon mit diesem Namen.</p>}
                 </div>
               )}
 
-              <label className="field">
-                <span>Spitzname</span>
-                <div className="inline">
+              <div className="fl">Spitzname <em>optional</em></div>
+              <div className="nickrow">
+                <div className="inp">
                   <input
                     value={draft.nickname}
                     maxLength={24}
                     onChange={(event) => setDraft({ ...draft, nickname: event.target.value })}
-                    placeholder="optional"
+                    placeholder="Spitzname"
                     aria-label="Spitzname"
                   />
-                  <button
-                    className="icon-btn"
-                    type="button"
-                    aria-label="Zufälligen Spitznamen würfeln"
-                    onClick={() => setDraft({ ...draft, nickname: randomNickname(draft.nickname) })}
-                  >
-                    <Dices />
-                  </button>
                 </div>
-              </label>
+                <button
+                  className="dice"
+                  type="button"
+                  aria-label="Zufälligen Spitznamen würfeln"
+                  onClick={() => setDraft({ ...draft, nickname: randomNickname(draft.nickname) })}
+                >
+                  <Dices size={22} aria-hidden="true" />
+                </button>
+              </div>
             </>
           )}
 
+          <div className="fl">Status</div>
+          <div className="stseg" role="group" aria-label="Status">
+            {SEGMENTS.map((segment) => {
+              const Icon = segment.icon
+              const pressed = draft.status === segment.status
+              return (
+                <button
+                  key={segment.status}
+                  type="button"
+                  className={cx('seg', `is-${segment.status}`, pressed && 'on')}
+                  aria-pressed={pressed}
+                  onClick={() => setDraft({ ...draft, status: segment.status })}
+                >
+                  <Icon size={18} aria-hidden="true" />
+                  {segment.label}
+                </button>
+              )
+            })}
+          </div>
+
           <details className="more-details">
-            <summary>Mehr Details</summary>
+            <summary>Mehr Details (Level, Notiz)</summary>
             {draft.status !== 'missed' && (
               <label className="field">
                 <span>Level</span>
@@ -318,21 +323,22 @@ export function CatchSheet({
               </>
             )}
           </details>
-          <p className="hint">Status: {draft.status === 'alive' ? statusLabel('alive') : shortStatus(draft.status)}. Speichern sitzt unten im Daumenbereich.</p>
-        </div>
+        </form>
       )}
     </BottomSheet>
   )
 }
 
-function MonRow({ mon, onPick }: { mon: Mon; onPick: () => void }) {
+function MonRow({ mon, query, selected, onPick }: { mon: Mon; query: string; selected: boolean; onPick: () => void }) {
   return (
-    <button className="pick" type="button" onClick={onPick}>
-      <Sprite id={mon.id} alt={mon.de} />
-      <span>
-        <strong>{mon.de}</strong>
-        <em>{mon.en} · {mon.t2 ? `${mon.t1} / ${mon.t2}` : mon.t1}</em>
+    <button className={cx('r', selected && 'sel')} type="button" role="option" aria-selected={selected} onClick={onPick}>
+      <SpritePlate id={mon.id} alt={mon.de} size="sm" />
+      <span className="nm">
+        <Marked text={mon.de} query={query} />
+        <small>#{mon.id}</small>
       </span>
+      <TypePills names={[mon.t1]} />
+      {selected && <Check size={18} aria-hidden="true" />}
     </button>
   )
 }

@@ -1,6 +1,6 @@
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { Archive, ChevronDown, ChevronUp, Link2, TriangleAlert } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { EmptyState, Sprite, StatusChip, cx } from '../components/ui'
+import { EmptyState, SpritePlate, TypePills, cx } from '../components/ui'
 import { monById } from '../lib/dex'
 import { teamOf } from '../lib/edits'
 import { useApp } from '../state/context'
@@ -17,14 +17,17 @@ export function Team() {
 
   return (
     <div className="screen">
-      <div className="view-switch" role="group" aria-label="Teamansicht">
+      <div className="seg" role="group" aria-label="Teamansicht">
         {([['mine', 'Mein Team'], ['partner', `${PLAYERS[partner].name}s Team`], ['both', 'Beide']] as const).map(([id, label]) => (
-          <button key={id} type="button" aria-pressed={view === id} onClick={() => setView(id)}>{label}</button>
+          <button key={id} type="button" className={view === id ? 'on' : ''} aria-pressed={view === id} onClick={() => setView(id)}>{label}</button>
         ))}
       </div>
       {warnings.length > 0 && view !== 'partner' && (
-        <div className="warning-banner" role="status">
-          {warnings.map((warning) => <p key={warning}>⚠ {warning}</p>)}
+        <div className="banner" role="status">
+          <TriangleAlert size={18} aria-hidden="true" />
+          <span>
+            {warnings.map((warning) => <span key={warning}>{warning}</span>)}
+          </span>
         </div>
       )}
       {view === 'both' ? (
@@ -39,6 +42,7 @@ export function Team() {
           catches={app.catches}
           editable={view === 'mine'}
           empty={view === 'mine'}
+          warned={new Set(warnings)}
         />
       )}
       {view === 'mine' && <Reserves />}
@@ -52,12 +56,14 @@ function Party({
   catches,
   editable,
   empty,
+  warned,
 }: {
   rows: Catch[]
   owner: PlayerId
   catches: Catch[]
   editable: boolean
   empty: boolean
+  warned?: Set<string>
 }) {
   const app = useApp()
   if (!rows.length && empty) {
@@ -68,22 +74,36 @@ function Party({
     <div className="team-grid">
       {rows.map((row, index) => {
         const partner = catches.find((item) => item.player !== row.player && item.route === row.route)
+        const partnerId = row.player === 'fisi' ? 'seri' : 'fisi'
+        const split = partner ? partner.status !== 'alive' || !partner.in_team : true
+        const name = monName(row)
+        const flagged = warned ? [...warned].some((warning) => warning.startsWith(name)) : split && editable
         return (
-          <article key={row.id} className={cx('team-card', row.player)}>
-            <Sprite id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} large />
-            <h2>{row.nickname || row.pokemon}</h2>
-            <p>{row.pokemon}{row.level ? ` · Lv. ${row.level}` : ''}</p>
-            <StatusChip status={row.status} inTeam />
-            <p className="link-line">🔗 {PLAYERS[row.player === 'fisi' ? 'seri' : 'fisi'].possessive} {partner ? monName(partner) : '…'}</p>
+          <article key={row.id} className={cx('tcard', flagged && 'warn')}>
+            <div className="plate-wrap">
+              <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} size="lg" />
+              <span className="lv">Lv {row.level ?? '–'}</span>
+            </div>
+            <div className="nm">
+              <b>{row.nickname || row.pokemon}</b>
+              <span className="species">{row.pokemon}</span>
+            </div>
+            <TypePills id={row.dex_id} />
+            <div className={cx('lk', partnerId)}>
+              <Link2 aria-hidden="true" />
+              {partner && partner.status !== 'missed' && <SpritePlate id={partner.dex_id} alt="" size="sm" />}
+              <span>{PLAYERS[partnerId].possessive} {partner ? monName(partner) : '…'}</span>
+              {partner?.status === 'boxed' && <Archive className="w" size={14} aria-label="In der Box" />}
+            </div>
             {editable && (
               <div className="team-actions">
-                <button className="btn btn-ghost" type="button" onClick={() => void app.place(row.id, 'box')}>In die Box</button>
+                <button className="btn btn-ghost btn-sm" type="button" onClick={() => void app.place(row.id, 'box')}>In die Box</button>
                 <div className="icon-row">
                   <button className="icon-btn" type="button" aria-label="Nach vorn" disabled={index === 0} onClick={() => void app.moveTeam(row.id, -1)}>
-                    <ChevronUp />
+                    <ChevronUp size={18} />
                   </button>
                   <button className="icon-btn" type="button" aria-label="Nach hinten" disabled={index === rows.length - 1} onClick={() => void app.moveTeam(row.id, 1)}>
-                    <ChevronDown />
+                    <ChevronDown size={18} />
                   </button>
                 </div>
               </div>
@@ -123,12 +143,12 @@ function Reserves() {
       <h2>Nicht im Team</h2>
       {reserves.map((row) => (
         <div key={row.id} className="reserve">
-          <Sprite id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} />
+          <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} size="sm" />
           <div>
             <strong>{row.nickname || row.pokemon}</strong>
             <p>{row.route}</p>
           </div>
-          <button className="btn btn-primary" type="button" onClick={() => void app.place(row.id, row.status === 'boxed' || row.status === 'alive' ? 'team' : 'team')}>
+          <button className="btn btn-primary btn-sm" type="button" onClick={() => void app.place(row.id, 'team')}>
             Ins Team
           </button>
         </div>
