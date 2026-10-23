@@ -17,11 +17,11 @@ import { WikiDetail, WikiHome } from './screens/Wiki'
 import { AppProvider, useApp } from './state/context'
 
 const TABS: { id: TabId; label: string }[] = [
-  { id: 'routes', label: 'Routen' },
+  { id: 'routes', label: 'Routes' },
   { id: 'team', label: 'Team' },
-  { id: 'grave', label: 'Friedhof' },
-  { id: 'wiki', label: 'Pokéwiki' },
-  { id: 'more', label: 'Mehr' },
+  { id: 'grave', label: 'Graveyard' },
+  { id: 'wiki', label: 'Pokédex' },
+  { id: 'more', label: 'More' },
 ]
 
 const DEMO_PREVIEW: LoginPreview = {
@@ -74,7 +74,7 @@ function DemoGate() {
   if (!entered) {
     return <Login sessionPlayer="fisi" previewSeed={DEMO_PREVIEW} onContinue={enter} />
   }
-  if (!Demo) return <div className="boot"><p className="pixel">SOUL LINK</p><p>Verbinde…</p></div>
+  if (!Demo) return <div className="boot"><p className="pixel">SOUL LINK</p><p>Connecting…</p></div>
   return <Demo />
 }
 
@@ -104,7 +104,7 @@ function RealApp() {
   }
 
   if (!ready) {
-    return <div className="boot"><p className="pixel">SOUL LINK</p><p>Verbinde…</p></div>
+    return <div className="boot"><p className="pixel">SOUL LINK</p><p>Connecting…</p></div>
   }
   const me: PlayerId | null = email ? playerFromEmail(email) : null
   if (email && !me) return <UnknownAccount onOut={() => void supabase.auth.signOut()} />
@@ -148,7 +148,7 @@ export function Shell() {
   const levels = team.map((row) => row.level).filter((level): level is number => typeof level === 'number')
   const average = levels.length ? Math.round(levels.reduce((sum, level) => sum + level, 0) / levels.length) : 0
   const cap = app.run?.level_cap
-  let title: ReactNode = 'Mehr'
+  let title: ReactNode = 'More'
   let sub: string | null = null
   if (tab === 'routes') {
     title = <>Hey <span className={app.me}>{PLAYERS[app.me].name}</span> 👋</>
@@ -161,12 +161,12 @@ export function Shell() {
         <TrainerShot id="seri" crop="avatar" className="ht-face seri" alt="" />
       </span>
     )
-    sub = `${team.length} / 6 · Ø Lv ${average}${cap ? ` · Levelcap ${cap}` : ''}`
+    sub = `${team.length} / 6 · avg Lv ${average}${cap ? ` · Level cap ${cap}` : ''}`
   } else if (tab === 'wiki') {
-    title = 'Pokéwiki'
-    sub = 'Gen. 1–4 · Deutsch'
+    title = 'Pokédex'
+    sub = 'Gen 1–4 · All 493'
   } else if (tab === 'grave') {
-    title = 'Friedhof'
+    title = 'Graveyard'
   }
 
   return (
@@ -186,12 +186,12 @@ export function Shell() {
         {tab === 'more' && <More />}
       </main>
       {tab === 'routes' && wikiId === null && (
-        <button className="fab" type="button" aria-label="Fang eintragen" onClick={() => setSheet({})}>
+        <button className="fab" type="button" aria-label="Log a catch" onClick={() => setSheet({})}>
           <Plus size={22} strokeWidth={2.75} aria-hidden="true" />
-          Fang
+          Catch
         </button>
       )}
-      <nav className="tabbar" aria-label="Hauptnavigation">
+      <nav className="tabbar" aria-label="Main">
         {TABS.map((item) => (
           <button key={item.id} type="button" className="tab" aria-current={tab === item.id ? 'page' : undefined} onClick={() => chooseTab(item.id)}>
             <span className="ic">

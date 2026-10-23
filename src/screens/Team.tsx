@@ -1,11 +1,12 @@
 import { Archive, ChevronDown, ChevronUp, Link2, TriangleAlert } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { EmptyState, SpritePlate, TypePills, cx } from '../components/ui'
-import { monById } from '../lib/dex'
+import { routeTitleByKey } from '../data/routes'
+import { gen4TypeNames } from '../data/typechart'
 import { teamOf } from '../lib/edits'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type Catch, type PlayerId, type TeamView } from '../lib/types'
-import { monName } from '../lib/text'
+import { monName, speciesName } from '../lib/text'
 
 export function Team({ onWiki }: { onWiki: (id: number) => void }) {
   const app = useApp()
@@ -17,8 +18,8 @@ export function Team({ onWiki }: { onWiki: (id: number) => void }) {
 
   return (
     <div className="screen">
-      <div className="seg" role="group" aria-label="Teamansicht">
-        {([['mine', 'Mein Team'], ['partner', `${PLAYERS[partner].name}s Team`], ['both', 'Beide']] as const).map(([id, label]) => (
+      <div className="seg" role="group" aria-label="Team view">
+        {([['mine', 'My team'], ['partner', `${PLAYERS[partner].name}’s team`], ['both', 'Both']] as const).map(([id, label]) => (
           <button key={id} type="button" className={view === id ? 'on' : ''} aria-pressed={view === id} onClick={() => setView(id)}>{label}</button>
         ))}
       </div>
@@ -70,9 +71,9 @@ function Party({
 }) {
   const app = useApp()
   if (!rows.length && empty) {
-    return <EmptyState title="Noch kein Team. Fang was auf Route 201!" trainer={owner} />
+    return <EmptyState title="No team yet. Catch something on Route 201!" trainer={owner} />
   }
-  if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} hat noch niemanden im Team.`} trainer={owner} />
+  if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} doesn’t have anyone in the team yet.`} trainer={owner} />
   return (
     <div className="team-grid">
       {rows.map((row, index) => {
@@ -87,17 +88,17 @@ function Party({
               <button
                 className="wiki-hit"
                 type="button"
-                aria-label={`${name} im Pokéwiki`}
+                aria-label={`${name} in the Pokédex`}
                 disabled={!row.dex_id}
                 onClick={() => row.dex_id && onWiki(row.dex_id)}
               >
-                <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} size="lg" />
+                <SpritePlate id={row.dex_id} alt={speciesName(row)} size="lg" />
               </button>
               <span className="lv">Lv {row.level ?? '–'}</span>
             </div>
             <div className="nm">
-              <b>{row.nickname || row.pokemon}</b>
-              <span className="species">{row.pokemon}</span>
+              <b>{row.nickname || speciesName(row)}</b>
+              <span className="species">{speciesName(row)}</span>
             </div>
             <TypePills id={row.dex_id} />
             <div className={cx('lk', partnerId)}>
@@ -106,23 +107,23 @@ function Party({
                 <button
                   className="wiki-hit"
                   type="button"
-                  aria-label={`${monName(partner)} im Pokéwiki`}
+                  aria-label={`${monName(partner)} in the Pokédex`}
                   onClick={() => onWiki(partner.dex_id as number)}
                 >
                   <SpritePlate id={partner.dex_id} alt="" size="sm" />
                 </button>
               )}
               <span>{PLAYERS[partnerId].possessive} {partner ? monName(partner) : '…'}</span>
-              {partner?.status === 'boxed' && <Archive className="w" size={14} aria-label="In der Box" />}
+              {partner?.status === 'boxed' && <Archive className="w" size={14} aria-label="In the box" />}
             </div>
             {editable && (
               <div className="team-actions">
-                <button className="btn btn-ghost btn-sm" type="button" onClick={() => void app.place(row.id, 'box')}>In die Box</button>
+                <button className="btn btn-ghost btn-sm" type="button" onClick={() => void app.place(row.id, 'box')}>To the box</button>
                 <div className="icon-row">
-                  <button className="icon-btn" type="button" aria-label="Nach vorn" disabled={index === 0} onClick={() => void app.moveTeam(row.id, -1)}>
+                  <button className="icon-btn" type="button" aria-label="Move up" disabled={index === 0} onClick={() => void app.moveTeam(row.id, -1)}>
                     <ChevronUp size={18} />
                   </button>
-                  <button className="icon-btn" type="button" aria-label="Nach hinten" disabled={index === rows.length - 1} onClick={() => void app.moveTeam(row.id, 1)}>
+                  <button className="icon-btn" type="button" aria-label="Move down" disabled={index === rows.length - 1} onClick={() => void app.moveTeam(row.id, 1)}>
                     <ChevronDown size={18} />
                   </button>
                 </div>
@@ -162,24 +163,24 @@ function Reserves({ onWiki }: { onWiki: (id: number) => void }) {
   if (!reserves.length) return null
   return (
     <section className="reserves">
-      <h2>Nicht im Team</h2>
+      <h2>Not in the team</h2>
       {reserves.map((row) => (
         <div key={row.id} className="reserve">
           <button
             className="wiki-hit"
             type="button"
-            aria-label={`${row.nickname || row.pokemon} im Pokéwiki`}
+            aria-label={`${monName(row)} in the Pokédex`}
             disabled={!row.dex_id}
             onClick={() => row.dex_id && onWiki(row.dex_id)}
           >
-            <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} size="sm" />
+            <SpritePlate id={row.dex_id} alt={speciesName(row)} size="sm" />
           </button>
           <div>
-            <strong>{row.nickname || row.pokemon}</strong>
-            <p>{row.route}</p>
+            <strong>{monName(row)}</strong>
+            <p>{routeTitleByKey(row.route)}</p>
           </div>
           <button className="btn btn-primary btn-sm" type="button" onClick={() => void app.place(row.id, 'team')}>
-            Ins Team
+            To the team
           </button>
         </div>
       ))}
@@ -194,31 +195,32 @@ function teamWarnings(me: PlayerId, catches: Catch[], dupe: boolean, types: bool
   for (const row of mine) {
     const other = catches.find((item) => item.player === partner && item.route === row.route)
     const myName = monName(row)
+    const place = routeTitleByKey(row.route)
     if (!other) {
-      warnings.push(`${myName} ist im Team, aber ${PLAYERS[partner].name} hat auf ${row.route} noch nichts.`)
+      warnings.push(`${myName} is in the team, but ${PLAYERS[partner].name} has nothing on ${place} yet.`)
       continue
     }
     const otherName = monName(other)
-    if (other.status === 'boxed') warnings.push(`${myName} ist im Team, aber ${otherName} liegt bei ${PLAYERS[partner].name} in der Box.`)
-    else if (other.status === 'dead') warnings.push(`${myName} ist im Team, aber ${otherName} ist gefallen.`)
-    else if (other.status === 'missed') warnings.push(`${myName} ist unverlinkt – ${PLAYERS[partner].name} hat die Route verpasst. Darf nicht ins Team.`)
-    else if (!other.in_team) warnings.push(`${myName} ist im Team, aber ${otherName} ist bei ${PLAYERS[partner].name} nicht im Team.`)
+    if (other.status === 'boxed') warnings.push(`${myName} is in the team, but ${otherName} is boxed for ${PLAYERS[partner].name}.`)
+    else if (other.status === 'dead') warnings.push(`${myName} is in the team, but ${otherName} has fainted.`)
+    else if (other.status === 'missed') warnings.push(`${myName} is unlinked — ${PLAYERS[partner].name} missed the route. Can’t be in the team.`)
+    else if (!other.in_team) warnings.push(`${myName} is in the team, but ${otherName} isn’t in ${PLAYERS[partner].name}’s team.`)
   }
   if (dupe) {
     const seen = new Set<number>()
     for (const row of mine) {
       if (!row.dex_id) continue
-      if (seen.has(row.dex_id)) warnings.push(`Dupes-Clause: ${row.pokemon ?? 'eine Art'} ist doppelt im Team.`)
+      if (seen.has(row.dex_id)) warnings.push(`Dupes Clause: ${speciesName(row)} is in the team twice.`)
       seen.add(row.dex_id)
     }
   }
   if (types) {
     const seen = new Map<string, string>()
     for (const row of mine) {
-      const type = monById(row.dex_id)?.t1
+      const type = row.dex_id ? gen4TypeNames(row.dex_id)[0] : undefined
       if (!type) continue
       const first = seen.get(type)
-      if (first) warnings.push(`Typen-Clause: ${type} kommt bei ${first} und ${monName(row)} vor.`)
+      if (first) warnings.push(`Type Clause: ${type} is on ${first} and ${monName(row)}.`)
       else seen.set(type, monName(row))
     }
   }

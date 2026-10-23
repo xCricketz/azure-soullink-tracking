@@ -36,14 +36,14 @@ function row(partial: Omit<Catch, 'run_id' | 'created_at' | 'updated_at'> & Part
 
 const SEED: Catch[] = [
   row({ id: 'f201', player: 'fisi', route: 'Route 201', route_order: 20, pokemon: 'Pikachu', dex_id: 25, nickname: 'Blitzi', status: 'alive', in_team: true, team_order: 1, level: 12, note: null, death_cause: null, epitaph: null, died_at: null }),
-  row({ id: 's201', player: 'seri', route: 'Route 201', route_order: 20, pokemon: 'Evoli', dex_id: 133, nickname: 'Mochi', status: 'alive', in_team: true, team_order: 1, level: 12, note: null, death_cause: null, epitaph: null, died_at: null }),
-  row({ id: 'fsee', player: 'fisi', route: 'See der Wahrheit', route_order: 40, pokemon: 'Chelast', dex_id: 387, nickname: 'Knödel', status: 'alive', in_team: true, team_order: 2, level: 16, note: null, death_cause: null, epitaph: null, died_at: null }),
-  row({ id: 'ssee', player: 'seri', route: 'See der Wahrheit', route_order: 40, pokemon: 'Plinfa', dex_id: 393, nickname: 'Flocke', status: 'boxed', in_team: false, team_order: null, level: 15, note: null, death_cause: null, epitaph: null, died_at: null }),
-  row({ id: 'f203', player: 'fisi', route: 'Route 203', route_order: 60, pokemon: 'Panflam', dex_id: 390, nickname: 'Chili', status: 'dead', in_team: false, team_order: null, level: 14, note: null, death_cause: "von Rivale Lucas' Garados", epitaph: 'Du hast mutig gebrannt.', died_at: '2026-10-18T21:12:00.000Z' }),
-  row({ id: 's203', player: 'seri', route: 'Route 203', route_order: 60, pokemon: 'Staralili', dex_id: 396, nickname: 'Pieps', status: 'dead', in_team: false, team_order: null, level: 13, note: null, death_cause: "von Rivale Lucas' Garados", epitaph: 'Kleiner Pieps, großer Mut.', died_at: '2026-10-18T21:12:00.000Z' }),
-  row({ id: 'f202', player: 'fisi', route: 'Route 202', route_order: 50, pokemon: 'Bidiza', dex_id: 399, nickname: 'Waldi', status: 'alive', in_team: false, team_order: null, level: 8, note: null, death_cause: null, epitaph: null, died_at: null }),
+  row({ id: 's201', player: 'seri', route: 'Route 201', route_order: 20, pokemon: 'Eevee', dex_id: 133, nickname: 'Mochi', status: 'alive', in_team: true, team_order: 1, level: 12, note: null, death_cause: null, epitaph: null, died_at: null }),
+  row({ id: 'fsee', player: 'fisi', route: 'See der Wahrheit', route_order: 40, pokemon: 'Turtwig', dex_id: 387, nickname: 'Knödel', status: 'alive', in_team: true, team_order: 2, level: 16, note: null, death_cause: null, epitaph: null, died_at: null }),
+  row({ id: 'ssee', player: 'seri', route: 'See der Wahrheit', route_order: 40, pokemon: 'Piplup', dex_id: 393, nickname: 'Flocke', status: 'boxed', in_team: false, team_order: null, level: 15, note: null, death_cause: null, epitaph: null, died_at: null }),
+  row({ id: 'f203', player: 'fisi', route: 'Route 203', route_order: 60, pokemon: 'Chimchar', dex_id: 390, nickname: 'Chili', status: 'dead', in_team: false, team_order: null, level: 14, note: null, death_cause: "by rival Lucas's Gyarados", epitaph: 'You burned bravely.', died_at: '2026-10-18T21:12:00.000Z' }),
+  row({ id: 's203', player: 'seri', route: 'Route 203', route_order: 60, pokemon: 'Starly', dex_id: 396, nickname: 'Pieps', status: 'dead', in_team: false, team_order: null, level: 13, note: null, death_cause: "by rival Lucas's Gyarados", epitaph: 'Little chirp, big heart.', died_at: '2026-10-18T21:12:00.000Z' }),
+  row({ id: 'f202', player: 'fisi', route: 'Route 202', route_order: 50, pokemon: 'Bidoof', dex_id: 399, nickname: 'Waldi', status: 'alive', in_team: false, team_order: null, level: 8, note: null, death_cause: null, epitaph: null, died_at: null }),
   row({ id: 'f204', player: 'fisi', route: 'Route 204', route_order: 100, pokemon: null, dex_id: null, nickname: null, status: 'missed', in_team: false, team_order: null, level: null, note: null, death_cause: null, epitaph: null, died_at: null }),
-  row({ id: 's204', player: 'seri', route: 'Route 204', route_order: 100, pokemon: 'Taubsi', dex_id: 16, nickname: 'Wolke', status: 'alive', in_team: false, team_order: null, level: 11, note: null, death_cause: null, epitaph: null, died_at: null }),
+  row({ id: 's204', player: 'seri', route: 'Route 204', route_order: 100, pokemon: 'Pidgey', dex_id: 16, nickname: 'Wolke', status: 'alive', in_team: false, team_order: null, level: 11, note: null, death_cause: null, epitaph: null, died_at: null }),
 ]
 
 export function DemoApp() {
@@ -77,7 +77,7 @@ function DemoProvider({ children }: { children: ReactNode }) {
     setPulse(next.route)
     window.setTimeout(() => setPulse((current) => (current === next.route ? null : current)), 650)
     pushToast(text, {
-      label: 'Rückgängig',
+      label: 'Undo',
       onClick: () => setCatches((current) => (previous ? upsertLocal(current, previous) : current.filter((row) => row.id !== next.id))),
     })
   }, [])
@@ -93,14 +93,14 @@ function DemoProvider({ children }: { children: ReactNode }) {
     pulse,
     death,
     updateSettings,
-    signOut: async () => { pushToast('Im Vorschau-Modus bleibst du Fisi.') },
+    signOut: async () => { pushToast('Preview mode stays signed in as Fisi.') },
     saveCatch: async (draft: CatchDraft) => {
       if (!draft.route) {
-        pushToast('Wähl zuerst eine Route.')
+        pushToast('Pick a route first.')
         return 'invalid'
       }
       if (draft.status !== 'missed' && !draft.dexId) {
-        pushToast('Welches Pokémon?')
+        pushToast('Which Pokémon?')
         return 'invalid'
       }
       const existing = catches.find((row) => row.player === me && row.route === draft.route) ?? null
@@ -112,7 +112,7 @@ function DemoProvider({ children }: { children: ReactNode }) {
           return 'death'
         }
       }
-      commit(next, existing, existing ? 'Fang aktualisiert' : 'Fang gespeichert')
+      commit(next, existing, existing ? 'Catch updated' : 'Catch saved')
       return 'saved'
     },
     setStatus: async (id: string, status: Status) => {
@@ -126,51 +126,51 @@ function DemoProvider({ children }: { children: ReactNode }) {
           return
         }
       }
-      commit(next, current, 'Status geändert')
+      commit(next, current, 'Status changed')
     },
     deleteCatch: async (id: string) => {
       const current = catches.find((row) => row.id === id)
       if (!current) return
       setCatches((list) => list.filter((row) => row.id !== id))
-      pushToast('Fang gelöscht', { label: 'Rückgängig', onClick: () => setCatches((list) => upsertLocal(list, current)) })
+      pushToast('Catch deleted', { label: 'Undo', onClick: () => setCatches((list) => upsertLocal(list, current)) })
     },
     place: async (id, where) => {
       const current = catches.find((row) => row.id === id)
       if (!current) return
       const next = placeRow(current, where, catches)
       if (next === 'full') {
-        pushToast('Nur sechs Pokémon im Team.')
+        pushToast('Only six Pokémon in the team.')
         return
       }
-      commit(next, current, where === 'team' ? 'Im Team' : 'In der Box')
+      commit(next, current, where === 'team' ? 'On the team' : 'In the box')
     },
     moveTeam: async (id, dir) => {
       const next = reorderTeam(catches, me, id, dir)
       if (!next) return
       setCatches(next)
-      pushToast('Reihenfolge geändert')
+      pushToast('Order changed')
     },
     saveEpitaph: async (id, epitaph) => {
       const current = catches.find((row) => row.id === id)
       if (!current) return
-      commit({ ...current, epitaph: clip(epitaph, 140) || null }, current, 'Epitaph gespeichert')
+      commit({ ...current, epitaph: clip(epitaph, 140) || null }, current, 'Epitaph saved')
     },
     saveProgress: async (patch) => {
       setRun((current) => ({ ...current, ...patch }))
     },
     saveRules: async (rules) => {
       setRun({ ...run, rules })
-      pushToast('Regeln gespeichert')
+      pushToast('Rules saved')
     },
     resetRun: async () => {
       setCatches([])
-      pushToast('Run zurückgesetzt.')
+      pushToast('Run reset.')
       return 'ok'
     },
     deleteMyCatches: async () => setCatches((list) => list.filter((row) => row.player !== me)),
     newRun: async () => {
       setCatches([])
-      pushToast('Neuer Run ist bereit.')
+      pushToast('New run is ready.')
     },
     resolveDeath: async (choice, cause) => {
       const prompt = death
@@ -178,12 +178,12 @@ function DemoProvider({ children }: { children: ReactNode }) {
       if (!prompt || choice === 'cancel') return
       const next = asDead(prompt.next, clip(cause, 160))
       if (choice === 'mine') {
-        commit(next, prompt.previous, 'In den Friedhof gelegt')
+        commit(next, prompt.previous, 'Sent to the graveyard')
         return
       }
       setCatches((list) => upsertLocal(upsertLocal(list, next), asDead(prompt.partner, cause)))
-      pushToast('Beide in den Friedhof gelegt', {
-        label: 'Rückgängig',
+      pushToast('Sent both to the graveyard', {
+        label: 'Undo',
         onClick: () => setCatches((list) => {
           const restored = upsertLocal(list, prompt.partner)
           return prompt.previous ? upsertLocal(restored, prompt.previous) : restored.filter((row) => row.id !== next.id)
@@ -199,7 +199,7 @@ function DemoProvider({ children }: { children: ReactNode }) {
     },
     revivePair: async (routeName) => {
       setCatches((list) => list.map((row) => (row.route === routeName && row.status !== 'missed' ? asAlive(row) : row)))
-      pushToast('Wiederbelebt')
+      pushToast('Revived')
     },
   }), [catches, commit, customRoutes.length, death, pulse, run, settings, updateSettings])
 

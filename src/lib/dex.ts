@@ -20,31 +20,70 @@ export function monById(id?: number | null): Mon | undefined {
   return byId.get(id)
 }
 
+const TO_EN: Record<string, string> = {
+  Feuer: 'Fire',
+  Wasser: 'Water',
+  Pflanze: 'Grass',
+  Elektro: 'Electric',
+  Eis: 'Ice',
+  Kampf: 'Fighting',
+  Gift: 'Poison',
+  Boden: 'Ground',
+  Flug: 'Flying',
+  Psycho: 'Psychic',
+  Käfer: 'Bug',
+  Gestein: 'Rock',
+  Geist: 'Ghost',
+  Drache: 'Dragon',
+  Unlicht: 'Dark',
+  Stahl: 'Steel',
+  Fee: 'Fairy',
+}
+
+/** Current-dex types in English. Gen IV display uses gen4TypeNames. */
 export function monTypes(id?: number | null): string[] {
   const mon = monById(id)
   if (!mon) return []
-  return mon.t2 ? [mon.t1, mon.t2] : [mon.t1]
+  const names = mon.t2 ? [mon.t1, mon.t2] : [mon.t1]
+  return names.map((name) => TO_EN[name] ?? name)
 }
 
 const TYPE_KEY: Record<string, string> = {
   Normal: 'normal',
   Feuer: 'fire',
+  Fire: 'fire',
   Wasser: 'water',
+  Water: 'water',
   Pflanze: 'grass',
+  Grass: 'grass',
   Elektro: 'electric',
+  Electric: 'electric',
   Eis: 'ice',
+  Ice: 'ice',
   Kampf: 'fighting',
+  Fighting: 'fighting',
   Gift: 'poison',
+  Poison: 'poison',
   Boden: 'ground',
+  Ground: 'ground',
   Flug: 'flying',
+  Flying: 'flying',
   Psycho: 'psychic',
+  Psychic: 'psychic',
   Käfer: 'bug',
+  Bug: 'bug',
   Gestein: 'rock',
+  Rock: 'rock',
   Geist: 'ghost',
+  Ghost: 'ghost',
   Drache: 'dragon',
+  Dragon: 'dragon',
   Unlicht: 'dark',
+  Dark: 'dark',
   Stahl: 'steel',
+  Steel: 'steel',
   Fee: 'fairy',
+  Fairy: 'fairy',
 }
 
 export function typeKey(name?: string | null): string | null {

@@ -87,8 +87,8 @@ export const PLAYERS: Record<
   PlayerId,
   { id: PlayerId; name: string; possessive: string; email: string; letter: string; device: string }
 > = {
-  fisi: { id: 'fisi', name: 'Fisi', possessive: 'Fisis', email: 'fisi@soullink.app', letter: 'F', device: 'Android' },
-  seri: { id: 'seri', name: 'Seri', possessive: 'Seris', email: 'seri@soullink.app', letter: 'S', device: 'iPhone' },
+  fisi: { id: 'fisi', name: 'Fisi', possessive: "Fisi's", email: 'fisi@soullink.app', letter: 'F', device: 'Android' },
+  seri: { id: 'seri', name: 'Seri', possessive: "Seri's", email: 'seri@soullink.app', letter: 'S', device: 'iPhone' },
 }
 
 export function otherPlayer(id: PlayerId): PlayerId {
@@ -104,21 +104,21 @@ export function playerFromEmail(email?: string | null): PlayerId | null {
 
 export const DEFAULT_RULES = `Soul-Link Nuzlocke – Azure Platinum
 
-• Erster Fang pro Route zählt. Eine belegte Route ist tabu.
-• Fällt ein Pokémon, stirbt der Seelenpartner mit.
-• Nur verlinkte, lebende Paare gehören ins Team.
-• Liegt der Partner in der Box oder ist die Route verpasst, ist das Paar gespalten.
-• Optional: Dupes-Clause und Typen-Clause schaltet ihr unter Mehr ein.`
+• First catch on each route counts. A taken route is off limits.
+• If a Pokémon faints, its soul partner faints too.
+• Only linked, living pairs belong in the team.
+• If the partner is boxed or the route was missed, the pair is split.
+• Optional: Dupes Clause and Type Clause are under More.`
 
 export const GREETINGS = [
-  'Sinnoh wartet.',
-  'Heute stirbt keiner. Hoffentlich.',
-  'Die Kette hält.',
-  'Ein Ball. Eine Chance.',
-  'Route für Route.',
-  'Giratina schaut zu.',
-  'Box ist auch eine Strategie.',
-  'Nicht hetzen. Der erste Fang zählt.',
+  'Sinnoh is waiting.',
+  'Nobody dies today. Hopefully.',
+  'The chain holds.',
+  'One ball. One chance.',
+  'Route by route.',
+  'Giratina is watching.',
+  'The box is a strategy.',
+  'Don’t rush. The first catch counts.',
 ]
 
 export function greetingLine(): string {

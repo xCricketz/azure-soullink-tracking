@@ -3,7 +3,8 @@ import { useState } from 'react'
 import { InstallHint } from '../components/InstallHint'
 import { TrainerShot } from '../components/TrainerShot'
 import { BottomSheet, Dialog } from '../components/ui'
-import { monById } from '../lib/dex'
+import { routeTitleByKey } from '../data/routes'
+import { gen4TypeNames } from '../data/typechart'
 import { useApp } from '../state/context'
 import { DEFAULT_RULES, PLAYERS, type ThemeChoice } from '../lib/types'
 import { pushToast } from '../lib/toast'
@@ -27,12 +28,12 @@ export function More() {
       <section className={cxProfile(app.me)}>
         <TrainerShot id={app.me} crop="avatar" className={`av ${app.me}`} alt="" />
         <div className="t">
-          <small>Profil</small>
-          <b>Angemeldet als <span className={app.me}>{me.name}</span></b>
+          <small>Profile</small>
+          <b>Signed in as <span className={app.me}>{me.name}</span></b>
         </div>
         <button className="btn btn-ghost btn-sm swap" type="button" onClick={() => setSwitchOpen(true)}>
           <ArrowLeftRight size={16} aria-hidden="true" />
-          Spieler wechseln
+          Switch player
         </button>
       </section>
 
@@ -40,26 +41,26 @@ export function More() {
       <div className="group">
         <div className="row">
           <span className="ricon link"><ChartColumn size={18} aria-hidden="true" /></span>
-          <span className="rt">Statistiken<small>Fänge, Todesrate, gefährlichste Route</small></span>
+          <span className="rt">Stats<small>Catches, death rate, deadliest route</small></span>
         </div>
         <div className="stats">
-          <div><b>{stats.total}</b><span>Fänge</span></div>
-          <div><b className="dead-ink">{stats.deathRate} %</b><span>Todesrate</span></div>
-          <div><b className="route-stat">{stats.deadliest ?? '—'}</b><span>tödlichste</span></div>
+          <div><b>{stats.total}</b><span>Catches</span></div>
+          <div><b className="dead-ink">{stats.deathRate} %</b><span>Death rate</span></div>
+          <div><b className="route-stat">{stats.deadliest ?? '—'}</b><span>deadliest</span></div>
         </div>
-        <p className="stat-extra">Fisi {stats.fisi} · Seri {stats.seri} · häufigster Typ {stats.favorite ?? 'noch keiner'}</p>
+        <p className="stat-extra">Fisi {stats.fisi} · Seri {stats.seri} · most common type {stats.favorite ?? 'none yet'}</p>
         <button className="row" type="button" onClick={() => { setRules(app.run?.rules ?? DEFAULT_RULES); setRulesOpen(true) }}>
           <span className="ricon accent"><ScrollText size={18} aria-hidden="true" /></span>
-          <span className="rt">Regeln<small>Soul-Link Regeln · geteilt mit {PLAYERS[app.me === 'fisi' ? 'seri' : 'fisi'].name}</small></span>
+          <span className="rt">Rules<small>Soul-Link rules · shared with {PLAYERS[app.me === 'fisi' ? 'seri' : 'fisi'].name}</small></span>
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
       </div>
 
-      <h2 className="group-lbl">Erscheinungsbild</h2>
-      <div className="seg" role="group" aria-label="Erscheinungsbild">
+      <h2 className="group-lbl">Appearance</h2>
+      <div className="seg" role="group" aria-label="Appearance">
         {([
-          ['dark', 'Dunkel', Moon],
-          ['light', 'Hell', Sun],
+          ['dark', 'Dark', Moon],
+          ['light', 'Light', Sun],
           ['system', 'System', Smartphone],
         ] as const).map(([id, label, Icon]) => (
           <button key={id} type="button" className={app.settings.theme === id ? 'on' : ''} aria-pressed={app.settings.theme === id} onClick={() => app.updateSettings({ theme: id as ThemeChoice })}>
@@ -69,15 +70,15 @@ export function More() {
         ))}
       </div>
 
-      <h2 className="group-lbl">Hinweise</h2>
+      <h2 className="group-lbl">Hints</h2>
       <div className="group hints">
         <label className="switch">
           <input type="checkbox" checked={app.settings.dupeClause} onChange={(event) => app.updateSettings({ dupeClause: event.target.checked })} />
-          <span>Dupes-Clause: Hinweis bei doppelter Art</span>
+          <span>Dupes Clause: warn on a duplicate species</span>
         </label>
         <label className="switch">
           <input type="checkbox" checked={app.settings.typeClause} onChange={(event) => app.updateSettings({ typeClause: event.target.checked })} />
-          <span>Typen-Clause: Hinweis bei gleichem Haupttyp</span>
+          <span>Type Clause: warn on the same primary type</span>
         </label>
         <label className="switch">
           <input
@@ -88,12 +89,12 @@ export function More() {
               if (enabled && typeof Notification !== 'undefined') {
                 void Notification.requestPermission().then((result) => {
                   app.updateSettings({ notify: result === 'granted' })
-                  if (result !== 'granted') pushToast('Hinweise sind blockiert.')
+                  if (result !== 'granted') pushToast('Notifications are blocked.')
                 })
               } else app.updateSettings({ notify: enabled })
             }}
           />
-          <span>Hinweis, wenn ein Paar fällt</span>
+          <span>Notify when a pair faints</span>
         </label>
       </div>
 
@@ -101,104 +102,104 @@ export function More() {
       <div className="group">
         <button className="row" type="button" onClick={() => setInstallOpen(true)}>
           <span className="ricon alive"><Download size={18} aria-hidden="true" /></span>
-          <span className="rt">App installieren<small>Zum Startbildschirm hinzufügen</small></span>
+          <span className="rt">Install the app<small>Add to the home screen</small></span>
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
         <button className="row danger" type="button" onClick={() => { setResetStep(1); setResetText('') }}>
           <span className="ricon danger"><RotateCcw size={18} aria-hidden="true" /></span>
-          <span className="rt">Run zurücksetzen<small>Löscht alle Fänge · Bestätigung mit „RESET“</small></span>
+          <span className="rt">Reset run<small>Deletes every catch · confirm with RESET</small></span>
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
         <button className="row danger" type="button" onClick={() => { setNewStep(1); setNewText('') }}>
           <span className="ricon danger"><RotateCcw size={18} aria-hidden="true" /></span>
-          <span className="rt">Neuer Run<small>Löscht alle Routen · Bestätigung mit „RESET“</small></span>
+          <span className="rt">New run<small>Deletes every route · confirm with RESET</small></span>
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
       </div>
-      <p className="foot2">Soul-Link · v4 · Azure Platinum</p>
+      <p className="foot2">Soul-Link · v5 · Azure Platinum</p>
 
-      <BottomSheet open={rulesOpen} title="Regeln" onClose={() => setRulesOpen(false)} footer={
-        <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Regeln speichern</button>
+      <BottomSheet open={rulesOpen} title="Rules" onClose={() => setRulesOpen(false)} footer={
+        <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Save rules</button>
       }>
-        <textarea value={rules} onChange={(event) => setRules(event.target.value)} rows={10} aria-label="Regeln" />
+        <textarea value={rules} onChange={(event) => setRules(event.target.value)} rows={10} aria-label="Rules" />
       </BottomSheet>
-      <BottomSheet open={installOpen} title="App installieren" onClose={() => setInstallOpen(false)}>
+      <BottomSheet open={installOpen} title="Install the app" onClose={() => setInstallOpen(false)}>
         <InstallHint />
       </BottomSheet>
 
       <Dialog
         open={switchOpen}
-        title="Spieler wechseln?"
+        title="Switch player?"
         actions={[
-          { label: 'Abmelden', tone: 'danger', onClick: () => void app.signOut() },
-          { label: 'Zurück', tone: 'ghost', onClick: () => setSwitchOpen(false) },
+          { label: 'Sign out', tone: 'danger', onClick: () => void app.signOut() },
+          { label: 'Back', tone: 'ghost', onClick: () => setSwitchOpen(false) },
         ]}
       >
-        <p>Du meldest dich ab. Der Geheimcode gilt beim nächsten Mal wieder.</p>
+        <p>You’ll sign out. The secret code is needed again next time.</p>
       </Dialog>
       <Dialog
         open={resetStep === 1}
         danger
-        title="Run zurücksetzen?"
+        title="Reset the run?"
         actions={[
-          { label: 'Weiter', tone: 'danger', onClick: () => setResetStep(2) },
-          { label: 'Zurück', tone: 'ghost', onClick: () => setResetStep(0) },
+          { label: 'Continue', tone: 'danger', onClick: () => setResetStep(2) },
+          { label: 'Back', tone: 'ghost', onClick: () => setResetStep(0) },
         ]}
       >
-        <p>Alle Fänge beider Spieler in diesem Run gehen verloren.</p>
+        <p>Every catch from both players in this run will be lost.</p>
       </Dialog>
       <Dialog
         open={resetStep === 2}
         danger
-        title="RESET tippen"
+        title="Type RESET"
         actions={[
           {
-            label: 'Endgültig löschen',
+            label: 'Delete for good',
             tone: 'danger',
             onClick: () => {
               if (resetText !== 'RESET') return
               void app.resetRun().then((result) => {
                 setResetStep(0)
                 if (result === 'missing-rpc') setFallback(true)
-                else if (result === 'error') pushToast('Reset fehlgeschlagen.')
+                else if (result === 'error') pushToast('Reset failed.')
               })
             },
           },
-          { label: 'Zurück', tone: 'ghost', onClick: () => setResetStep(0) },
+          { label: 'Back', tone: 'ghost', onClick: () => setResetStep(0) },
         ]}
       >
-        <p>Tippe RESET, um den gemeinsamen Run zu leeren.</p>
+        <p>Type RESET to clear the shared run.</p>
         <input value={resetText} onChange={(event) => setResetText(event.target.value)} aria-label="RESET" autoComplete="off" />
       </Dialog>
       <Dialog
         open={fallback}
         danger
-        title="Gemeinsamer Reset fehlt noch"
+        title="The shared reset isn’t available yet"
         actions={[
-          { label: 'Nur meine Fänge löschen', tone: 'danger', onClick: () => { void app.deleteMyCatches(); setFallback(false) } },
-          { label: 'Zurück', tone: 'ghost', onClick: () => setFallback(false) },
+          { label: 'Delete only my catches', tone: 'danger', onClick: () => { void app.deleteMyCatches(); setFallback(false) } },
+          { label: 'Back', tone: 'ghost', onClick: () => setFallback(false) },
         ]}
       >
-        <p>Die Datenbank kennt reset_run noch nicht. Bis die Migration läuft, kann jede Seite nur die eigenen Fänge löschen.</p>
+        <p>The database doesn’t know reset_run yet. Until that migration runs, each side can only delete their own catches.</p>
       </Dialog>
       <Dialog
         open={newStep === 1}
         danger
-        title="Neuer Run?"
+        title="New run?"
         actions={[
-          { label: 'Weiter', tone: 'danger', onClick: () => setNewStep(2) },
-          { label: 'Zurück', tone: 'ghost', onClick: () => setNewStep(0) },
+          { label: 'Continue', tone: 'danger', onClick: () => setNewStep(2) },
+          { label: 'Back', tone: 'ghost', onClick: () => setNewStep(0) },
         ]}
       >
-        <p>Der aktuelle Run wird archiviert. Die alten Fänge bleiben dort liegen.</p>
+        <p>The current run is archived. The old catches stay there.</p>
       </Dialog>
       <Dialog
         open={newStep === 2}
         danger
-        title="RESET tippen"
+        title="Type RESET"
         actions={[
           {
-            label: 'Run starten',
+            label: 'Start the run',
             tone: 'danger',
             onClick: () => {
               if (newText !== 'RESET') return
@@ -206,7 +207,7 @@ export function More() {
               setNewStep(0)
             },
           },
-          { label: 'Zurück', tone: 'ghost', onClick: () => setNewStep(0) },
+          { label: 'Back', tone: 'ghost', onClick: () => setNewStep(0) },
         ]}
       >
         <input value={newText} onChange={(event) => setNewText(event.target.value)} aria-label="RESET" autoComplete="off" />
@@ -233,10 +234,11 @@ function summarize(catches: { player: 'fisi' | 'seri'; status: string; route: st
       dead += 1
       routeDead.set(row.route, (routeDead.get(row.route) ?? 0) + 1)
     }
-    const type = monById(row.dex_id)?.t1
+    const type = row.dex_id ? gen4TypeNames(row.dex_id)[0] : undefined
     if (type) types.set(type, (types.get(type) ?? 0) + 1)
   }
-  const deadliest = [...routeDead.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
+  const deadliestKey = [...routeDead.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
+  const deadliest = deadliestKey ? routeTitleByKey(deadliestKey) : null
   const favorite = [...types.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
   return { ...per, total: per.fisi + per.seri, deathRate: decided ? Math.round((dead / decided) * 100) : 0, deadliest, favorite }
 }

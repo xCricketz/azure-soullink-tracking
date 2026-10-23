@@ -18,7 +18,7 @@ export interface EvoNode {
 }
 
 export interface WikiMon {
-  v: 1
+  v: 2
   id: number
   name: string
   stats: WikiStat[]
@@ -33,12 +33,12 @@ const memory = new Map<number, WikiMon>()
 const labels = new Map<string, string>()
 
 const STAT_LABEL: Record<string, string> = {
-  hp: 'KP',
-  attack: 'Angriff',
-  defense: 'Verteidigung',
-  'special-attack': 'Sp. Angriff',
-  'special-defense': 'Sp. Vert.',
-  speed: 'Initiative',
+  hp: 'HP',
+  attack: 'Attack',
+  defense: 'Defense',
+  'special-attack': 'Sp. Atk',
+  'special-defense': 'Sp. Def',
+  speed: 'Speed',
 }
 
 interface Named {
@@ -69,7 +69,7 @@ interface Chain {
 }
 
 function valid(mon: WikiMon | null | undefined): mon is WikiMon {
-  return Boolean(mon && mon.v === 1 && mon.id && mon.name && mon.chain && Array.isArray(mon.stats))
+  return Boolean(mon && mon.v === 2 && mon.id && mon.name && mon.chain && Array.isArray(mon.stats))
 }
 
 function lsRead(id: number): WikiMon | null {
@@ -159,12 +159,12 @@ async function getJson<T>(path: string): Promise<T> {
   return response.json() as Promise<T>
 }
 
-async function germanLabel(kind: 'item' | 'ability' | 'move', slug: string): Promise<string> {
+async function englishLabel(kind: 'item' | 'ability' | 'move', slug: string): Promise<string> {
   const key = `${kind}:${slug}`
   const hit = labels.get(key)
   if (hit) return hit
   const data = await getJson<{ names: { language: { name: string }; name: string }[] }>(`${kind}/${slug}`)
-  const name = data.names.find((row) => row.language.name === 'de')?.name ?? slug
+  const name = data.names.find((row) => row.language.name === 'en')?.name ?? slug
   labels.set(key, name)
   return name
 }
@@ -177,36 +177,36 @@ function speciesId(url: string): number {
 function formatOne(detail: EvoDetail, items: Map<string, string>, moves: Map<string, string>): string {
   const bits: string[] = []
   const trigger = detail.trigger?.name
-  if (trigger === 'use-item') bits.push(detail.item ? items.get(detail.item.name) ?? 'Item' : 'Item')
-  else if (trigger === 'trade') bits.push('Tausch')
-  else if (trigger === 'shed') bits.push('Platz im Team und ein Pokéball')
+  if (trigger === 'use-item') bits.push(detail.item ? items.get(detail.item.name) ?? 'item' : 'item')
+  else if (trigger === 'trade') bits.push('Trade')
+  else if (trigger === 'shed') bits.push('an empty party slot and a Poké Ball')
   else if (trigger === 'level-up' && detail.min_level) bits.push(`Level ${detail.min_level}`)
-  if (detail.min_happiness) bits.push('hohe Zuneigung')
-  if (detail.min_beauty) bits.push('hohe Schönheit')
-  if (detail.time_of_day === 'day') bits.push('tagsüber')
-  if (detail.time_of_day === 'night') bits.push('nachts')
-  if (detail.gender === 1) bits.push('Weibchen')
-  if (detail.gender === 2) bits.push('Männchen')
-  if (detail.held_item) bits.push(`mit ${items.get(detail.held_item.name) ?? 'Item'}`)
-  if (detail.known_move) bits.push(`kann ${moves.get(detail.known_move.name) ?? 'eine Attacke'}`)
-  if (detail.location) bits.push('an besonderem Ort')
-  if (detail.relative_physical_stats === 1) bits.push('Angriff > Verteidigung')
-  if (detail.relative_physical_stats === -1) bits.push('Angriff < Verteidigung')
-  if (detail.relative_physical_stats === 0) bits.push('Angriff = Verteidigung')
+  if (detail.min_happiness) bits.push('high friendship')
+  if (detail.min_beauty) bits.push('high beauty')
+  if (detail.time_of_day === 'day') bits.push('during the day')
+  if (detail.time_of_day === 'night') bits.push('at night')
+  if (detail.gender === 1) bits.push('female')
+  if (detail.gender === 2) bits.push('male')
+  if (detail.held_item) bits.push(`holding ${items.get(detail.held_item.name) ?? 'an item'}`)
+  if (detail.known_move) bits.push(`knows ${moves.get(detail.known_move.name) ?? 'a move'}`)
+  if (detail.location) bits.push('at a special place')
+  if (detail.relative_physical_stats === 1) bits.push('Attack > Defense')
+  if (detail.relative_physical_stats === -1) bits.push('Attack < Defense')
+  if (detail.relative_physical_stats === 0) bits.push('Attack = Defense')
   if (detail.party_species) {
     const id = speciesId(detail.party_species.url)
-    bits.push(`mit ${monById(id)?.de ?? 'Partner'} im Team`)
+    bits.push(`with ${monById(id)?.en ?? 'a partner'} in the party`)
   }
   if (detail.trade_species) {
     const id = speciesId(detail.trade_species.url)
-    bits.push(`gegen ${monById(id)?.de ?? 'eine Art'}`)
+    bits.push(`for ${monById(id)?.en ?? 'a specific species'}`)
   }
-  if (trigger === 'level-up' && bits.length === 0) bits.push('Level-Up')
+  if (trigger === 'level-up' && bits.length === 0) bits.push('Level up')
   return bits.join(', ')
 }
 
 function formatDetails(details: EvoDetail[], items: Map<string, string>, moves: Map<string, string>): string {
-  return details.map((detail) => formatOne(detail, items, moves)).filter(Boolean).join(' oder ')
+  return details.map((detail) => formatOne(detail, items, moves)).filter(Boolean).join(' or ')
 }
 
 function collect(node: Chain, items: Set<string>, moves: Set<string>): void {
@@ -222,7 +222,7 @@ function buildNode(node: Chain, items: Map<string, string>, moves: Map<string, s
   const id = speciesId(node.species.url)
   return {
     id,
-    name: monById(id)?.de ?? node.species.name,
+    name: monById(id)?.en ?? node.species.name,
     method,
     to: (node.evolves_to ?? []).map((child) => buildNode(child, items, moves, formatDetails(child.evolution_details ?? [], items, moves))),
   }
@@ -242,17 +242,17 @@ async function fetchWiki(id: number): Promise<WikiMon> {
   const moveSlugs = new Set<string>()
   collect(evolution.chain, itemSlugs, moveSlugs)
   const [itemPairs, movePairs, abilities] = await Promise.all([
-    Promise.all([...itemSlugs].map(async (slug) => [slug, await germanLabel('item', slug)] as const)),
-    Promise.all([...moveSlugs].map(async (slug) => [slug, await germanLabel('move', slug)] as const)),
+    Promise.all([...itemSlugs].map(async (slug) => [slug, await englishLabel('item', slug)] as const)),
+    Promise.all([...moveSlugs].map(async (slug) => [slug, await englishLabel('move', slug)] as const)),
     Promise.all(pokemon.abilities.map(async (row) => ({
-      name: await germanLabel('ability', row.ability.name),
+      name: await englishLabel('ability', row.ability.name),
       hidden: row.is_hidden,
     }))),
   ])
   const local = monById(id)
-  const name = species.names.find((row) => row.language.name === 'de')?.name ?? local?.de ?? `#${id}`
+  const name = species.names.find((row) => row.language.name === 'en')?.name ?? local?.en ?? `#${id}`
   return {
-    v: 1,
+    v: 2,
     id,
     name,
     stats: pokemon.stats.map((row) => ({ label: STAT_LABEL[row.stat.name] ?? row.stat.name, value: row.base_stat })),
@@ -262,7 +262,7 @@ async function fetchWiki(id: number): Promise<WikiMon> {
 }
 
 export async function loadWiki(id: number): Promise<WikiMon> {
-  if (id < 1 || id > 493) throw new Error('Nur Gen. 1–4')
+  if (id < 1 || id > 493) throw new Error('Only Gen 1–4')
   const cached = await readWiki(id)
   if (cached) return cached
   const mon = await fetchWiki(id)

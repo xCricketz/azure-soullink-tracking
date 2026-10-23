@@ -60,7 +60,7 @@ export function Login({
           <img className="logo" src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" />
           <h1 className="pixel">SOUL LINK</h1>
           <p className="sub">Azure Platinum · Fisi & Seri</p>
-          <h2>Wer bist du?</h2>
+          <h2>Who are you?</h2>
         </header>
         <div className="who-grid">
           {(['fisi', 'seri'] as PlayerId[]).map((id) => {
@@ -70,14 +70,14 @@ export function Login({
             const sprites = (card?.dex_ids ?? []).slice(0, 3)
             const extra = Math.max(0, (card?.team_count ?? sprites.length) - sprites.length)
             const when = relativeWhen(card?.last_at)
-            const meta = [player.device, badges != null ? `${badges} Orden` : '', when].filter(Boolean).join(' · ')
+            const meta = [player.device, badges != null ? `${badges} badges` : '', when].filter(Boolean).join(' · ')
             return (
               <button
                 key={id}
                 className={sessionPlayer === id ? 'pc you' : 'pc'}
                 style={{ ['--pc' as string]: `var(--${id})` }}
                 type="button"
-                aria-label={sessionPlayer === id ? `Weiter als ${player.name}` : `Als ${player.name} starten`}
+                aria-label={sessionPlayer === id ? `Continue as ${player.name}` : `Start as ${player.name}`}
                 onClick={() => choose(id)}
               >
                 <TrainerShot id={id} crop="full" className="pc-figure" alt="" />
@@ -94,7 +94,7 @@ export function Login({
                   </span>
                 )}
                 <span className="go">
-                  {sessionPlayer === id ? 'Weiter' : `Als ${player.name} starten`}
+                  {sessionPlayer === id ? 'Continue' : `Start as ${player.name}`}
                   <ArrowRight size={18} aria-hidden="true" />
                 </span>
               </button>
@@ -102,22 +102,22 @@ export function Login({
           })}
         </div>
         {sessionPlayer ? (
-          <button className="btn btn-primary login-go" type="button" onClick={() => onContinue?.()}>Weiter</button>
+          <button className="btn btn-primary login-go" type="button" onClick={() => onContinue?.()}>Continue</button>
         ) : null}
         <p className="note">
           <Lock size={14} aria-hidden="true" />
-          {sessionPlayer ? ' Angemeldet. Tippe deine Karte oder auf Weiter.' : ' Einmal den Geheimcode, danach bleibt ihr angemeldet.'}
+          {sessionPlayer ? ' Signed in. Tap your card or Continue.' : ' Enter the secret code once. You’ll stay signed in.'}
         </p>
       </div>
       <BottomSheet
         open={picked !== null}
-        title={picked ? `Du bist ${PLAYERS[picked].name}?` : 'Geheimcode'}
+        title={picked ? `You are ${PLAYERS[picked].name}?` : 'Secret code'}
         onClose={() => setPicked(null)}
         footer={
           <div className="sheet-actions">
-            <button className="btn btn-ghost" type="button" onClick={() => setPicked(null)}>Zurück</button>
+            <button className="btn btn-ghost" type="button" onClick={() => setPicked(null)}>Back</button>
             <button className="btn btn-primary" type="button" onClick={() => void submit()} disabled={busy || !code.trim()}>
-              {busy ? 'Prüfe…' : 'Ja, los!'}
+              {busy ? 'Checking…' : 'Let’s go'}
             </button>
           </div>
         }
@@ -130,10 +130,10 @@ export function Login({
               void submit()
             }}
           >
-            <p>Das kannst du später unter Mehr ändern.</p>
+            <p>You can switch later under More.</p>
             <input className="sr-only" name="username" autoComplete="username" value={PLAYERS[picked].email} readOnly />
             <label className="field">
-              <span>Geheimcode</span>
+              <span>Secret code</span>
               <div className="inline">
                 <input
                   type={show ? 'text' : 'password'}
@@ -141,11 +141,11 @@ export function Login({
                   autoComplete="current-password"
                   value={code}
                   onChange={(event) => setCode(event.target.value)}
-                  aria-label="Geheimcode"
+                  aria-label="Secret code"
                   autoFocus
                 />
                 <button className="btn btn-ghost" type="button" onClick={() => setShow((value) => !value)}>
-                  {show ? 'Verbergen' : 'Zeigen'}
+                  {show ? 'Hide' : 'Show'}
                 </button>
               </div>
             </label>
@@ -161,8 +161,8 @@ export function UnknownAccount({ onOut }: { onOut: () => void }) {
   return (
     <div className="boot">
       <p className="pixel">SOUL LINK</p>
-      <p>Dieses Konto gehört nicht zu Fisi oder Seri.</p>
-      <button className="btn btn-primary" type="button" onClick={onOut}>Abmelden</button>
+      <p>This account isn’t Fisi or Seri.</p>
+      <button className="btn btn-primary" type="button" onClick={onOut}>Sign out</button>
     </div>
   )
 }

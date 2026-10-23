@@ -23,44 +23,44 @@ export const GEN4_TYPES = [
 
 export type Gen4Type = (typeof GEN4_TYPES)[number]
 
-export const TYPE_DE: Record<Gen4Type, string> = {
+export const TYPE_NAME: Record<Gen4Type, string> = {
   normal: 'Normal',
-  fire: 'Feuer',
-  water: 'Wasser',
-  electric: 'Elektro',
-  grass: 'Pflanze',
-  ice: 'Eis',
-  fighting: 'Kampf',
-  poison: 'Gift',
-  ground: 'Boden',
-  flying: 'Flug',
-  psychic: 'Psycho',
-  bug: 'Käfer',
-  rock: 'Gestein',
-  ghost: 'Geist',
-  dragon: 'Drache',
-  dark: 'Unlicht',
-  steel: 'Stahl',
+  fire: 'Fire',
+  water: 'Water',
+  electric: 'Electric',
+  grass: 'Grass',
+  ice: 'Ice',
+  fighting: 'Fighting',
+  poison: 'Poison',
+  ground: 'Ground',
+  flying: 'Flying',
+  psychic: 'Psychic',
+  bug: 'Bug',
+  rock: 'Rock',
+  ghost: 'Ghost',
+  dragon: 'Dragon',
+  dark: 'Dark',
+  steel: 'Steel',
 }
 
 export const TYPE_SHORT: Record<Gen4Type, string> = {
   normal: 'Nor',
-  fire: 'Feu',
-  water: 'Was',
+  fire: 'Fir',
+  water: 'Wat',
   electric: 'Ele',
-  grass: 'Pfl',
-  ice: 'Eis',
-  fighting: 'Kam',
-  poison: 'Gif',
-  ground: 'Bod',
-  flying: 'Flu',
+  grass: 'Gra',
+  ice: 'Ice',
+  fighting: 'Fig',
+  poison: 'Poi',
+  ground: 'Gro',
+  flying: 'Fly',
   psychic: 'Psy',
-  bug: 'Käf',
-  rock: 'Ges',
-  ghost: 'Gei',
+  bug: 'Bug',
+  rock: 'Roc',
+  ghost: 'Gho',
   dragon: 'Dra',
-  dark: 'Unl',
-  steel: 'Sta',
+  dark: 'Dar',
+  steel: 'Ste',
 }
 
 /** Attacker → defender → multiplier. Missing pairs are ×1. Gen IV, no Fairy. */
@@ -93,22 +93,43 @@ const GEN4_OVERRIDE: Record<number, readonly string[]> = {
   36: ['Normal'],
   39: ['Normal'],
   40: ['Normal'],
-  122: ['Psycho'],
+  122: ['Psychic'],
   173: ['Normal'],
   174: ['Normal'],
   175: ['Normal'],
-  176: ['Normal', 'Flug'],
-  183: ['Wasser'],
-  184: ['Wasser'],
+  176: ['Normal', 'Flying'],
+  183: ['Water'],
+  184: ['Water'],
   209: ['Normal'],
   210: ['Normal'],
-  280: ['Psycho'],
-  281: ['Psycho'],
-  282: ['Psycho'],
+  280: ['Psychic'],
+  281: ['Psychic'],
+  282: ['Psychic'],
   298: ['Normal'],
-  303: ['Stahl'],
-  439: ['Psycho'],
-  468: ['Normal', 'Flug'],
+  303: ['Steel'],
+  439: ['Psychic'],
+  468: ['Normal', 'Flying'],
+}
+
+const DE_TO_EN: Record<string, string> = {
+  Normal: 'Normal',
+  Feuer: 'Fire',
+  Wasser: 'Water',
+  Elektro: 'Electric',
+  Pflanze: 'Grass',
+  Eis: 'Ice',
+  Kampf: 'Fighting',
+  Gift: 'Poison',
+  Boden: 'Ground',
+  Flug: 'Flying',
+  Psycho: 'Psychic',
+  Käfer: 'Bug',
+  Gestein: 'Rock',
+  Geist: 'Ghost',
+  Drache: 'Dragon',
+  Unlicht: 'Dark',
+  Stahl: 'Steel',
+  Fee: 'Fairy',
 }
 
 const GEN4_SET = new Set<string>(GEN4_TYPES)
@@ -122,8 +143,8 @@ export function asGen4(name: string): Gen4Type | null {
 export function gen4TypeNames(id: number): string[] {
   const fixed = GEN4_OVERRIDE[id]
   const mon = monById(id)
-  const names = fixed ? [...fixed] : mon ? [mon.t1, mon.t2].filter(Boolean) : []
-  return names.filter((name) => name !== 'Fee')
+  const raw = fixed ? [...fixed] : mon ? [mon.t1, mon.t2].filter(Boolean) : []
+  return raw.map((name) => DE_TO_EN[name] ?? name).filter((name) => name !== 'Fairy')
 }
 
 export function attackMultiplier(attack: Gen4Type, defense: Gen4Type): number {

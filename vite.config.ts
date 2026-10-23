@@ -20,7 +20,7 @@ export default defineConfig({
       manifest: {
         name: 'Soul-Link Tracker',
         short_name: 'Soul-Link',
-        description: 'Soul-Link Nuzlocke für Fisi und Seri · Azure Platinum',
+        description: 'Soul-Link Nuzlocke for Fisi and Seri · Azure Platinum',
         lang: 'de',
         dir: 'ltr',
         start_url: '/azure-soullink-tracking/',

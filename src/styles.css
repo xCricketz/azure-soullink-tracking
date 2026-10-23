@@ -181,7 +181,41 @@ h1, h2, h3, .val, .nick, .btn, .fab, .nm b, .pc .nm, .who-name { font-family: va
   -webkit-overflow-scrolling: touch;
   padding: 0 16px calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 28px);
 }
+.app[data-tab="wiki"] .main {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+}
 .screen { display: flex; flex-direction: column; gap: 12px; }
+.screen.wiki { flex: 1; min-height: 0; gap: 8px; }
+.dex-tools { flex: none; display: flex; flex-direction: column; gap: 8px; }
+.dex-chips {
+  display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px; scrollbar-width: none;
+}
+.dex-chips::-webkit-scrollbar { display: none; }
+.dex-chips button {
+  flex: none; min-height: 32px; padding: 0 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface); color: inherit;
+  font: 700 13px/1 var(--font-body);
+}
+.dex-chips button.on { background: var(--me); border-color: var(--me); color: #fff; }
+.dex-scroll { flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; }
+.dex-spacer { position: relative; }
+.dex-row {
+  position: absolute; left: 0; right: 0; height: 64px; box-sizing: border-box;
+  display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; color: inherit;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 0 10px;
+}
+.dex-no { width: 40px; flex: none; color: var(--text-faint); font-variant-numeric: tabular-nums; font-size: 12px; }
+.dex-name { min-width: 0; flex: 1; }
+.dex-name b {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: 700 16px/20px var(--font-head);
+}
+.dex-row .tys { margin: 0; flex: none; flex-wrap: nowrap; }
+.dex-row .plate.sm { width: 40px; height: 40px; }
 
 .tabbar {
   position: fixed;
