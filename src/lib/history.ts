@@ -66,6 +66,18 @@ function onPop() {
   publish()
 }
 
+/** Drop every in-app layer without stepping history. Used when leaving demo mode. */
+export function abandonHistory() {
+  for (const layer of stack) fromPop.add(layer.key)
+  stack.length = 0
+  queued.clear()
+  swallow = 0
+  if (typeof history !== 'undefined') {
+    history.replaceState({ ...(history.state ?? {}), sl: [] }, '')
+  }
+  publish()
+}
+
 export function installHistory() {
   if (installed || typeof window === 'undefined') return
   installed = true

@@ -62,6 +62,8 @@ export interface AppContextValue {
   resolveDeath: (choice: 'both' | 'mine' | 'cancel', cause: string) => Promise<void>
   addCustomRoute: (name: string) => CustomRoute | null
   revivePair: (route: string) => Promise<void>
+  demo: boolean
+  exitDemo: () => void
 }
 
 export const AppContext = createContext<AppContextValue | null>(null)
@@ -867,6 +869,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     resolveDeath,
     addCustomRoute,
     revivePair,
+    demo: false,
+    exitDemo: () => {},
   }
 
   if (!loaded) {

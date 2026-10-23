@@ -9,10 +9,12 @@ import { PLAYERS, type LoginPreview, type PlayerId } from '../lib/types'
 export function Login({
   sessionPlayer = null,
   onContinue,
+  onDemo,
   previewSeed = null,
 }: {
   sessionPlayer?: PlayerId | null
   onContinue?: () => void
+  onDemo?: () => void
   previewSeed?: LoginPreview | null
 }) {
   const [picked, setPicked] = useState<PlayerId | null>(null)
@@ -104,6 +106,7 @@ export function Login({
         {sessionPlayer ? (
           <button className="btn btn-primary login-go" type="button" onClick={() => onContinue?.()}>Continue</button>
         ) : null}
+        <button className="btn btn-ghost demo-entry" type="button" onClick={() => onDemo?.()}>View demo</button>
         <p className="note">
           <Lock size={14} aria-hidden="true" />
           {sessionPlayer ? ' Signed in. Tap your card or Continue.' : ' Enter the secret code once. You’ll stay signed in.'}
