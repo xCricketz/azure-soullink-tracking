@@ -115,7 +115,7 @@ export function More() {
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
       </div>
-      <p className="foot2">Soul-Link · v3 · Azure Platinum</p>
+      <p className="foot2">Soul-Link · v4 · Azure Platinum</p>
 
       <BottomSheet open={rulesOpen} title="Regeln" onClose={() => setRulesOpen(false)} footer={
         <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Regeln speichern</button>

@@ -494,7 +494,7 @@ input:focus, textarea:focus, .inp.focus { outline: none; border-color: var(--me)
 .plate-wrap { position: relative; }
 .lv {
   position: absolute; left: 6px; top: 6px; font: 700 12px/1 var(--font-head); background: rgba(11, 16, 32, 0.75);
-  color: #fff; padding: 4px 7px; border-radius: 999px; font-variant-numeric: tabular-nums;
+  color: #fff; padding: 4px 7px; border-radius: 999px; font-variant-numeric: tabular-nums; pointer-events: none;
 }
 .tcard .nm { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; margin: 8px 4px 0; }
 .tcard .nm b { font: 600 16px/20px var(--font-head); }
@@ -765,3 +765,103 @@ input:focus, textarea:focus, .inp.focus { outline: none; border-color: var(--me)
   .pc-figure { width: 100px; }
   .empty.with-figure { padding-right: 96px; }
 }
+
+.pc.you { border-color: var(--pc); box-shadow: 0 0 0 2px var(--pc), var(--shadow-card); }
+.login-go { margin-top: 14px; min-height: 56px; font-size: 18px; }
+
+button.wiki-hit {
+  padding: 0; border: none; background: none; color: inherit; flex: none;
+  border-radius: 16px; display: block;
+}
+.plate-wrap .wiki-hit { width: 100%; }
+.lk .wiki-hit, .reserve .wiki-hit { display: inline-flex; }
+
+.wiki-hint { margin: 0; color: var(--text-faint); font-size: 12px; line-height: 16px; }
+.wiki-list { display: flex; flex-direction: column; gap: 8px; }
+.wiki-row {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; color: inherit;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 8px 10px;
+}
+.wiki-row b { display: block; font: 700 16px/20px var(--font-head); }
+.wiki-row small { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.wiki-row .tys { margin: 0 0 0 auto; }
+
+.wiki-fold { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; }
+.wiki-fold summary {
+  padding: 12px 14px; font: 700 16px/22px var(--font-head); cursor: pointer;
+}
+.wiki-fold .fold-body { padding: 0 14px 14px; }
+.natures { list-style: none; margin: 0; padding: 0; }
+.nature {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
+  padding: 8px 0; border-top: 1px solid var(--border); font-size: 14px;
+}
+.nature b { font: 700 15px/20px var(--font-head); }
+.nature .up { color: var(--alive); margin-right: 8px; }
+.nature .down { color: var(--dead); }
+.nature .neutral { color: var(--text-faint); }
+
+.chart-scroll { overflow: auto; border-radius: 12px; border: 1px solid var(--border); }
+.typechart { border-collapse: collapse; font: 600 10px/1 var(--font-body); }
+.typechart th, .typechart td {
+  min-width: 28px; height: 22px; text-align: center; padding: 0 2px;
+  border: 1px solid var(--border); color: #fff;
+}
+.typechart tbody th {
+  position: sticky; left: 0; text-align: left; padding: 0 6px; min-width: 76px;
+  background: var(--tc, var(--surface)); z-index: 1;
+}
+.typechart td { background: var(--surface-2); color: var(--text-faint); }
+.typechart td.se { background: rgba(242, 95, 92, 0.55); color: #fff; }
+.typechart td.nve { background: rgba(52, 211, 153, 0.4); color: #fff; }
+.typechart td.imm { background: rgba(124, 134, 168, 0.7); color: #fff; }
+
+.wiki-layer {
+  position: fixed; z-index: 19; left: 50%; transform: translateX(-50%);
+  width: min(520px, 100%); top: 0;
+  bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+  overflow: auto; -webkit-overflow-scrolling: touch;
+  background: var(--bg); background-image: var(--bg-glow);
+  padding: calc(12px + env(safe-area-inset-top)) 16px 28px;
+}
+.wiki-back { width: auto; margin-bottom: 12px; }
+.wiki-hero { display: flex; gap: 12px; align-items: center; }
+.wiki-hero .plate.lg { width: 112px; height: 112px; flex: none; }
+.wiki-hero h2 { margin: 0; font: 700 28px/32px var(--font-head); }
+.wiki-no { margin: 2px 0 6px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.wiki-sec {
+  margin: 16px 0 8px; font: 700 13px/1 var(--font-head); letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.stats-col { display: flex; flex-direction: column; gap: 6px; }
+.stat { display: grid; grid-template-columns: 88px 1fr 28px; gap: 8px; align-items: center; font-size: 13px; }
+.stat b { text-align: right; font-variant-numeric: tabular-nums; }
+.stat-bar { height: 8px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.stat-bar i { display: block; height: 100%; background: var(--me); border-radius: inherit; }
+.ability-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.ability-list li {
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px;
+  font: 600 15px/20px var(--font-head);
+}
+.ability-list small { color: var(--text-faint); font: 600 12px/1 var(--font-body); text-transform: uppercase; letter-spacing: 0.04em; }
+.evo, .evo ul { list-style: none; margin: 0; padding: 0; }
+.evo ul { margin-top: 4px; padding-left: 14px; border-left: 2px solid var(--border); }
+.evo li { margin: 6px 0; }
+.evo-how { display: block; color: var(--text-muted); font-size: 12px; margin-bottom: 4px; }
+.evo button {
+  background: var(--surface-2); border: 1px solid var(--border); color: inherit;
+  border-radius: 999px; min-height: 36px; padding: 0 12px; font: 700 14px/1 var(--font-head);
+}
+.evo button.on { border-color: var(--me); color: var(--me); }
+.evo button:disabled { opacity: 0.55; }
+.matchup { margin-top: 8px; }
+.matchup h4 { margin: 0 0 6px; font: 700 14px/18px var(--font-head); }
+.match-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.match-chip {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 28px; padding: 0 8px;
+  border-radius: 999px; background: var(--surface-2); font: 600 12px/1 var(--font-body);
+}
+.match-chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--tc); }
+.match-chip b { font-variant-numeric: tabular-nums; }
+a.wiki-out { text-decoration: none; margin-top: 16px; }

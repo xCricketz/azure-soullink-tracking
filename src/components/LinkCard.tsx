@@ -18,6 +18,7 @@ export function LinkCard({
   onOpen,
   onAdd,
   onQuick,
+  onWiki,
 }: {
   route: RouteDef
   index: number
@@ -29,6 +30,7 @@ export function LinkCard({
   onOpen: () => void
   onAdd: () => void
   onQuick: () => void
+  onWiki?: (id: number) => void
 }) {
   const state = pairState(fisi, seri, me)
   const alive = bothAlive(fisi, seri)
@@ -75,7 +77,7 @@ export function LinkCard({
         </div>
       )}
       <div className="halves">
-        <Half side="fisi" catchRow={fisi} mine={me === 'fisi'} flash={pulse && me === 'fisi'} onAdd={onAdd} onQuick={onQuick} />
+        <Half side="fisi" catchRow={fisi} mine={me === 'fisi'} flash={pulse && me === 'fisi'} onAdd={onAdd} onQuick={onQuick} onWiki={onWiki} />
         <button
           className={cx('chain', state.chain === 'broken' && 'broken', state.chain === 'wait' && 'wait', pulse && linked && 'pulse')}
           type="button"
@@ -93,7 +95,7 @@ export function LinkCard({
             </span>
           )}
         </button>
-        <Half side="seri" catchRow={seri} mine={me === 'seri'} flash={pulse && me === 'seri'} onAdd={onAdd} onQuick={onQuick} />
+        <Half side="seri" catchRow={seri} mine={me === 'seri'} flash={pulse && me === 'seri'} onAdd={onAdd} onQuick={onQuick} onWiki={onWiki} />
       </div>
       {mine?.status === 'alive' && (me === 'fisi' ? seri : fisi)?.status === 'missed' && (
         <p className="warn-line">unverlinkt – darf nicht ins Team</p>
@@ -121,6 +123,7 @@ function Half({
   flash,
   onAdd,
   onQuick,
+  onWiki,
 }: {
   side: PlayerId
   catchRow?: Catch
@@ -128,6 +131,7 @@ function Half({
   flash: boolean
   onAdd: () => void
   onQuick: () => void
+  onWiki?: (id: number) => void
 }) {
   const press = useRef<{ timer: number; x: number; y: number; fired: boolean } | null>(null)
   if (!catchRow) {
@@ -190,7 +194,22 @@ function Half({
       }}
       onContextMenu={(event) => event.preventDefault()}
     >
-      {!missed && <SpritePlate id={catchRow.dex_id} alt={catchRow.pokemon ?? 'Pokémon'} />}
+      {!missed && catchRow.dex_id && onWiki ? (
+        <button
+          className="wiki-hit"
+          type="button"
+          aria-label={`${catchRow.pokemon ?? 'Pokémon'} im Pokéwiki`}
+          onPointerDown={(event) => event.stopPropagation()}
+          onClick={(event) => {
+            event.stopPropagation()
+            onWiki(catchRow.dex_id as number)
+          }}
+        >
+          <SpritePlate id={catchRow.dex_id} alt={catchRow.pokemon ?? 'Pokémon'} />
+        </button>
+      ) : !missed ? (
+        <SpritePlate id={catchRow.dex_id} alt={catchRow.pokemon ?? 'Pokémon'} />
+      ) : null}
       <div className="meta">
         <div className="nick">{catchRow.nickname || catchRow.pokemon || 'Verpasst'}</div>
         <div className="species">{missed ? 'Kein Fang' : catchRow.pokemon}</div>

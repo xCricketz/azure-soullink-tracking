@@ -70,12 +70,13 @@ export function artworkUrl(id: number): string {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`
 }
 
-export function searchMons(query: string, limit = 30): Mon[] {
+export function searchMons(query: string, limit = 30, maxId = 1025): Mon[] {
   const needle = norm(query)
   if (!needle) return []
   const starts: Mon[] = []
   const contains: Mon[] = []
   for (const mon of DEX) {
+    if (mon.id > maxId) break
     const de = norm(mon.de)
     const en = norm(mon.en)
     const id = String(mon.id)
