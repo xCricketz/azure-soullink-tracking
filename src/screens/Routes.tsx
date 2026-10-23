@@ -20,7 +20,7 @@ const CHIPS: { id: RouteFilter; label: string }[] = [
   { id: 'missed', label: 'Verpasst' },
 ]
 
-export function Routes({ onLog }: { onLog: (route?: string) => void }) {
+export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onWiki: (id: number) => void }) {
   const app = useApp()
   const [filter, setFilter] = useState<RouteFilter>('all')
   const [query, setQuery] = useState('')
@@ -129,6 +129,7 @@ export function Routes({ onLog }: { onLog: (route?: string) => void }) {
                 onOpen={() => setDetail(row.route.name)}
                 onAdd={() => onLog(row.route.name)}
                 onQuick={() => row[app.me] && setQuick(row.route.name)}
+                onWiki={(id) => { setDetail(null); setQuick(null); onWiki(id) }}
               />
             </div>
           )
@@ -184,7 +185,16 @@ export function Routes({ onLog }: { onLog: (route?: string) => void }) {
                   {row ? (
                     <>
                       <div className="detail-mon">
-                        {row.status !== 'missed' && <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} dim={row.status === 'dead'} />}
+                        {row.status !== 'missed' && row.dex_id && (
+                          <button
+                            className="wiki-hit"
+                            type="button"
+                            aria-label={`${row.pokemon ?? 'Pokémon'} im Pokéwiki`}
+                            onClick={() => { setDetail(null); onWiki(row.dex_id as number) }}
+                          >
+                            <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} dim={row.status === 'dead'} />
+                          </button>
+                        )}
                         <div>
                           <h3>{row.nickname || row.pokemon || 'Verpasst'}</h3>
                           <p>

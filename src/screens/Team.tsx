@@ -7,7 +7,7 @@ import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type Catch, type PlayerId, type TeamView } from '../lib/types'
 import { monName } from '../lib/text'
 
-export function Team() {
+export function Team({ onWiki }: { onWiki: (id: number) => void }) {
   const app = useApp()
   const [view, setView] = useState<TeamView>('mine')
   const partner = otherPlayer(app.me)
@@ -32,8 +32,8 @@ export function Team() {
       )}
       {view === 'both' ? (
         <div className="both-grid">
-          <TeamColumn player="fisi" rows={teamOf(app.catches, 'fisi')} catches={app.catches} editable={app.me === 'fisi'} />
-          <TeamColumn player="seri" rows={teamOf(app.catches, 'seri')} catches={app.catches} editable={app.me === 'seri'} />
+          <TeamColumn player="fisi" rows={teamOf(app.catches, 'fisi')} catches={app.catches} editable={app.me === 'fisi'} onWiki={onWiki} />
+          <TeamColumn player="seri" rows={teamOf(app.catches, 'seri')} catches={app.catches} editable={app.me === 'seri'} onWiki={onWiki} />
         </div>
       ) : (
         <Party
@@ -43,9 +43,10 @@ export function Team() {
           editable={view === 'mine'}
           empty={view === 'mine'}
           warned={new Set(warnings)}
+          onWiki={onWiki}
         />
       )}
-      {view === 'mine' && <Reserves />}
+      {view === 'mine' && <Reserves onWiki={onWiki} />}
     </div>
   )
 }
@@ -57,6 +58,7 @@ function Party({
   editable,
   empty,
   warned,
+  onWiki,
 }: {
   rows: Catch[]
   owner: PlayerId
@@ -64,6 +66,7 @@ function Party({
   editable: boolean
   empty: boolean
   warned?: Set<string>
+  onWiki: (id: number) => void
 }) {
   const app = useApp()
   if (!rows.length && empty) {
@@ -81,7 +84,15 @@ function Party({
         return (
           <article key={row.id} className={cx('tcard', flagged && 'warn')}>
             <div className="plate-wrap">
-              <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} size="lg" />
+              <button
+                className="wiki-hit"
+                type="button"
+                aria-label={`${name} im Pokéwiki`}
+                disabled={!row.dex_id}
+                onClick={() => row.dex_id && onWiki(row.dex_id)}
+              >
+                <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} size="lg" />
+              </button>
               <span className="lv">Lv {row.level ?? '–'}</span>
             </div>
             <div className="nm">
@@ -91,7 +102,16 @@ function Party({
             <TypePills id={row.dex_id} />
             <div className={cx('lk', partnerId)}>
               <Link2 aria-hidden="true" />
-              {partner && partner.status !== 'missed' && <SpritePlate id={partner.dex_id} alt="" size="sm" />}
+              {partner && partner.status !== 'missed' && partner.dex_id && (
+                <button
+                  className="wiki-hit"
+                  type="button"
+                  aria-label={`${monName(partner)} im Pokéwiki`}
+                  onClick={() => onWiki(partner.dex_id as number)}
+                >
+                  <SpritePlate id={partner.dex_id} alt="" size="sm" />
+                </button>
+              )}
               <span>{PLAYERS[partnerId].possessive} {partner ? monName(partner) : '…'}</span>
               {partner?.status === 'boxed' && <Archive className="w" size={14} aria-label="In der Box" />}
             </div>
@@ -120,21 +140,23 @@ function TeamColumn({
   rows,
   catches,
   editable,
+  onWiki,
 }: {
   player: PlayerId
   rows: Catch[]
   catches: Catch[]
   editable: boolean
+  onWiki: (id: number) => void
 }) {
   return (
     <section>
       <h2 className={player}>{PLAYERS[player].name}</h2>
-      <Party rows={rows} owner={player} catches={catches} editable={editable} empty={false} />
+      <Party rows={rows} owner={player} catches={catches} editable={editable} empty={false} onWiki={onWiki} />
     </section>
   )
 }
 
-function Reserves() {
+function Reserves({ onWiki }: { onWiki: (id: number) => void }) {
   const app = useApp()
   const reserves = app.catches.filter((row) => row.player === app.me && !row.in_team && (row.status === 'alive' || row.status === 'boxed') && row.pokemon)
   if (!reserves.length) return null
@@ -143,7 +165,15 @@ function Reserves() {
       <h2>Nicht im Team</h2>
       {reserves.map((row) => (
         <div key={row.id} className="reserve">
-          <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} size="sm" />
+          <button
+            className="wiki-hit"
+            type="button"
+            aria-label={`${row.nickname || row.pokemon} im Pokéwiki`}
+            disabled={!row.dex_id}
+            onClick={() => row.dex_id && onWiki(row.dex_id)}
+          >
+            <SpritePlate id={row.dex_id} alt={row.pokemon ?? 'Pokémon'} size="sm" />
+          </button>
           <div>
             <strong>{row.nickname || row.pokemon}</strong>
             <p>{row.route}</p>

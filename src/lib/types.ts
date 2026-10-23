@@ -1,7 +1,7 @@
 export type PlayerId = 'fisi' | 'seri'
 export type Status = 'alive' | 'boxed' | 'dead' | 'missed'
 export type ThemeChoice = 'dark' | 'light' | 'system'
-export type TabId = 'routes' | 'team' | 'grave' | 'guide' | 'more'
+export type TabId = 'routes' | 'team' | 'grave' | 'wiki' | 'more'
 export type SyncState = 'live' | 'syncing' | 'offline'
 export type RouteFilter = 'all' | 'open' | 'alive' | 'boxed' | 'dead' | 'missed' | 'pairs'
 export type TeamView = 'mine' | 'partner' | 'both'

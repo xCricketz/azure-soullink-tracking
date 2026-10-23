@@ -6,20 +6,29 @@ import { supabase } from '../lib/supabase'
 import { authError, relativeWhen } from '../lib/text'
 import { PLAYERS, type LoginPreview, type PlayerId } from '../lib/types'
 
-export function Login() {
+export function Login({
+  sessionPlayer = null,
+  onContinue,
+  previewSeed = null,
+}: {
+  sessionPlayer?: PlayerId | null
+  onContinue?: () => void
+  previewSeed?: LoginPreview | null
+}) {
   const [picked, setPicked] = useState<PlayerId | null>(null)
   const [code, setCode] = useState('')
   const [show, setShow] = useState(false)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
-  const [preview, setPreview] = useState<LoginPreview | null>(null)
+  const [preview, setPreview] = useState<LoginPreview | null>(previewSeed)
 
   useEffect(() => {
+    if (previewSeed) return
     void supabase.rpc('login_preview').then(({ data, error: rpcError }) => {
       if (rpcError || !data || typeof data !== 'object') return
       setPreview(data as LoginPreview)
     })
-  }, [])
+  }, [previewSeed])
 
   async function submit() {
     if (!picked || !code.trim() || busy) return
@@ -31,10 +40,21 @@ export function Login() {
     })
     setBusy(false)
     if (auth) setError(authError(auth.message))
+    else onContinue?.()
+  }
+
+  function choose(id: PlayerId) {
+    if (sessionPlayer === id) {
+      onContinue?.()
+      return
+    }
+    setPicked(id)
+    setError('')
+    setCode('')
   }
 
   return (
-    <div className="login" data-me={picked ?? 'fisi'}>
+    <div className="login" data-me={sessionPlayer ?? picked ?? 'fisi'} data-screen="start">
       <div className="login-inner">
         <header className="lg">
           <img className="logo" src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" />
@@ -52,7 +72,14 @@ export function Login() {
             const when = relativeWhen(card?.last_at)
             const meta = [player.device, badges != null ? `${badges} Orden` : '', when].filter(Boolean).join(' · ')
             return (
-              <button key={id} className="pc" style={{ ['--pc' as string]: `var(--${id})` }} type="button" onClick={() => { setPicked(id); setError(''); setCode('') }}>
+              <button
+                key={id}
+                className={sessionPlayer === id ? 'pc you' : 'pc'}
+                style={{ ['--pc' as string]: `var(--${id})` }}
+                type="button"
+                aria-label={sessionPlayer === id ? `Weiter als ${player.name}` : `Als ${player.name} starten`}
+                onClick={() => choose(id)}
+              >
                 <TrainerShot id={id} crop="full" className="pc-figure" alt="" />
                 <div className="r1">
                   <span>
@@ -66,12 +93,21 @@ export function Login() {
                     {extra > 0 && <span className="more">+{extra}</span>}
                   </span>
                 )}
-                <span className="go">Als {player.name} starten <ArrowRight size={18} aria-hidden="true" /></span>
+                <span className="go">
+                  {sessionPlayer === id ? 'Weiter' : `Als ${player.name} starten`}
+                  <ArrowRight size={18} aria-hidden="true" />
+                </span>
               </button>
             )
           })}
         </div>
-        <p className="note"><Lock size={14} aria-hidden="true" /> Einmal den Geheimcode, danach bleibt ihr angemeldet.</p>
+        {sessionPlayer ? (
+          <button className="btn btn-primary login-go" type="button" onClick={() => onContinue?.()}>Weiter</button>
+        ) : null}
+        <p className="note">
+          <Lock size={14} aria-hidden="true" />
+          {sessionPlayer ? ' Angemeldet. Tippe deine Karte oder auf Weiter.' : ' Einmal den Geheimcode, danach bleibt ihr angemeldet.'}
+        </p>
       </div>
       <BottomSheet
         open={picked !== null}
