@@ -254,7 +254,7 @@ function gymCards(): GuideCard[] {
     kicker: 'Arena',
     title: `${index + 1}. ${gym.name}`,
     summary: `${gym.city} · Ass Lv. ${gym.ace}${gym.field ? ` · ${gym.field}` : ''}`,
-    body: `${gym.type}${gym.field ? `, ${gym.field}` : ''}. Im Spiel: ${gym.gameName}. Team im Normal-Modus, alles auf dem Ass-Level: ${gym.team}. Schwer hat andere Teams und ist hier nicht aufgeführt.`,
+    body: `${gym.name} (${gym.gameName}), ${gym.city}. ${gym.type}${gym.field ? `, ${gym.field}` : ''}. Team im Normal-Modus, alles auf dem Ass-Level: ${gym.team}. Schwer hat andere Teams und ist hier nicht aufgeführt.`,
   }))
 }
 
