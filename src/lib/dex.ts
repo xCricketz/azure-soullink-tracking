@@ -26,8 +26,44 @@ export function monTypes(id?: number | null): string[] {
   return mon.t2 ? [mon.t1, mon.t2] : [mon.t1]
 }
 
+const TYPE_KEY: Record<string, string> = {
+  Normal: 'normal',
+  Feuer: 'fire',
+  Wasser: 'water',
+  Pflanze: 'grass',
+  Elektro: 'electric',
+  Eis: 'ice',
+  Kampf: 'fighting',
+  Gift: 'poison',
+  Boden: 'ground',
+  Flug: 'flying',
+  Psycho: 'psychic',
+  Käfer: 'bug',
+  Gestein: 'rock',
+  Geist: 'ghost',
+  Drache: 'dragon',
+  Unlicht: 'dark',
+  Stahl: 'steel',
+  Fee: 'fairy',
+}
+
+export function typeKey(name?: string | null): string | null {
+  if (!name) return null
+  return TYPE_KEY[name] ?? null
+}
+
 export function spriteUrl(id: number): string {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+}
+
+export function platinumSpriteUrl(id: number): string {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/${id}.png`
+}
+
+/** Gen IV Platinum up to Arceus (#493), then the default sprite. Artwork is the last resort. */
+export function spriteSources(id: number): string[] {
+  if (id <= 493) return [platinumSpriteUrl(id), spriteUrl(id), artworkUrl(id)]
+  return [spriteUrl(id), artworkUrl(id)]
 }
 
 export function artworkUrl(id: number): string {

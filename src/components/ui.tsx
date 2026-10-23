@@ -1,12 +1,17 @@
-import { Archive, Ban, Heart, Loader2, Plus, Skull, WifiOff, type LucideIcon } from 'lucide-react'
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
-import { artworkUrl, spriteUrl } from '../lib/dex'
+import { Archive, Ban, Heart, Loader2, Skull, WifiOff, X, type LucideIcon } from 'lucide-react'
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { monTypes, spriteSources, typeKey } from '../lib/dex'
 import { useToasts } from '../lib/toast'
-import { statusLabel } from '../lib/text'
+import { shortStatus } from '../lib/text'
 import type { Status, SyncState } from '../lib/types'
 
 export function cx(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(' ')
+}
+
+export function typeStyle(name?: string | null): CSSProperties {
+  const key = typeKey(name)
+  return { ['--tc' as string]: key ? `var(--t-${key})` : 'var(--missed)' }
 }
 
 export function PokeballIcon({ size = 24 }: { size?: number }) {
@@ -19,38 +24,67 @@ export function PokeballIcon({ size = 24 }: { size?: number }) {
   )
 }
 
-export function Sprite({
+export function SpritePlate({
   id,
   alt,
+  size = 'md',
   dim = false,
-  large = false,
+  grave = false,
 }: {
   id?: number | null
   alt: string
+  size?: 'sm' | 'md' | 'lg'
   dim?: boolean
-  large?: boolean
+  grave?: boolean
 }) {
-  const [mode, setMode] = useState<'sprite' | 'art' | 'none'>('sprite')
-  useEffect(() => setMode('sprite'), [id])
-  const className = cx('sprite', dim && 'dim', large && 'large')
-  if (!id || mode === 'none') {
-    return (
-      <span className={cx(className, 'fallback')} aria-hidden="true">
-        <PokeballIcon size={large ? 32 : 22} />
-      </span>
-    )
+  const type = monTypes(id)[0]
+  return (
+    <span className={cx('plate', size, dim && 'dim', grave && 'grave')} style={typeStyle(type)}>
+      <PlateImage id={id} alt={alt} size={size} />
+    </span>
+  )
+}
+
+function PlateImage({ id, alt, size }: { id?: number | null; alt: string; size: 'sm' | 'md' | 'lg' }) {
+  const sources = id ? spriteSources(id) : []
+  const [step, setStep] = useState(0)
+  useEffect(() => setStep(0), [id])
+  if (!id || step >= sources.length) {
+    return <PokeballIcon size={size === 'lg' ? 36 : size === 'md' ? 22 : 14} />
   }
   return (
     <img
-      className={className}
-      src={mode === 'sprite' ? spriteUrl(id) : artworkUrl(id)}
+      src={sources[step]}
       alt={alt}
-      width={large ? 72 : 48}
-      height={large ? 72 : 48}
-      loading="lazy"
-      decoding="async"
-      onError={() => setMode((current) => (current === 'sprite' ? 'art' : 'none'))}
+      draggable={false}
+      onError={() => setStep((current) => current + 1)}
     />
+  )
+}
+
+export function TypePills({ id, names }: { id?: number | null; names?: string[] }) {
+  const list = (names ?? monTypes(id)).filter(Boolean)
+  if (!list.length) return null
+  return (
+    <span className="tys">
+      {list.map((name) => (
+        <span key={name} className="ty" style={typeStyle(name)}>{name}</span>
+      ))}
+    </span>
+  )
+}
+
+export function Marked({ text, query }: { text: string; query: string }) {
+  const needle = query.trim()
+  if (!needle) return <>{text}</>
+  const index = text.toLowerCase().indexOf(needle.toLowerCase())
+  if (index < 0) return <>{text}</>
+  return (
+    <>
+      {text.slice(0, index)}
+      <mark>{text.slice(index, index + needle.length)}</mark>
+      {text.slice(index + needle.length)}
+    </>
   )
 }
 
@@ -59,15 +93,15 @@ const STATUS_ICONS: Record<Status | 'open', LucideIcon> = {
   boxed: Archive,
   dead: Skull,
   missed: Ban,
-  open: Plus,
+  open: Heart,
 }
 
-export function StatusChip({ status, inTeam = false }: { status: Status | 'open'; inTeam?: boolean }) {
+export function StatusChip({ status }: { status: Status | 'open'; inTeam?: boolean }) {
   const Icon = STATUS_ICONS[status]
-  const label = status === 'open' ? 'Offen' : statusLabel(status, inTeam)
+  const label = status === 'open' ? 'Offen' : shortStatus(status)
   return (
-    <span className={cx('status-chip', `is-${status}`)}>
-      <Icon size={14} strokeWidth={2.4} aria-hidden="true" />
+    <span className={cx('st', status === 'open' ? 'missed' : status)}>
+      <Icon size={12} strokeWidth={2.5} aria-hidden="true" />
       {label}
     </span>
   )
@@ -78,9 +112,9 @@ export function SyncIndicator({ state }: { state: SyncState }) {
   const short = state === 'offline' ? 'Offline' : full
   return (
     <p className={cx('sync', state)} role="status" aria-live="polite" title={full}>
-      {state === 'live' && <span className="dot" aria-hidden="true" />}
-      {state === 'syncing' && <Loader2 size={16} className="spin" aria-hidden="true" />}
-      {state === 'offline' && <WifiOff size={16} aria-hidden="true" />}
+      {state === 'live' && <i className="dot" aria-hidden="true" />}
+      {state === 'syncing' && <Loader2 size={14} className="spin" aria-hidden="true" />}
+      {state === 'offline' && <WifiOff size={14} aria-hidden="true" />}
       <span className="sync-label">{short}</span>
       {short !== full && <span className="sr-only">{full}</span>}
     </p>
@@ -141,7 +175,7 @@ export function BottomSheet({
         aria-modal="true"
         aria-labelledby={titleId}
       >
-        <div className={cx('sheet', snap === 'half' && 'half')} style={{ transform: drag ? `translateY(${Math.max(drag, 0)}px)` : undefined }}>
+        <div className={cx('sheet', snap === 'half' && 'snap-half')} style={{ transform: drag ? `translateY(${Math.max(drag, 0)}px)` : undefined }}>
           <button
             className="handle"
             type="button"
@@ -165,7 +199,12 @@ export function BottomSheet({
           >
             <span />
           </button>
-          <h2 id={titleId} className="sheet-title">{title}</h2>
+          <div className="sh-h">
+            <h2 id={titleId}>{title}</h2>
+            <button className="x" type="button" aria-label="Schließen" onClick={onClose}>
+              <X size={18} aria-hidden="true" />
+            </button>
+          </div>
           <div className="sheet-body">{children}</div>
           {footer && <div className="sheet-foot">{footer}</div>}
         </div>

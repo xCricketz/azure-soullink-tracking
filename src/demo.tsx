@@ -23,6 +23,8 @@ const RUN: Run = {
   name: 'Azure Platinum Soul-Link',
   rules: DEFAULT_RULES,
   active: true,
+  badges: 3,
+  level_cap: 26,
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
 }
@@ -59,6 +61,7 @@ function DemoProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(() => loadSettings())
   const [customRoutes, setCustomRoutes] = useState<CustomRoute[]>([])
   const [death, setDeath] = useState<DeathPrompt | null>(null)
+  const [pulse, setPulse] = useState<string | null>(null)
   const glow = null
 
   const updateSettings = useCallback((patch: Partial<Settings>) => {
@@ -71,6 +74,8 @@ function DemoProvider({ children }: { children: ReactNode }) {
 
   const commit = useCallback((next: Catch, previous: Catch | null, text: string) => {
     setCatches((current) => upsertLocal(current, next))
+    setPulse(next.route)
+    window.setTimeout(() => setPulse((current) => (current === next.route ? null : current)), 650)
     pushToast(text, {
       label: 'Rückgängig',
       onClick: () => setCatches((current) => (previous ? upsertLocal(current, previous) : current.filter((row) => row.id !== next.id))),
@@ -85,6 +90,7 @@ function DemoProvider({ children }: { children: ReactNode }) {
     settings,
     customRoutes,
     glow,
+    pulse,
     death,
     updateSettings,
     signOut: async () => { pushToast('Im Vorschau-Modus bleibst du Fisi.') },
@@ -149,6 +155,9 @@ function DemoProvider({ children }: { children: ReactNode }) {
       if (!current) return
       commit({ ...current, epitaph: clip(epitaph, 140) || null }, current, 'Epitaph gespeichert')
     },
+    saveProgress: async (patch) => {
+      setRun((current) => ({ ...current, ...patch }))
+    },
     saveRules: async (rules) => {
       setRun({ ...run, rules })
       pushToast('Regeln gespeichert')
@@ -192,7 +201,7 @@ function DemoProvider({ children }: { children: ReactNode }) {
       setCatches((list) => list.map((row) => (row.route === routeName && row.status !== 'missed' ? asAlive(row) : row)))
       pushToast('Wiederbelebt')
     },
-  }), [catches, commit, customRoutes.length, death, run, settings, updateSettings])
+  }), [catches, commit, customRoutes.length, death, pulse, run, settings, updateSettings])
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

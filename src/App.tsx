@@ -1,10 +1,11 @@
-import { Ellipsis, MapPin, Skull } from 'lucide-react'
-import { useEffect, useState, type ComponentType } from 'react'
+import { Ellipsis, MapPin, Plus, Skull } from 'lucide-react'
+import { useEffect, useMemo, useState, type ComponentType, type ReactNode } from 'react'
 import { CatchSheet } from './components/CatchSheet'
 import { DeathDialog } from './components/DeathDialog'
 import { PokeballIcon, SyncIndicator, ToastHost } from './components/ui'
+import { teamOf } from './lib/edits'
 import { supabase } from './lib/supabase'
-import { playerFromEmail, PLAYERS, type TabId } from './lib/types'
+import { greetingLine, playerFromEmail, PLAYERS, type TabId } from './lib/types'
 import { Login, UnknownAccount } from './screens/Login'
 import { Graveyard } from './screens/Graveyard'
 import { More } from './screens/More'
@@ -68,12 +69,13 @@ export function Shell() {
   const app = useApp()
   const [tab, setTab] = useState<TabId>('routes')
   const [sheet, setSheet] = useState<{ route?: string } | null>(null)
+  const greet = useMemo(() => greetingLine(), [])
 
   useEffect(() => {
     const apply = () => {
       const theme = document.documentElement.dataset.theme
       const light = theme === 'light' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches)
-      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light ? '#F4F6FB' : '#0E1424')
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light ? '#F4F6FB' : '#0B1020')
     }
     apply()
     const media = window.matchMedia('(prefers-color-scheme: light)')
@@ -81,16 +83,28 @@ export function Shell() {
     return () => media.removeEventListener('change', apply)
   }, [app.settings.theme])
 
-  const title = tab === 'routes'
-    ? <>Hey <span className={app.me}>{PLAYERS[app.me].name}</span> 👋</>
-    : tab === 'team' ? 'Team' : tab === 'grave' ? 'Friedhof' : 'Mehr'
+  const team = teamOf(app.catches, app.me)
+  const levels = team.map((row) => row.level).filter((level): level is number => typeof level === 'number')
+  const average = levels.length ? Math.round(levels.reduce((sum, level) => sum + level, 0) / levels.length) : 0
+  const cap = app.run?.level_cap
+  let title: ReactNode = 'Mehr'
+  let sub: string | null = null
+  if (tab === 'routes') {
+    title = <>Hey <span className={app.me}>{PLAYERS[app.me].name}</span> 👋</>
+    sub = greet
+  } else if (tab === 'team') {
+    title = 'Team'
+    sub = `${team.length} / 6 · Ø Lv ${average}${cap ? ` · Levelcap ${cap}` : ''}`
+  } else if (tab === 'grave') {
+    title = 'Friedhof'
+  }
 
   return (
-    <div className="app" data-me={app.me}>
+    <div className="app" data-me={app.me} data-tab={tab}>
       <header className="header">
         <div className="header-copy">
-          <p className="eyebrow">Azure Platinum</p>
           <h1>{title}</h1>
+          {sub && <p className="sub">{sub}</p>}
         </div>
         <SyncIndicator state={app.sync} />
       </header>
@@ -102,16 +116,19 @@ export function Shell() {
       </main>
       {tab === 'routes' && (
         <button className="fab" type="button" aria-label="Fang eintragen" onClick={() => setSheet({})}>
-          <span aria-hidden="true">+</span>
+          <Plus size={22} strokeWidth={2.75} aria-hidden="true" />
+          Fang
         </button>
       )}
       <nav className="tabbar" aria-label="Hauptnavigation">
         {TABS.map((item) => (
           <button key={item.id} type="button" className="tab" aria-current={tab === item.id ? 'page' : undefined} onClick={() => setTab(item.id)}>
-            {item.id === 'routes' && <MapPin size={24} strokeWidth={2} aria-hidden="true" />}
-            {item.id === 'team' && <PokeballIcon />}
-            {item.id === 'grave' && <Skull size={24} strokeWidth={2} aria-hidden="true" />}
-            {item.id === 'more' && <Ellipsis size={24} strokeWidth={2} aria-hidden="true" />}
+            <span className="ic">
+              {item.id === 'routes' && <MapPin size={22} strokeWidth={2} aria-hidden="true" />}
+              {item.id === 'team' && <PokeballIcon size={22} />}
+              {item.id === 'grave' && <Skull size={22} strokeWidth={2} aria-hidden="true" />}
+              {item.id === 'more' && <Ellipsis size={22} strokeWidth={2} aria-hidden="true" />}
+            </span>
             <span>{item.label}</span>
           </button>
         ))}

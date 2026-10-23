@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { BottomSheet } from '../components/ui'
+import { ArrowRight, Lock } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { BottomSheet, SpritePlate } from '../components/ui'
 import { supabase } from '../lib/supabase'
-import { authError } from '../lib/text'
-import { PLAYERS, type PlayerId } from '../lib/types'
+import { authError, relativeWhen } from '../lib/text'
+import { PLAYERS, type LoginPreview, type PlayerId } from '../lib/types'
 
 export function Login() {
   const [picked, setPicked] = useState<PlayerId | null>(null)
@@ -10,6 +11,14 @@ export function Login() {
   const [show, setShow] = useState(false)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+  const [preview, setPreview] = useState<LoginPreview | null>(null)
+
+  useEffect(() => {
+    void supabase.rpc('login_preview').then(({ data, error: rpcError }) => {
+      if (rpcError || !data || typeof data !== 'object') return
+      setPreview(data as LoginPreview)
+    })
+  }, [])
 
   async function submit() {
     if (!picked || !code.trim() || busy) return
@@ -24,23 +33,44 @@ export function Login() {
   }
 
   return (
-    <div className="login">
+    <div className="login" data-me={picked ?? 'fisi'}>
       <div className="login-inner">
-        <header className="login-brand">
-          <p className="pixel">SOUL LINK</p>
-          <p>Azure Platinum · Fisi & Seri</p>
+        <header className="lg">
+          <img className="logo" src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" />
+          <h1 className="pixel">SOUL LINK</h1>
+          <p className="sub">Azure Platinum · Fisi & Seri</p>
+          <h2>Wer bist du?</h2>
         </header>
-        <h1>Wer bist du?</h1>
         <div className="who-grid">
-          {(['fisi', 'seri'] as PlayerId[]).map((id) => (
-            <button key={id} className={`who ${id}`} type="button" onClick={() => { setPicked(id); setError(''); setCode('') }}>
-              <span className="avatar" aria-hidden="true">{PLAYERS[id].letter}</span>
-              <span className="who-name">{PLAYERS[id].name}</span>
-              <span className="who-cta">Als {PLAYERS[id].name} starten</span>
-            </button>
-          ))}
+          {(['fisi', 'seri'] as PlayerId[]).map((id) => {
+            const player = PLAYERS[id]
+            const card = preview?.players?.[id]
+            const badges = preview?.badges
+            const sprites = (card?.dex_ids ?? []).slice(0, 3)
+            const extra = Math.max(0, (card?.team_count ?? sprites.length) - sprites.length)
+            const when = relativeWhen(card?.last_at)
+            const meta = [player.device, badges != null ? `${badges} Orden` : '', when].filter(Boolean).join(' · ')
+            return (
+              <button key={id} className="pc" style={{ ['--pc' as string]: `var(--${id})` }} type="button" onClick={() => { setPicked(id); setError(''); setCode('') }}>
+                <div className="r1">
+                  <span className="av" aria-hidden="true">{player.letter}</span>
+                  <span>
+                    <span className="nm">{player.name}</span>
+                    <span className="meta">{meta}</span>
+                  </span>
+                </div>
+                {sprites.length > 0 && (
+                  <span className="mons">
+                    {sprites.map((dex) => <SpritePlate key={dex} id={dex} alt="" />)}
+                    {extra > 0 && <span className="more">+{extra}</span>}
+                  </span>
+                )}
+                <span className="go">Als {player.name} starten <ArrowRight size={18} aria-hidden="true" /></span>
+              </button>
+            )
+          })}
         </div>
-        <p className="hint center">Einmal den Geheimcode, danach bleibt ihr angemeldet.</p>
+        <p className="note"><Lock size={14} aria-hidden="true" /> Einmal den Geheimcode, danach bleibt ihr angemeldet.</p>
       </div>
       <BottomSheet
         open={picked !== null}

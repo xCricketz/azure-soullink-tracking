@@ -1,6 +1,7 @@
+import { ArrowLeftRight, ChartColumn, ChevronRight, Download, Moon, RotateCcw, ScrollText, Smartphone, Sun } from 'lucide-react'
 import { useState } from 'react'
 import { InstallHint } from '../components/InstallHint'
-import { Dialog } from '../components/ui'
+import { BottomSheet, Dialog } from '../components/ui'
 import { monById } from '../lib/dex'
 import { useApp } from '../state/context'
 import { DEFAULT_RULES, PLAYERS, type ThemeChoice } from '../lib/types'
@@ -8,7 +9,9 @@ import { pushToast } from '../lib/toast'
 
 export function More() {
   const app = useApp()
+  const [rulesOpen, setRulesOpen] = useState(false)
   const [rules, setRules] = useState(app.run?.rules ?? DEFAULT_RULES)
+  const [installOpen, setInstallOpen] = useState(false)
   const [resetStep, setResetStep] = useState<0 | 1 | 2>(0)
   const [resetText, setResetText] = useState('')
   const [newStep, setNewStep] = useState<0 | 1 | 2>(0)
@@ -16,78 +19,63 @@ export function More() {
   const [switchOpen, setSwitchOpen] = useState(false)
   const [fallback, setFallback] = useState(false)
   const stats = summarize(app.catches)
+  const me = PLAYERS[app.me]
 
   return (
     <div className="screen more">
-      <section className="panel">
-        <h2>Profil</h2>
-        <p>Angemeldet als <strong className={app.me}>{PLAYERS[app.me].name}</strong></p>
-        <button className="btn btn-ghost" type="button" onClick={() => setSwitchOpen(true)}>Spieler wechseln</button>
-      </section>
-
-      <section className="panel">
-        <h2>Statistiken</h2>
-        <div className="stat-grid">
-          <article>
-            <p className="stat-num">{stats.fisi}</p>
-            <p>Fänge Fisi</p>
-          </article>
-          <article>
-            <p className="stat-num">{stats.seri}</p>
-            <p>Fänge Seri</p>
-          </article>
-          <article>
-            <p className="stat-num">{stats.deathRate}<span>%</span></p>
-            <p>Todesrate</p>
-          </article>
+      <section className={cxProfile(app.me)}>
+        <div className={`av ${app.me}`}>{me.letter}</div>
+        <div className="t">
+          <small>Profil</small>
+          <b>Angemeldet als <span className={app.me}>{me.name}</span></b>
         </div>
-        <p>Gefährlichste Route: <strong>{stats.deadliest ?? 'noch keine'}</strong></p>
-        <p>Häufigster Typ: <strong>{stats.favorite ?? 'noch keiner'}</strong></p>
+        <button className="btn btn-ghost btn-sm swap" type="button" onClick={() => setSwitchOpen(true)}>
+          <ArrowLeftRight size={16} aria-hidden="true" />
+          Spieler wechseln
+        </button>
       </section>
 
-      <section className="panel">
-        <h2>Orden</h2>
-        <div className="badges" role="group" aria-label="Orden">
-          {Array.from({ length: 8 }, (_, index) => {
-            const filled = index < app.settings.badges
-            return (
-              <button
-                key={index}
-                type="button"
-                className={filled ? 'on' : ''}
-                aria-pressed={filled}
-                aria-label={`Orden ${index + 1}`}
-                onClick={() => app.updateSettings({ badges: filled && index === app.settings.badges - 1 ? index : index + 1 })}
-              >
-                {index + 1}
-              </button>
-            )
-          })}
+      <h2 className="group-lbl">Run</h2>
+      <div className="group">
+        <div className="row">
+          <span className="ricon link"><ChartColumn size={18} aria-hidden="true" /></span>
+          <span className="rt">Statistiken<small>Fänge, Todesrate, gefährlichste Route</small></span>
         </div>
-      </section>
+        <div className="stats">
+          <div><b>{stats.total}</b><span>Fänge</span></div>
+          <div><b className="dead-ink">{stats.deathRate} %</b><span>Todesrate</span></div>
+          <div><b className="route-stat">{stats.deadliest ?? '—'}</b><span>tödlichste</span></div>
+        </div>
+        <p className="stat-extra">Fisi {stats.fisi} · Seri {stats.seri} · häufigster Typ {stats.favorite ?? 'noch keiner'}</p>
+        <button className="row" type="button" onClick={() => { setRules(app.run?.rules ?? DEFAULT_RULES); setRulesOpen(true) }}>
+          <span className="ricon accent"><ScrollText size={18} aria-hidden="true" /></span>
+          <span className="rt">Regeln<small>Soul-Link Regeln · geteilt mit {PLAYERS[app.me === 'fisi' ? 'seri' : 'fisi'].name}</small></span>
+          <ChevronRight className="chev" size={18} aria-hidden="true" />
+        </button>
+      </div>
 
-      <section className="panel">
-        <h2>Regeln</h2>
-        <textarea value={rules} onChange={(event) => setRules(event.target.value)} rows={8} aria-label="Regeln" />
-        <button className="btn btn-primary" type="button" onClick={() => void app.saveRules(rules)}>Regeln speichern</button>
-      </section>
+      <h2 className="group-lbl">Erscheinungsbild</h2>
+      <div className="seg" role="group" aria-label="Erscheinungsbild">
+        {([
+          ['dark', 'Dunkel', Moon],
+          ['light', 'Hell', Sun],
+          ['system', 'System', Smartphone],
+        ] as const).map(([id, label, Icon]) => (
+          <button key={id} type="button" className={app.settings.theme === id ? 'on' : ''} aria-pressed={app.settings.theme === id} onClick={() => app.updateSettings({ theme: id as ThemeChoice })}>
+            <Icon size={16} aria-hidden="true" />
+            {label}
+          </button>
+        ))}
+      </div>
 
-      <section className="panel">
-        <h2>Hinweise</h2>
+      <h2 className="group-lbl">Hinweise</h2>
+      <div className="group hints">
         <label className="switch">
-          <input
-            type="checkbox"
-            checked={app.settings.dupeClause}
-            onChange={(event) => app.updateSettings({ dupeClause: event.target.checked })}
-          />
+          <input type="checkbox" checked={app.settings.dupeClause} onChange={(event) => app.updateSettings({ dupeClause: event.target.checked })} />
           <span>Dupes-Clause: Hinweis bei doppelter Art</span>
         </label>
         <label className="switch">
-          <input
-            type="checkbox"
-            checked={app.settings.typeClause}
-            onChange={(event) => app.updateSettings({ typeClause: event.target.checked })}
-          />
+          <input type="checkbox" checked={app.settings.typeClause} onChange={(event) => app.updateSettings({ typeClause: event.target.checked })} />
           <span>Typen-Clause: Hinweis bei gleichem Haupttyp</span>
         </label>
         <label className="switch">
@@ -106,29 +94,36 @@ export function More() {
           />
           <span>Hinweis, wenn ein Paar fällt</span>
         </label>
-      </section>
+      </div>
 
-      <section className="panel">
-        <h2>Erscheinungsbild</h2>
-        <div className="view-switch" role="group" aria-label="Erscheinungsbild">
-          {([['dark', 'Dunkel'], ['light', 'Hell'], ['system', 'System']] as const).map(([id, label]) => (
-            <button key={id} type="button" aria-pressed={app.settings.theme === id} onClick={() => app.updateSettings({ theme: id as ThemeChoice })}>
-              {label}
-            </button>
-          ))}
-        </div>
-      </section>
+      <h2 className="group-lbl">App</h2>
+      <div className="group">
+        <button className="row" type="button" onClick={() => setInstallOpen(true)}>
+          <span className="ricon alive"><Download size={18} aria-hidden="true" /></span>
+          <span className="rt">App installieren<small>Zum Startbildschirm hinzufügen</small></span>
+          <ChevronRight className="chev" size={18} aria-hidden="true" />
+        </button>
+        <button className="row danger" type="button" onClick={() => { setResetStep(1); setResetText('') }}>
+          <span className="ricon danger"><RotateCcw size={18} aria-hidden="true" /></span>
+          <span className="rt">Run zurücksetzen<small>Löscht alle Fänge · Bestätigung mit „RESET“</small></span>
+          <ChevronRight className="chev" size={18} aria-hidden="true" />
+        </button>
+        <button className="row danger" type="button" onClick={() => { setNewStep(1); setNewText('') }}>
+          <span className="ricon danger"><RotateCcw size={18} aria-hidden="true" /></span>
+          <span className="rt">Neuer Run<small>Löscht alle Routen · Bestätigung mit „RESET“</small></span>
+          <ChevronRight className="chev" size={18} aria-hidden="true" />
+        </button>
+      </div>
+      <p className="foot2">Soul-Link · v2 · Azure Platinum</p>
 
-      <section className="panel">
-        <h2>App installieren</h2>
-        <InstallHint compact />
-      </section>
-
-      <section className="panel danger-zone">
-        <h2>Gefahrenzone</h2>
-        <button className="btn btn-danger" type="button" onClick={() => { setResetStep(1); setResetText('') }}>Run zurücksetzen</button>
-        <button className="btn btn-ghost" type="button" onClick={() => { setNewStep(1); setNewText('') }}>Neuer Run</button>
-      </section>
+      <BottomSheet open={rulesOpen} title="Regeln" onClose={() => setRulesOpen(false)} footer={
+        <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Regeln speichern</button>
+      }>
+        <textarea value={rules} onChange={(event) => setRules(event.target.value)} rows={10} aria-label="Regeln" />
+      </BottomSheet>
+      <BottomSheet open={installOpen} title="App installieren" onClose={() => setInstallOpen(false)}>
+        <InstallHint />
+      </BottomSheet>
 
       <Dialog
         open={switchOpen}
@@ -140,7 +135,6 @@ export function More() {
       >
         <p>Du meldest dich ab. Der Geheimcode gilt beim nächsten Mal wieder.</p>
       </Dialog>
-
       <Dialog
         open={resetStep === 1}
         danger
@@ -220,6 +214,10 @@ export function More() {
   )
 }
 
+function cxProfile(me: string) {
+  return `prof ${me}`
+}
+
 function summarize(catches: { player: 'fisi' | 'seri'; status: string; route: string; dex_id: number | null }[]) {
   const per = { fisi: 0, seri: 0 }
   let dead = 0
@@ -239,5 +237,5 @@ function summarize(catches: { player: 'fisi' | 'seri'; status: string; route: st
   }
   const deadliest = [...routeDead.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
   const favorite = [...types.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null
-  return { ...per, deathRate: decided ? Math.round((dead / decided) * 100) : 0, deadliest, favorite }
+  return { ...per, total: per.fisi + per.seri, deathRate: decided ? Math.round((dead / decided) * 100) : 0, deadliest, favorite }
 }

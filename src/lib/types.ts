@@ -32,8 +32,21 @@ export interface Run {
   name: string
   rules: string | null
   active: boolean
+  badges?: number
+  level_cap?: number | null
   created_at: string
   updated_at: string
+}
+
+export interface LoginCard {
+  last_at: string | null
+  team_count: number
+  dex_ids: number[] | null
+}
+
+export interface LoginPreview {
+  badges: number
+  players: Partial<Record<PlayerId, LoginCard>>
 }
 
 export interface CatchDraft {
@@ -72,10 +85,10 @@ export interface DeathPrompt {
 
 export const PLAYERS: Record<
   PlayerId,
-  { id: PlayerId; name: string; possessive: string; email: string; letter: string }
+  { id: PlayerId; name: string; possessive: string; email: string; letter: string; device: string }
 > = {
-  fisi: { id: 'fisi', name: 'Fisi', possessive: 'Fisis', email: 'fisi@soullink.app', letter: 'F' },
-  seri: { id: 'seri', name: 'Seri', possessive: 'Seris', email: 'seri@soullink.app', letter: 'S' },
+  fisi: { id: 'fisi', name: 'Fisi', possessive: 'Fisis', email: 'fisi@soullink.app', letter: 'F', device: 'Android' },
+  seri: { id: 'seri', name: 'Seri', possessive: 'Seris', email: 'seri@soullink.app', letter: 'S', device: 'iPhone' },
 }
 
 export function otherPlayer(id: PlayerId): PlayerId {

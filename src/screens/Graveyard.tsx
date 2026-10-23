@@ -1,5 +1,6 @@
+import { Flame, Swords, Unlink2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { Dialog, Sprite } from '../components/ui'
+import { Dialog, SpritePlate } from '../components/ui'
 import { graveRows, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { formatDate, monName } from '../lib/text'
@@ -16,16 +17,20 @@ export function Graveyard() {
 
   return (
     <div className="screen grave">
-      <header className="grave-hero">
-        <Candle />
+      <header className="fh">
+        <div className="cand" aria-hidden="true">
+          <Flame />
+          <Flame />
+        </div>
         <h2 className="pixel">FRIEDHOF</h2>
-        <p>{souls} {souls === 1 ? 'Seele verloren' : 'Seelen verloren'}</p>
+        <div className="cnt">
+          <b>{souls}</b>
+          {souls === 1 ? 'Seele verloren' : 'Seelen verloren'} · {tombs.length} {tombs.length === 1 ? 'Paar' : 'Paare'}
+        </div>
       </header>
       {!tombs.length && <p className="empty-copy">Noch ist niemand gefallen. So soll es bleiben.</p>}
       <div className="tombs">
         {tombs.map((row) => {
-          const names = [row.fisi, row.seri].filter((item) => item?.status === 'dead').map((item) => monName(item))
-          const pairNames = `${monName(row.fisi)} & ${monName(row.seri)}`
           const when = row.fisi?.died_at || row.seri?.died_at
           const cause = row.fisi?.death_cause || row.seri?.death_cause
           const epitaphText = row[app.me]?.epitaph || row.fisi?.epitaph || row.seri?.epitaph
@@ -39,16 +44,15 @@ export function Graveyard() {
                 setEpitaph(row[app.me]?.epitaph ?? '')
               }}
             >
-              <div className="tomb-sprites">
-                <Sprite id={row.fisi?.dex_id} alt={row.fisi?.pokemon ?? 'Fisi'} dim />
-                <Sprite id={row.seri?.dex_id} alt={row.seri?.pokemon ?? 'Seri'} dim />
+              <div className="pair">
+                <Side label="Fisi" dex={row.fisi?.dex_id} species={row.fisi?.pokemon} player="fisi" />
+                <div className="chain"><span><Unlink2 aria-hidden="true" /></span></div>
+                <Side label="Seri" dex={row.seri?.dex_id} species={row.seri?.pokemon} player="seri" />
               </div>
-              <h3>{names.length === 2 ? pairNames : names.join(' & ')}</h3>
-              <p>{[row.fisi?.pokemon, row.seri?.pokemon].filter(Boolean).join(' · ')}</p>
-              <p>{row.route.name}</p>
-              {when && <p>gefallen am {formatDate(when)}</p>}
-              {cause && <p className="cause">{cause}</p>}
-              <p className="epitaph">„{epitaphText || 'Ruhe in Frieden, tapferer Freund.'}“</p>
+              <h3>{monName(row.fisi)} & {monName(row.seri)}</h3>
+              <div className="when">{row.route.name}{when ? ` · gefallen am ${formatDate(when)}` : ''}</div>
+              {cause && <div className="cause"><Swords aria-hidden="true" />{cause}</div>}
+              <div className="ep">„{epitaphText || 'Ruhe in Frieden, tapferer Freund.'}“</div>
             </button>
           )
         })}
@@ -103,12 +107,12 @@ export function Graveyard() {
   )
 }
 
-function Candle() {
+function Side({ label, dex, species, player }: { label: string; dex?: number | null; species?: string | null; player: 'fisi' | 'seri' }) {
   return (
-    <svg className="candle" viewBox="0 0 64 48" aria-hidden="true">
-      <path d="M18 46h28l-4-16H22z" fill="#2E3A5E" />
-      <rect x="28" y="20" width="8" height="12" rx="1" fill="#F4F6FB" />
-      <path d="M32 8c4 5 6 8 0 12c-6-4-4-7 0-12z" fill="#B98CFF" />
-    </svg>
+    <div>
+      <SpritePlate id={dex} alt={species ?? label} grave />
+      <span className={`who ${player}`}>{label}</span>
+      <span className="species">{species ?? '—'}</span>
+    </div>
   )
 }
