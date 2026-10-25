@@ -42,13 +42,18 @@ interface MapRegion {
 
 const GUIDE = guideData as GuideStep[]
 const NODES = layout.nodes as MapNode[]
-const EDGES = layout.edges as [string, string][]
+const EDGES = layout.edges as [string, string, 'story' | 'side' | 'link'][]
 const REGIONS = (layout.regions ?? []) as MapRegion[]
 const WORLD_W = layout.width
 const WORLD_H = layout.height
 const SHOW = 4
 
 const RADIUS: Record<string, number> = { town: 18, gym: 15, route: 9, cave: 12, dungeon: 13, other: 12 }
+const HUBS = new Set(['kbt-expressway', 'pokemon-league', 'victory-road'])
+const MAJOR = new Set([
+  'frozen-heights', 'dresco-town', 'crater-town', 'blizzard-city', 'fallshore-city',
+  'dehara-city', 'antisis-city', 'seaport-city', 'pokemon-league', 'kbt-expressway',
+])
 
 export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const app = useApp()
@@ -135,6 +140,17 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
     })
   }
 
+  function fitAll() {
+    const stage = stageRef.current
+    if (!stage) return
+    const fit = Math.min(stage.clientWidth / WORLD_W, stage.clientHeight / WORLD_H) * 0.96
+    commit({
+      scale: fit,
+      x: (stage.clientWidth - WORLD_W * fit) / 2,
+      y: (stage.clientHeight - WORLD_H * fit) / 2,
+    })
+  }
+
   useEffect(() => {
     const stage = stageRef.current
     if (!stage) return
@@ -202,9 +218,27 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   }
 
   const byPos = new Map(NODES.map((node) => [node.key, node]))
+  const showAllLabels = view.scale >= 0.82
+  const labelSize = showAllLabels ? 13 : Math.max(13, 10 / view.scale)
+  const stageBox = stageRef.current?.getBoundingClientRect()
+  const labelShift = showAllLabels
+    ? new Map<string, { x: number; y: number }>()
+    : avoidLabelCollisions(
+      NODES.filter((node) => showNodeLabel(node, view.scale)),
+      labelSize,
+      view,
+      stageBox?.width ?? 320,
+      stageBox?.height ?? 360,
+    )
 
   return (
     <div className="screen map-screen" data-screen="map">
+      <div className="map-toolbar" onPointerDown={(event) => event.stopPropagation()}>
+        <button type="button" aria-label="Zoom in" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale * 1.25)}><Plus size={18} /></button>
+        <button type="button" aria-label="Zoom out" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale / 1.25)}><Minus size={18} /></button>
+        <button type="button" aria-label="Show the current route" onClick={() => focusProgress(1)}><LocateFixed size={18} /></button>
+        <button type="button" aria-label="Entire map" onClick={fitAll}>Entire map</button>
+      </div>
       <div
         className="map-stage"
         ref={stageRef}
@@ -236,16 +270,15 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
               filter="url(#map-blob)"
             />
           ))}
-          {EDGES.map(([from, to]) => {
+          {EDGES.map(([from, to, role]) => {
             const a = byPos.get(from)
             const b = byPos.get(to)
             if (!a || !b) return null
-            const highway = from === 'kbt-expressway' || to === 'kbt-expressway'
             return (
               <path
                 key={`${from}-${to}`}
-                className={cx('map-edge', highway && 'highway')}
-                d={edgePath(a, b)}
+                className={cx('map-edge', role || 'side')}
+                d={edgePath(a, b, role || 'side')}
               />
             )
           })}
@@ -253,9 +286,13 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
             const info = placeByKey(node.key)
             const state = node.key === progress?.key ? 'current' : caught.has(node.key) ? 'caught' : (info?.order ?? 99) <= (progress?.order ?? 0) ? 'visited' : 'ahead'
             const name = info?.name ?? node.key
-            const label = name.length > 16 ? `${name.slice(0, 15)}…` : name
+            const lines = labelLines(name)
             const r = RADIUS[node.kind] ?? 11
+            const labelled = showNodeLabel(node, view.scale)
             const townBadge = node.kind === 'town' ? node.badge : null
+            const shift = labelShift.get(node.key) ?? { x: 0, y: 0 }
+            const labelX = node.labelX + shift.x
+            const labelY = node.labelY + shift.y
             return (
               <g
                 key={node.key}
@@ -277,14 +314,19 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
                     <text textAnchor="middle" y="3">{townBadge}</text>
                   </g>
                 ) : null}
-                <text
-                  className="lbl"
-                  x={node.labelX}
-                  y={node.labelY}
-                  textAnchor={node.labelAnchor}
-                >
-                  {label}
-                </text>
+                {labelled && (
+                  <text
+                    className="lbl"
+                    x={labelX}
+                    y={labelY}
+                    textAnchor={node.labelAnchor}
+                    fontSize={labelSize}
+                  >
+                    {lines.map((line, index) => (
+                      <tspan key={`${node.key}-${index}`} x={labelX} dy={index === 0 ? 0 : labelSize * 1.12}>{line}</tspan>
+                    ))}
+                  </text>
+                )}
               </g>
             )
           })}
@@ -308,11 +350,6 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
             )
           })}
         </svg>
-        <div className="map-tools" onPointerDown={(event) => event.stopPropagation()}>
-          <button type="button" aria-label="Zoom in" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale * 1.25)}><Plus size={18} /></button>
-          <button type="button" aria-label="Zoom out" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale / 1.25)}><Minus size={18} /></button>
-          <button type="button" aria-label="Show the current route" onClick={() => focusProgress(1)}><LocateFixed size={18} /></button>
-        </div>
       </div>
       <div className="map-legend">
         <span><i className="caught" /> Caught</span>
@@ -355,7 +392,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
           {expanded ? 'Show the next steps' : `Show all ${GUIDE.length} steps`}
         </button>
       </section>
-      <BottomSheet open={open !== null} title={place?.name ?? 'Area'} onClose={() => setOpen(null)}>
+      <BottomSheet peek open={open !== null} title={place?.name ?? 'Area'} onClose={() => setOpen(null)}>
         {place && (
           <div className="map-sheet">
             <p className="hint">{place.kind}{place.boss ? ` · ${place.boss}` : ''}</p>
@@ -413,17 +450,99 @@ function NodeMark({ kind }: { kind: string }) {
   return <path className="ico" d="M0 -6 L1.6 -1.8 L6 -1.4 L2.6 1.4 L3.6 6 L0 3.6 L-3.6 6 L-2.6 1.4 L-6 -1.4 L-1.6 -1.8 Z" />
 }
 
-function edgePath(a: MapNode, b: MapNode): string {
-  const mx = (a.x + b.x) / 2
-  const my = (a.y + b.y) / 2
+function showNodeLabel(node: MapNode, scale: number): boolean {
+  if (scale >= 0.82) return true
+  if (scale >= 0.48) return node.kind === 'town' || node.kind === 'gym' || HUBS.has(node.key)
+  return MAJOR.has(node.key)
+}
+
+function avoidLabelCollisions(
+  nodes: MapNode[],
+  font: number,
+  view: { x: number; y: number; scale: number },
+  stageW: number,
+  stageH: number,
+): Map<string, { x: number; y: number }> {
+  const out = new Map<string, { x: number; y: number }>()
+  const placed: { l: number; t: number; r: number; b: number }[] = []
+  const step = 18 / view.scale
+  const ordered = [...nodes].sort((a, b) => a.y - b.y || a.x - b.x)
+  for (const node of ordered) {
+    const info = placeByKey(node.key)
+    const lines = labelLines(info?.name ?? node.key)
+    const tries = [{ x: 0, y: 0 }]
+    for (let i = 1; i <= 5; i++) {
+      tries.push({ x: -step * i, y: 0 }, { x: step * i, y: 0 }, { x: 0, y: step * i }, { x: 0, y: -step * i })
+    }
+    let best = tries[0]
+    let bestScore = Infinity
+    for (const shift of tries) {
+      const box = labelScreenBox(node, lines, font, view, shift)
+      let overlap = 0
+      for (const other of placed) overlap += boxOverlap(box, other)
+      const pad = 4
+      const outside = (box.l < pad ? pad - box.l : 0) + (box.r > stageW - pad ? box.r - (stageW - pad) : 0)
+        + (box.t < pad ? pad - box.t : 0) + (box.b > stageH - pad ? box.b - (stageH - pad) : 0)
+      const score = overlap * 10 + outside
+      if (score < bestScore) {
+        bestScore = score
+        best = shift
+      }
+      if (score === 0) break
+    }
+    placed.push(labelScreenBox(node, lines, font, view, best))
+    if (best.x || best.y) out.set(node.key, best)
+  }
+  return out
+}
+
+function labelScreenBox(
+  node: MapNode,
+  lines: string[],
+  font: number,
+  view: { x: number; y: number; scale: number },
+  shift: { x: number; y: number },
+) {
+  const w = Math.max(...lines.map((line) => line.length)) * font * 0.64 * view.scale + 8
+  const h = lines.length * font * 1.55 * view.scale + 6
+  const ax = (node.x + node.labelX + shift.x) * view.scale + view.x
+  const ay = (node.y + node.labelY + shift.y) * view.scale + view.y
+  let left = ax
+  if (node.labelAnchor === 'middle') left = ax - w / 2
+  else if (node.labelAnchor === 'end') left = ax - w
+  const top = ay - h * 0.8
+  return { l: left, t: top, r: left + w, b: top + h }
+}
+
+function boxOverlap(a: { l: number; t: number; r: number; b: number }, b: { l: number; t: number; r: number; b: number }) {
+  const w = Math.min(a.r, b.r) - Math.max(a.l, b.l)
+  const h = Math.min(a.b, b.b) - Math.max(a.t, b.t)
+  if (w <= 0 || h <= 0) return 0
+  return w * h
+}
+
+function labelLines(name: string): string[] {
+  if (name.length <= 14 || !name.includes(' ')) return [name]
+  let splitAt = name.lastIndexOf(' ', 18)
+  if (splitAt < 4) splitAt = name.indexOf(' ')
+  if (splitAt < 1) return [name]
+  return [name.slice(0, splitAt), name.slice(splitAt + 1)]
+}
+
+function edgePath(a: MapNode, b: MapNode, role: string): string {
   const dx = b.x - a.x
   const dy = b.y - a.y
-  const len = Math.hypot(dx, dy) || 1
-  const sign = (a.key.charCodeAt(0) + b.key.charCodeAt(0) + a.key.length) % 2 === 0 ? 1 : -1
-  const bend = Math.min(46, len * 0.18) * sign
-  const cx = mx + (-dy / len) * bend
-  const cy = my + (dx / len) * bend
-  return `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`
+  if (Math.abs(dx) < 12) return `M ${a.x} ${a.y} V ${b.y}`
+  if (Math.abs(dy) < 12) return `M ${a.x} ${a.y} H ${b.x}`
+  if (role === 'story' && Math.hypot(dx, dy) < 320) {
+    const len = Math.hypot(dx, dy) || 1
+    const bend = 16 * ((a.key.charCodeAt(0) + b.key.charCodeAt(0)) % 2 === 0 ? 1 : -1)
+    const cx = (a.x + b.x) / 2 + (-dy / len) * bend
+    const cy = (a.y + b.y) / 2 + (dx / len) * bend
+    return `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`
+  }
+  const mid = a.x + dx * 0.55
+  return `M ${a.x} ${a.y} C ${mid} ${a.y}, ${mid} ${b.y}, ${b.x} ${b.y}`
 }
 
 function catchLabel(row: Catch): string {
