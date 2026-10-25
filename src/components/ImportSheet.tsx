@@ -90,9 +90,19 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
 
   async function onFile(file: File | undefined) {
     if (!file) return
-    const bytes = new Uint8Array(await file.arrayBuffer())
     if (fileRef.current) fileRef.current.value = ''
-    await loadBytes(bytes)
+    try {
+      let bytes: Uint8Array
+      try {
+        bytes = new Uint8Array(await file.arrayBuffer())
+      } catch {
+        bytes = await readFileFallback(file)
+      }
+      await loadBytes(bytes)
+    } catch {
+      setBusy(false)
+      setError('That file could not be read. Save in the game, then export the .sav again.')
+    }
   }
 
   async function onSample() {
@@ -185,27 +195,26 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
               <p>Save inside the game first. A save state is not a .sav file.</p>
               <p>The shiny mark is a guess. Box levels are worked out from experience points. Nature comes from the personality value, so a mint would not show.</p>
               <p><strong>Android.</strong> Open the emulator’s save folder (often under the game’s name, or in Android/data) and choose the .sav. Copy it to Downloads if the picker cannot see that folder.</p>
-              <p><strong>iPhone.</strong> In the Files app, open the emulator’s folder and choose the game’s .sav. If the emulator only shares the file, save that .sav into Files first, then pick it here.</p>
+              <p><strong>iPhone.</strong> Open the Files app, then On My iPhone, and look in the emulator’s folder for a file ending in .sav. If it is not there, use the emulator’s export or share button and choose Save to Files, then pick that file here. This works in Safari and in the home-screen app. Every file is listed, because iOS hides .sav when a page asks only for known types.</p>
             </div>
             <div className="import-actions">
-              <button className="btn btn-primary" type="button" disabled={busy} onClick={() => fileRef.current?.click()}>
+              <label className="btn btn-primary file-btn">
                 <Upload size={18} aria-hidden="true" />
-                {busy ? 'Reading…' : 'Choose a .sav file'}
-              </button>
+                {busy ? 'Reading…' : 'Choose a save file'}
+                <input
+                  ref={fileRef}
+                  type="file"
+                  aria-label="Unbound save file"
+                  disabled={busy}
+                  onChange={(event) => void onFile(event.target.files?.[0])}
+                />
+              </label>
               {app.demo && (
                 <button className="btn" type="button" disabled={busy} data-sample="true" onClick={() => void onSample()}>
                   Use the sample save
                 </button>
               )}
             </div>
-            <input
-              ref={fileRef}
-              className="sr-only"
-              type="file"
-              accept=".sav,application/octet-stream"
-              aria-label="Unbound save file"
-              onChange={(event) => void onFile(event.target.files?.[0])}
-            />
           </>
         )}
         {error && <p className="import-error" role="alert">{error}</p>}
@@ -276,6 +285,19 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
       </div>
     </BottomSheet>
   )
+}
+
+function readFileFallback(file: File): Promise<Uint8Array> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      const result = reader.result
+      if (result instanceof ArrayBuffer) resolve(new Uint8Array(result))
+      else reject(new Error('unreadable'))
+    }
+    reader.onerror = () => reject(reader.error ?? new Error('unreadable'))
+    reader.readAsArrayBuffer(file)
+  })
 }
 
 function occupies(catches: { player: string; route: string; pokemon: string | null; status: string }[], me: string, route: string): boolean {

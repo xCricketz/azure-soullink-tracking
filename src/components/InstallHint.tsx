@@ -21,13 +21,19 @@ export function InstallHint({ compact = false }: { compact?: boolean }) {
     return () => window.removeEventListener('bip-ready', onReady)
   }, [])
 
-  if (standalone) return compact ? <p className="hint">The app is installed.</p> : null
+  if (standalone) {
+    return (
+      <aside className="install">
+        <p>This is the home-screen app. Sign-in stays here after you close it, separate from a Safari tab.</p>
+      </aside>
+    )
+  }
   if (!compact && settings.installDismissed && !ios) return null
 
   return (
     <aside className="install">
       {ios ? (
-        <p>Tap Share and then <strong>Add to Home Screen</strong>.</p>
+        <p>In Safari, tap Share, then <strong>Add to Home Screen</strong>. Open Fisi's Tracker from that icon. The home-screen app keeps its own sign-in, so sign in once there.</p>
       ) : bip ? (
         <p>Put Fisi's Tracker on your home screen.</p>
       ) : (
