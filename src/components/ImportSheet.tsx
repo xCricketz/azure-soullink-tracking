@@ -4,7 +4,7 @@ import { ROUTES } from '../data/routes'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
 import { readImportedNats, writeImportedNats } from '../lib/save/memory'
-import { planSave, routeClash, type AreaHint, type PlannedMon } from '../lib/save/plan'
+import { detectedImportIds, planSave, routeClash, type AreaHint, type PlannedMon } from '../lib/save/plan'
 import type { ParsedSave } from '../lib/save/unbound-save'
 import { pushToast } from '../lib/toast'
 import { PLAYERS, otherPlayer, type CatchDraft } from '../lib/types'
@@ -54,7 +54,6 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const [busy, setBusy] = useState(false)
   const [denied, setDenied] = useState(false)
   const [routes, setRoutes] = useState<Record<string, string>>({})
-  const [picked, setPicked] = useState<string[]>([])
   const [areasReady, setAreasReady] = useState(false)
   const seededFor = useRef<ParsedSave | null>(null)
   const options = optionsOf(app.run)
@@ -80,7 +79,6 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     setBusy(false)
     setDenied(false)
     setRoutes({})
-    setPicked([])
     seededFor.current = null
     setAreasReady(false)
     void loadAreas().then((map) => {
@@ -127,17 +125,8 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     if (!plan || !save || !areasReady || seededFor.current === save) return
     seededFor.current = save
     const nextRoutes: Record<string, string> = {}
-    const nextPicked: string[] = []
-    const used = new Set<string>()
-    for (const mon of plan.mons) {
-      nextRoutes[mon.id] = mon.suggestedRoute
-      if (!mon.alreadyLogged && !used.has(mon.suggestedRoute)) {
-        nextPicked.push(mon.id)
-        used.add(mon.suggestedRoute)
-      }
-    }
+    for (const mon of plan.mons) nextRoutes[mon.id] = mon.suggestedRoute ?? ''
     setRoutes(nextRoutes)
-    setPicked(nextPicked)
   }, [plan, save, areasReady])
 
   async function loadBytes(bytes: Uint8Array) {
@@ -195,18 +184,30 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
 
   async function confirm(ids: string[]) {
     if (!save || !plan || busy) return
-    if (!ids.length) {
-      pushToast('Select at least one Pokémon.')
+    const byId = new Map(plan.mons.map((mon) => [mon.id, mon]))
+    const adding = ids.filter((id) => {
+      const mon = byId.get(id)
+      return mon && !mon.duplicate
+    })
+    if (!adding.length) {
+      pushToast('Nothing to add. Detected routes are already taken or still missing.')
       return
     }
-    if (routeClash(ids, routes)) {
+    if (adding.some((id) => !routes[id])) {
+      pushToast('Choose a route for each Pokémon you add.')
+      return
+    }
+    if (routeClash(adding, routes)) {
       pushToast('Two Pokémon are on the same route. A route holds one catch.')
+      return
+    }
+    if (adding.some((id) => occupies(app.catches, app.me, routes[id]))) {
+      pushToast('That route already has your catch.')
       return
     }
     setBusy(true)
     setDenied(false)
-    const byId = new Map(plan.mons.map((mon) => [mon.id, mon]))
-    for (const id of ids) {
+    for (const id of adding) {
       const mon = byId.get(id)
       if (!mon) continue
       const result = await app.saveCatch(draftFor(mon))
@@ -224,22 +225,26 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     onClose()
   }
 
-  const selected = plan ? picked.filter((id) => plan.mons.some((mon) => mon.id === id)) : []
   const groups = groupRoutes()
-  const party = plan?.mons.filter((mon) => mon.where === 'party') ?? []
-  const boxes = new Map<number, PlannedMon[]>()
-  for (const mon of plan?.mons ?? []) {
-    if (mon.where !== 'box' || mon.boxIndex == null) continue
-    const list = boxes.get(mon.boxIndex) ?? []
-    list.push(mon)
-    boxes.set(mon.boxIndex, list)
+  const partyCount = plan?.mons.filter((mon) => mon.where === 'party').length ?? 0
+  const fromSave = plan?.mons.filter((mon) => mon.place === 'route') ?? []
+  const needsRoute = plan?.mons.filter((mon) => mon.place === 'needs-route') ?? []
+  const special = plan?.mons.filter((mon) => mon.place === 'trade' || mon.place === 'gift' || mon.place === 'event') ?? []
+  const detected = plan ? detectedImportIds(plan.mons).filter((id) => routes[id]) : []
+
+  function rowProps(mon: PlannedMon) {
+    return {
+      mon,
+      route: routes[mon.id] ?? '',
+      groups,
+      catches: app.catches,
+      me: app.me,
+      clause: options.speciesClause,
+      busy,
+      onRoute: (value: string) => setRoutes((current) => ({ ...current, [mon.id]: value })),
+      onAdd: () => void confirm([mon.id]),
+    }
   }
-  const boxEntries = [...boxes.entries()]
-  const emptyBoxes = save ? save.boxes.length - boxEntries.length : 0
-  const replacing = selected.some((id) => {
-    const mon = plan?.mons.find((item) => item.id === id)
-    return mon ? occupies(app.catches, app.me, routes[id]) : false
-  })
 
   return (
     <BottomSheet
@@ -247,9 +252,9 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
       title="Import save"
       onClose={onClose}
       footer={plan ? (
-        <button className="btn btn-primary" type="button" disabled={busy} onClick={() => void confirm(selected)}>
+        <button className="btn btn-primary" type="button" disabled={busy || detected.length === 0} onClick={() => void confirm(detected)}>
           <Check size={18} aria-hidden="true" />
-          {busy ? 'Adding…' : `Add selected (${selected.length})`}
+          {busy ? 'Adding…' : `Import all with detected routes (${detected.length})`}
         </button>
       ) : undefined}
     >
@@ -283,62 +288,37 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
             <p className="import-summary">
               <strong>{save.trainer.name || 'Trainer'}</strong>
               {' · '}Pokédex caught {save.dex.caughtCount}
-              {' · '}party {party.length}
-              {' · '}boxed {plan.mons.length - party.length}
+              {' · '}party {partyCount}
+              {' · '}boxed {plan.mons.length - partyCount}
+              {' · '}{fromSave.length} with a route
+              {' · '}{needsRoute.length} need a route
             </p>
             <p className="import-help">
-              Nothing is written until you add it. This logs only your side. Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
+              Nothing is written until you import. This logs only your side. Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
+              The route is the met location stored on the Pokémon. The first catch on a route is kept. A later one is marked and skipped.
               Shiny is a guess. Box levels are worked out from EXP. A mint would not show.
               {!save.checksumsOk && ' One save slot failed its checksum, so this is the other slot.'}
             </p>
             {previous.length === 0 && <p className="import-help">No earlier import is stored on this phone, so every species counts as new.</p>}
-            {options.randomizerSpecies && <p className="import-help">Species randomizer is on. Suggestions follow your progress and do not use encounter lists.</p>}
-            <section className="import-block">
-              <h3>Party</h3>
-              {party.length === 0 && <p className="import-help">No party Pokémon.</p>}
-              {party.map((mon) => (
-                <MonRow
-                  key={mon.id}
-                  mon={mon}
-                  route={routes[mon.id] ?? mon.suggestedRoute}
-                  checked={picked.includes(mon.id)}
-                  groups={groups}
-                  catches={app.catches}
-                  me={app.me}
-                  clause={options.speciesClause}
-                  busy={busy}
-                  onRoute={(value) => setRoutes((current) => ({ ...current, [mon.id]: value }))}
-                  onToggle={(on) => setPicked((current) => on ? [...current, mon.id] : current.filter((id) => id !== mon.id))}
-                  onAdd={() => void confirm([mon.id])}
-                />
+            {options.randomizerSpecies && <p className="import-help">Species randomizer is on, so encounter lists are not used to guess a route.</p>}
+            <ImportGroup title="From the save" empty="No route was read from the save yet." group="route">
+              {fromSave.map((mon) => (
+                <MonRow key={mon.id} {...rowProps(mon)} />
               ))}
-            </section>
-            {boxEntries.map(([index, mons], order) => (
-              <details key={index} className="import-box" open={order === 0}>
-                <summary>Box {index + 1}{mons[0]?.boxName ? ` · ${mons[0].boxName}` : ''} · {mons.length}</summary>
-                {mons.map((mon) => (
-                  <MonRow
-                    key={mon.id}
-                    mon={mon}
-                    route={routes[mon.id] ?? mon.suggestedRoute}
-                    checked={picked.includes(mon.id)}
-                    groups={groups}
-                    catches={app.catches}
-                    me={app.me}
-                    clause={options.speciesClause}
-                    busy={busy}
-                    onRoute={(value) => setRoutes((current) => ({ ...current, [mon.id]: value }))}
-                    onToggle={(on) => setPicked((current) => on ? [...current, mon.id] : current.filter((id) => id !== mon.id))}
-                    onAdd={() => void confirm([mon.id])}
-                  />
-                ))}
-              </details>
-            ))}
-            {emptyBoxes > 0 && <p className="import-help">{emptyBoxes} empty {emptyBoxes === 1 ? 'box is' : 'boxes are'} hidden.</p>}
+            </ImportGroup>
+            <ImportGroup title="Needs a route" empty="Every Pokémon has a route." group="needs-route">
+              {needsRoute.map((mon) => (
+                <MonRow key={mon.id} {...rowProps(mon)} />
+              ))}
+            </ImportGroup>
+            <ImportGroup title="Trades, gifts, and events" empty="No trades, gifts, or events." group="special">
+              {special.map((mon) => (
+                <MonRow key={mon.id} {...rowProps(mon)} />
+              ))}
+            </ImportGroup>
             {(plan.skippedEggs > 0 || plan.skippedUnknown > 0) && (
               <p className="import-help">{plan.skippedEggs + plan.skippedUnknown} Pokémon skipped (eggs or unknown species).</p>
             )}
-            {replacing && <p className="import-help">Some selected routes already have your catch. Adding replaces those.</p>}
           </>
         )}
       </div>
@@ -373,34 +353,64 @@ function groupRoutes() {
   return [...groups.entries()]
 }
 
+function ImportGroup({ title, empty, group, children }: { title: string; empty: string; group: string; children: ReactNode }) {
+  const items = Array.isArray(children) ? children.filter(Boolean) : children ? [children] : []
+  return (
+    <section className="import-block" data-import-group={group}>
+      <h3>{title}</h3>
+      {items.length === 0 ? <p className="import-help">{empty}</p> : children}
+    </section>
+  )
+}
+
+function routeTitle(key: string): string {
+  return ROUTES.find((route) => route.name === key)?.en ?? key
+}
+
+function placeCopy(mon: PlannedMon): string {
+  const where = mon.metLevel > 0
+    ? `map section ${mon.metLocation}, met at Lv ${mon.metLevel}`
+    : `map section ${mon.metLocation}`
+  if (mon.duplicate) {
+    return mon.duplicateOf
+      ? `${mon.duplicateOf} is already the catch on this route, so this one is not added.`
+      : 'This route already has a catch, so this one is not added.'
+  }
+  if (mon.place === 'trade') return `Caught by another trainer (${where}). Not added automatically.`
+  if (mon.place === 'gift' || mon.place === 'event') {
+    const label = mon.placeLabel ?? (mon.place === 'gift' ? 'Gift' : 'Event')
+    return `${label} (${where}). Not added automatically.`
+  }
+  if (mon.place === 'route') return `Route from the save (${where}).`
+  if (mon.ambiguous.length > 0) return `This place could be ${mon.ambiguous.map(routeTitle).join(' or ')}. Choose one.`
+  if (mon.suggestion === 'area') return 'An encounter list names this place. That is a hint, not the save, so it is not imported automatically.'
+  if (!mon.metLocation) return 'No met location was stored. Choose the route.'
+  return `Map section ${mon.metLocation} is not in the route table yet. Choose the route.`
+}
+
 function MonRow({
   mon,
   route,
-  checked,
   groups,
   catches,
   me,
   clause,
   busy,
   onRoute,
-  onToggle,
   onAdd,
 }: {
   mon: PlannedMon
   route: string
-  checked: boolean
   groups: [string, { name: string; en: string }[]][]
   catches: { player: 'fisi' | 'seri'; route: string; pokemon: string | null; status: string; dex_id: number | null }[]
   me: 'fisi' | 'seri'
   clause: 'off' | 'player' | 'both'
   busy: boolean
   onRoute: (route: string) => void
-  onToggle: (on: boolean) => void
   onAdd: () => void
 }) {
-  const mine = occupies(catches, me, route)
-  const partner = catches.find((row) => row.player !== me && row.route === route && row.pokemon && row.status !== 'missed')
-  const clauseHit = clause === 'off' ? undefined : catches.find((row) => {
+  const partner = route ? catches.find((row) => row.player !== me && row.route === route && row.pokemon && row.status !== 'missed') : undefined
+  const clauseHit = clause === 'off' || !route ? undefined : catches.find((row) => {
     if (row.dex_id !== mon.nat || row.status === 'missed' || row.status === 'dead') return false
     if (row.player === me && row.route === route) return false
     if (clause === 'player') return row.player === me
@@ -411,17 +421,26 @@ function MonRow({
     : mon.levelSource === 'exp-derived'
       ? `Lv ${mon.level} · worked out from EXP`
       : `Lv ${mon.level} · from the save`
+  const manual = mon.place !== 'route' && !mon.duplicate
   return (
-    <article className="import-mon" data-mon={mon.name} data-logged={mon.alreadyLogged ? 'true' : 'false'} data-new={mon.newSinceImport ? 'true' : 'false'}>
-      <label className="import-top">
-        <input type="checkbox" checked={checked} onChange={(event) => onToggle(event.target.checked)} aria-label={`Include ${mon.name}`} />
+    <article
+      className="import-mon"
+      data-mon={mon.name}
+      data-place={mon.place}
+      data-duplicate={mon.duplicate ? 'true' : 'false'}
+      data-met={mon.metLocation}
+      data-logged={mon.alreadyLogged ? 'true' : 'false'}
+      data-new={mon.newSinceImport ? 'true' : 'false'}
+    >
+      <div className="import-top">
         <span>
           <b>{mon.name}</b>
           {mon.nickname ? <span className="s"> “{mon.nickname}”</span> : null}
-          <span className="s"> · {level} · {mon.nature}</span>
+          <span className="s"> · {level} · {mon.nature} · {mon.where === 'party' ? 'Party' : `Box ${(mon.boxIndex ?? 0) + 1}`}</span>
         </span>
-      </label>
+      </div>
       <div className="import-flags">
+        {mon.duplicate && <span className="import-pill">Duplicate</span>}
         {mon.alreadyLogged && <span className="import-pill">On this run</span>}
         {mon.newSinceImport && <span className="import-pill new">New since last import</span>}
         {mon.shiny && <span className="import-pill">Maybe shiny (guess, xor {mon.shinyXor})</span>}
@@ -430,7 +449,8 @@ function MonRow({
       {mon.formNote && <p className="import-meta">{mon.formNote}</p>}
       <label className="import-route">
         Route
-        <select aria-label={`Route for ${mon.name}`} value={route} onChange={(event) => onRoute(event.target.value)}>
+        <select aria-label={`Route for ${mon.name}`} value={route} disabled={mon.duplicate} onChange={(event) => onRoute(event.target.value)}>
+          <option value="">Choose a route</option>
           {groups.map(([group, list]) => (
             <optgroup key={group} label={group}>
               {list.map((item) => <option key={item.name} value={item.name}>{item.en}</option>)}
@@ -438,17 +458,14 @@ function MonRow({
           ))}
         </select>
       </label>
-      <p className="import-meta">
-        {mon.suggestion === 'area' && route === mon.suggestedRoute
-          ? 'Suggested because an area list names this place. That is not a prediction.'
-          : 'Suggested from your progress.'}
-      </p>
-      {mine && <p className="import-meta">This route already has your catch. Adding replaces it.</p>}
-      {partner && <p className="import-meta">{PLAYERS[otherPlayer(me)].name} already has a catch here. Adding yours links the pair.</p>}
+      <p className="import-meta">{placeCopy(mon)}</p>
+      {partner && !mon.duplicate && <p className="import-meta">{PLAYERS[otherPlayer(me)].name} already has a catch here. Adding yours links the pair.</p>}
       {clauseHit && <p className="import-meta">Species clause: {PLAYERS[clauseHit.player].name} already logged this species. You can still add it.</p>}
-      <button className="btn btn-sm" type="button" disabled={busy} onClick={onAdd}>
-        {mine ? 'Replace this one' : 'Add this one'}
-      </button>
+      {manual && (
+        <button className="btn btn-sm" type="button" disabled={busy || !route} onClick={onAdd}>
+          Add this one
+        </button>
+      )}
     </article>
   )
 }

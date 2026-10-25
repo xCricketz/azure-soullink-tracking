@@ -63,7 +63,7 @@ body { overflow: hidden; }
   background: var(--scrim);
 }
 .sheet-align { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
-.sheet { width: 100%; max-height: 100%; top: max(52px, var(--sat)); }
+.sheet { width: 100%; height: auto; max-height: none; top: max(52px, var(--sat)); bottom: 0; }
 .sheet-body { overflow: auto; -webkit-overflow-scrolling: touch; padding: 0 16px 16px; flex: 1; min-height: 0; }
 .sheet-foot { position: relative; padding: 14px 16px calc(18px + env(safe-area-inset-bottom)); }
 
@@ -259,6 +259,7 @@ textarea, .field input, .picker input, .search {
 input, textarea, select { font-size: 16px; }
 .import-error { margin: 0; color: var(--dead-ink, #9b2c2c); font-size: 14px; line-height: 18px; }
 .import-summary { margin: 0; font-size: 14px; line-height: 18px; }
+.import-block + .import-block { margin-top: 14px; }
 .import-block h3 { margin: 4px 0 0; font: 700 13px/16px var(--font-body); letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
 .import-box { border-top: 1px solid var(--line); padding-top: 8px; }
 .import-box summary { font-weight: 650; cursor: pointer; min-height: 44px; display: flex; align-items: center; }

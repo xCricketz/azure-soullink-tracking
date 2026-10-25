@@ -130,6 +130,16 @@ export interface Mon {
   ivs: number[]; // hp, atk, def, spe, spa, spd
   evs: number[]; // hp, atk, def, spe, spa, spd (Reihenfolge wie im Spiel)
   hiddenAbility: boolean;
+  /**
+   * Gen 3 misc met-location byte (map section id).
+   * Party: fixed GAEM layout, byte 0x45 (the IV word is at 0x48).
+   * Box: the same 4-byte prefix (pokerus, met location, origins) sits in the
+   * unnamed gap immediately before the IV word at 0x36, so the byte is 0x33.
+   * Confirm the box offset when the measured section table arrives.
+   */
+  metLocation: number;
+  /** Low 7 bits of the origins word after the met-location byte. 0 when unset. */
+  metLevel: number;
   /** PID/TID/SID-Xor (Gen-3-Formel). Shiny nach Vanilla = xor < 8; Unbound scheint < 16 zu nutzen (VERMUTUNG, Histogramm) */
   shinyXor: number;
   shiny: boolean; // GERATEN: shinyXor < 16
@@ -205,6 +215,10 @@ export interface DecodeCtx {
   formIndexOf?: (id: number) => number | null;
 }
 
+function metFrom(r: Uint8Array, metOff: number): { metLocation: number; metLevel: number } {
+  return { metLocation: r[metOff] ?? 0, metLevel: u16(r, metOff + 1) & 0x7f }
+}
+
 function ivsFrom(word: number): { ivs: number[]; egg: boolean; ha: boolean } {
   const ivs: number[] = [];
   for (let i = 0; i < 6; i++) ivs.push((word >>> (5 * i)) & 31);
@@ -240,6 +254,7 @@ export function decodeBoxMon(r: Uint8Array, box: number, slot: number, ctx: Deco
   for (let i = 4; i >= 0; i--) packed = (packed << 8n) | BigInt(movesPacked[i]);
   const moves = [0, 1, 2, 3].map((i) => Number((packed >> BigInt(10 * i)) & 0x3ffn));
   const { ivs, egg, ha } = ivsFrom(u32(r, 54));
+  const met = metFrom(r, 0x33);
   const exp = u32(r, 32);
   const row = ctx.table?.species[species];
   let level: number | null = null;
@@ -252,6 +267,7 @@ export function decodeBoxMon(r: Uint8Array, box: number, slot: number, ctx: Deco
     nickname: isEgg ? '' : decodeText(r.subarray(8, 18)), isEgg, ot: decodeText(r.subarray(20, 27)),
     level, levelSource, exp, item: u16(r, 30), moves,
     ivs, evs: [r[44], r[45], r[46], r[47], r[48], r[49]], hiddenAbility: ha,
+    metLocation: met.metLocation, metLevel: met.metLevel,
   }, ctx, w);
 }
 
@@ -263,6 +279,7 @@ export function decodePartyMon(r: Uint8Array, slot: number, ctx: DecodeCtx): Mon
   const w: string[] = [];
   const dv = new DataView(r.buffer, r.byteOffset, r.byteLength);
   const { ivs, egg, ha } = ivsFrom(dv.getUint32(0x48, true));
+  const met = metFrom(r, 0x45);
   const isEgg = egg || (r[0x13] & 4) !== 0;
   const otid = u32(r, 4);
   const moves = [0, 1, 2, 3].map((i) => u16(r, 0x2c + 2 * i));
@@ -271,6 +288,7 @@ export function decodePartyMon(r: Uint8Array, slot: number, ctx: DecodeCtx): Mon
     nickname: isEgg ? '' : decodeText(r.subarray(8, 18)), isEgg, ot: decodeText(r.subarray(20, 27)),
     level: r[0x54], levelSource: 'stored', exp: u32(r, 0x24), item: u16(r, 0x22), moves,
     ivs, evs: [r[0x38], r[0x39], r[0x3a], r[0x3b], r[0x3c], r[0x3d]], hiddenAbility: ha,
+    metLocation: met.metLocation, metLevel: met.metLevel,
   }, ctx, w);
 }
 

@@ -1,4 +1,5 @@
 import type { PlayerId } from '../types'
+import { MAP_SECTIONS, readLocation, type LocationReading, type MapSectionTable } from './locations'
 import type { Mon, ParsedSave } from './unbound-save'
 
 export interface RouteOption {
@@ -39,8 +40,18 @@ export interface PlannedMon {
   formNote: string | null
   alreadyLogged: boolean
   newSinceImport: boolean
-  suggestedRoute: string
-  suggestion: 'progress' | 'area'
+  metLocation: number
+  metLevel: number
+  /** Route to show as selected. Null until a met location or an area hint names one. */
+  suggestedRoute: string | null
+  suggestion: 'met' | 'area' | 'none'
+  place: LocationReading['place']
+  /** Other routes the same map section might be. The player still chooses. */
+  ambiguous: string[]
+  placeLabel: string | null
+  /** A later Pokémon on a route that already has a catch. Not imported. */
+  duplicate: boolean
+  duplicateOf: string | null
 }
 
 export interface ImportPlan {
@@ -107,14 +118,20 @@ function planOne(
     randomizerSpecies: boolean
     routes: RouteOption[]
     areas: AreaHint[]
+    sections: MapSectionTable
   },
 ): PlannedMon | 'egg' | 'unknown' {
   if (mon.isEgg) return 'egg'
   if (!mon.nat || !mon.name) return 'unknown'
-  const suggested = suggestRoute(mon.name, opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
+  const known = new Set(opts.routes.map((route) => route.name))
+  const located = readLocation(mon.metLocation, mon.ownOT, opts.sections, known)
+  const area = located.place === 'needs-route' && located.ambiguous.length === 0
+    ? suggestRoute(mon.name, opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
+    : null
   const formNote = mon.formIndex && mon.formIndex > 0
     ? `Form index ${mon.formIndex}. Stored as the base species. The save does not name the form.`
     : null
+  const route = located.route ?? (area?.suggestion === 'area' ? area.route : null)
   return {
     id: mon.where === 'party' ? `party-${mon.slot}` : `box-${mon.box ?? 0}-${mon.slot}`,
     where: mon.where,
@@ -133,8 +150,15 @@ function planOne(
     formNote,
     alreadyLogged: opts.catches.some((row) => row.player === opts.me && row.dex_id === mon.nat && row.status !== 'missed'),
     newSinceImport: !opts.previous.has(mon.nat),
-    suggestedRoute: suggested.route,
-    suggestion: suggested.suggestion,
+    metLocation: mon.metLocation,
+    metLevel: mon.metLevel,
+    suggestedRoute: route,
+    suggestion: located.source === 'met' ? 'met' : area?.suggestion === 'area' ? 'area' : 'none',
+    place: located.place,
+    ambiguous: located.ambiguous,
+    placeLabel: located.label,
+    duplicate: false,
+    duplicateOf: null,
   }
 }
 
@@ -145,10 +169,11 @@ export function planSave(save: ParsedSave, opts: {
   randomizerSpecies: boolean
   routes: RouteOption[]
   areas: AreaHint[]
+  sections?: MapSectionTable
 }): ImportPlan {
   const progress = furthestRoute(opts.routes, opts.catches)
   const previous = new Set(opts.previousNats)
-  const shared = { ...opts, previous, progress }
+  const shared = { ...opts, previous, progress, sections: opts.sections ?? MAP_SECTIONS }
   const mons: PlannedMon[] = []
   let skippedEggs = 0
   let skippedUnknown = 0
@@ -162,7 +187,27 @@ export function planSave(save: ParsedSave, opts: {
   for (const box of save.boxes) {
     for (const mon of box.mons) take(mon, box.name)
   }
+  markDuplicates(mons, opts.me, opts.catches)
   return { mons, skippedEggs, skippedUnknown, progress }
+}
+
+function markDuplicates(mons: PlannedMon[], me: PlayerId, catches: CatchHint[]) {
+  const claimed = new Map<string, string>()
+  for (const mon of mons) {
+    if (mon.place !== 'route' || !mon.suggestedRoute) continue
+    const route = mon.suggestedRoute
+    const logged = catches.find((row) => row.player === me && row.route === route && row.pokemon && row.status !== 'missed')
+    const earlier = claimed.get(route)
+    if (logged || earlier) {
+      mon.duplicate = true
+      mon.duplicateOf = earlier ?? logged?.pokemon ?? route
+    } else claimed.set(route, mon.name)
+  }
+}
+
+/** Pokémon whose route came from the save and is still the first catch on that route. */
+export function detectedImportIds(mons: PlannedMon[]): string[] {
+  return mons.filter((mon) => mon.place === 'route' && !mon.duplicate && mon.suggestedRoute).map((mon) => mon.id)
 }
 
 export function routeClash(ids: string[], chosen: Record<string, string>): boolean {
