@@ -4,8 +4,13 @@
  * Serves the built app on 4173 (start `npm run preview` first).
  */
 import { execFileSync } from 'node:child_process'
-import { mkdirSync } from 'node:fs'
-import { chromium, devices } from 'playwright'
+import { existsSync, mkdirSync } from 'node:fs'
+import { createRequire } from 'node:module'
+
+const playwrightRoot = existsSync('/tmp/e2e/node_modules/playwright/package.json')
+  ? '/tmp/e2e/package.json'
+  : new URL('../package.json', import.meta.url)
+const { chromium, devices } = createRequire(playwrightRoot)('playwright')
 
 const base = process.env.APP_URL ?? 'http://127.0.0.1:4173/azure-soullink-tracking/'
 const sav = '/tmp/sample-unbound.sav'

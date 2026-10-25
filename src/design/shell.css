@@ -102,9 +102,9 @@ button.tomb { width: 100%; display: block; }
 }
 .demo-pill { font: 800 11px/1 var(--font-body); letter-spacing: 0.1em; }
 .demo-bar .btn { height: 28px; width: auto; padding: 0 10px; border-radius: 12px; background: rgba(255,255,255,.55); color: var(--on-accent); box-shadow: none; }
-.app[data-demo="1"] > .scroll { padding-top: calc(58px + var(--sat)); }
+.app[data-demo="1"] > .scroll { padding-top: 0; }
 .app[data-demo="1"] .hdr.sticky {
-  top: calc(50px + var(--sat));
+  top: calc(46px + var(--sat));
   padding-top: 8px;
   background: var(--bg);
   box-shadow: 0 10px 16px -14px rgba(18, 32, 74, 0.45);
