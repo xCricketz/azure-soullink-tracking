@@ -1,54 +1,63 @@
-import table from '../../data/unbound/map-sections.json'
+import mapsec from '../../data/unbound/mapsec-to-route.json'
+import type { MetInfo } from './unbound-save'
 
-/** One measured map-section id. Fill `map-sections.json` when that table lands. */
-export interface MapSection {
-  route?: string
-  routes?: string[]
-  kind?: 'route' | 'gift' | 'event'
-  label?: string
+/** Cherish Ball in the CFRU ball list. Often a gift, fossil, or event. */
+export const CHERISH_BALL = 15
+
+export type MapConfidence = 'verified' | 'likely' | 'guess' | 'unmapped'
+
+export interface MapsecEntry {
+  name: string
+  route_id: string | null
+  confidence: MapConfidence
 }
 
-export type MapSectionTable = Record<string, MapSection>
+export type MapsecTable = Record<string, MapsecEntry>
 
-export const MAP_SECTIONS: MapSectionTable = isTable(table.sections) ? table.sections : {}
+export const MAP_SECTIONS: MapsecTable = isTable(mapsec) ? mapsec : {}
+
+export type DecisionKind = 'unmapped' | 'trade' | 'event' | 'hatched' | 'gift'
 
 export interface LocationReading {
-  place: 'route' | 'needs-route' | 'trade' | 'gift' | 'event'
+  /** A wild catch on a soul-link route. Everything else waits for a decision. */
+  place: 'route' | 'needs-decision'
+  decision: DecisionKind | null
   route: string | null
-  source: 'met' | 'area' | 'none'
-  ambiguous: string[]
-  label: string | null
+  confidence: MapConfidence | null
+  placeName: string | null
+  source: 'met' | 'none'
 }
 
 export function readLocation(
-  metLocation: number | null,
+  met: MetInfo,
   ownOT: boolean,
-  sections: MapSectionTable,
+  sections: MapsecTable,
   knownRoutes: Set<string>,
 ): LocationReading {
-  const none: LocationReading = { place: 'needs-route', route: null, source: 'none', ambiguous: [], label: null }
-  if (!ownOT) return { ...none, place: 'trade' }
-  const entry = metLocation == null ? undefined : sections[String(metLocation)]
-  if (!entry) return none
-  if (entry.kind === 'gift' || entry.kind === 'event') {
-    const route = known(entry.route, knownRoutes)
-    return { place: entry.kind, route, source: route ? 'met' : 'none', ambiguous: [], label: entry.label ?? null }
+  const entry = sections[String(met.mapSectionId)]
+  const named = entry?.route_id && knownRoutes.has(entry.route_id) ? entry.route_id : null
+  const confidence = entry?.confidence ?? null
+  const placeName = entry?.name ?? null
+  const base = { confidence, placeName, source: entry ? 'met' as const : 'none' as const }
+
+  if (!ownOT || met.category === 'in-game-trade' || met.category === 'foreign-origin') {
+    return { ...base, place: 'needs-decision', decision: 'trade', route: named }
   }
-  const many = (entry.routes ?? []).map((key) => known(key, knownRoutes)).filter((key): key is string => Boolean(key))
-  const one = known(entry.route, knownRoutes)
-  if (many.length > 1 || (many.length === 1 && one && many[0] !== one)) {
-    const ambiguous = [...new Set(one ? [one, ...many] : many)]
-    return { place: 'needs-route', route: null, source: 'met', ambiguous, label: entry.label ?? null }
+  if (met.category === 'fateful-event') {
+    return { ...base, place: 'needs-decision', decision: 'event', route: null, placeName: null, confidence: null }
   }
-  const route = one ?? many[0] ?? null
-  if (!route) return none
-  return { place: 'route', route, source: 'met', ambiguous: [], label: entry.label ?? null }
+  if (met.category === 'hatched' || met.category === 'special-egg') {
+    return { ...base, place: 'needs-decision', decision: 'hatched', route: named }
+  }
+  if (met.ball === CHERISH_BALL) {
+    return { ...base, place: 'needs-decision', decision: 'gift', route: named }
+  }
+  if (named && confidence && confidence !== 'unmapped') {
+    return { ...base, place: 'route', decision: null, route: named }
+  }
+  return { ...base, place: 'needs-decision', decision: 'unmapped', route: null }
 }
 
-function known(key: string | undefined, routes: Set<string>): string | null {
-  return key && routes.has(key) ? key : null
-}
-
-function isTable(value: unknown): value is MapSectionTable {
+function isTable(value: unknown): value is MapsecTable {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
 }

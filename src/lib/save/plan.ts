@@ -1,5 +1,5 @@
 import type { PlayerId } from '../types'
-import { MAP_SECTIONS, readLocation, type LocationReading, type MapSectionTable } from './locations'
+import { MAP_SECTIONS, readLocation, type DecisionKind, type LocationReading, type MapConfidence, type MapsecTable } from './locations'
 import type { Mon, ParsedSave } from './unbound-save'
 
 export interface RouteOption {
@@ -40,15 +40,16 @@ export interface PlannedMon {
   formNote: string | null
   alreadyLogged: boolean
   newSinceImport: boolean
-  metLocation: number
-  metLevel: number
+  mapSectionId: number
+  catchLevel: number
+  ballName: string | null
   /** Route to show as selected. Null until a met location or an area hint names one. */
   suggestedRoute: string | null
   suggestion: 'met' | 'area' | 'none'
   place: LocationReading['place']
-  /** Other routes the same map section might be. The player still chooses. */
-  ambiguous: string[]
-  placeLabel: string | null
+  decision: DecisionKind | null
+  confidence: MapConfidence | null
+  placeName: string | null
   /** A later Pokémon on a route that already has a catch, using the suggested route. The sheet recomputes this from the route the player actually picks. */
   duplicate: boolean
   duplicateOf: string | null
@@ -118,14 +119,14 @@ function planOne(
     randomizerSpecies: boolean
     routes: RouteOption[]
     areas: AreaHint[]
-    sections: MapSectionTable
+    sections: MapsecTable
   },
 ): PlannedMon | 'egg' | 'unknown' {
   if (mon.isEgg) return 'egg'
   if (!mon.nat || !mon.name) return 'unknown'
   const known = new Set(opts.routes.map((route) => route.name))
-  const located = readLocation(mon.metLocation, mon.ownOT, opts.sections, known)
-  const area = located.place === 'needs-route' && located.ambiguous.length === 0
+  const located = readLocation(mon.met, mon.ownOT, opts.sections, known)
+  const area = located.decision === 'unmapped' && !located.route
     ? suggestRoute(mon.name, opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
     : null
   const formNote = mon.formIndex && mon.formIndex > 0
@@ -150,13 +151,15 @@ function planOne(
     formNote,
     alreadyLogged: opts.catches.some((row) => row.player === opts.me && row.dex_id === mon.nat && row.status !== 'missed'),
     newSinceImport: !opts.previous.has(mon.nat),
-    metLocation: mon.metLocation,
-    metLevel: mon.metLevel,
+    mapSectionId: mon.met.mapSectionId,
+    catchLevel: mon.met.catchLevel,
+    ballName: mon.met.ballName,
     suggestedRoute: route,
-    suggestion: located.source === 'met' ? 'met' : area?.suggestion === 'area' ? 'area' : 'none',
+    suggestion: located.place === 'route' ? 'met' : area?.suggestion === 'area' ? 'area' : located.route ? 'met' : 'none',
     place: located.place,
-    ambiguous: located.ambiguous,
-    placeLabel: located.label,
+    decision: located.decision,
+    confidence: located.confidence,
+    placeName: located.placeName,
     duplicate: false,
     duplicateOf: null,
   }
@@ -169,7 +172,7 @@ export function planSave(save: ParsedSave, opts: {
   randomizerSpecies: boolean
   routes: RouteOption[]
   areas: AreaHint[]
-  sections?: MapSectionTable
+  sections?: MapsecTable
 }): ImportPlan {
   const progress = furthestRoute(opts.routes, opts.catches)
   const previous = new Set(opts.previousNats)

@@ -255,8 +255,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const groups = groupRoutes()
   const partyCount = plan?.mons.filter((mon) => mon.where === 'party').length ?? 0
   const fromSave = plan?.mons.filter((mon) => mon.place === 'route') ?? []
-  const needsRoute = plan?.mons.filter((mon) => mon.place === 'needs-route') ?? []
-  const special = plan?.mons.filter((mon) => mon.place === 'trade' || mon.place === 'gift' || mon.place === 'event') ?? []
+  const needsDecision = plan?.mons.filter((mon) => mon.place === 'needs-decision') ?? []
   const ready = plan ? confirmAllIds(plan.mons, routes, decisions, done) : []
   const highlightNew = previous.length > 0
 
@@ -324,12 +323,15 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
               {' · '}party {partyCount}
               {' · '}boxed {plan.mons.length - partyCount}
               {' · '}{fromSave.length} with a route
-              {' · '}{needsRoute.length} need a route
+              {' · '}{needsDecision.length} need a decision
             </p>
             <p className="import-help">
-              Reading this file does not change the run. Each route is a suggestion. Confirm a row to log that catch, or use Confirm all for every suggested route that is still the first catch.
-              Confirm all closes this list. A row that still needs a route is logged only if you confirm it first.
-              A route holds one catch. Change a suggestion if it is wrong. Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
+              Reading this file does not change the run. Each route is a suggestion from the met location. Confirm a row to log that catch, or use Confirm all for every suggested route that is still the first catch.
+              Likely and Guess are weaker matches. Change them before Confirm all if they look wrong.
+              Unmapped places, trades, events, hatched Pokémon, and Cherish Ball gifts stay under Needs your decision until you confirm them one at a time.
+              A route holds one catch. Evolution keeps the first place. A soft reset leaves no trace, so the save cannot tell a first catch from a later one.
+              A Cherish Ball is usually a gift, fossil, or event. The save cannot tell those apart from a wild catch otherwise. Gyms have no map section of their own.
+              Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
               Shiny is a guess. Box levels are worked out from EXP. A mint would not show.
               {!save.checksumsOk && ' One save slot failed its checksum, so this is the other slot.'}
             </p>
@@ -340,13 +342,8 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
                 <MonRow key={mon.id} {...rowProps(mon)} />
               ))}
             </ImportGroup>
-            <ImportGroup title="Needs a route" empty="Every Pokémon has a route." group="needs-route">
-              {needsRoute.map((mon) => (
-                <MonRow key={mon.id} {...rowProps(mon)} />
-              ))}
-            </ImportGroup>
-            <ImportGroup title="Trades, gifts, and events" empty="No trades, gifts, or events." group="special">
-              {special.map((mon) => (
+            <ImportGroup title="Needs your decision" empty="Nothing else needs a decision." group="needs-decision">
+              {needsDecision.map((mon) => (
                 <MonRow key={mon.id} {...rowProps(mon)} />
               ))}
             </ImportGroup>
@@ -397,29 +394,32 @@ function ImportGroup({ title, empty, group, children }: { title: string; empty: 
   )
 }
 
-function routeTitle(key: string): string {
-  return ROUTES.find((route) => route.name === key)?.en ?? key
+function metWhere(mon: PlannedMon): string {
+  const place = mon.placeName ?? (mon.mapSectionId ? `map section ${mon.mapSectionId}` : 'an unknown place')
+  return mon.catchLevel > 0 ? `${place}, met at Lv ${mon.catchLevel}` : place
 }
 
-function placeCopy(mon: PlannedMon, decision: RouteDecision): string {
-  const where = mon.metLevel > 0
-    ? `map section ${mon.metLocation}, met at Lv ${mon.metLevel}`
-    : `map section ${mon.metLocation}`
-  if (decision.duplicate) {
-    return decision.duplicateOf
-      ? `${decision.duplicateOf} is already the catch on this route. Pick another route, or leave it.`
+function placeCopy(mon: PlannedMon, live: RouteDecision): string {
+  if (live.duplicate) {
+    return live.duplicateOf
+      ? `${live.duplicateOf} is already the catch on this route. Pick another route, or leave it.`
       : 'This route already has a catch. Pick another route, or leave it.'
   }
-  if (mon.place === 'trade') return `Caught by another trainer (${where}). Confirm all skips this. Pick a route and confirm it only if it should count.`
-  if (mon.place === 'gift' || mon.place === 'event') {
-    const label = mon.placeLabel ?? (mon.place === 'gift' ? 'Gift' : 'Event')
-    return `${label} (${where}). Confirm all skips this. Pick a route and confirm it only if it should count.`
-  }
+  const where = metWhere(mon)
+  if (mon.decision === 'trade') return `Caught by another trainer (${where}). Confirm all skips this. Confirm it only if this route should count.`
+  if (mon.decision === 'event') return 'Event Pokémon. Confirm all skips this. Pick a route only if it should count.'
+  if (mon.decision === 'hatched') return `Hatched at ${mon.placeName ?? 'this place'}. The save stores the hatch place, not a catch route. Confirm all skips this.`
+  if (mon.decision === 'gift') return `Cherish Ball (${where}). Often a gift, fossil, or event. Confirm all skips this.`
+  if (mon.place === 'route' && mon.confidence === 'likely') return `Likely match from the save (${where}). Confirm it, or pick another.`
+  if (mon.place === 'route' && mon.confidence === 'guess') return `Guessed match from the save (${where}). Confirm it, or pick another.`
   if (mon.place === 'route') return `Suggested route from the save (${where}). Confirm it, or pick another.`
-  if (mon.ambiguous.length > 0) return `This place could be ${mon.ambiguous.map(routeTitle).join(' or ')}. Choose one, then confirm.`
-  if (mon.suggestion === 'area') return 'An encounter list names this place. That is a hint, not the save. Confirm it only if the route is right.'
-  if (!mon.metLocation) return 'No met location was stored. Choose the route, then confirm.'
-  return `Map section ${mon.metLocation} is not in the route table yet. Choose the route, then confirm.`
+  if (mon.suggestion === 'area') {
+    const named = mon.placeName ? `${mon.placeName} is not a soul-link route. ` : ''
+    return `${named}An encounter list names a route. That is a hint, not the save. Confirm it only if the route is right.`
+  }
+  if (mon.placeName) return `${mon.placeName} is not a soul-link route. Choose the route, then confirm.`
+  if (!mon.mapSectionId) return 'No met location was stored. Choose the route, then confirm.'
+  return `Map section ${mon.mapSectionId} is not in the route table yet. Choose the route, then confirm.`
 }
 
 function MonRow({
@@ -467,7 +467,9 @@ function MonRow({
       data-mon={mon.name}
       data-place={mon.place}
       data-duplicate={decision.duplicate ? 'true' : 'false'}
-      data-met={mon.metLocation}
+      data-met={mon.mapSectionId}
+      data-decision={mon.decision ?? ''}
+      data-confidence={mon.confidence ?? ''}
       data-logged={mon.alreadyLogged ? 'true' : 'false'}
       data-new={highlightNew ? 'true' : 'false'}
       data-confirmed={confirmed ? 'true' : 'false'}
@@ -481,6 +483,13 @@ function MonRow({
       </div>
       <div className="import-flags">
         {confirmed && <span className="import-pill">Confirmed</span>}
+        {mon.confidence === 'likely' && <span className="conf l">Likely</span>}
+        {mon.confidence === 'guess' && <span className="conf u">Guess</span>}
+        {mon.decision === 'trade' && <span className="import-pill">Trade</span>}
+        {mon.decision === 'event' && <span className="import-pill">Event</span>}
+        {mon.decision === 'hatched' && <span className="import-pill">Hatched</span>}
+        {mon.decision === 'gift' && <span className="import-pill">Gift</span>}
+        {mon.decision === 'unmapped' && <span className="import-pill">Unmapped</span>}
         {decision.duplicate && <span className="import-pill">Duplicate</span>}
         {mon.alreadyLogged && <span className="import-pill">On this run</span>}
         {highlightNew && <span className="import-pill new">New since last import</span>}

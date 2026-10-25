@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
 import { explainSaveError } from '../src/lib/save/explain.ts'
 import { readImportedNats, writeImportedNats, type NatStore } from '../src/lib/save/memory.ts'
 import { confirmAllIds, detectedImportIds, furthestRoute, liveDecisions, planSave, routeClash, suggestRoute, type RouteOption } from '../src/lib/save/plan.ts'
-import { parseSave, type SpeciesTable } from '../src/lib/save/unbound-save.ts'
+import { buildMetInfo, parseSave, type SpeciesTable } from '../src/lib/save/unbound-save.ts'
 import { sampleSave } from '../src/lib/save/synthetic.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -16,6 +16,9 @@ const dex = JSON.parse(readFileSync(join(here, '../src/data/unbound/dex.json'), 
 const routes: RouteOption[] = [
   { name: 'route-1', en: 'Route 1', order: 2, group: 'Opening' },
   { name: 'route-6', en: 'Route 6', order: 18, group: 'Badge 2' },
+  { name: 'route-9', en: 'Route 9', order: 40, group: 'Badge 4' },
+  { name: 'cube-corp', en: 'Cube Corp.', order: 73, group: 'Side areas' },
+  { name: 'redwood-village', en: 'Redwood Village', order: 60, group: 'Side areas' },
 ]
 
 describe('Import planning', () => {
@@ -25,11 +28,16 @@ describe('Import planning', () => {
     assert.equal(parsed.party[0]?.nat, 807)
     assert.equal(parsed.party[0]?.levelSource, 'stored')
     assert.equal(parsed.party[0]?.shiny, true)
-    assert.equal(parsed.party[0]?.metLocation, 88)
-    assert.equal(parsed.party[0]?.metLevel, 12)
+    assert.equal(parsed.party[0]?.met.mapSectionId, 109)
+    assert.equal(parsed.party[0]?.met.catchLevel, 12)
+    assert.equal(parsed.party[0]?.met.category, 'area')
+    assert.equal(parsed.party[0]?.met.ballName, 'Poké')
+    assert.equal(parsed.party[0]?.met.originsWord, 12 | (4 << 7))
     assert.deepEqual(parsed.boxes[0]?.mons.map((mon) => mon.nat), [118, 1])
-    assert.equal(parsed.boxes[0]?.mons[0]?.metLocation, 90)
-    assert.equal(parsed.boxes[0]?.mons[1]?.metLocation, 91)
+    assert.equal(parsed.boxes[0]?.mons[0]?.met.mapSectionId, 101)
+    assert.equal(parsed.boxes[0]?.mons[0]?.met.catchLevel, 8)
+    assert.equal(parsed.boxes[0]?.mons[1]?.met.mapSectionId, 254)
+    assert.equal(parsed.boxes[0]?.mons[1]?.met.category, 'in-game-trade')
     assert.equal(parsed.boxes[0]?.mons[1]?.ownOT, false)
     assert.equal(parsed.boxes[0]?.mons[0]?.levelSource, 'exp-derived')
     assert.equal(parsed.dex.caughtCount, 3)
@@ -37,6 +45,8 @@ describe('Import planning', () => {
 
   test('matches by national number and does not use encounter lists when the randomizer is on', () => {
     const parsed = parseSave(sampleSave(), { table, dexNames: dex })
+    parsed.party[0].met = buildMetInfo(128, 12 | (4 << 7), 3)
+    parsed.boxes[0].mons[0].met = buildMetInfo(128, 8 | (4 << 7), 3)
     const plan = planSave(parsed, {
       me: 'fisi',
       catches: [{ player: 'fisi', dex_id: 118, status: 'alive', pokemon: 'Goldeen', route: 'route-6' }],
@@ -53,10 +63,12 @@ describe('Import planning', () => {
     assert.equal(byNat.get(1)?.newSinceImport, true)
     assert.equal(byNat.get(807)?.nickname, '')
     assert.equal(byNat.get(118)?.nickname, 'Nick')
-    assert.equal(byNat.get(807)?.place, 'needs-route')
+    assert.equal(byNat.get(807)?.place, 'needs-decision')
+    assert.equal(byNat.get(807)?.decision, 'unmapped')
     assert.equal(byNat.get(807)?.suggestedRoute, null)
-    assert.equal(byNat.get(118)?.place, 'needs-route')
-    assert.equal(byNat.get(1)?.place, 'trade')
+    assert.equal(byNat.get(118)?.place, 'needs-decision')
+    assert.equal(byNat.get(118)?.suggestedRoute, null)
+    assert.equal(byNat.get(1)?.decision, 'trade')
     assert.deepEqual(detectedImportIds(plan.mons), [])
   })
 
@@ -64,31 +76,29 @@ describe('Import planning', () => {
     const parsed = parseSave(sampleSave(), { table, dexNames: dex })
     const plan = planSave(parsed, {
       me: 'fisi',
-      catches: [{ player: 'fisi', dex_id: null, status: 'alive', pokemon: 'Sentret', route: 'route-6' }],
+      catches: [{ player: 'fisi', dex_id: null, status: 'alive', pokemon: 'Sentret', route: 'route-1' }],
       previousNats: [],
       randomizerSpecies: true,
       routes,
       areas: [],
-      sections: {
-        88: { route: 'route-1' },
-        90: { route: 'route-6' },
-        91: { route: 'route-1', kind: 'gift', label: 'Starter' },
-        100: { routes: ['route-1', 'route-6'] },
-      },
     })
     const byNat = new Map(plan.mons.map((mon) => [mon.nat, mon]))
     const zeraora = byNat.get(807)
     const goldeen = byNat.get(118)
     assert.equal(zeraora?.place, 'route')
-    assert.equal(zeraora?.suggestedRoute, 'route-1')
+    assert.equal(zeraora?.suggestedRoute, 'route-9')
+    assert.equal(zeraora?.confidence, 'verified')
     assert.equal(zeraora?.duplicate, false)
     assert.equal(goldeen?.place, 'route')
-    assert.equal(goldeen?.suggestedRoute, 'route-6')
+    assert.equal(goldeen?.suggestedRoute, 'route-1')
+    assert.equal(goldeen?.confidence, 'likely')
     assert.equal(goldeen?.duplicate, true)
     assert.equal(goldeen?.duplicateOf, 'Sentret')
-    assert.equal(byNat.get(1)?.place, 'trade')
+    assert.equal(byNat.get(1)?.place, 'needs-decision')
+    assert.equal(byNat.get(1)?.decision, 'trade')
     assert.deepEqual(detectedImportIds(plan.mons), [zeraora?.id])
 
+    parsed.boxes[0].mons[0].met = { ...parsed.party[0].met }
     const sameRoute = planSave(parsed, {
       me: 'fisi',
       catches: [],
@@ -96,7 +106,6 @@ describe('Import planning', () => {
       randomizerSpecies: true,
       routes,
       areas: [],
-      sections: { 88: { route: 'route-1' }, 90: { route: 'route-1' } },
     })
     const first = sameRoute.mons.find((mon) => mon.nat === 807)
     const second = sameRoute.mons.find((mon) => mon.nat === 118)
@@ -106,13 +115,13 @@ describe('Import planning', () => {
     assert.deepEqual(detectedImportIds(sameRoute.mons), [first?.id])
   })
 
-  test('gifts, events, and ambiguous sections stay out of the automatic import', () => {
+  test('gifts, events, hatches, and guesses stay out of confirm all unless they are a wild catch', () => {
     const parsed = parseSave(sampleSave(), { table, dexNames: dex })
-    parsed.party[0].metLocation = 100
-    parsed.boxes[0].mons[0].metLocation = 200
+    parsed.party[0].met = buildMetInfo(109, 12 | (4 << 7), 15)
+    parsed.boxes[0].mons[0].met = buildMetInfo(255, 50 | (4 << 7), 15)
     parsed.boxes[0].mons[0].ownOT = true
     parsed.boxes[0].mons[1].ownOT = true
-    parsed.boxes[0].mons[1].metLocation = 201
+    parsed.boxes[0].mons[1].met = buildMetInfo(146, 4 << 7, 3)
     const plan = planSave(parsed, {
       me: 'fisi',
       catches: [],
@@ -120,19 +129,30 @@ describe('Import planning', () => {
       randomizerSpecies: true,
       routes,
       areas: [],
-      sections: {
-        100: { routes: ['route-1', 'route-6'] },
-        200: { kind: 'gift', label: 'Fossil', route: 'route-1' },
-        201: { kind: 'event', label: 'Wonder Card' },
-      },
     })
     const byNat = new Map(plan.mons.map((mon) => [mon.nat, mon]))
-    assert.equal(byNat.get(807)?.place, 'needs-route')
-    assert.deepEqual(byNat.get(807)?.ambiguous, ['route-1', 'route-6'])
-    assert.equal(byNat.get(118)?.place, 'gift')
-    assert.equal(byNat.get(118)?.suggestedRoute, 'route-1')
-    assert.equal(byNat.get(1)?.place, 'event')
+    assert.equal(byNat.get(807)?.decision, 'gift')
+    assert.equal(byNat.get(807)?.suggestedRoute, 'route-9')
+    assert.equal(byNat.get(118)?.decision, 'event')
+    assert.equal(byNat.get(1)?.decision, 'hatched')
+    assert.equal(byNat.get(1)?.suggestedRoute, 'redwood-village')
+    assert.equal(byNat.get(1)?.confidence, 'likely')
     assert.deepEqual(detectedImportIds(plan.mons), [])
+
+    parsed.party[0].met = buildMetInfo(125, 20 | (4 << 7), 3)
+    const guessed = planSave(parsed, {
+      me: 'fisi',
+      catches: [],
+      previousNats: [],
+      randomizerSpecies: true,
+      routes,
+      areas: [],
+    })
+    const guess = guessed.mons.find((mon) => mon.nat === 807)
+    assert.equal(guess?.place, 'route')
+    assert.equal(guess?.confidence, 'guess')
+    assert.equal(guess?.suggestedRoute, 'cube-corp')
+    assert.deepEqual(detectedImportIds(guessed.mons), [guess?.id])
   })
 
   test('area names can suggest a route only while the randomizer is off', () => {
@@ -142,7 +162,10 @@ describe('Import planning', () => {
     assert.deepEqual(off, { route: 'route-1', suggestion: 'area' })
     const on = suggestRoute('Zeraora', progress, routes, [{ key: 'route-1', species: ['Zeraora'] }], true)
     assert.deepEqual(on, { route: 'route-6', suggestion: 'progress' })
-    const hinted = planSave(parseSave(sampleSave(), { table, dexNames: dex }), {
+    const hintedSave = parseSave(sampleSave(), { table, dexNames: dex })
+    hintedSave.party[0].met = buildMetInfo(128, 12 | (4 << 7), 3)
+    hintedSave.boxes[0].mons[0].met = buildMetInfo(128, 8 | (4 << 7), 3)
+    const hinted = planSave(hintedSave, {
       me: 'fisi',
       catches: [{ player: 'fisi', dex_id: null, status: 'alive', pokemon: 'Goldeen', route: 'route-6' }],
       previousNats: [],
@@ -151,7 +174,8 @@ describe('Import planning', () => {
       areas: [{ key: 'route-1', species: ['Zeraora'] }],
     })
     const hintedMon = hinted.mons.find((mon) => mon.nat === 807)
-    assert.equal(hintedMon?.place, 'needs-route')
+    assert.equal(hintedMon?.place, 'needs-decision')
+    assert.equal(hintedMon?.decision, 'unmapped')
     assert.equal(hintedMon?.suggestion, 'area')
     assert.equal(hintedMon?.suggestedRoute, 'route-1')
     assert.deepEqual(detectedImportIds(hinted.mons), [])
@@ -167,7 +191,6 @@ describe('Import planning', () => {
       randomizerSpecies: true,
       routes,
       areas: [],
-      sections: { 88: { route: 'route-1' }, 90: { route: 'route-6' } },
     })
     const zeraora = plan.mons.find((mon) => mon.nat === 807)!
     const goldeen = plan.mons.find((mon) => mon.nat === 118)!

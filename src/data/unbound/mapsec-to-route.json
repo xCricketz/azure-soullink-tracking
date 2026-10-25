@@ -1,0 +1,547 @@
+{
+ "88": {
+  "name": "Frozen Heights",
+  "route_id": "frozen-heights",
+  "confidence": "verified"
+ },
+ "89": {
+  "name": "Bellin Town",
+  "route_id": "bellin-town",
+  "confidence": "verified"
+ },
+ "90": {
+  "name": "Dresco Town",
+  "route_id": "dresco-town",
+  "confidence": "likely"
+ },
+ "91": {
+  "name": "Crater Town",
+  "route_id": "crater-town",
+  "confidence": "likely"
+ },
+ "92": {
+  "name": "Blizzard City",
+  "route_id": "blizzard-city",
+  "confidence": "likely"
+ },
+ "93": {
+  "name": "Tehl Town",
+  "route_id": "tehl-town",
+  "confidence": "likely"
+ },
+ "94": {
+  "name": "Fallshore City",
+  "route_id": "fallshore-city",
+  "confidence": "likely"
+ },
+ "95": {
+  "name": "Epidimy Town",
+  "route_id": "epidimy-town",
+  "confidence": "likely"
+ },
+ "96": {
+  "name": "Tarmigan Town",
+  "route_id": "tarmigan-town",
+  "confidence": "likely"
+ },
+ "97": {
+  "name": "INDIGO PLATEAU",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "98": {
+  "name": "Dehara City",
+  "route_id": "dehara-city",
+  "confidence": "verified"
+ },
+ "99": {
+  "name": "Route 4",
+  "route_id": "route-4",
+  "confidence": "verified"
+ },
+ "100": {
+  "name": "Route 10",
+  "route_id": "route-10",
+  "confidence": "verified"
+ },
+ "101": {
+  "name": "Route 1",
+  "route_id": "route-1",
+  "confidence": "likely"
+ },
+ "102": {
+  "name": "Route 2",
+  "route_id": "route-2",
+  "confidence": "verified"
+ },
+ "103": {
+  "name": "Route 3",
+  "route_id": "route-3",
+  "confidence": "verified"
+ },
+ "104": {
+  "name": "Ruins of Void",
+  "route_id": "ruins-of-void",
+  "confidence": "verified"
+ },
+ "105": {
+  "name": "Route 5",
+  "route_id": "route-5",
+  "confidence": "verified"
+ },
+ "106": {
+  "name": "Route 6",
+  "route_id": "route-6",
+  "confidence": "verified"
+ },
+ "107": {
+  "name": "Route 7",
+  "route_id": "route-7",
+  "confidence": "verified"
+ },
+ "108": {
+  "name": "Route 8",
+  "route_id": "route-8",
+  "confidence": "verified"
+ },
+ "109": {
+  "name": "Route 9",
+  "route_id": "route-9",
+  "confidence": "verified"
+ },
+ "110": {
+  "name": "ROUTE 10",
+  "route_id": "route-10",
+  "confidence": "guess"
+ },
+ "111": {
+  "name": "Route 11",
+  "route_id": "route-11",
+  "confidence": "verified"
+ },
+ "112": {
+  "name": "Route 12",
+  "route_id": "route-12",
+  "confidence": "verified"
+ },
+ "113": {
+  "name": "Route 13",
+  "route_id": "route-13",
+  "confidence": "verified"
+ },
+ "114": {
+  "name": "Route 14",
+  "route_id": "route-14",
+  "confidence": "verified"
+ },
+ "115": {
+  "name": "Route 15",
+  "route_id": "route-15",
+  "confidence": "likely"
+ },
+ "116": {
+  "name": "Route 16",
+  "route_id": "route-16",
+  "confidence": "verified"
+ },
+ "117": {
+  "name": "Route 17",
+  "route_id": "route-17",
+  "confidence": "verified"
+ },
+ "118": {
+  "name": "Route 18",
+  "route_id": "route-18",
+  "confidence": "verified"
+ },
+ "119": {
+  "name": "Seaport City",
+  "route_id": "seaport-city",
+  "confidence": "verified"
+ },
+ "120": {
+  "name": "Antisis City",
+  "route_id": "antisis-city",
+  "confidence": "likely"
+ },
+ "121": {
+  "name": "Vivill Town",
+  "route_id": "vivill-town",
+  "confidence": "likely"
+ },
+ "122": {
+  "name": "Gurun Town",
+  "route_id": "gurun-town",
+  "confidence": "verified"
+ },
+ "123": {
+  "name": "Great Desert",
+  "route_id": "great-desert",
+  "confidence": "verified"
+ },
+ "124": {
+  "name": "Vivill Warehouse",
+  "route_id": "vivill-warehouse",
+  "confidence": "likely"
+ },
+ "125": {
+  "name": "Cube Space",
+  "route_id": "cube-corp",
+  "confidence": "guess"
+ },
+ "126": {
+  "name": "Grim Woods",
+  "route_id": "grim-woods",
+  "confidence": "verified"
+ },
+ "127": {
+  "name": "Cinder Volcano",
+  "route_id": "cinder-volcano",
+  "confidence": "verified"
+ },
+ "128": {
+  "name": "Hidden Grotto",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "129": {
+  "name": "Underground Pass",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "130": {
+  "name": "Frost Mountain",
+  "route_id": "frost-mountain",
+  "confidence": "verified"
+ },
+ "131": {
+  "name": "Valley Cave",
+  "route_id": "valley-cave",
+  "confidence": "verified"
+ },
+ "132": {
+  "name": "Victory Road",
+  "route_id": "victory-road",
+  "confidence": "verified"
+ },
+ "133": {
+  "name": "Shadow Base",
+  "route_id": "cinder-volcano-depths",
+  "confidence": "guess"
+ },
+ "134": {
+  "name": "KBT Expressway",
+  "route_id": "kbt-expressway",
+  "confidence": "verified"
+ },
+ "135": {
+  "name": "Tarmigan Mansion",
+  "route_id": "tarmigan-mansion",
+  "confidence": "likely"
+ },
+ "136": {
+  "name": "Flower Paradise",
+  "route_id": "flower-paradise",
+  "confidence": "verified"
+ },
+ "137": {
+  "name": "Pokémon League",
+  "route_id": "pokemon-league",
+  "confidence": "likely"
+ },
+ "138": {
+  "name": "Thundercap Mt.",
+  "route_id": "thundercap-mountain",
+  "confidence": "verified"
+ },
+ "139": {
+  "name": "Rift Cave",
+  "route_id": "rift-cave",
+  "confidence": "verified"
+ },
+ "140": {
+  "name": "Vivill Woods",
+  "route_id": "vivill-woods",
+  "confidence": "verified"
+ },
+ "141": {
+  "name": "Icicle Cave",
+  "route_id": "icicle-cave",
+  "confidence": "verified"
+ },
+ "142": {
+  "name": "Auburn Waterway",
+  "route_id": "auburn-waterway",
+  "confidence": "verified"
+ },
+ "143": {
+  "name": "Antisis Sewers",
+  "route_id": "antisis-sewers",
+  "confidence": "verified"
+ },
+ "144": {
+  "name": "Polder Town",
+  "route_id": "polder-town",
+  "confidence": "verified"
+ },
+ "145": {
+  "name": "Magnolia Town",
+  "route_id": "magnolia-town",
+  "confidence": "likely"
+ },
+ "146": {
+  "name": "Redwood Village",
+  "route_id": "redwood-village",
+  "confidence": "likely"
+ },
+ "147": {
+  "name": "Cube Corp.",
+  "route_id": "cube-corp",
+  "confidence": "likely"
+ },
+ "148": {
+  "name": "SEVEN ISLAND",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "149": {
+  "name": "SIX ISLAND",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "150": {
+  "name": "KINDLE ROAD",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "151": {
+  "name": "Distortion World",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "152": {
+  "name": "Newmoon Island",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "153": {
+  "name": "Frozen Forest",
+  "route_id": "frozen-forest",
+  "confidence": "verified"
+ },
+ "154": {
+  "name": "Cave of Being",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "155": {
+  "name": "Pokémon Day Care",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "156": {
+  "name": "Lost Tunnel",
+  "route_id": "lost-tunnel",
+  "confidence": "verified"
+ },
+ "157": {
+  "name": "Icy Hole",
+  "route_id": "icy-hole",
+  "confidence": "verified"
+ },
+ "158": {
+  "name": "Crystal Peak",
+  "route_id": "crystal-peak",
+  "confidence": "verified"
+ },
+ "159": {
+  "name": "Glimmer Isle",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "160": {
+  "name": "Game Corner",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "161": {
+  "name": "FIVE ISLE MEADOW",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "162": {
+  "name": "MEMORIAL PILLAR",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "163": {
+  "name": "Fullmoon Island",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "164": {
+  "name": "Safari Zone",
+  "route_id": "safari-zone",
+  "confidence": "verified"
+ },
+ "165": {
+  "name": "Old Map",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "166": {
+  "name": "RUIN VALLEY",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "167": {
+  "name": "Battle Frontier",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "168": {
+  "name": "CANYON ENTRANCE",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "169": {
+  "name": "SEVAULT CANYON",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "170": {
+  "name": "TANOBY RUINS",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "171": {
+  "name": "SEVII ISLE 22",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "172": {
+  "name": "SEVII ISLE 23",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "173": {
+  "name": "SEVII ISLE 24",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "174": {
+  "name": "NAVEL ROCK",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "175": {
+  "name": "MT. EMBER",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "176": {
+  "name": "BERRY FOREST",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "177": {
+  "name": "ICEFALL CAVE",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "178": {
+  "name": "Battle Mine",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "179": {
+  "name": "Battle Tower",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "180": {
+  "name": "Battle Circus",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "181": {
+  "name": "Cootes Bog",
+  "route_id": "cootes-bog",
+  "confidence": "verified"
+ },
+ "182": {
+  "name": "Magnolia Fields",
+  "route_id": "magnolia-fields",
+  "confidence": "verified"
+ },
+ "183": {
+  "name": "Redwood Forest",
+  "route_id": "redwood-forest",
+  "confidence": "verified"
+ },
+ "184": {
+  "name": "Autl Woods",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "185": {
+  "name": "Cliff Cave",
+  "route_id": "cliff-cave",
+  "confidence": "likely"
+ },
+ "186": {
+  "name": "Antisis Port",
+  "route_id": "antisis-city",
+  "confidence": "guess"
+ },
+ "187": {
+  "name": "Battleground",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "188": {
+  "name": "MONEAN CHAMBER",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "189": {
+  "name": "Underwater",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "190": {
+  "name": "S.S. Marine",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "191": {
+  "name": "Ferrothorn Turf",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "192": {
+  "name": "Tomb of Borrius",
+  "route_id": "tomb-of-borrius",
+  "confidence": "verified"
+ },
+ "193": {
+  "name": "Desert Ruins",
+  "route_id": "great-desert",
+  "confidence": "guess"
+ },
+ "194": {
+  "name": "Frozen Tomb",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "195": {
+  "name": "Island Cave",
+  "route_id": null,
+  "confidence": "unmapped"
+ },
+ "196": {
+  "name": "Dehara Dept.",
+  "route_id": null,
+  "confidence": "unmapped"
+ }
+}
