@@ -1,5 +1,5 @@
 import { Check, Upload } from 'lucide-react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react'
 import { ROUTES } from '../data/routes'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
@@ -9,11 +9,45 @@ import type { ParsedSave } from '../lib/save/unbound-save'
 import { pushToast } from '../lib/toast'
 import { PLAYERS, otherPlayer, type CatchDraft } from '../lib/types'
 import { useApp } from '../state/context'
-import { BottomSheet } from './ui'
+import { BottomSheet, cx } from './ui'
 
-export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+/** The file input covers the control. A tap is the user gesture; nothing calls click(). */
+export function SaveFileControl({
+  inputLabel,
+  wrapClass,
+  controlClass,
+  disabled,
+  onFile,
+  children,
+}: {
+  inputLabel: string
+  wrapClass?: string
+  controlClass?: string
+  disabled?: boolean
+  onFile: (file: File) => void
+  children: ReactNode
+}) {
+  const id = useId()
+  return (
+    <div className={cx('file-btn', wrapClass)}>
+      <label htmlFor={id} className={controlClass}>{children}</label>
+      <input
+        id={id}
+        type="file"
+        aria-label={inputLabel}
+        disabled={disabled}
+        onChange={(event) => {
+          const file = event.target.files?.[0]
+          event.currentTarget.value = ''
+          if (file) onFile(file)
+        }}
+      />
+    </div>
+  )
+}
+
+export function ImportSheet({ open, onClose, incoming = null }: { open: boolean; onClose: () => void; incoming?: File | null }) {
   const app = useApp()
-  const fileRef = useRef<HTMLInputElement>(null)
   const [save, setSave] = useState<ParsedSave | null>(null)
   const [areas, setAreas] = useState<AreaHint[]>([])
   const [error, setError] = useState('')
@@ -40,6 +74,7 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
 
   useEffect(() => {
     if (!open) return
+    let cancel = false
     setSave(null)
     setError('')
     setBusy(false)
@@ -49,12 +84,44 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
     seededFor.current = null
     setAreasReady(false)
     void loadAreas().then((map) => {
+      if (cancel) return
       setAreas([...map.values()].map((area) => ({
         key: area.key,
         species: [...area.wild, ...area.special].map((row) => row.species),
       })))
-    }).finally(() => setAreasReady(true))
-  }, [open])
+    }).finally(() => {
+      if (!cancel) setAreasReady(true)
+    })
+    if (incoming) void readIncoming(incoming)
+    return () => { cancel = true }
+
+    async function readIncoming(file: File) {
+      setBusy(true)
+      try {
+        let bytes: Uint8Array
+        try {
+          bytes = new Uint8Array(await file.arrayBuffer())
+        } catch {
+          bytes = await readFileFallback(file)
+        }
+        if (cancel) return
+        const { readSave } = await import('../lib/save/read')
+        const result = await readSave(bytes)
+        if (cancel) return
+        setBusy(false)
+        if (!result.ok) {
+          setSave(null)
+          setError(result.message)
+          return
+        }
+        setSave(result.save)
+      } catch {
+        if (cancel) return
+        setBusy(false)
+        setError('That file could not be read. Save in the game, then export the .sav again.')
+      }
+    }
+  }, [open, incoming])
 
   useEffect(() => {
     if (!plan || !save || !areasReady || seededFor.current === save) return
@@ -90,7 +157,6 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
 
   async function onFile(file: File | undefined) {
     if (!file) return
-    if (fileRef.current) fileRef.current.value = ''
     try {
       let bytes: Uint8Array
       try {
@@ -198,17 +264,10 @@ export function ImportSheet({ open, onClose }: { open: boolean; onClose: () => v
               <p><strong>iPhone.</strong> Open the Files app, then On My iPhone, and look in the emulator’s folder for a file ending in .sav. If it is not there, use the emulator’s export or share button and choose Save to Files, then pick that file here. This works in Safari and in the home-screen app. Every file is listed, because iOS hides .sav when a page asks only for known types.</p>
             </div>
             <div className="import-actions">
-              <label className="btn btn-primary file-btn">
+              <SaveFileControl inputLabel="Unbound save file" controlClass="btn btn-primary" disabled={busy} onFile={(file) => void onFile(file)}>
                 <Upload size={18} aria-hidden="true" />
                 {busy ? 'Reading…' : 'Choose a save file'}
-                <input
-                  ref={fileRef}
-                  type="file"
-                  aria-label="Unbound save file"
-                  disabled={busy}
-                  onChange={(event) => void onFile(event.target.files?.[0])}
-                />
-              </label>
+              </SaveFileControl>
               {app.demo && (
                 <button className="btn" type="button" disabled={busy} data-sample="true" onClick={() => void onSample()}>
                   Use the sample save

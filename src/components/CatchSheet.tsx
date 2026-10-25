@@ -11,7 +11,7 @@ import { norm } from '../lib/text'
 import { dexKey } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
 import { speciesName } from '../lib/text'
-import { ImportSheet } from './ImportSheet'
+import { ImportSheet, SaveFileControl } from './ImportSheet'
 import { Photo } from './Photo'
 import { BottomSheet, cx, Marked, SpritePlate, StatusChip, TypePills } from './ui'
 
@@ -40,6 +40,7 @@ export function CatchSheet({
   const [customName, setCustomName] = useState('')
   const [busy, setBusy] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
+  const [incoming, setIncoming] = useState<File | null>(null)
   const [area, setArea] = useState<EncounterArea | null>(null)
   const dex = useDex()
   const bag = useRef(app)
@@ -155,7 +156,13 @@ export function CatchSheet({
             void save()
           }}
         >
-          <button className="btn btn-sm import-jump" type="button" onClick={() => setImportOpen(true)}>Import a .sav</button>
+          <SaveFileControl
+            controlClass="btn btn-sm import-jump"
+            inputLabel="Import a .sav"
+            onFile={(file) => { setIncoming(file); setImportOpen(true) }}
+          >
+            Import a .sav
+          </SaveFileControl>
           {randomized && <p className="rand-note"><Shuffle size={14} aria-hidden="true" /> Randomizer on · any species. Area names and methods only.</p>}
           <div className={cx('partner', partnerMeta.id)}>
             <Photo id={partnerMeta.id} size="sm" alt="" />
@@ -404,7 +411,7 @@ export function CatchSheet({
         </form>
       )}
     </BottomSheet>
-    <ImportSheet open={open && importOpen} onClose={() => setImportOpen(false)} />
+    <ImportSheet open={open && importOpen} incoming={incoming} onClose={() => { setImportOpen(false); setIncoming(null) }} />
     </>
   )
 }

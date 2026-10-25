@@ -20,11 +20,35 @@ interface GuideStep {
   confidence: string
 }
 
+interface MapNode {
+  key: string
+  x: number
+  y: number
+  kind: string
+  badge: number | null
+  labelX: number
+  labelY: number
+  labelAnchor: 'start' | 'middle' | 'end'
+}
+
+interface MapRegion {
+  id: string
+  kind: string
+  x: number
+  y: number
+  rx: number
+  ry: number
+}
+
 const GUIDE = guideData as GuideStep[]
-const NODES = layout.nodes as { key: string; x: number; y: number }[]
+const NODES = layout.nodes as MapNode[]
 const EDGES = layout.edges as [string, string][]
-const WORLD_H = layout.height + 48
+const REGIONS = (layout.regions ?? []) as MapRegion[]
+const WORLD_W = layout.width
+const WORLD_H = layout.height
 const SHOW = 4
+
+const RADIUS: Record<string, number> = { town: 18, gym: 15, route: 9, cave: 12, dungeon: 13, other: 12 }
 
 export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const app = useApp()
@@ -73,6 +97,8 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const place = open ? placeByKey(open) : undefined
   const area = open && areas ? areas.get(open) : undefined
   const here = open ? app.catches.filter((row) => row.route === open && row.status !== 'missed') : []
+  const guideHere = open ? GUIDE.filter((step) => step.route_key === open) : []
+  const methods = area ? [...new Set([...area.wild, ...area.special].map((row) => row.method))] : []
 
   useEffect(() => {
     void loadAreas().then(setAreas)
@@ -129,11 +155,11 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       obs.disconnect()
       stage.removeEventListener('wheel', wheel)
     }
-    // focus once when the stage has a size; later pans stay put
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress?.key])
 
   function onPointerDown(event: React.PointerEvent<HTMLDivElement>) {
+    if ((event.target as Element).closest?.('.map-tools')) return
     const node = (event.target as Element).closest?.('[data-map-node]')
     tapNode.current = node?.getAttribute('data-map-node') ?? null
     event.currentTarget.setPointerCapture(event.pointerId)
@@ -175,7 +201,6 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
     if (key && moved.current <= 8 && ptrs.current.size === 0) setOpen(key)
   }
 
-  const labelSize = Math.min(16, 12 / view.scale)
   const byPos = new Map(NODES.map((node) => [node.key, node]))
 
   return (
@@ -190,63 +215,114 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       >
         <svg
           className="map-svg"
-          width={layout.width}
+          width={WORLD_W}
           height={WORLD_H}
           style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}
           aria-label="Schematic Borrius map"
         >
+          <defs>
+            <filter id="map-blob" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="22" />
+            </filter>
+          </defs>
+          {REGIONS.map((region) => (
+            <ellipse
+              key={region.id}
+              className={cx('map-blob', region.kind)}
+              cx={region.x}
+              cy={region.y}
+              rx={region.rx}
+              ry={region.ry}
+              filter="url(#map-blob)"
+            />
+          ))}
           {EDGES.map(([from, to]) => {
             const a = byPos.get(from)
             const b = byPos.get(to)
             if (!a || !b) return null
-            return <line key={`${from}-${to}`} className="map-edge" x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
+            const highway = from === 'kbt-expressway' || to === 'kbt-expressway'
+            return (
+              <path
+                key={`${from}-${to}`}
+                className={cx('map-edge', highway && 'highway')}
+                d={edgePath(a, b)}
+              />
+            )
           })}
           {NODES.map((node) => {
             const info = placeByKey(node.key)
             const state = node.key === progress?.key ? 'current' : caught.has(node.key) ? 'caught' : (info?.order ?? 99) <= (progress?.order ?? 0) ? 'visited' : 'ahead'
             const name = info?.name ?? node.key
+            const label = name.length > 16 ? `${name.slice(0, 15)}…` : name
+            const r = RADIUS[node.kind] ?? 11
+            const townBadge = node.kind === 'town' ? node.badge : null
             return (
               <g
                 key={node.key}
-                className={cx('map-node', state)}
+                className={cx('map-node', state, node.kind)}
                 transform={`translate(${node.x} ${node.y})`}
                 data-map-node={node.key}
                 data-state={state}
               >
-                <circle r={state === 'current' ? 18 : 14} />
-                <text y={32} textAnchor="middle" fontSize={labelSize}>{name.length > 16 ? `${name.slice(0, 15)}…` : name}</text>
+                <circle className="hit" r={Math.max(22, r + 8)} />
+                <circle className="core" r={r} />
+                {node.kind === 'gym' && node.badge ? (
+                  <text className="badge-num" textAnchor="middle" y="4">{node.badge}</text>
+                ) : (
+                  <NodeMark kind={node.kind} />
+                )}
+                {townBadge ? (
+                  <g className="town-badge" transform="translate(12 -14)">
+                    <circle r="8" />
+                    <text textAnchor="middle" y="3">{townBadge}</text>
+                  </g>
+                ) : null}
+                <text
+                  className="lbl"
+                  x={node.labelX}
+                  y={node.labelY}
+                  textAnchor={node.labelAnchor}
+                >
+                  {label}
+                </text>
               </g>
             )
           })}
-          {pins.map((pin) => (
-            <g key={pin.player} className="map-pin" transform={`translate(${pin.x + (pin.player === 'seri' ? 22 : -10)} ${pin.y - 36})`}>
-              <path d="M-6 13 L0 22 L6 13Z" fill={pin.player === 'fisi' ? '#1E9BFF' : '#FF4F86'} />
-              <circle r="16" fill="#fff" />
-              <circle r="14" fill={pin.player === 'fisi' ? '#1E9BFF' : '#FF4F86'} />
-              <clipPath id={`pin-${pin.player}`}><circle r="12" /></clipPath>
-              <image
-                href={`${import.meta.env.BASE_URL}trainers/${pin.player}-avatar-256.png`}
-                x="-12"
-                y="-12"
-                width="24"
-                height="24"
-                clipPath={`url(#pin-${pin.player})`}
-              />
-            </g>
-          ))}
+          {pins.map((pin) => {
+            const shift = pin.player === 'seri' ? 20 : -20
+            return (
+              <g key={pin.player} className={cx('map-pin', pin.player)} transform={`translate(${pin.x + shift} ${pin.y - 42})`}>
+                <path d="M-5 12 L0 20 L5 12Z" />
+                <circle className="ring" r="15" />
+                <circle className="face" r="12" />
+                <clipPath id={`pin-${pin.player}`}><circle r="11" /></clipPath>
+                <image
+                  href={`${import.meta.env.BASE_URL}trainers/${pin.player}-avatar-256.png`}
+                  x="-11"
+                  y="-11"
+                  width="22"
+                  height="22"
+                  clipPath={`url(#pin-${pin.player})`}
+                />
+              </g>
+            )
+          })}
         </svg>
-        <div className="map-tools">
+        <div className="map-tools" onPointerDown={(event) => event.stopPropagation()}>
           <button type="button" aria-label="Zoom in" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale * 1.25)}><Plus size={18} /></button>
           <button type="button" aria-label="Zoom out" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale / 1.25)}><Minus size={18} /></button>
           <button type="button" aria-label="Show the current route" onClick={() => focusProgress(1)}><LocateFixed size={18} /></button>
         </div>
       </div>
-      <div className="map-legend" aria-hidden="true">
+      <div className="map-legend">
         <span><i className="caught" /> Caught</span>
         <span><i className="visited" /> Been there</span>
         <span><i className="ahead" /> Not yet</span>
+        <span><i className="town" /> Town</span>
+        <span><i className="gym" /> Gym</span>
+        <span><i className="cave" /> Cave</span>
       </div>
-      <p className="hint">Story order, drawn from the route links. Not a geographic map of Borrius. Pins mark the latest log for each player.</p>
+      <p className="hint map-caption">Schematic, not a geographic map of Borrius. Drag to pan, pinch or use the buttons to zoom. Pins mark the latest log for each player.</p>
       <section className="gcard ladder-card" aria-label="Level cap ladder">
         <h3>Level cap ladder</h3>
         <p>{options.levelCapOn ? 'The highlighted step is the cap for the badges you have now.' : 'The level cap is off, so these numbers are only the table.'}</p>
@@ -283,17 +359,28 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
         {place && (
           <div className="map-sheet">
             <p className="hint">{place.kind}{place.boss ? ` · ${place.boss}` : ''}</p>
+            {guideHere.length > 0 && (
+              <>
+                <h3 className="wiki-sec">From the guide</h3>
+                {guideHere.map((step) => (
+                  <p key={step.step} className="hint">{step.objective}{step.note ? ` ${step.note}` : ''}</p>
+                ))}
+              </>
+            )}
             <h3 className="wiki-sec">Encounters</h3>
             {!area || (area.wild.length === 0 && area.special.length === 0) ? (
               <p className="hint">No encounter list for this area.</p>
             ) : options.randomizerSpecies ? (
-              <p className="hint">Species randomizer is on. Methods in {area.name}: {[...new Set([...area.wild, ...area.special].map((row) => row.method))].join(', ') || 'not listed'}. Species names stay hidden.</p>
+              <p className="hint">Species randomizer is on. {area.name}: {methods.join(', ') || 'methods not listed'}. Species names stay hidden.</p>
             ) : (
-              <ul className="enc-list">
-                {[...area.wild, ...area.special].slice(0, 24).map((row, index) => (
-                  <li key={`${row.species}-${row.form ?? ''}-${row.method}-${index}`}>{monLabel({ name: row.species, form: row.form })} <small>{row.method}</small></li>
-                ))}
-              </ul>
+              <>
+                <p className="hint">{area.name}{methods.length ? ` · ${methods.join(', ')}` : ''}</p>
+                <ul className="enc-list">
+                  {[...area.wild, ...area.special].slice(0, 24).map((row, index) => (
+                    <li key={`${row.species}-${row.form ?? ''}-${row.method}-${index}`}>{monLabel({ name: row.species, form: row.form })} <small>{row.method}</small></li>
+                  ))}
+                </ul>
+              </>
             )}
             <h3 className="wiki-sec">Your catches</h3>
             {here.length === 0 ? <p className="hint">Nothing logged here yet.</p> : (
@@ -303,6 +390,9 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
                 ))}
               </ul>
             )}
+            <p className="hint">
+              <a className="map-wiki" href={`https://unboundwiki.com/locations/${place.key}/`} target="_blank" rel="noreferrer">Area page on the wiki</a>
+            </p>
             {place.soullink_route && (
               <button className="btn btn-primary" type="button" onClick={() => { onLog(place.key); setOpen(null) }}>
                 Log a catch
@@ -313,6 +403,27 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       </BottomSheet>
     </div>
   )
+}
+
+function NodeMark({ kind }: { kind: string }) {
+  if (kind === 'town') return <path className="ico" d="M-6 1.5 L0 -6 L6 1.5 V6 H-6 Z" />
+  if (kind === 'cave') return <path className="ico" d="M-7 6 C-7 -1 -3 -6 0 -6 C3 -6 7 -1 7 6 Z M-2 6 V2 H2 V6" />
+  if (kind === 'dungeon') return <path className="ico" d="M-6 6 V-1 H6 V6 M-2.2 6 V1.2 H2.2 V6 M-6 -1 L0 -6 L6 -1" />
+  if (kind === 'route') return <path className="ico" d="M0 -6 L5 0 L0 6 L-5 0 Z" />
+  return <path className="ico" d="M0 -6 L1.6 -1.8 L6 -1.4 L2.6 1.4 L3.6 6 L0 3.6 L-3.6 6 L-2.6 1.4 L-6 -1.4 L-1.6 -1.8 Z" />
+}
+
+function edgePath(a: MapNode, b: MapNode): string {
+  const mx = (a.x + b.x) / 2
+  const my = (a.y + b.y) / 2
+  const dx = b.x - a.x
+  const dy = b.y - a.y
+  const len = Math.hypot(dx, dy) || 1
+  const sign = (a.key.charCodeAt(0) + b.key.charCodeAt(0) + a.key.length) % 2 === 0 ? 1 : -1
+  const bend = Math.min(46, len * 0.18) * sign
+  const cx = mx + (-dy / len) * bend
+  const cy = my + (dx / len) * bend
+  return `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`
 }
 
 function catchLabel(row: Catch): string {
@@ -337,14 +448,14 @@ function stepPassed(step: GuideStep, progressOrder: number): boolean {
 }
 
 function clampScale(scale: number, stage: HTMLElement): number {
-  const fit = Math.min(stage.clientWidth / layout.width, stage.clientHeight / WORLD_H)
-  return Math.min(2.4, Math.max(Math.min(1, fit), scale))
+  const fit = Math.min(stage.clientWidth / WORLD_W, stage.clientHeight / WORLD_H)
+  return Math.min(2.6, Math.max(Math.min(0.85, fit), scale))
 }
 
 function clampView(next: { x: number; y: number; scale: number }, stage: HTMLElement) {
-  const worldW = layout.width * next.scale
+  const worldW = WORLD_W * next.scale
   const worldH = WORLD_H * next.scale
-  const pad = 48
+  const pad = 64
   const xLo = Math.min(pad, stage.clientWidth - worldW - pad)
   const xHi = Math.max(pad, stage.clientWidth - worldW - pad)
   const yLo = Math.min(pad, stage.clientHeight - worldH - pad)

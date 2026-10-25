@@ -1,6 +1,6 @@
 import { ChartColumn, ChevronRight, Download, FlaskConical, Gauge, Moon, RotateCcw, ScrollText, Shuffle, Smartphone, Sparkles, Sun, Upload } from 'lucide-react'
 import { useState } from 'react'
-import { ImportSheet } from '../components/ImportSheet'
+import { ImportSheet, SaveFileControl } from '../components/ImportSheet'
 import { InstallHint } from '../components/InstallHint'
 import { Photo } from '../components/Photo'
 import { BottomSheet, Dialog } from '../components/ui'
@@ -24,6 +24,7 @@ export function More({ onDex }: { onDex?: () => void }) {
   const [newText, setNewText] = useState('')
   const [switchOpen, setSwitchOpen] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
+  const [incoming, setIncoming] = useState<File | null>(null)
   const [fallback, setFallback] = useState(false)
   const dex = useDex()
   const stats = summarize(app.catches, dex)
@@ -244,11 +245,15 @@ export function More({ onDex }: { onDex?: () => void }) {
 
       <h2 className="group-lbl">App</h2>
       <div className="group">
-        <button className="row" type="button" onClick={() => setImportOpen(true)}>
+        <SaveFileControl
+          wrapClass="row"
+          inputLabel="Import save"
+          onFile={(file) => { setIncoming(file); setImportOpen(true) }}
+        >
           <span className="ricon alive"><Upload size={18} aria-hidden="true" /></span>
           <span className="rt">Import save<small>Read a .sav on this phone · nothing is uploaded</small></span>
           <ChevronRight className="chev" size={18} aria-hidden="true" />
-        </button>
+        </SaveFileControl>
         <button className="row" type="button" onClick={() => setInstallOpen(true)}>
           <span className="ricon alive"><Download size={18} aria-hidden="true" /></span>
           <span className="rt">Install the app<small>Add to the home screen</small></span>
@@ -275,7 +280,7 @@ export function More({ onDex }: { onDex?: () => void }) {
       <BottomSheet open={installOpen} title="Install the app" onClose={() => setInstallOpen(false)}>
         <InstallHint />
       </BottomSheet>
-      <ImportSheet open={importOpen} onClose={() => setImportOpen(false)} />
+      <ImportSheet open={importOpen} incoming={incoming} onClose={() => { setImportOpen(false); setIncoming(null) }} />
 
       <Dialog
         open={switchOpen}
