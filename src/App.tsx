@@ -1,5 +1,5 @@
 import { ChevronLeft, Gauge, LayoutGrid, Map as MapIcon, Plus, Shuffle, Signpost, Skull, Sparkles } from 'lucide-react'
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { CatchSheet } from './components/CatchSheet'
 import { CapSheet } from './components/CapSheet'
 import { DeathDialog } from './components/DeathDialog'
@@ -134,6 +134,10 @@ function RealApp() {
 
 export function Shell() {
   const app = useApp()
+  const appRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLElement>(null)
+  const mainRef = useRef<HTMLElement>(null)
   const [tab, setTab] = useState<TabId>('routes')
   const [sheet, setSheet] = useState<{ route?: string } | null>(null)
   const [wikiId, setWikiId] = useState<string | null>(null)
@@ -185,6 +189,34 @@ export function Shell() {
   }, [tab])
 
   useEffect(() => {
+    const root = appRef.current
+    const scroll = scrollRef.current
+    const header = headerRef.current
+    const main = mainRef.current
+    if (!root || !scroll || !main) return
+    scroll.scrollTop = 0
+    const measure = () => {
+      if (scroll.scrollTop > 2) return
+      const hidden = !header || getComputedStyle(header).display === 'none'
+      const hdr = hidden ? null : header.getBoundingClientRect()
+      const box = main.getBoundingClientRect()
+      const pad = parseFloat(getComputedStyle(main).paddingTop) || 0
+      const cover = hdr ? hdr.bottom - (box.top + pad) : -pad
+      const next = Math.max(0, Math.round(pad + cover))
+      if (Math.abs(next - pad) > 1) root.style.setProperty('--content-pad', `${next}px`)
+      const chrome = hdr ? Math.max(0, Math.round(hdr.bottom - scroll.getBoundingClientRect().top)) : 0
+      root.style.setProperty('--chrome-bottom', `${chrome}px`)
+    }
+    measure()
+    const obs = new ResizeObserver(measure)
+    if (header) obs.observe(header)
+    const demo = root.querySelector('.demo-bar')
+    if (demo) obs.observe(demo)
+    obs.observe(main)
+    return () => obs.disconnect()
+  }, [tab, wikiId, app.demo])
+
+  useEffect(() => {
     if (wikiId == null) {
       releaseLayer('wiki')
       return
@@ -230,7 +262,7 @@ export function Shell() {
   }
 
   return (
-    <div className="app" data-me={app.me} data-tab={wikiId ? 'wiki' : tab} data-demo={app.demo ? '1' : '0'}>
+    <div className="app" ref={appRef} data-me={app.me} data-tab={wikiId ? 'wiki' : tab} data-demo={app.demo ? '1' : '0'}>
       <EmberDefs />
       <Backdrop kind={bg} />
       {app.demo && (
@@ -239,8 +271,8 @@ export function Shell() {
           <button className="btn btn-sm" type="button" onClick={app.exitDemo}>Exit demo</button>
         </div>
       )}
-      <div className="scroll">
-        <header className="hdr sticky">
+      <div className="scroll" ref={scrollRef}>
+        <header className="hdr sticky" ref={headerRef}>
           <div className="l">
             {(tab === 'wiki' || wikiId) && (
               <button className="ibtn back" type="button" aria-label="Back" onClick={() => { if (wikiId) setWikiId(null); else setTab('more') }}>
@@ -270,7 +302,7 @@ export function Shell() {
             )}
           </div>
         </header>
-        <main>
+        <main ref={mainRef}>
           {wikiId !== null ? (
             <WikiDetail id={wikiId} onOpen={openWiki} onClose={() => setWikiId(null)} />
           ) : (

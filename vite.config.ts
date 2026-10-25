@@ -37,18 +37,24 @@ export default defineConfig({
         ],
       },
       workbox: {
-        cacheId: 'unbound-v8-ios',
+        cacheId: 'unbound-v9-sprites',
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff,woff2,ttf,ico,webmanifest}'],
         navigateFallback: 'index.html',
+        navigateFallbackDenylist: [/^https:\/\/raw\.githubusercontent\.com\//],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/raw\.githubusercontent\.com\/PokeAPI\/sprites\/.*/i,
-            handler: 'CacheFirst',
+            handler: 'NetworkFirst',
             options: {
               cacheName: 'poke-sprites',
+              networkTimeoutSeconds: 6,
               expiration: { maxEntries: 800, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              // Opaque image responses are status 0. Never replace a sprite
+              // fetch with a synthetic error; a miss falls through to the
+              // image's own onError Poké Ball.
               cacheableResponse: { statuses: [0, 200] },
+              fetchOptions: { mode: 'no-cors', credentials: 'omit', redirect: 'follow' },
             },
           },
         ],
