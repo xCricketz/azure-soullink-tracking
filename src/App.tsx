@@ -1,4 +1,4 @@
-import { BookOpen, Ellipsis, MapPin, Plus, Skull } from 'lucide-react'
+import { BookOpen, Ellipsis, Map as MapIcon, MapPin, Plus, Skull } from 'lucide-react'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { CatchSheet } from './components/CatchSheet'
 import { DeathDialog } from './components/DeathDialog'
@@ -9,9 +9,11 @@ import { releaseLayer, upsertLayer } from './lib/history'
 import { clearHidden, markHidden, resumeNeedsStart } from './lib/start'
 import { supabase } from './lib/supabase'
 import { greetingLine, playerFromEmail, PLAYERS, type PlayerId, type TabId } from './lib/types'
+import { parseDexKey } from './lib/unbound'
 import { DemoApp } from './demo'
 import { Login, UnknownAccount } from './screens/Login'
 import { Graveyard } from './screens/Graveyard'
+import { MapScreen } from './screens/Map'
 import { More } from './screens/More'
 import { Routes } from './screens/Routes'
 import { Team } from './screens/Team'
@@ -23,6 +25,7 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'team', label: 'Team' },
   { id: 'grave', label: 'Graveyard' },
   { id: 'wiki', label: 'Pokédex' },
+  { id: 'map', label: 'Map' },
   { id: 'more', label: 'More' },
 ]
 
@@ -99,7 +102,7 @@ export function Shell() {
   const app = useApp()
   const [tab, setTab] = useState<TabId>('routes')
   const [sheet, setSheet] = useState<{ route?: string } | null>(null)
-  const [wikiId, setWikiId] = useState<number | null>(null)
+  const [wikiId, setWikiId] = useState<string | null>(null)
   const greet = useMemo(() => greetingLine(), [])
 
   useEffect(() => {
@@ -133,8 +136,8 @@ export function Shell() {
     upsertLayer('wiki', () => setWikiId(null))
   }, [wikiId])
 
-  function openWiki(id: number) {
-    if (id > 0) setWikiId(id)
+  function openWiki(id: string) {
+    if (parseDexKey(id).nat > 0) setWikiId(id)
   }
 
   function chooseTab(id: TabId) {
@@ -162,7 +165,10 @@ export function Shell() {
     sub = `${team.length} / 6 · avg Lv ${average}${cap ? ` · Level cap ${cap}` : ''}`
   } else if (tab === 'wiki') {
     title = 'Pokédex'
-    sub = 'Gen 1–4 · All 493'
+    sub = app.settings.showGen8 ? 'Unbound · post-game on' : 'Unbound · story dex'
+  } else if (tab === 'map') {
+    title = 'Map'
+    sub = 'Story order'
   } else if (tab === 'grave') {
     title = 'Graveyard'
   }
@@ -187,6 +193,7 @@ export function Shell() {
         {tab === 'team' && <Team onWiki={openWiki} />}
         {tab === 'grave' && <Graveyard />}
         {tab === 'wiki' && <WikiHome onOpen={openWiki} />}
+        {tab === 'map' && <MapScreen onLog={(route) => setSheet({ route })} />}
         {tab === 'more' && <More />}
       </main>
       {tab === 'routes' && wikiId === null && (
@@ -203,6 +210,7 @@ export function Shell() {
               {item.id === 'team' && <PokeballIcon size={20} />}
               {item.id === 'grave' && <Skull size={20} strokeWidth={2} aria-hidden="true" />}
               {item.id === 'wiki' && <BookOpen size={20} strokeWidth={2} aria-hidden="true" />}
+              {item.id === 'map' && <MapIcon size={20} strokeWidth={2} aria-hidden="true" />}
               {item.id === 'more' && <Ellipsis size={20} strokeWidth={2} aria-hidden="true" />}
             </span>
             <span>{item.label}</span>

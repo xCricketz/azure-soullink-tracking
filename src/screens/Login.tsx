@@ -61,7 +61,7 @@ export function Login({
         <header className="lg">
           <img className="logo" src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" />
           <h1 className="pixel">FISI'S TRACKER</h1>
-          <p className="sub">Azure Platinum · Fisi & Seri</p>
+          <p className="sub">Pokémon Unbound · Fisi & Seri</p>
           <h2>Who are you?</h2>
         </header>
         <div className="who-grid">

@@ -11,6 +11,7 @@ import { countPairs, graveRows, isLinked, matchesFilter, matchesQuery, pairRows 
 import { useApp } from '../state/context'
 import { PLAYERS, type RouteFilter, type Status } from '../lib/types'
 import { monName, speciesName } from '../lib/text'
+import { dexKey } from '../lib/unbound'
 
 const CHIPS: { id: RouteFilter; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -21,7 +22,7 @@ const CHIPS: { id: RouteFilter; label: string }[] = [
   { id: 'missed', label: 'Missed' },
 ]
 
-export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onWiki: (id: number) => void }) {
+export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onWiki: (id: string) => void }) {
   const app = useApp()
   const [filter, setFilter] = useState<RouteFilter>('all')
   const [query, setQuery] = useState('')
@@ -37,7 +38,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
   const badges = app.run?.badges ?? 0
   const cap = app.run?.level_cap ?? null
   const leader = nextLeader(badges)
-  const suggestion = suggestedCap(cap)
+  const suggestion = suggestedCap(badges, app.settings.capMode, app.settings.mansionDone, cap)
   const linked = rows.filter((row) => isLinked(row.fisi, row.seri))
   const living = linked.filter((row) => row.fisi?.status !== 'dead' && row.seri?.status !== 'dead').length
   const fallen = rows.filter((row) => row.fisi?.status === 'dead' || row.seri?.status === 'dead').length
@@ -57,7 +58,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
           <button className="ptile-hit" type="button" onClick={() => setEditor('cap')}>
             <div className="lbl">Level cap</div>
             <div className="val">{cap ?? '–'}</div>
-            {leader && <div className="species">Next: {leader.name}</div>}
+            {leader && <div className="species">Next: {leader.leader}</div>}
           </button>
           {suggestion && suggestion.level !== cap && (
             <button
@@ -148,7 +149,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
             <Plus />
           </button>
         </div>
-        <p className="hint center">Applies to both of you. {leader ? `Next: ${leader.name} in ${leader.city}, ace Lv. ${leader.ace}.` : 'All eight badges are here.'}</p>
+        <p className="hint center">Applies to both of you. {leader ? `Next: ${leader.leader} in ${leader.city}. ${leader.boss}` : 'All eight badges are here.'}</p>
       </BottomSheet>
       <BottomSheet open={editor === 'cap'} title="Level cap" onClose={() => setEditor(null)}>
         <div className="stepper">
@@ -160,12 +161,23 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
             <Plus />
           </button>
         </div>
-        {suggestion && suggestion.level !== cap && (
+        <div className="seg cap-mode" role="group" aria-label="Level cap table">
+          {(['vanilla', 'difficult'] as const).map((mode) => (
+            <button key={mode} type="button" className={app.settings.capMode === mode ? 'on' : ''} aria-pressed={app.settings.capMode === mode} onClick={() => app.updateSettings({ capMode: mode })}>
+              {mode === 'vanilla' ? 'Vanilla' : 'Difficult+'}
+            </button>
+          ))}
+        </div>
+        <label className="switch">
+          <input type="checkbox" checked={app.settings.mansionDone} onChange={(event) => app.updateSettings({ mansionDone: event.target.checked })} />
+          <span>Tarmigan Mansion finished</span>
+        </label>
+        {suggestion && (
           <button className="btn btn-primary cap-apply" type="button" onClick={() => void app.saveProgress({ level_cap: suggestion.level })}>
-            Use {suggestion.label} · Lv {suggestion.level}
+            Suggest Lv {suggestion.level}
           </button>
         )}
-        <p className="hint center">{suggestion ? `Next documented cap: ${suggestion.label}, Lv ${suggestion.level}.` : 'You’re past the last documented cap.'} The list is for Normal mode.</p>
+        <p className="hint center">{suggestion ? `${suggestion.label} · Lv ${suggestion.level} on ${app.settings.capMode === 'difficult' ? 'Difficult+' : 'Vanilla'}.` : 'The cap already matches this badge count.'} Saved for this phone.</p>
       </BottomSheet>
 
       <BottomSheet open={Boolean(detailRow)} title={detailRow ? routeTitle(detailRow.route) : 'Route'} onClose={() => setDetail(null)}>
@@ -190,7 +202,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
                             className="wiki-hit"
                             type="button"
                             aria-label={`${speciesName(row)} in the Pokédex`}
-                            onClick={() => { setDetail(null); onWiki(row.dex_id as number) }}
+                            onClick={() => { setDetail(null); onWiki(dexKey(row.dex_id as number, row.form)) }}
                           >
                             <SpritePlate id={row.dex_id} alt={speciesName(row)} dim={row.status === 'dead'} />
                           </button>

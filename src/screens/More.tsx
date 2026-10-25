@@ -4,7 +4,7 @@ import { InstallHint } from '../components/InstallHint'
 import { TrainerShot } from '../components/TrainerShot'
 import { BottomSheet, Dialog } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
-import { gen4TypeNames } from '../data/typechart'
+import { findMon, useDex } from '../lib/unbound'
 import { useApp } from '../state/context'
 import { DEFAULT_RULES, PLAYERS, type ThemeChoice } from '../lib/types'
 import { pushToast } from '../lib/toast'
@@ -20,7 +20,8 @@ export function More() {
   const [newText, setNewText] = useState('')
   const [switchOpen, setSwitchOpen] = useState(false)
   const [fallback, setFallback] = useState(false)
-  const stats = summarize(app.catches)
+  const dex = useDex()
+  const stats = summarize(app.catches, dex)
   const me = PLAYERS[app.me]
 
   return (
@@ -116,7 +117,7 @@ export function More() {
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </button>
       </div>
-      <p className="foot2">Fisi's Tracker · v7 · Azure Platinum</p>
+      <p className="foot2">Fisi's Tracker · v8 · Pokémon Unbound</p>
 
       <BottomSheet open={rulesOpen} title="Rules" onClose={() => setRulesOpen(false)} footer={
         <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Save rules</button>
@@ -220,7 +221,7 @@ function cxProfile(me: string) {
   return `prof ${me}`
 }
 
-function summarize(catches: { player: 'fisi' | 'seri'; status: string; route: string; dex_id: number | null }[]) {
+function summarize(catches: { player: 'fisi' | 'seri'; status: string; route: string; dex_id: number | null; form: string | null }[], dex: ReturnType<typeof useDex>) {
   const per = { fisi: 0, seri: 0 }
   let dead = 0
   let decided = 0
@@ -234,7 +235,7 @@ function summarize(catches: { player: 'fisi' | 'seri'; status: string; route: st
       dead += 1
       routeDead.set(row.route, (routeDead.get(row.route) ?? 0) + 1)
     }
-    const type = row.dex_id ? gen4TypeNames(row.dex_id)[0] : undefined
+    const type = findMon(dex, row.dex_id, row.form)?.types[0]
     if (type) types.set(type, (types.get(type) ?? 0) + 1)
   }
   const deadliestKey = [...routeDead.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? null

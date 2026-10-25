@@ -1,0 +1,1179 @@
+[
+ {
+  "key": "frozen-heights",
+  "name": "Frozen Heights",
+  "order": 1,
+  "kind": "town",
+  "badge_after": null,
+  "boss": "Rival (first fight) - spelled Axelrod/Axelford in sources",
+  "level_cap_note": "0 badge(s) when you arrive: cap 15 (Vanilla) / 20 (Difficult+).",
+  "neighbours": [
+   "route-1",
+   "kbt-expressway"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": [
+   "Shadow Base (Cinder Volcano Depths side)"
+  ]
+ },
+ {
+  "key": "route-1",
+  "name": "Route 1",
+  "order": 2,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "0 badge(s) when you arrive: cap 15 (Vanilla) / 20 (Difficult+).",
+  "neighbours": [
+   "frozen-heights",
+   "icicle-cave",
+   "bellin-town"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "bellin-town",
+  "name": "Bellin Town",
+  "order": 3,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "0 badge(s) when you arrive: cap 15 (Vanilla) / 20 (Difficult+).",
+  "neighbours": [
+   "route-1",
+   "icy-hole"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "icicle-cave",
+  "name": "Icicle Cave",
+  "order": 4,
+  "kind": "cave",
+  "badge_after": null,
+  "boss": "Rival rematch at the cave exit",
+  "level_cap_note": "0 badge(s) when you arrive: cap 15 (Vanilla) / 20 (Difficult+).",
+  "neighbours": [
+   "route-1",
+   "route-2"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-2",
+  "name": "Route 2",
+  "order": 5,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "0 badge(s) when you arrive: cap 15 (Vanilla) / 20 (Difficult+).",
+  "neighbours": [
+   "icicle-cave",
+   "dresco-town",
+   "route-15"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "dresco-town",
+  "name": "Dresco Town",
+  "order": 6,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "0 badge(s) when you arrive: cap 15 (Vanilla) / 20 (Difficult+).",
+  "neighbours": [
+   "route-2",
+   "route-3",
+   "grim-woods",
+   "dehara-city",
+   "kbt-expressway",
+   "dresco-gym"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "dresco-gym",
+  "name": "Dresco Town Gym",
+  "order": 7,
+  "kind": "gym",
+  "badge_after": 1,
+  "boss": "Mirskle (Grass/Fairy)",
+  "level_cap_note": "0 badge(s) when you arrive: cap 15 (Vanilla) / 20 (Difficult+). After the badge (1): cap 22 / 26.",
+  "neighbours": [
+   "dresco-town"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-3",
+  "name": "Route 3",
+  "order": 8,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "1 badge(s) when you arrive: cap 22 (Vanilla) / 26 (Difficult+).",
+  "neighbours": [
+   "dresco-town",
+   "flower-paradise"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "flower-paradise",
+  "name": "Flower Paradise",
+  "order": 9,
+  "kind": "other",
+  "badge_after": null,
+  "level_cap_note": "1 badge(s) when you arrive: cap 22 (Vanilla) / 26 (Difficult+).",
+  "neighbours": [
+   "route-3"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "grim-woods",
+  "name": "Grim Woods",
+  "order": 10,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "1 badge(s) when you arrive: cap 22 (Vanilla) / 26 (Difficult+).",
+  "neighbours": [
+   "dresco-town",
+   "route-4"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-4",
+  "name": "Route 4",
+  "order": 11,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "1 badge(s) when you arrive: cap 22 (Vanilla) / 26 (Difficult+).",
+  "neighbours": [
+   "grim-woods",
+   "cinder-volcano",
+   "cinder-volcano-depths",
+   "route-5",
+   "route-13"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "cinder-volcano",
+  "name": "Cinder Volcano",
+  "order": 12,
+  "kind": "cave",
+  "badge_after": null,
+  "boss": "Shadow Admin Marlon + grunt (later Admin Ivory and Boss Zeph via the KBT cutscene)",
+  "level_cap_note": "1 badge(s) when you arrive: cap 22 (Vanilla) / 26 (Difficult+).",
+  "neighbours": [
+   "route-4",
+   "cinder-volcano-depths"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-5",
+  "name": "Route 5",
+  "order": 13,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "1 badge(s) when you arrive: cap 22 (Vanilla) / 26 (Difficult+).",
+  "neighbours": [
+   "route-4",
+   "crater-town"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "crater-town",
+  "name": "Crater Town",
+  "order": 14,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "1 badge(s) when you arrive: cap 22 (Vanilla) / 26 (Difficult+).",
+  "neighbours": [
+   "route-5",
+   "valley-cave",
+   "kbt-expressway",
+   "crater-gym"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "crater-gym",
+  "name": "Crater Town Gym",
+  "order": 15,
+  "kind": "gym",
+  "badge_after": 2,
+  "boss": "Vega (Dark)",
+  "level_cap_note": "1 badge(s) when you arrive: cap 22 (Vanilla) / 26 (Difficult+). After the badge (2): cap 29 / 32.",
+  "neighbours": [
+   "crater-town"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "kbt-expressway",
+  "name": "KBT Expressway",
+  "order": 16,
+  "kind": "dungeon",
+  "badge_after": null,
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+).",
+  "neighbours": [
+   "frozen-heights",
+   "dresco-town",
+   "crater-town",
+   "blizzard-city",
+   "fallshore-city",
+   "epidimy-town",
+   "tehl-town",
+   "lost-tunnel",
+   "dehara-city",
+   "gurun-town",
+   "antisis-city",
+   "seaport-city"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "valley-cave",
+  "name": "Valley Cave",
+  "order": 17,
+  "kind": "cave",
+  "badge_after": null,
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+).",
+  "neighbours": [
+   "crater-town",
+   "route-6"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-6",
+  "name": "Route 6",
+  "order": 18,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+).",
+  "neighbours": [
+   "valley-cave",
+   "route-7",
+   "route-14",
+   "auburn-waterway"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-7",
+  "name": "Route 7",
+  "order": 19,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+).",
+  "neighbours": [
+   "route-6",
+   "frost-mountain",
+   "route-9"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "frost-mountain",
+  "name": "Frost Mountain",
+  "order": 20,
+  "kind": "cave",
+  "badge_after": null,
+  "boss": "Rival (third fight)",
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+).",
+  "neighbours": [
+   "route-7",
+   "route-8"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-8",
+  "name": "Route 8",
+  "order": 21,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+).",
+  "neighbours": [
+   "frost-mountain",
+   "frozen-forest",
+   "blizzard-city"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "blizzard-city",
+  "name": "Blizzard City",
+  "order": 22,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+).",
+  "neighbours": [
+   "route-8",
+   "kbt-expressway",
+   "blizzard-gym"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "frozen-forest",
+  "name": "Frozen Forest",
+  "order": 23,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+).",
+  "neighbours": [
+   "route-8"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "blizzard-gym",
+  "name": "Blizzard City Gym",
+  "order": 24,
+  "kind": "gym",
+  "badge_after": 3,
+  "boss": "Alice (Flying)",
+  "level_cap_note": "2 badge(s) when you arrive: cap 29 (Vanilla) / 32 (Difficult+). After the badge (3): cap 33 / 36.",
+  "neighbours": [
+   "blizzard-city"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "fallshore-city",
+  "name": "Fallshore City",
+  "order": 25,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "3 badge(s) when you arrive: cap 33 (Vanilla) / 36 (Difficult+).",
+  "neighbours": [
+   "kbt-expressway",
+   "route-10",
+   "route-11",
+   "fallshore-gym",
+   "cliff-cave"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-11",
+  "name": "Route 11",
+  "order": 26,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "3 badge(s) when you arrive: cap 33 (Vanilla) / 36 (Difficult+).",
+  "neighbours": [
+   "fallshore-city",
+   "cliff-cave",
+   "epidimy-town",
+   "tarmigan-town"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "epidimy-town",
+  "name": "Epidimy Town",
+  "order": 27,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "3 badge(s) when you arrive: cap 33 (Vanilla) / 36 (Difficult+).",
+  "neighbours": [
+   "route-11",
+   "thundercap-mountain",
+   "kbt-expressway"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-10",
+  "name": "Route 10",
+  "order": 28,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "3 badge(s) when you arrive: cap 33 (Vanilla) / 36 (Difficult+).",
+  "neighbours": [
+   "fallshore-city",
+   "route-9",
+   "auburn-waterway"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-9",
+  "name": "Route 9",
+  "order": 29,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "3 badge(s) when you arrive: cap 33 (Vanilla) / 36 (Difficult+).",
+  "neighbours": [
+   "route-7",
+   "tehl-town",
+   "route-10"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "tehl-town",
+  "name": "Tehl Town",
+  "order": 30,
+  "kind": "town",
+  "badge_after": null,
+  "boss": "Shadow Admin Ivory + grunt (Underground Pass, next door)",
+  "level_cap_note": "3 badge(s) when you arrive: cap 33 (Vanilla) / 36 (Difficult+).",
+  "neighbours": [
+   "route-9",
+   "kbt-expressway"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": [
+   "Underground Pass"
+  ]
+ },
+ {
+  "key": "fallshore-gym",
+  "name": "Fallshore City Gym",
+  "order": 31,
+  "kind": "gym",
+  "badge_after": 4,
+  "boss": "Mel (Normal, inverse battle)",
+  "level_cap_note": "3 badge(s) when you arrive: cap 33 (Vanilla) / 36 (Difficult+). After the badge (4): cap 37 / 40.",
+  "neighbours": [
+   "fallshore-city"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "thundercap-mountain",
+  "name": "Thundercap Mountain",
+  "order": 32,
+  "kind": "cave",
+  "badge_after": null,
+  "boss": "Shadow Admin Marlon",
+  "level_cap_note": "4 badge(s) when you arrive: cap 37 (Vanilla) / 40 (Difficult+).",
+  "neighbours": [
+   "epidimy-town",
+   "antisis-city"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "tarmigan-town",
+  "name": "Tarmigan Town",
+  "order": 33,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "4 badge(s) when you arrive: cap 37 (Vanilla) / 40 (Difficult+).",
+  "neighbours": [
+   "route-11",
+   "tarmigan-mansion",
+   "route-12"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "tarmigan-mansion",
+  "name": "Tarmigan Mansion",
+  "order": 34,
+  "kind": "dungeon",
+  "badge_after": null,
+  "boss": "Successor Maxima (mini-boss)",
+  "level_cap_note": "4 badge(s) when you arrive: cap 37 (Vanilla) / 40 (Difficult+). Finishing the mansion raises the cap to 43 / 45.",
+  "neighbours": [
+   "tarmigan-town"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-12",
+  "name": "Route 12",
+  "order": 35,
+  "kind": "route",
+  "badge_after": null,
+  "boss": "Rival (fourth fight) - gives Surf",
+  "level_cap_note": "4 badge(s) + Tarmigan Mansion done when you arrive: cap 43 (Vanilla) / 45 (Difficult+).",
+  "neighbours": [
+   "tarmigan-town",
+   "dehara-city",
+   "route-14"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "dehara-city",
+  "name": "Dehara City",
+  "order": 36,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "4 badge(s) + Tarmigan Mansion done when you arrive: cap 43 (Vanilla) / 45 (Difficult+).",
+  "neighbours": [
+   "dresco-town",
+   "route-12",
+   "great-desert",
+   "rift-cave",
+   "route-13",
+   "kbt-expressway",
+   "dehara-gym"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "ruins-of-void",
+  "name": "Ruins of Void",
+  "order": 37,
+  "kind": "dungeon",
+  "badge_after": null,
+  "boss": "Ruin Agent Vega + grunt",
+  "level_cap_note": "4 badge(s) + Tarmigan Mansion done when you arrive: cap 43 (Vanilla) / 45 (Difficult+).",
+  "neighbours": [
+   "route-14"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "cinder-volcano-depths",
+  "name": "Cinder Volcano Depths / Shadow Base",
+  "order": 38,
+  "kind": "dungeon",
+  "badge_after": null,
+  "boss": "Shadow Boss Zeph",
+  "level_cap_note": "4 badge(s) + Tarmigan Mansion done when you arrive: cap 43 (Vanilla) / 45 (Difficult+).",
+  "neighbours": [
+   "route-4",
+   "cinder-volcano"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "dehara-gym",
+  "name": "Dehara City Gym",
+  "order": 39,
+  "kind": "gym",
+  "badge_after": 5,
+  "boss": "Galavan (Electric/Steel, double battle)",
+  "level_cap_note": "4 badge(s) + Tarmigan Mansion done when you arrive: cap 43 (Vanilla) / 45 (Difficult+). After the badge (5): cap 51 / 52.",
+  "neighbours": [
+   "dehara-city"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-13",
+  "name": "Route 13",
+  "order": 40,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "route-4",
+   "dehara-city",
+   "route-14"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-14",
+  "name": "Route 14",
+  "order": 41,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "route-6",
+   "route-12",
+   "route-13",
+   "ruins-of-void"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "auburn-waterway",
+  "name": "Auburn Waterway",
+  "order": 42,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "route-6",
+   "route-10",
+   "lost-tunnel"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "lost-tunnel",
+  "name": "Lost Tunnel",
+  "order": 43,
+  "kind": "cave",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "auburn-waterway",
+   "kbt-expressway"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "great-desert",
+  "name": "Great Desert",
+  "order": 44,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "dehara-city",
+   "tomb-of-borrius",
+   "gurun-town"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "gurun-town",
+  "name": "Gurun Town",
+  "order": 45,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "great-desert",
+   "vivill-woods",
+   "route-16",
+   "route-18",
+   "kbt-expressway"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "vivill-woods",
+  "name": "Vivill Woods",
+  "order": 46,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "gurun-town",
+   "vivill-town"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "vivill-town",
+  "name": "Vivill Town",
+  "order": 47,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "vivill-woods",
+   "vivill-warehouse",
+   "route-15"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "vivill-warehouse",
+  "name": "Vivill Warehouse",
+  "order": 48,
+  "kind": "dungeon",
+  "badge_after": null,
+  "boss": "Ruin Leader Aklove",
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "vivill-town"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-16",
+  "name": "Route 16",
+  "order": 49,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "gurun-town",
+   "route-17",
+   "antisis-city"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "antisis-city",
+  "name": "Antisis City",
+  "order": 50,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "route-16",
+   "antisis-sewers",
+   "thundercap-mountain",
+   "kbt-expressway",
+   "antisis-gym"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": [
+   "Antisis Port",
+   "Black Ferrothorn Turf"
+  ]
+ },
+ {
+  "key": "antisis-sewers",
+  "name": "Antisis Sewers",
+  "order": 51,
+  "kind": "dungeon",
+  "badge_after": null,
+  "boss": "Black Ferrothorn gang (Ferrothorn Turf next door)",
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+).",
+  "neighbours": [
+   "antisis-city"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": [
+   "Black Ferrothorn Turf"
+  ]
+ },
+ {
+  "key": "antisis-gym",
+  "name": "Antisis City Gym",
+  "order": 52,
+  "kind": "gym",
+  "badge_after": 6,
+  "boss": "Big Mo (Fighting, move-type rules)",
+  "level_cap_note": "5 badge(s) when you arrive: cap 51 (Vanilla) / 52 (Difficult+). After the badge (6): cap 55 / 57.",
+  "neighbours": [
+   "antisis-city"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-17",
+  "name": "Route 17",
+  "order": 53,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "6 badge(s) when you arrive: cap 55 (Vanilla) / 57 (Difficult+).",
+  "neighbours": [
+   "route-16",
+   "seaport-city"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "seaport-city",
+  "name": "Seaport City",
+  "order": 54,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "6 badge(s) when you arrive: cap 55 (Vanilla) / 57 (Difficult+).",
+  "neighbours": [
+   "route-17",
+   "polder-town",
+   "kbt-expressway"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": [
+   "Battle Frontier",
+   "S.S. Marine",
+   "Fullmoon Island",
+   "Newmoon Island"
+  ]
+ },
+ {
+  "key": "polder-town",
+  "name": "Polder Town",
+  "order": 55,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "6 badge(s) when you arrive: cap 55 (Vanilla) / 57 (Difficult+).",
+  "neighbours": [
+   "seaport-city",
+   "cootes-bog",
+   "polder-gym",
+   "safari-zone"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": [
+   "S.S. Marine"
+  ]
+ },
+ {
+  "key": "polder-gym",
+  "name": "Polder Town Gym",
+  "order": 56,
+  "kind": "gym",
+  "badge_after": 7,
+  "boss": "Tessy (Water, Camomons rules)",
+  "level_cap_note": "6 badge(s) when you arrive: cap 55 (Vanilla) / 57 (Difficult+). After the badge (7): cap 60 / 61.",
+  "neighbours": [
+   "polder-town"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "cootes-bog",
+  "name": "Cootes Bog",
+  "order": 57,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "7 badge(s) when you arrive: cap 60 (Vanilla) / 61 (Difficult+).",
+  "neighbours": [
+   "polder-town",
+   "magnolia-town",
+   "crystal-peak"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "magnolia-town",
+  "name": "Magnolia Town",
+  "order": 58,
+  "kind": "town",
+  "badge_after": null,
+  "boss": "Rival (fifth fight)",
+  "level_cap_note": "7 badge(s) when you arrive: cap 60 (Vanilla) / 61 (Difficult+).",
+  "neighbours": [
+   "cootes-bog",
+   "magnolia-fields"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "crystal-peak",
+  "name": "Crystal Peak",
+  "order": 59,
+  "kind": "cave",
+  "badge_after": null,
+  "boss": "Ruin Admin Ivory, Ruin Leader Aklove, ex-Shadow Admin Marlon",
+  "level_cap_note": "7 badge(s) when you arrive: cap 60 (Vanilla) / 61 (Difficult+).",
+  "neighbours": [
+   "cootes-bog",
+   "cube-corp"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "magnolia-fields",
+  "name": "Magnolia Fields",
+  "order": 60,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "7 badge(s) when you arrive: cap 60 (Vanilla) / 61 (Difficult+).",
+  "neighbours": [
+   "magnolia-town",
+   "redwood-village"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "redwood-village",
+  "name": "Redwood Village",
+  "order": 61,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "7 badge(s) when you arrive: cap 60 (Vanilla) / 61 (Difficult+).",
+  "neighbours": [
+   "magnolia-fields",
+   "redwood-forest",
+   "redwood-gym"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "redwood-gym",
+  "name": "Redwood Village Gym",
+  "order": 62,
+  "kind": "gym",
+  "badge_after": 8,
+  "boss": "Benjamin (Bug, devolve rules)",
+  "level_cap_note": "7 badge(s) when you arrive: cap 60 (Vanilla) / 61 (Difficult+). After the badge (8): cap 66 / 75.",
+  "neighbours": [
+   "redwood-village"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-18",
+  "name": "Route 18",
+  "order": 63,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "8 badge(s) when you arrive: cap 66 (Vanilla) / 75 (Difficult+).",
+  "neighbours": [
+   "gurun-town",
+   "victory-road"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "victory-road",
+  "name": "Victory Road",
+  "order": 64,
+  "kind": "dungeon",
+  "badge_after": null,
+  "level_cap_note": "8 badge(s) when you arrive: cap 66 (Vanilla) / 75 (Difficult+).",
+  "neighbours": [
+   "route-18",
+   "pokemon-league"
+  ],
+  "optional": false,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "pokemon-league",
+  "name": "Pokemon League",
+  "order": 65,
+  "kind": "other",
+  "badge_after": null,
+  "boss": "Elite Four: Moleman, Elias, Arabella, Penny; Champion: Jax",
+  "level_cap_note": "8 badge(s) when you arrive: cap 66 (Vanilla) / 75 (Difficult+).",
+  "neighbours": [
+   "victory-road"
+  ],
+  "optional": false,
+  "soullink_route": false,
+  "off_graph_links": []
+ },
+ {
+  "key": "icy-hole",
+  "name": "Icy Hole",
+  "order": 66,
+  "kind": "cave",
+  "badge_after": null,
+  "boss": "Regi trio puzzle (Regigigas, Regieleki, Regidrago)",
+  "level_cap_note": "Side area, no fixed cap: use the cap of the badge count you have when you visit.",
+  "neighbours": [
+   "bellin-town"
+  ],
+  "optional": true,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "route-15",
+  "name": "Route 15",
+  "order": 67,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "Side area, no fixed cap: use the cap of the badge count you have when you visit.",
+  "neighbours": [
+   "route-2",
+   "vivill-town"
+  ],
+  "optional": true,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "cliff-cave",
+  "name": "Cliff Cave",
+  "order": 68,
+  "kind": "cave",
+  "badge_after": null,
+  "level_cap_note": "Side area, no fixed cap: use the cap of the badge count you have when you visit.",
+  "neighbours": [
+   "fallshore-city",
+   "route-11"
+  ],
+  "optional": true,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "safari-zone",
+  "name": "Safari Zone",
+  "order": 69,
+  "kind": "other",
+  "badge_after": null,
+  "level_cap_note": "Side area, no fixed cap: use the cap of the badge count you have when you visit.",
+  "neighbours": [
+   "polder-town"
+  ],
+  "optional": true,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "redwood-forest",
+  "name": "Redwood Forest",
+  "order": 70,
+  "kind": "route",
+  "badge_after": null,
+  "level_cap_note": "Side area, no fixed cap: use the cap of the badge count you have when you visit.",
+  "neighbours": [
+   "redwood-village",
+   "cube-corp"
+  ],
+  "optional": true,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "tomb-of-borrius",
+  "name": "Tomb of Borrius",
+  "order": 71,
+  "kind": "dungeon",
+  "badge_after": null,
+  "level_cap_note": "Side area, no fixed cap: use the cap of the badge count you have when you visit.",
+  "neighbours": [
+   "great-desert"
+  ],
+  "optional": true,
+  "soullink_route": true,
+  "off_graph_links": []
+ },
+ {
+  "key": "rift-cave",
+  "name": "Rift Cave",
+  "order": 72,
+  "kind": "cave",
+  "badge_after": null,
+  "level_cap_note": "Side area, no fixed cap: use the cap of the badge count you have when you visit.",
+  "neighbours": [
+   "dehara-city"
+  ],
+  "optional": true,
+  "soullink_route": true,
+  "off_graph_links": [
+   "Distortion World"
+  ]
+ },
+ {
+  "key": "cube-corp",
+  "name": "Cube Corp.",
+  "order": 73,
+  "kind": "town",
+  "badge_after": null,
+  "level_cap_note": "Side area, no fixed cap: use the cap of the badge count you have when you visit.",
+  "neighbours": [
+   "redwood-forest",
+   "crystal-peak"
+  ],
+  "optional": true,
+  "soullink_route": true,
+  "off_graph_links": []
+ }
+]

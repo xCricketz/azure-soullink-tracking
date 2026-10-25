@@ -2,7 +2,8 @@ import { Archive, Ban, Check, ChevronDown, Dices, Heart, MapPin, Search, Skull }
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { randomNickname } from '../data/nicknames'
 import { groupTitle, routeTitle, routeTitleByKey } from '../data/routes'
-import { monById, searchMons, type Mon } from '../lib/dex'
+import { monById } from '../lib/dex'
+import { loadAreas, monLabel, searchDex, useDex, type EncounterArea, type UMon } from '../lib/unbound'
 import { findRoute, nextOpenRoute, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type CatchDraft, type Status } from '../lib/types'
@@ -33,6 +34,8 @@ export function CatchSheet({
   const [pickingRoute, setPickingRoute] = useState(false)
   const [customName, setCustomName] = useState('')
   const [busy, setBusy] = useState(false)
+  const [area, setArea] = useState<EncounterArea | null>(null)
+  const dex = useDex()
   const bag = useRef(app)
   bag.current = app
 
@@ -46,6 +49,7 @@ export function CatchSheet({
       route: route?.name ?? '',
       routeOrder: route?.order ?? 0,
       dexId: existing?.dex_id ?? null,
+      form: existing?.form ?? null,
       pokemon: existing?.pokemon ?? null,
       nickname: existing?.nickname ?? '',
       status: existing?.status ?? 'alive',
@@ -54,14 +58,41 @@ export function CatchSheet({
       deathCause: existing?.death_cause ?? '',
       epitaph: existing?.epitaph ?? '',
     })
-    setQuery(monById(existing?.dex_id)?.en ?? existing?.pokemon ?? '')
+    setQuery(existing?.form ? `${monById(existing.dex_id)?.en ?? existing.pokemon ?? ''} (${existing.form})` : (monById(existing?.dex_id)?.en ?? existing?.pokemon ?? ''))
     setRouteQuery('')
     setPickingRoute(!route)
     setCustomName('')
     setBusy(false)
   }, [open, presetRoute])
 
-  const results = useMemo(() => searchMons(query, 8), [query])
+  const results = useMemo(() => (dex ? searchDex(dex, query, 8) : []), [dex, query])
+  const suggested = useMemo(() => {
+    if (!dex || !area) return []
+    const seen = new Set<string>()
+    const found: UMon[] = []
+    for (const row of [...area.wild, ...area.special]) {
+      const token = `${row.species}|${row.form ?? ''}`
+      if (seen.has(token)) continue
+      seen.add(token)
+      const mon = dex.find((item) => item.name === row.species && (item.form ?? null) === (row.form ?? null))
+      if (mon) found.push(mon)
+      if (found.length >= 24) break
+    }
+    return found
+  }, [area, dex])
+
+  useEffect(() => {
+    if (!draft?.route) {
+      setArea(null)
+      return
+    }
+    const route = draft.route
+    let live = true
+    void loadAreas().then((map) => {
+      if (live) setArea(map.get(route) ?? null)
+    })
+    return () => { live = false }
+  }, [draft?.route])
   const partner = draft
     ? app.catches.find((row) => row.player !== app.me && row.route === draft.route)
     : undefined
@@ -72,7 +103,8 @@ export function CatchSheet({
     if (!needle) return true
     return norm(row.route.name).includes(needle) || norm(row.route.en).includes(needle) || norm(groupTitle(row.route.group)).includes(needle)
   })
-  const showResults = Boolean(query.trim()) && !(draft?.dexId && draft.pokemon && norm(query) === norm(draft.pokemon))
+  const pickedLabel = draft?.pokemon ? (draft.form ? `${draft.pokemon} (${draft.form})` : draft.pokemon) : ''
+  const showResults = Boolean(query.trim()) && !(draft?.dexId && norm(query) === norm(pickedLabel))
 
   async function save() {
     if (!draft || busy) return
@@ -154,6 +186,7 @@ export function CatchSheet({
                           route: row.route.name,
                           routeOrder: row.route.order,
                           dexId: existing?.dex_id ?? draft.dexId,
+                          form: existing?.form ?? draft.form,
                           pokemon: existing?.pokemon ?? draft.pokemon,
                           nickname: existing?.nickname ?? draft.nickname,
                           status: existing?.status ?? draft.status,
@@ -204,7 +237,7 @@ export function CatchSheet({
                   value={query}
                   onChange={(event) => {
                     setQuery(event.target.value)
-                    setDraft({ ...draft, dexId: null, pokemon: null })
+                    setDraft({ ...draft, dexId: null, form: null, pokemon: null })
                   }}
                   placeholder="Name or number"
                   aria-label="Search Pokémon"
@@ -213,17 +246,34 @@ export function CatchSheet({
                 />
                 {query.trim() && <span className="hit-count">{results.length} results</span>}
               </div>
+              {suggested.length > 0 && (
+                <div className="enc-row" aria-label="Species seen here">
+                  {suggested.map((mon) => (
+                    <button
+                      key={mon.key}
+                      type="button"
+                      className={draft.dexId === mon.nat && draft.form === mon.form ? 'on' : ''}
+                      onClick={() => {
+                        setDraft({ ...draft, dexId: mon.nat, form: mon.form, pokemon: mon.name })
+                        setQuery(monLabel(mon))
+                      }}
+                    >
+                      {monLabel(mon)}
+                    </button>
+                  ))}
+                </div>
+              )}
               {showResults && (
                 <div className="res" role="listbox" aria-label="Pokémon">
                   {results.map((mon) => (
                     <MonRow
-                      key={mon.id}
+                      key={mon.key}
                       mon={mon}
                       query={query}
-                      selected={draft.dexId === mon.id}
+                      selected={draft.dexId === mon.nat && (draft.form ?? null) === (mon.form ?? null)}
                       onPick={() => {
-                        setDraft({ ...draft, dexId: mon.id, pokemon: mon.en })
-                        setQuery(mon.en)
+                        setDraft({ ...draft, dexId: mon.nat, form: mon.form, pokemon: mon.name })
+                        setQuery(monLabel(mon))
                       }}
                     />
                   ))}
@@ -329,15 +379,16 @@ export function CatchSheet({
   )
 }
 
-function MonRow({ mon, query, selected, onPick }: { mon: Mon; query: string; selected: boolean; onPick: () => void }) {
+function MonRow({ mon, query, selected, onPick }: { mon: UMon; query: string; selected: boolean; onPick: () => void }) {
+  const label = monLabel(mon)
   return (
     <button className={cx('r', selected && 'sel')} type="button" role="option" aria-selected={selected} onClick={onPick}>
-      <SpritePlate id={mon.id} alt={mon.en} size="sm" />
+      <SpritePlate id={mon.nat} alt={label} size="sm" types={mon.types} />
       <span className="nm">
-        <Marked text={mon.en} query={query} />
-        <small>#{mon.id}</small>
+        <Marked text={label} query={query} />
+        <small>#{String(mon.nat).padStart(3, '0')}{mon.form ? ` · ${mon.form}` : ''}</small>
       </span>
-      <TypePills id={mon.id} />
+      <TypePills names={mon.types} />
       {selected && <Check size={18} aria-hidden="true" />}
     </button>
   )

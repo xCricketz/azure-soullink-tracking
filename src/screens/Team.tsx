@@ -2,17 +2,18 @@ import { Archive, ChevronDown, ChevronUp, Link2, TriangleAlert } from 'lucide-re
 import { useMemo, useState } from 'react'
 import { EmptyState, SpritePlate, TypePills, cx } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
-import { gen4TypeNames } from '../data/typechart'
 import { teamOf } from '../lib/edits'
+import { dexKey, findMon, useDex, type UMon } from '../lib/unbound'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type Catch, type PlayerId, type TeamView } from '../lib/types'
 import { monName, speciesName } from '../lib/text'
 
-export function Team({ onWiki }: { onWiki: (id: number) => void }) {
+export function Team({ onWiki }: { onWiki: (id: string) => void }) {
   const app = useApp()
+  const dex = useDex()
   const [view, setView] = useState<TeamView>('mine')
   const partner = otherPlayer(app.me)
-  const warnings = useMemo(() => teamWarnings(app.me, app.catches, app.settings.dupeClause, app.settings.typeClause), [app])
+  const warnings = useMemo(() => teamWarnings(app.me, app.catches, app.settings.dupeClause, app.settings.typeClause, dex), [app, dex])
   const mine = teamOf(app.catches, app.me)
   const theirs = teamOf(app.catches, partner)
 
@@ -67,11 +68,12 @@ function Party({
   editable: boolean
   empty: boolean
   warned?: Set<string>
-  onWiki: (id: number) => void
+  onWiki: (id: string) => void
 }) {
   const app = useApp()
+  const dex = useDex()
   if (!rows.length && empty) {
-    return <EmptyState title="No team yet. Catch something on Route 201!" trainer={owner} />
+    return <EmptyState title="No team yet. Catch something on Route 1!" trainer={owner} />
   }
   if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} doesn’t have anyone in the team yet.`} trainer={owner} />
   return (
@@ -90,9 +92,9 @@ function Party({
                 type="button"
                 aria-label={`${name} in the Pokédex`}
                 disabled={!row.dex_id}
-                onClick={() => row.dex_id && onWiki(row.dex_id)}
+                onClick={() => row.dex_id && onWiki(dexKey(row.dex_id, row.form))}
               >
-                <SpritePlate id={row.dex_id} alt={speciesName(row)} size="lg" />
+                <SpritePlate id={row.dex_id} alt={speciesName(row)} size="lg" types={findMon(dex, row.dex_id, row.form)?.types} />
               </button>
               <span className="lv">Lv {row.level ?? '–'}</span>
             </div>
@@ -100,7 +102,7 @@ function Party({
               <b>{row.nickname || speciesName(row)}</b>
               <span className="species">{speciesName(row)}</span>
             </div>
-            <TypePills id={row.dex_id} />
+            <TypePills id={row.dex_id} names={findMon(dex, row.dex_id, row.form)?.types} />
             <div className={cx('lk', partnerId)}>
               <Link2 aria-hidden="true" />
               {partner && partner.status !== 'missed' && partner.dex_id && (
@@ -108,9 +110,9 @@ function Party({
                   className="wiki-hit"
                   type="button"
                   aria-label={`${monName(partner)} in the Pokédex`}
-                  onClick={() => onWiki(partner.dex_id as number)}
+                  onClick={() => onWiki(dexKey(partner.dex_id as number, partner.form))}
                 >
-                  <SpritePlate id={partner.dex_id} alt="" size="sm" />
+                  <SpritePlate id={partner.dex_id} alt="" size="sm" types={findMon(dex, partner.dex_id, partner.form)?.types} />
                 </button>
               )}
               <span>{PLAYERS[partnerId].possessive} {partner ? monName(partner) : '…'}</span>
@@ -147,7 +149,7 @@ function TeamColumn({
   rows: Catch[]
   catches: Catch[]
   editable: boolean
-  onWiki: (id: number) => void
+  onWiki: (id: string) => void
 }) {
   return (
     <section>
@@ -157,7 +159,7 @@ function TeamColumn({
   )
 }
 
-function Reserves({ onWiki }: { onWiki: (id: number) => void }) {
+function Reserves({ onWiki }: { onWiki: (id: string) => void }) {
   const app = useApp()
   const reserves = app.catches.filter((row) => row.player === app.me && !row.in_team && (row.status === 'alive' || row.status === 'boxed') && row.pokemon)
   if (!reserves.length) return null
@@ -171,7 +173,7 @@ function Reserves({ onWiki }: { onWiki: (id: number) => void }) {
             type="button"
             aria-label={`${monName(row)} in the Pokédex`}
             disabled={!row.dex_id}
-            onClick={() => row.dex_id && onWiki(row.dex_id)}
+            onClick={() => row.dex_id && onWiki(dexKey(row.dex_id, row.form))}
           >
             <SpritePlate id={row.dex_id} alt={speciesName(row)} size="sm" />
           </button>
@@ -188,7 +190,7 @@ function Reserves({ onWiki }: { onWiki: (id: number) => void }) {
   )
 }
 
-function teamWarnings(me: PlayerId, catches: Catch[], dupe: boolean, types: boolean): string[] {
+function teamWarnings(me: PlayerId, catches: Catch[], dupe: boolean, types: boolean, dex: UMon[] | null): string[] {
   const warnings: string[] = []
   const mine = teamOf(catches, me)
   const partner = otherPlayer(me)
@@ -207,17 +209,18 @@ function teamWarnings(me: PlayerId, catches: Catch[], dupe: boolean, types: bool
     else if (!other.in_team) warnings.push(`${myName} is in the team, but ${otherName} isn’t in ${PLAYERS[partner].name}’s team.`)
   }
   if (dupe) {
-    const seen = new Set<number>()
+    const seen = new Set<string>()
     for (const row of mine) {
       if (!row.dex_id) continue
-      if (seen.has(row.dex_id)) warnings.push(`Dupes Clause: ${speciesName(row)} is in the team twice.`)
-      seen.add(row.dex_id)
+      const key = dexKey(row.dex_id, row.form)
+      if (seen.has(key)) warnings.push(`Dupes Clause: ${speciesName(row)} is in the team twice.`)
+      seen.add(key)
     }
   }
   if (types) {
     const seen = new Map<string, string>()
     for (const row of mine) {
-      const type = row.dex_id ? gen4TypeNames(row.dex_id)[0] : undefined
+      const type = findMon(dex, row.dex_id, row.form)?.types[0]
       if (!type) continue
       const first = seen.get(type)
       if (first) warnings.push(`Type Clause: ${type} is on ${first} and ${monName(row)}.`)

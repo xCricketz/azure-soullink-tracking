@@ -1,0 +1,372 @@
+[
+ {
+  "step": 1,
+  "route_key": "frozen-heights",
+  "objective": "Start in Frozen Heights, pick your starter and take the first rival fight; head east.",
+  "boss": "Rival (first fight)",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 2,
+  "route_key": "route-1",
+  "objective": "Walk Route 1 north; first wild encounters of the run.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 3,
+  "route_key": "bellin-town",
+  "objective": "Heal and look around Bellin Town; the gentleman here hands out a one-off gift Pokemon (Glameow, Skorupi or Stunky).",
+  "note": "Gift choice counts as an encounter for Nuzlocke purposes - decide with your partner.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 4,
+  "route_key": "icicle-cave",
+  "objective": "Cross Icicle Cave and fight the rival again at the far end.",
+  "boss": "Rival (second fight)",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 5,
+  "route_key": "route-2",
+  "objective": "Continue along Route 2 toward Dresco Town; clear all trainers if you want the Litleo reward.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 6,
+  "route_key": "dresco-town",
+  "objective": "Reach Dresco Town, heal and prepare for the first gym.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 7,
+  "route_key": "dresco-gym",
+  "objective": "Beat the first gym.",
+  "boss": "Mirskle (Grass/Fairy)",
+  "unlock": "Badge 1",
+  "confidence": "unboundwiki gym list (cross-checked with fandom/pokecoders)"
+ },
+ {
+  "step": 8,
+  "route_key": "route-3",
+  "objective": "Go east to Route 3 and on through Flower Paradise and Grim Woods.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 9,
+  "route_key": "flower-paradise",
+  "objective": "Pass through Flower Paradise (Pokemon are tied to flowers and time) toward Grim Woods.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 10,
+  "route_key": "grim-woods",
+  "objective": "Work through Grim Woods to reach Route 4.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 11,
+  "route_key": "route-4",
+  "objective": "Continue on Route 4 toward the volcano.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 12,
+  "route_key": "cinder-volcano",
+  "objective": "Cinder Volcano story fight with the Shadow Admins on the way to Route 5.",
+  "boss": "Shadow Admin Marlon",
+  "confidence": "wiki + nuzlocke.data order; boss names from wiki search, medium confidence"
+ },
+ {
+  "step": 13,
+  "route_key": "route-5",
+  "objective": "Cross Route 5 to Crater Town (a Unovan starter house sits on this route).",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 14,
+  "route_key": "crater-town",
+  "objective": "Reach Crater Town, heal; second gym is here.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 15,
+  "route_key": "crater-gym",
+  "objective": "Beat the second gym.",
+  "boss": "Vega (Dark)",
+  "unlock": "Badge 2 (Vision Badge: lets you use Cut outside battle)",
+  "confidence": "HM01 page unboundwiki.com/tms-hms/hm01-cut/"
+ },
+ {
+  "step": 16,
+  "route_key": "kbt-expressway",
+  "objective": "Walk into the KBT Expressway entrance south of Crater Town: a cutscene throws you into a fight and afterwards a mountain climber hands you Cut.",
+  "boss": "Shadow Admin Ivory + Boss Zeph (cutscene)",
+  "unlock": "HM01 Cut",
+  "note": "Needs the gym badge first; the expressway then works as a fast-travel hub for later towns.",
+  "confidence": "https://unboundwiki.com/tms-hms/"
+ },
+ {
+  "step": 17,
+  "route_key": "valley-cave",
+  "objective": "Go through Valley Cave to Route 6.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 18,
+  "route_key": "route-6",
+  "objective": "Route 6 then 7: keep heading toward Frost Mountain.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 19,
+  "route_key": "route-7",
+  "objective": "Route 7 leads to Frost Mountain.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 20,
+  "route_key": "frost-mountain",
+  "objective": "Cross Frost Mountain; the rival fights you again here.",
+  "boss": "Rival (third fight)",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 21,
+  "route_key": "route-8",
+  "objective": "Route 8 down to Blizzard City.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 22,
+  "route_key": "blizzard-city",
+  "objective": "Heal in Blizzard City; the mountain climber in the house next to the expressway entrance gives Rock Smash.",
+  "unlock": "HM06 Rock Smash",
+  "confidence": "https://unboundwiki.com/tms-hms/"
+ },
+ {
+  "step": 23,
+  "route_key": "frozen-forest",
+  "objective": "Optional Frozen Forest detour for the extra encounters, then back for the gym.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 24,
+  "route_key": "blizzard-gym",
+  "objective": "Beat the third gym.",
+  "boss": "Alice (Flying)",
+  "unlock": "Badge 3 (Wings Badge: lets you use Rock Smash outside battle)",
+  "confidence": "https://unboundwiki.com/tms-hms/"
+ },
+ {
+  "step": 25,
+  "route_key": "fallshore-city",
+  "objective": "Head to Fallshore City by the expressway; its gym leader is not at home.",
+  "note": "Mel is hiding in Tehl Town and has to be brought back, per pokecoders.",
+  "confidence": "pokecoders HM guide"
+ },
+ {
+  "step": 26,
+  "route_key": "route-11",
+  "objective": "Route 11 leads to Epidimy Town; take Strength there.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 27,
+  "route_key": "epidimy-town",
+  "objective": "Visit the west-most house in Epidimy Town for Strength.",
+  "unlock": "HM04 Strength (usable after the Fall Badge)",
+  "confidence": "https://unboundwiki.com/tms-hms/"
+ },
+ {
+  "step": 28,
+  "route_key": "route-10",
+  "objective": "Routes 10 and 9 take you to Tehl Town.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 29,
+  "route_key": "tehl-town",
+  "objective": "Find Mel in Tehl Town (and deal with the Shadow Admin there), then send him back to his gym.",
+  "boss": "Shadow Admin Ivory + grunt",
+  "confidence": "pokecoders HM guide; boss medium confidence"
+ },
+ {
+  "step": 30,
+  "route_key": "fallshore-gym",
+  "objective": "Beat Mel in his inverse-battle gym, then take Fly from him outside.",
+  "boss": "Mel (Normal, inverse battle)",
+  "unlock": "Badge 4 (Fall Badge) + HM02 Fly",
+  "confidence": "https://unboundwiki.com/tms-hms/"
+ },
+ {
+  "step": 31,
+  "route_key": "thundercap-mountain",
+  "objective": "Climb Thundercap Mountain (level-up spot for Magneton/Nosepass/Charjabug) toward Tarmigan Town.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 32,
+  "route_key": "tarmigan-town",
+  "objective": "Tarmigan Town: heal, then take on the mansion.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 33,
+  "route_key": "tarmigan-mansion",
+  "objective": "Clear the mansion; beating Maxima raises the level cap (43 vanilla / 45 difficult).",
+  "boss": "Successor Maxima",
+  "note": "This gives the ability to Mega Evolve; progress is gated by the rival on Route 12 afterwards.",
+  "confidence": "levelcap page + pokecoders"
+ },
+ {
+  "step": 34,
+  "route_key": "route-12",
+  "objective": "Rival fight on Route 12 after you gain Mega Evolution; he gives you Surf afterwards.",
+  "boss": "Rival (fourth fight)",
+  "unlock": "HM03 Surf (use outside battle needs Battery Badge)",
+  "confidence": "https://unboundwiki.com/tms-hms/ / pokecoders"
+ },
+ {
+  "step": 35,
+  "route_key": "dehara-city",
+  "objective": "Dehara City: heal; the Shadow quest line starts at the Ruins of Void.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 36,
+  "route_key": "ruins-of-void",
+  "objective": "Clear Ruins of Void, then the Shadow base under Cinder Volcano, before the gym.",
+  "boss": "Ruin Agent Vega; later Shadow Boss Zeph",
+  "confidence": "wiki walkthrough order, boss names low-medium confidence"
+ },
+ {
+  "step": 37,
+  "route_key": "dehara-gym",
+  "objective": "Beat the fifth gym (double battle).",
+  "boss": "Galavan (Electric/Steel)",
+  "unlock": "Badge 5",
+  "confidence": "gym list; type from wiki/cross-reference search"
+ },
+ {
+  "step": 38,
+  "route_key": "route-13",
+  "objective": "After badge 5, Routes 13 and 14 plus Auburn Waterway lead to the Lost Tunnel and the Great Desert.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 39,
+  "route_key": "lost-tunnel",
+  "objective": "Lost Tunnel links Auburn Waterway to the expressway; keep going west to the desert.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 40,
+  "route_key": "great-desert",
+  "objective": "Cross the Great Desert to Gurun Town (fossils can be dug up here).",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 41,
+  "route_key": "gurun-town",
+  "objective": "Gurun Town: heal, then take the route towards Vivill Woods.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 42,
+  "route_key": "vivill-woods",
+  "objective": "Walk through Vivill Woods to Vivill Town.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 43,
+  "route_key": "vivill-town",
+  "objective": "Vivill Town: warehouse story.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 44,
+  "route_key": "vivill-warehouse",
+  "objective": "Fight through Vivill Warehouse.",
+  "boss": "Ruin Leader Aklove",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 45,
+  "route_key": "route-16",
+  "objective": "Route 16 leads to Antisis City.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 46,
+  "route_key": "antisis-sewers",
+  "objective": "Antisis Sewers storyline before the gym.",
+  "boss": "Black Ferrothorn gang",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 47,
+  "route_key": "antisis-gym",
+  "objective": "Beat the sixth gym.",
+  "boss": "Big Mo (Fighting)",
+  "unlock": "Badge 6",
+  "confidence": "gym list"
+ },
+ {
+  "step": 48,
+  "route_key": "route-17",
+  "objective": "Route 17: a construction worker gives Rock Climb.",
+  "unlock": "HM08 Rock Climb",
+  "note": "Wiki says Route 17, pkmnunbound.com says Route 16 - contradiction.",
+  "confidence": "https://unboundwiki.com/tms-hms/"
+ },
+ {
+  "step": 49,
+  "route_key": "seaport-city",
+  "objective": "Seaport City, then Polder Town by ferry/route.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 50,
+  "route_key": "polder-gym",
+  "objective": "Beat the seventh gym; Tessy gives Waterfall.",
+  "boss": "Tessy (Water)",
+  "unlock": "Badge 7 (Swamp Badge) + HM07 Waterfall",
+  "confidence": "https://unboundwiki.com/tms-hms/"
+ },
+ {
+  "step": 51,
+  "route_key": "magnolia-town",
+  "objective": "Cootes Bog then Magnolia Town (rival fights again).",
+  "boss": "Rival (fifth fight)",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 52,
+  "route_key": "crystal-peak",
+  "objective": "Crystal Peak story fights, then Magnolia Fields to Redwood Village.",
+  "confidence": "wiki walkthrough, boss list low confidence"
+ },
+ {
+  "step": 53,
+  "route_key": "redwood-gym",
+  "objective": "Beat the eighth gym.",
+  "boss": "Benjamin (Bug)",
+  "unlock": "Badge 8",
+  "confidence": "gym list"
+ },
+ {
+  "step": 54,
+  "route_key": "victory-road",
+  "objective": "Route 18 and Victory Road to the Pokemon League.",
+  "confidence": "wiki walkthrough order + nuzlocke.data order"
+ },
+ {
+  "step": 55,
+  "route_key": "pokemon-league",
+  "objective": "Elite Four, then Champion Jax. After that the level caps are removed and Dive can be bought.",
+  "boss": "Elite Four + Champion Jax",
+  "unlock": "HM05 Dive (post-game, buy from Captain Davy in Seaport City)",
+  "confidence": "https://unboundwiki.com/tms-hms/"
+ }
+]

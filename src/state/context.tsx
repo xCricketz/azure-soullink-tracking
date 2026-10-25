@@ -152,8 +152,9 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
   customRef.current = customRoutes
 
   const writeCatches = useCallback((next: Catch[]) => {
-    catchesRef.current = next
-    setCatches(next)
+    const rows = next.map((row) => ({ ...row, form: row.form ?? null }))
+    catchesRef.current = rows
+    setCatches(rows)
   }, [])
 
   const publishSync = useCallback(() => {
@@ -730,7 +731,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     }
     const { data, error } = await supabase
       .from('runs')
-      .insert({ name: "Fisi's Tracker", rules: runRef.current?.rules || DEFAULT_RULES, active: true })
+      .insert({ name: 'Pokémon Unbound Soul-Link', rules: runRef.current?.rules || DEFAULT_RULES, active: true })
       .select('*')
       .single()
     if (error || !data) {

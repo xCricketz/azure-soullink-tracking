@@ -1,0 +1,5830 @@
+{
+ "_meta": {
+  "description": "Wild/static encounter species per area key, derived by inverting the species->location column of https://unboundwiki.com/pokemon/ (facts only). No spawn rates. Time = day/night only where the wiki table says so.",
+  "method_values": [
+   "cave",
+   "desert sand",
+   "flowers",
+   "good rod",
+   "grass",
+   "headbutt",
+   "old rod",
+   "rock smash",
+   "special/static",
+   "super rod",
+   "surf",
+   "swarm",
+   "underwater"
+  ],
+  "coverage": {
+   "areas_with_data": 63,
+   "areas_without_data": [
+    "dresco-gym",
+    "crater-gym",
+    "blizzard-gym",
+    "fallshore-gym",
+    "tarmigan-mansion",
+    "dehara-gym",
+    "antisis-gym",
+    "polder-gym",
+    "redwood-gym",
+    "pokemon-league"
+   ],
+   "cross_check_vs_nuzlocke_data": {
+    "pairs_in_nuzlocke_file": 926,
+    "pairs_also_in_ours": 796,
+    "percent": 86.0,
+    "note": "nuzlocke.data lists per-area species for 31+ areas; species it has that we lack are mostly explained by (a) its per-area merging of multi-form/evolution stages, (b) swarm/special/gift encounters we put in \"special\" or only in the dex how column, (c) wiki table abbreviations for multi-area species that we had to compress. Treat this file as best effort."
+   },
+   "unmapped_area_names": {
+    "Kyurem's Cave": 11,
+    "Great Desert Ruins": 1,
+    "Frozen Forest Cave": 1,
+    "Tarmigan Town Dream Research Lab": 1,
+    "Cave of Being": 2,
+    "Distortion World": 1,
+    "Fullmoon Island": 1,
+    "Newmoon Island": 1,
+    "Vivill Warehouse B5F": 1,
+    "Seaport City Warehouse": 1
+   },
+   "all_water_old_rod_species": [
+    "Magikarp"
+   ]
+  },
+  "caveat": "Some species list only a handful of areas in the wiki table. Starters/gifts/eggs/mystery gifts/post-game portals are NOT encounters here - see dex.json \"how\"."
+ },
+ "areas": [
+  {
+   "key": "frozen-heights",
+   "name": "Frozen Heights",
+   "wild": [],
+   "special": [
+    {
+     "species": "Articuno",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 0
+  },
+  {
+   "key": "route-1",
+   "name": "Route 1",
+   "wild": [
+    {
+     "species": "Delibird",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Snorunt",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Vanillite",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Minior",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 4
+  },
+  {
+   "key": "bellin-town",
+   "name": "Bellin Town",
+   "wild": [],
+   "special": [
+    {
+     "species": "Glameow",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Bellin Town gentleman (1 of 3)"
+    },
+    {
+     "species": "Stunky",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Bellin Town gentleman (1 of 3)"
+    },
+    {
+     "species": "Skorupi",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Bellin Town gentleman (1 of 3)"
+    }
+   ],
+   "wild_species_count": 0
+  },
+  {
+   "key": "icicle-cave",
+   "name": "Icicle Cave",
+   "wild": [
+    {
+     "species": "Sandshrew",
+     "form": "Alolan",
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Zubat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Golbat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Seel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Dewgong",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Cloyster",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Jynx",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Lapras",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Shuckle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Swinub",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Piloswine",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Smoochum",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Makuhita",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Hariyama",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Mawile",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Spheal",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Sealeo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Roggenrola",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Boldore",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Drilbur",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Bergmite",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Avalugg",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 23
+  },
+  {
+   "key": "route-2",
+   "name": "Route 2",
+   "wild": [
+    {
+     "species": "Rattata",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Krabby",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Kingler",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Staryu",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Starmie",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Hoothoot",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Poochyena",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Azurill",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Electrike",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Riolu",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Patrat",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Roggenrola",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Basculin",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Scraggy",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Minccino",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Inkay",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Binacle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Pikipek",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Stufful",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Clobbopus",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Litleo",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Binacle",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Tapu Fini",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Litleo",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "route reward"
+    }
+   ],
+   "wild_species_count": 24
+  },
+  {
+   "key": "dresco-town",
+   "name": "Dresco Town",
+   "wild": [
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Staryu",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Starmie",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Basculin",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [
+    {
+     "species": "Ducklett",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "in-game trade"
+    }
+   ],
+   "wild_species_count": 5
+  },
+  {
+   "key": "route-3",
+   "name": "Route 3",
+   "wild": [
+    {
+     "species": "Poliwag",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Slowpoke",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Cloyster",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Krabby",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Kingler",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Staryu",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Starmie",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Sentret",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Wingull",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Surskit",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Bidoof",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Burmy",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Buizel",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Cherubi",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Shellos",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Dewpider",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Araquanid",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Skwovet",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Chewtle",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Furret",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Sandygast",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 23
+  },
+  {
+   "key": "flower-paradise",
+   "name": "Flower Paradise",
+   "wild": [
+    {
+     "species": "Roselia",
+     "form": null,
+     "method": "flowers"
+    },
+    {
+     "species": "Combee",
+     "form": null,
+     "method": "flowers"
+    },
+    {
+     "species": "Pansage",
+     "form": null,
+     "method": "flowers"
+    },
+    {
+     "species": "Flabebe",
+     "form": null,
+     "method": "flowers"
+    },
+    {
+     "species": "Oricorio",
+     "form": "Pom-Pom",
+     "method": "flowers"
+    },
+    {
+     "species": "Oricorio",
+     "form": "Pa'u",
+     "method": "flowers"
+    },
+    {
+     "species": "Oricorio",
+     "form": "Sensu",
+     "method": "flowers"
+    },
+    {
+     "species": "Cutiefly",
+     "form": null,
+     "method": "flowers"
+    },
+    {
+     "species": "Comfey",
+     "form": null,
+     "method": "flowers"
+    }
+   ],
+   "special": [
+    {
+     "species": "Shaymin",
+     "form": "Land Forme",
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 9
+  },
+  {
+   "key": "grim-woods",
+   "name": "Grim Woods",
+   "wild": [
+    {
+     "species": "Caterpie",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Weedle",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Psyduck",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Golduck",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gastly",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Seedot",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Surskit",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Masquerain",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Barboach",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Whiscash",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Shuppet",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Duskull",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Phantump",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Pumpkaboo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Blipbug",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 15
+  },
+  {
+   "key": "route-4",
+   "name": "Route 4",
+   "wild": [
+    {
+     "species": "Ekans",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Mankey",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Staryu",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Starmie",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Ralts",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Numel",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Corphish",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Crawdaunt",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Starly",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Budew",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Burmy",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Lillipup",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Basculin",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Sizzlipede",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Buzzwole",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 18
+  },
+  {
+   "key": "cinder-volcano",
+   "name": "Cinder Volcano",
+   "wild": [
+    {
+     "species": "Vulpix",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Graveler",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Shuckle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Slugma",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Magcargo",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Magby",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Numel",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Torkoal",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Woobat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Drilbur",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Salandit",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Rolycoly",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Magmar",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Moltres",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Camerupt",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Groudon",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Heatran",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Excadrill",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Heatmor",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Volcanion",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 13
+  },
+  {
+   "key": "route-5",
+   "name": "Route 5",
+   "wild": [
+    {
+     "species": "Nidoran♀",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Nidoran♂",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Zubat",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Venonat",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Growlithe",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Lickitung",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Staryu",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Starmie",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Ditto",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Yanma",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Murkrow",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Houndour",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Taillow",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Corphish",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Crawdaunt",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Purrloin",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Basculin",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Elgyem",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Nickit",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Yamper",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Deoxys",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Snivy",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Unovan starter house"
+    },
+    {
+     "species": "Tepig",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Unovan starter house"
+    },
+    {
+     "species": "Oshawott",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Unovan starter house"
+    }
+   ],
+   "wild_species_count": 24
+  },
+  {
+   "key": "crater-town",
+   "name": "Crater Town",
+   "wild": [],
+   "special": [
+    {
+     "species": "Celesteela",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Clefairy",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "hidden Pokemon Center grotto"
+    }
+   ],
+   "wild_species_count": 0
+  },
+  {
+   "key": "kbt-expressway",
+   "name": "KBT Expressway",
+   "wild": [
+    {
+     "species": "Zubat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Graveler",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Makuhita",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Hariyama",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Nosepass",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Aron",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Lairon",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Woobat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Noibat",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Carbink",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Diancie",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 10
+  },
+  {
+   "key": "valley-cave",
+   "name": "Valley Cave",
+   "wild": [
+    {
+     "species": "Meowth",
+     "form": "Galarian",
+     "method": "cave"
+    },
+    {
+     "species": "Psyduck",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Golduck",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Dunsparce",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Gligar",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Phanpy",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Nosepass",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Aron",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Finneon",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Lumineon",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Woobat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Noibat",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 14
+  },
+  {
+   "key": "route-6",
+   "name": "Route 6",
+   "wild": [
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Goldeen",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seaking",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Ledyba",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Ledian",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Spinarak",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Ariados",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Sunkern",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Smeargle",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Kricketot",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Shinx",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Luxio",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Mantyke",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Deerling",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Bunnelby",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Morpeko",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 21
+  },
+  {
+   "key": "route-7",
+   "name": "Route 7",
+   "wild": [
+    {
+     "species": "Rattata",
+     "form": "Alolan",
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Raticate",
+     "form": "Alolan",
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Abra",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Doduo",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Drowzee",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Goldeen",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seaking",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Mr. Mime",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Hoothoot",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Mareep",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Shinx",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Luxio",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Buneary",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Mantyke",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Espurr",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Yungoos",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Gumshoos",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Indeedee",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Stakataka",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 24
+  },
+  {
+   "key": "frost-mountain",
+   "name": "Frost Mountain",
+   "wild": [
+    {
+     "species": "Seel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Dewgong",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Cloyster",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Onix",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Lapras",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Sneasel",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Nosepass",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Aron",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Spheal",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Sealeo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Bronzor",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Roggenrola",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Woobat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Cryogonal",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Necrozma",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 15
+  },
+  {
+   "key": "route-8",
+   "name": "Route 8",
+   "wild": [
+    {
+     "species": "Mr. Mime",
+     "form": "Galarian",
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Flaaffy",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Sneasel",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Stantler",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Snorunt",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Snover",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Roggenrola",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Deerling",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Cubchoo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Minior",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 10
+  },
+  {
+   "key": "blizzard-city",
+   "name": "Blizzard City",
+   "wild": [],
+   "special": [
+    {
+     "species": "Electrode",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "in-game trade"
+    }
+   ],
+   "wild_species_count": 0
+  },
+  {
+   "key": "frozen-forest",
+   "name": "Frozen Forest",
+   "wild": [
+    {
+     "species": "Sneasel",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Snover",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Cubchoo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Snom",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Crabominable",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 4
+  },
+  {
+   "key": "fallshore-city",
+   "name": "Fallshore City",
+   "wild": [
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Carvanha",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Sharpedo",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Luvdisc",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Pyukumuku",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [
+    {
+     "species": "Lombre",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Togepi",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift egg"
+    }
+   ],
+   "wild_species_count": 6
+  },
+  {
+   "key": "route-11",
+   "name": "Route 11",
+   "wild": [
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Exeggcute",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Meditite",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Gulpin",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Spoink",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Swablu",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Barboach",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Whiscash",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Luvdisc",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Glameow",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Basculin",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Togedemaru",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Milcery",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 17
+  },
+  {
+   "key": "epidimy-town",
+   "name": "Epidimy Town",
+   "wild": [
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Graveler",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Barboach",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Whiscash",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Luvdisc",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Finneon",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Lumineon",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [
+    {
+     "species": "Hitmontop",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "in-game trade"
+    }
+   ],
+   "wild_species_count": 7
+  },
+  {
+   "key": "route-10",
+   "name": "Route 10",
+   "wild": [
+    {
+     "species": "Ditto",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Marill",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Linoone",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Linoone",
+     "form": "Galarian",
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Lotad",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Lombre",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Surskit",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Masquerain",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tympole",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Palpitoad",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Shelmet",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Goomy",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Wishiwashi",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Bruxish",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Cramorant",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Obstagoon",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 16
+  },
+  {
+   "key": "route-9",
+   "name": "Route 9",
+   "wild": [
+    {
+     "species": "Spearow",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Goldeen",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seaking",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Marill",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Azumarill",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Donphan",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Surskit",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Masquerain",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Shroomish",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Happiny",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Skorupi",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Pansear",
+     "form": null,
+     "method": "flowers"
+    },
+    {
+     "species": "Panpour",
+     "form": null,
+     "method": "flowers"
+    },
+    {
+     "species": "Deerling",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Karrablast",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Grubbin",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Oricorio",
+     "form": "Baile",
+     "method": "flowers"
+    },
+    {
+     "species": "Wishiwashi",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Bruxish",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Arrokuda",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Toxel",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Tapu Bulu",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 21
+  },
+  {
+   "key": "tehl-town",
+   "name": "Tehl Town",
+   "wild": [
+    {
+     "species": "Psyduck",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Golduck",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Goldeen",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seaking",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Marill",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Azumarill",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Wishiwashi",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Bruxish",
+     "form": null,
+     "method": "super rod"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 9
+  },
+  {
+   "key": "thundercap-mountain",
+   "name": "Thundercap Mountain",
+   "wild": [
+    {
+     "species": "Geodude",
+     "form": "Alolan",
+     "method": "rock smash"
+    },
+    {
+     "species": "Graveler",
+     "form": "Alolan",
+     "method": "rock smash"
+    },
+    {
+     "species": "Magnemite",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Magneton",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Krabby",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Kingler",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Cubone",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Marowak",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Electabuzz",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Chinchou",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Lanturn",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Shuckle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Elekid",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Nosepass",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Timburr",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Gurdurr",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Joltik",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Ferroseed",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Klink",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Klang",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Tynamo",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Eelektrik",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Stunfisk",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Pincurchin",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Zapdos",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Xurkitree",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Zeraora",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 27
+  },
+  {
+   "key": "tarmigan-town",
+   "name": "Tarmigan Town",
+   "wild": [
+    {
+     "species": "Psyduck",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Golduck",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Poliwag",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Poliwhirl",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Slowpoke",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Politoed",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [
+    {
+     "species": "Munna",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Musharna",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Pachirisu",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "in-game trade"
+    }
+   ],
+   "wild_species_count": 6
+  },
+  {
+   "key": "route-12",
+   "name": "Route 12",
+   "wild": [
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Ponyta",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Ponyta",
+     "form": "Galarian",
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Hoothoot",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Noctowl",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Snubbull",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Carvanha",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Sharpedo",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Wailmer",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Wailord",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Mantyke",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Gothita",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Solosis",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Deerling",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Mienfoo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Fletchling",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Fletchinder",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Spritzee",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Swirlix",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Dedenne",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Rockruff",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Applin",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Cosmog",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Solgaleo",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Lunala",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 25
+  },
+  {
+   "key": "dehara-city",
+   "name": "Dehara City",
+   "wild": [
+    {
+     "species": "Poliwag",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Poliwhirl",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Staryu",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Starmie",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Pyukumuku",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [
+    {
+     "species": "Voltorb",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Electrode",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Eevee",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "Game Corner prize"
+    },
+    {
+     "species": "Porygon",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "Game Corner prize"
+    },
+    {
+     "species": "Turtwig",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Sinnoh starter house"
+    },
+    {
+     "species": "Chimchar",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Sinnoh starter house"
+    },
+    {
+     "species": "Piplup",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Sinnoh starter house"
+    },
+    {
+     "species": "Emolga",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "Game Corner prize"
+    },
+    {
+     "species": "Axew",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "Game Corner prize"
+    },
+    {
+     "species": "Hawlucha",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "Game Corner prize"
+    },
+    {
+     "species": "Klefki",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "Game Corner prize"
+    }
+   ],
+   "wild_species_count": 5
+  },
+  {
+   "key": "ruins-of-void",
+   "name": "Ruins of Void",
+   "wild": [
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Chinchou",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Lanturn",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Mantine",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Kingdra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Sableye",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Lunatone",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Solrock",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Baltoy",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Claydol",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Duskull",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Dusclops",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Clamperl",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Relicanth",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Bronzong",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Manaphy",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Sigilyph",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Mareanie",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Toxapex",
+     "form": null,
+     "method": "underwater"
+    }
+   ],
+   "special": [
+    {
+     "species": "Yamask",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Yamask",
+     "form": "Galarian",
+     "method": "special/static"
+    },
+    {
+     "species": "Cofagrigus",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Runerigus",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 23
+  },
+  {
+   "key": "cinder-volcano-depths",
+   "name": "Cinder Volcano Depths / Shadow Base",
+   "wild": [],
+   "special": [
+    {
+     "species": "Mesprit",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 0
+  },
+  {
+   "key": "route-13",
+   "name": "Route 13",
+   "wild": [
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Slowpoke",
+     "form": "Galarian",
+     "method": "surf"
+    },
+    {
+     "species": "Krabby",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Kingler",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Alomomola",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Binacle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Skrelp",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Dragalge",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Clauncher",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Clawitzer",
+     "form": null,
+     "method": "super rod"
+    }
+   ],
+   "special": [
+    {
+     "species": "Deoxys",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 14
+  },
+  {
+   "key": "route-14",
+   "name": "Route 14",
+   "wild": [
+    {
+     "species": "Oddish",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Gloom",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Bellsprout",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Weepinbell",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Slowpoke",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Slowpoke",
+     "form": "Galarian",
+     "method": "surf"
+    },
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Cloyster",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Krabby",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Kingler",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Chinchou",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Lanturn",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Mantine",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Carvanha",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Sharpedo",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Wailmer",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Wailord",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Clamperl",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Luvdisc",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Bibarel",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Floatzel",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Gastrodon",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Binacle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Mareanie",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Toxapex",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Gossifleur",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Nihilego",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 33
+  },
+  {
+   "key": "auburn-waterway",
+   "name": "Auburn Waterway",
+   "wild": [
+    {
+     "species": "Goldeen",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seaking",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Ditto",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Marill",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Lotad",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Lombre",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Surskit",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Masquerain",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tympole",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Palpitoad",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Goomy",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Wishiwashi",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Bruxish",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Cramorant",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 15
+  },
+  {
+   "key": "lost-tunnel",
+   "name": "Lost Tunnel",
+   "wild": [
+    {
+     "species": "Diglett",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Dugtrio",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Graveler",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Lairon",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Woobat",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 6
+  },
+  {
+   "key": "great-desert",
+   "name": "Great Desert",
+   "wild": [
+    {
+     "species": "Sandslash",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Graveler",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Shuckle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Vibrava",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Cacturne",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Hippowdon",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Krokorok",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Darumaka",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Maractus",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Dwebble",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Rufflet",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Vullaby",
+     "form": null,
+     "method": "desert sand"
+    },
+    {
+     "species": "Binacle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Silicobra",
+     "form": null,
+     "method": "desert sand"
+    }
+   ],
+   "special": [
+    {
+     "species": "Pheromosa",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Omanyte",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Kabuto",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Aerodactyl",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Lileep",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Anorith",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Cranidos",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Shieldon",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Tirtouga",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Archen",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Tyrunt",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    },
+    {
+     "species": "Amaura",
+     "form": null,
+     "method": "fossil",
+     "note": "fossil revival (dig in Great Desert)"
+    }
+   ],
+   "wild_species_count": 15
+  },
+  {
+   "key": "gurun-town",
+   "name": "Gurun Town",
+   "wild": [
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Mantine",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Kingdra",
+     "form": null,
+     "method": "super rod"
+    }
+   ],
+   "special": [
+    {
+     "species": "Spiritomb",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift (needs Odd Keystone)"
+    }
+   ],
+   "wild_species_count": 7
+  },
+  {
+   "key": "vivill-woods",
+   "name": "Vivill Woods",
+   "wild": [
+    {
+     "species": "Caterpie",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Metapod",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Weedle",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Kakuna",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Pikachu",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Psyduck",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Golduck",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Wurmple",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Silcoon",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Cascoon",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Surskit",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Masquerain",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Barboach",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Whiscash",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Swadloon",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Cottonee",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Petilil",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Scatterbug",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Spewpa",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Hattrem",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Paras",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Foongus",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Morelull",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Kartana",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Morgrem",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 20
+  },
+  {
+   "key": "vivill-town",
+   "name": "Vivill Town",
+   "wild": [
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Cloyster",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Barboach",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Whiscash",
+     "form": null,
+     "method": "super rod"
+    }
+   ],
+   "special": [
+    {
+     "species": "Amoonguss",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "in-game trade"
+    },
+    {
+     "species": "Shiinotic",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "in-game trade"
+    }
+   ],
+   "wild_species_count": 7
+  },
+  {
+   "key": "vivill-warehouse",
+   "name": "Vivill Warehouse",
+   "wild": [
+    {
+     "species": "Dhelmise",
+     "form": null,
+     "method": "super rod"
+    }
+   ],
+   "special": [
+    {
+     "species": "Kyogre",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 1
+  },
+  {
+   "key": "route-16",
+   "name": "Route 16",
+   "wild": [
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Krabby",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Kingler",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Tangela",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Chinchou",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Lanturn",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Girafarig",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Clamperl",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Chatot",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Mantyke",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Throh",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Sawk",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Pawniard",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Pancham",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Binacle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Cursola",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Falinks",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Copperajah",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Kecleon",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 26
+  },
+  {
+   "key": "antisis-city",
+   "name": "Antisis City",
+   "wild": [
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Mantyke",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [
+    {
+     "species": "Trubbish",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Garbodor",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 6
+  },
+  {
+   "key": "antisis-sewers",
+   "name": "Antisis Sewers",
+   "wild": [
+    {
+     "species": "Raticate",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Golbat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Grimer",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Muk",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Koffing",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Weezing",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Weezing",
+     "form": "Galarian",
+     "method": "cave"
+    },
+    {
+     "species": "Whirlipede",
+     "form": null,
+     "method": "swarm"
+    }
+   ],
+   "special": [
+    {
+     "species": "Guzzlord",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 8
+  },
+  {
+   "key": "route-17",
+   "name": "Route 17",
+   "wild": [
+    {
+     "species": "Pidgeotto",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Farfetch'd",
+     "form": "Galarian",
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Krabby",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Kingler",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Lapras",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Noctowl",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Chinchou",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Lanturn",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Skiploom",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Volbeat",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Illumise",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Sharpedo",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Zangoose",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Seviper",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Tropius",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Clamperl",
+     "form": null,
+     "method": "underwater"
+    },
+    {
+     "species": "Bagon",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Mantyke",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Binacle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Sirfetch'd",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Tapu Lele",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 29
+  },
+  {
+   "key": "seaport-city",
+   "name": "Seaport City",
+   "wild": [
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Lapras",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Mantyke",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [
+    {
+     "species": "Pichu",
+     "form": "Spiky-Eared",
+     "method": "gift/trade/egg",
+     "note": "gift: Breeder School"
+    },
+    {
+     "species": "Castform",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift (needs all weather TMs + Defog)"
+    },
+    {
+     "species": "Rowlet",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Alolan starter house"
+    },
+    {
+     "species": "Litten",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Alolan starter house"
+    },
+    {
+     "species": "Popplio",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "gift: Alolan starter house"
+    }
+   ],
+   "wild_species_count": 7
+  },
+  {
+   "key": "polder-town",
+   "name": "Polder Town",
+   "wild": [
+    {
+     "species": "Poliwag",
+     "form": null,
+     "method": "old rod"
+    },
+    {
+     "species": "Poliwhirl",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Politoed",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Barboach",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Whiscash",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gastrodon",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Palpitoad",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Stunfisk",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Sliggoo",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [
+    {
+     "species": "Meloetta",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 9
+  },
+  {
+   "key": "cootes-bog",
+   "name": "Cootes Bog",
+   "wild": [
+    {
+     "species": "Gloom",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Poliwag",
+     "form": null,
+     "method": "old rod"
+    },
+    {
+     "species": "Poliwhirl",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Weepinbell",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Croconaw",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Politoed",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Barboach",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Whiscash",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gastrodon",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Drapion",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Croagunk",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Toxicroak",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Carnivine",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Stunfisk",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Stunfisk",
+     "form": "Galarian",
+     "method": "surf"
+    },
+    {
+     "species": "Sliggoo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 16
+  },
+  {
+   "key": "magnolia-town",
+   "name": "Magnolia Town",
+   "wild": [],
+   "special": [
+    {
+     "species": "Bulbasaur",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Charmander",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Squirtle",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Pidgey",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Hoppip",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Trapinch",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Cacnea",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Hippopotas",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Pidove",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Sewaddle",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Sandile",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Chespin",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Fennekin",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    },
+    {
+     "species": "Froakie",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "egg from Magnolia Cafe egg lady (random)"
+    }
+   ],
+   "wild_species_count": 0
+  },
+  {
+   "key": "crystal-peak",
+   "name": "Crystal Peak",
+   "wild": [
+    {
+     "species": "Golduck",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Graveler",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Onix",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Dragonair",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Qwilfish",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Skarmory",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Loudred",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Gastrodon",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Finneon",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Lumineon",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Woobat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Fraxure",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Deino",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Zweilous",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Noibat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Noivern",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Dracozolt",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Arctozolt",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Duraludon",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Absol",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Rayquaza",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Drifblim",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Rufflet",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Vullaby",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Reshiram",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Zekrom",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Yveltal",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Hoopa",
+     "form": "Confined",
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 19
+  },
+  {
+   "key": "magnolia-fields",
+   "name": "Magnolia Fields",
+   "wild": [
+    {
+     "species": "Tauros",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Quilava",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Noctowl",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Qwilfish",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Miltank",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Wailmer",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Wailord",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Tranquill",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Frillish",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Jellicent",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Gogoat",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Furfrou",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Mudsdale",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Dubwool",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Tornadus",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Thundurus",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Landorus",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Blacephalon",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Enamorus",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 15
+  },
+  {
+   "key": "redwood-village",
+   "name": "Redwood Village",
+   "wild": [
+    {
+     "species": "Scyther",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Pinsir",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Aipom",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Pineco",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Heracross",
+     "form": null,
+     "method": "headbutt"
+    }
+   ],
+   "special": [
+    {
+     "species": "Lampent",
+     "form": null,
+     "method": "gift/trade/egg",
+     "note": "in-game trade"
+    }
+   ],
+   "wild_species_count": 5
+  },
+  {
+   "key": "route-18",
+   "name": "Route 18",
+   "wild": [
+    {
+     "species": "Persian",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Geodude",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Farfetch'd",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Krabby",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Kingler",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Bayleef",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Noctowl",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Sudowoodo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Corsola",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Remoraid",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Octillery",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Mantine",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Skuntank",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Audino",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Bouffalant",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Binacle",
+     "form": null,
+     "method": "rock smash"
+    },
+    {
+     "species": "Stonjourner",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Registeel",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Azelf",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 23
+  },
+  {
+   "key": "victory-road",
+   "name": "Victory Road",
+   "wild": [
+    {
+     "species": "Jigglypuff",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Golbat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Graveler",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Chansey",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Jynx",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Magmar",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Marill",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Azumarill",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Slugma",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Magcargo",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Piloswine",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Hariyama",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Roselia",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Camerupt",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Glalie",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Luvdisc",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Floatzel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Finneon",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Lumineon",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Abomasnow",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Boldore",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Woobat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Excadrill",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Audino",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Basculin",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Vanillish",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Beartic",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Druddigon",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Heatmor",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Durant",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Avalugg",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Lurantis",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Salazzle",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Minior",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Turtonator",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Bruxish",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Drampa",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Hakamo-o",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Corvisquire",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Drakloak",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Darmanitan",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Darmanitan",
+     "form": "Galarian",
+     "method": "special/static"
+    },
+    {
+     "species": "Cobalion",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Terrakion",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Virizion",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 41
+  },
+  {
+   "key": "icy-hole",
+   "name": "Icy Hole",
+   "wild": [
+    {
+     "species": "Golbat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Seel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Dewgong",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Cloyster",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Jynx",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Lapras",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Piloswine",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Hariyama",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Sealeo",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Boldore",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Avalugg",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Eiscue",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Regigigas",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Regieleki",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Regidrago",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 13
+  },
+  {
+   "key": "route-15",
+   "name": "Route 15",
+   "wild": [
+    {
+     "species": "Tentacool",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Tentacruel",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Shellder",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Cloyster",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Horsea",
+     "form": null,
+     "method": "good rod"
+    },
+    {
+     "species": "Seadra",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Pelipper",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Basculin",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 9
+  },
+  {
+   "key": "cliff-cave",
+   "name": "Cliff Cave",
+   "wild": [
+    {
+     "species": "Golbat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Machop",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Machoke",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Geodude",
+     "form": "Alolan",
+     "method": "cave"
+    },
+    {
+     "species": "Graveler",
+     "form": "Alolan",
+     "method": "cave"
+    },
+    {
+     "species": "Onix",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Wooper",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Quagsire",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Misdreavus",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Steelix",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Tapu Koko",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 10
+  },
+  {
+   "key": "safari-zone",
+   "name": "Safari Zone",
+   "wild": [],
+   "special": [
+    {
+     "species": "Diglett",
+     "form": "Alolan",
+     "method": "special/static"
+    },
+    {
+     "species": "Dugtrio",
+     "form": "Alolan",
+     "method": "special/static"
+    },
+    {
+     "species": "Meowth",
+     "form": "Alolan",
+     "method": "special/static"
+    },
+    {
+     "species": "Exeggcute",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Cubone",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Rhyhorn",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Rhydon",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Kangaskhan",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Tauros",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Natu",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Xatu",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Wobbuffet",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Treecko",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Grovyle",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Torchic",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Combusken",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Mudkip",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Marshtomp",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Skitty",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Plusle",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Minun",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Spinda",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Blitzle",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Zebstrika",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Doublade",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Helioptile",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Heliolisk",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Bounsweet",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Steenee",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Golisopod",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 0
+  },
+  {
+   "key": "redwood-forest",
+   "name": "Redwood Forest",
+   "wild": [
+    {
+     "species": "Scyther",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Pinsir",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Ledian",
+     "form": null,
+     "method": "grass",
+     "time": "day"
+    },
+    {
+     "species": "Ariados",
+     "form": null,
+     "method": "grass",
+     "time": "night"
+    },
+    {
+     "species": "Aipom",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Pineco",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Heracross",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Heracross",
+     "form": null,
+     "method": "headbutt"
+    },
+    {
+     "species": "Ursaring",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Vigoroth",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Nincada",
+     "form": null,
+     "method": "swarm"
+    },
+    {
+     "species": "Oranguru",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Passimian",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Komala",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Thwackey",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Raboot",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Drizzile",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    }
+   ],
+   "special": [
+    {
+     "species": "Snorlax",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Zoroark",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Xerneas",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 16
+  },
+  {
+   "key": "tomb-of-borrius",
+   "name": "Tomb of Borrius",
+   "wild": [
+    {
+     "species": "Graveler",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Unown",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Sigilyph",
+     "form": null,
+     "method": "special/static"
+    },
+    {
+     "species": "Magearna",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 1
+  },
+  {
+   "key": "rift-cave",
+   "name": "Rift Cave",
+   "wild": [
+    {
+     "species": "Golbat",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Haunter",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Duskull",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Dusclops",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Chimecho",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Bronzor",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Bronzong",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Golett",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Golurk",
+     "form": null,
+     "method": "cave"
+    },
+    {
+     "species": "Sinistea",
+     "form": null,
+     "method": "cave"
+    }
+   ],
+   "special": [
+    {
+     "species": "Palkia",
+     "form": null,
+     "method": "special/static"
+    }
+   ],
+   "wild_species_count": 10
+  },
+  {
+   "key": "cube-corp",
+   "name": "Cube Corp.",
+   "wild": [
+    {
+     "species": "Gyarados",
+     "form": null,
+     "method": "super rod"
+    },
+    {
+     "species": "Ditto",
+     "form": null,
+     "method": "grass",
+     "time": "any"
+    },
+    {
+     "species": "Dracovish",
+     "form": null,
+     "method": "surf"
+    },
+    {
+     "species": "Arctovish",
+     "form": null,
+     "method": "surf"
+    }
+   ],
+   "special": [],
+   "wild_species_count": 4
+  }
+ ]
+}

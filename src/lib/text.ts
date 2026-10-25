@@ -31,15 +31,21 @@ export function formatDate(iso?: string | null): string {
   return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
+function baseSpecies(catchRow: Pick<Catch, 'dex_id' | 'pokemon' | 'form'>): string {
+  const base = monById(catchRow.dex_id)?.en || catchRow.pokemon || 'Unknown'
+  return catchRow.form ? `${base} (${catchRow.form})` : base
+}
+
 export function monName(catchRow?: Catch | null): string {
   if (!catchRow) return 'Nobody'
   if (catchRow.nickname) return catchRow.nickname
-  return monById(catchRow.dex_id)?.en || catchRow.pokemon || 'Unknown'
+  return baseSpecies(catchRow)
 }
 
 export function speciesName(catchRow?: Catch | null): string {
   if (!catchRow) return 'Pokémon'
-  return monById(catchRow.dex_id)?.en || catchRow.pokemon || 'Pokémon'
+  const name = baseSpecies(catchRow)
+  return name === 'Unknown' ? 'Pokémon' : name
 }
 
 export function statusLabel(status: Status, inTeam = false): string {

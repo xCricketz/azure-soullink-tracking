@@ -10,6 +10,10 @@ export const DEFAULT_SETTINGS: Settings = {
   installDismissed: false,
   milestones: [],
   notify: false,
+  capMode: 'vanilla',
+  mansionDone: false,
+  showGen8: false,
+  dexOrder: 'borrius',
 }
 
 export function loadSettings(): Settings {

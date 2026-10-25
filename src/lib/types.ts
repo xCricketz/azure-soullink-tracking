@@ -1,7 +1,9 @@
 export type PlayerId = 'fisi' | 'seri'
 export type Status = 'alive' | 'boxed' | 'dead' | 'missed'
 export type ThemeChoice = 'dark' | 'light' | 'system'
-export type TabId = 'routes' | 'team' | 'grave' | 'wiki' | 'more'
+export type TabId = 'routes' | 'team' | 'grave' | 'wiki' | 'map' | 'more'
+export type CapMode = 'vanilla' | 'difficult'
+export type DexOrder = 'borrius' | 'national'
 export type SyncState = 'live' | 'syncing' | 'offline'
 export type RouteFilter = 'all' | 'open' | 'alive' | 'boxed' | 'dead' | 'missed' | 'pairs'
 export type TeamView = 'mine' | 'partner' | 'both'
@@ -14,6 +16,8 @@ export interface Catch {
   route_order: number | null
   pokemon: string | null
   dex_id: number | null
+  /** Unbound form (Alolan, Galarian, …). Null is the base species. National number stays in dex_id. */
+  form: string | null
   nickname: string | null
   status: Status
   in_team: boolean
@@ -53,6 +57,7 @@ export interface CatchDraft {
   route: string
   routeOrder: number
   dexId: number | null
+  form: string | null
   pokemon: string | null
   nickname: string
   status: Status
@@ -75,6 +80,10 @@ export interface Settings {
   installDismissed: boolean
   milestones: string[]
   notify: boolean
+  capMode: CapMode
+  mansionDone: boolean
+  showGen8: boolean
+  dexOrder: DexOrder
 }
 
 export interface DeathPrompt {
@@ -102,7 +111,7 @@ export function playerFromEmail(email?: string | null): PlayerId | null {
   return null
 }
 
-export const DEFAULT_RULES = `Fisi's Tracker – Azure Platinum
+export const DEFAULT_RULES = `Fisi's Tracker – Pokémon Unbound
 
 • First catch on each route counts. A taken route is off limits.
 • If a Pokémon faints, its soul partner faints too.
@@ -111,12 +120,12 @@ export const DEFAULT_RULES = `Fisi's Tracker – Azure Platinum
 • Optional: Dupes Clause and Type Clause are under More.`
 
 export const GREETINGS = [
-  'Sinnoh is waiting.',
+  'Borrius is waiting.',
   'Nobody dies today. Hopefully.',
   'The chain holds.',
   'One ball. One chance.',
   'Route by route.',
-  'Giratina is watching.',
+  'The shadows are watching.',
   'The box is a strategy.',
   'Don’t rush. The first catch counts.',
 ]

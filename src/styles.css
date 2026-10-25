@@ -239,7 +239,7 @@ h1, h2, h3, .val, .nick, .btn, .fab, .nm b, .pc .nm, .who-name { font-family: va
   height: calc(var(--tabbar-h) + env(safe-area-inset-bottom));
   padding: 6px 2px env(safe-area-inset-bottom);
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   background: var(--tabbar);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
@@ -248,10 +248,10 @@ h1, h2, h3, .val, .nick, .btn, .fab, .nm b, .pc .nm, .who-name { font-family: va
 }
 .tab {
   display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0;
-  color: var(--text-faint); font: 600 11px/14px var(--font-body);
+  color: var(--text-faint); font: 600 10px/12px var(--font-body);
   background: none; border: none; padding: 0;
 }
-.tab .ic { width: 40px; height: 28px; border-radius: 999px; display: grid; place-items: center; transition: background 150ms var(--ease); }
+.tab .ic { width: 32px; height: 26px; border-radius: 999px; display: grid; place-items: center; transition: background 150ms var(--ease); }
 .tab > span:last-child { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .tab[aria-current="page"] { color: var(--text); }
 .tab[aria-current="page"] .ic { background: var(--me-tint); color: var(--me); animation: pill-in 250ms var(--ease); }
@@ -917,3 +917,63 @@ button.wiki-hit {
 .match-chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--tc); }
 .match-chip b { font-variant-numeric: tabular-nums; }
 a.wiki-out { text-decoration: none; margin-top: 16px; }
+.how-note { margin: 0; font-size: 15px; line-height: 21px; }
+.evo-flag {
+  margin-left: 6px; color: var(--text-faint); font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+}
+.evo-unconfirmed .evo-how { color: var(--text-faint); }
+.dex-order { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.dex-order button, .cap-mode button {
+  min-height: 40px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--surface-2); color: inherit; font: 700 14px/1 var(--font-body);
+}
+.dex-order button.on, .cap-mode button.on { background: var(--me); border-color: var(--me); color: #fff; }
+.dex-gen8 { border: 1px solid var(--border); border-radius: 14px; background: var(--surface); }
+.cap-mode { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 8px 0 4px; }
+.enc-row { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.enc-row::-webkit-scrollbar { display: none; }
+.enc-row button {
+  flex: none; min-height: 32px; padding: 0 10px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface-2); color: inherit;
+  font: 600 13px/1 var(--font-body);
+}
+.enc-row button.on { background: var(--me); border-color: var(--me); color: #fff; }
+.map-stage {
+  position: relative; height: 240px; overflow: hidden; touch-action: none;
+  border-radius: 16px; border: 1px solid var(--border); background: var(--surface);
+}
+.map-svg { position: absolute; top: 0; left: 0; transform-origin: 0 0; overflow: visible; }
+.map-edge { stroke: var(--border); stroke-width: 3; }
+.map-node { cursor: pointer; }
+.map-node circle { fill: var(--surface-2); stroke: var(--border); stroke-width: 3; }
+.map-node text { fill: var(--text-muted); font-family: var(--font-body); }
+.map-node.visited circle { fill: var(--boxed); stroke: transparent; }
+.map-node.caught circle { fill: var(--alive); stroke: transparent; }
+.map-node.current circle { fill: var(--me); stroke: #fff; stroke-width: 4; }
+.map-node.current text, .map-node.caught text { fill: var(--text); font-weight: 700; }
+.map-tools {
+  position: absolute; right: 8px; bottom: 8px; display: flex; flex-direction: column; gap: 6px; z-index: 2;
+}
+.map-tools button {
+  width: 36px; height: 36px; border-radius: 12px; border: 1px solid var(--border);
+  background: var(--surface); color: inherit; display: grid; place-items: center;
+}
+.map-legend { display: flex; gap: 12px; color: var(--text-muted); font-size: 12px; }
+.map-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+.map-legend .caught { background: var(--alive); }
+.map-legend .visited { background: var(--boxed); }
+.map-legend .ahead { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border); }
+.next-steps h2 { margin: 0 0 8px; font: 700 18px/22px var(--font-head); }
+.next-steps ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.next-steps li button {
+  width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 10px 12px; color: inherit;
+}
+.next-steps b { display: block; font: 700 15px/20px var(--font-head); }
+.next-steps span, .next-steps small { display: block; color: var(--text-muted); font-size: 13px; line-height: 18px; }
+.next-steps li.passed button { opacity: 0.55; }
+.enc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.enc-list li { font-size: 14px; line-height: 20px; }
+.enc-list small { color: var(--text-faint); }
+.map-sheet .btn { margin-top: 12px; }
+.wiki-sec { margin: 16px 0 8px; font: 700 16px/20px var(--font-head); }

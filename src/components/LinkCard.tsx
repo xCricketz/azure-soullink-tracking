@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { marksFor } from '../data/marks'
 import { routeTitle, type RouteDef } from '../data/routes'
 import { speciesName } from '../lib/text'
+import { dexKey, findMon, useDex } from '../lib/unbound'
 import { bothAlive } from '../lib/pairs'
 import { PLAYERS, type Catch, type PlayerId } from '../lib/types'
 import { TrainerShot } from './TrainerShot'
@@ -31,7 +32,7 @@ export function LinkCard({
   onOpen: () => void
   onAdd: () => void
   onQuick: () => void
-  onWiki?: (id: number) => void
+  onWiki?: (id: string) => void
 }) {
   const state = pairState(fisi, seri, me)
   const alive = bothAlive(fisi, seri)
@@ -61,6 +62,7 @@ export function LinkCard({
         <h2 className="route">
           <span className="no">#{index}</span>
           {routeTitle(route)}
+          {route.gym ? ' · Gym' : ''}
         </h2>
         <span className={cx('pairstate', state.tone)}>
           {state.tone === 'link' && <Link2 aria-hidden="true" />}
@@ -132,8 +134,10 @@ function Half({
   flash: boolean
   onAdd: () => void
   onQuick: () => void
-  onWiki?: (id: number) => void
+  onWiki?: (id: string) => void
 }) {
+  const dex = useDex()
+  const types = findMon(dex, catchRow?.dex_id, catchRow?.form)?.types
   const press = useRef<{ timer: number; x: number; y: number; fired: boolean } | null>(null)
   if (!catchRow) {
     if (mine) {
@@ -203,13 +207,13 @@ function Half({
           onPointerDown={(event) => event.stopPropagation()}
           onClick={(event) => {
             event.stopPropagation()
-            onWiki(catchRow.dex_id as number)
+            if (catchRow.dex_id) onWiki(dexKey(catchRow.dex_id, catchRow.form))
           }}
         >
-          <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} />
+          <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} types={types} />
         </button>
       ) : !missed ? (
-        <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} />
+        <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} types={types} />
       ) : null}
       <div className="meta">
         <div className="nick">{catchRow.nickname || (missed ? 'Missed' : speciesName(catchRow))}</div>

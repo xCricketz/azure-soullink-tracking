@@ -1,0 +1,90 @@
+{
+ "source": "https://pokemonunbound.miraheze.org/wiki/Level_Cap",
+ "licence_note": "Miraheze wiki content is CC BY-NC-SA 4.0 (facts re-expressed; credit Pokemon Unbound Wiki on Miraheze)",
+ "applies_when": "Option Capped Exp. Share is ON (default ON for Expert/Insane). Caps are removed after becoming Champion. Over-cap Pokemon still get 1 exp, so the cap is soft.",
+ "difficulty_note": "\"difficult\" column = Difficult and above (Difficult, Expert, Insane).",
+ "caps": [
+  {
+   "key": "badges_0",
+   "label": "0 badges",
+   "badges": 0,
+   "tarmigan_mansion_done": false,
+   "vanilla": 15,
+   "difficult": 20
+  },
+  {
+   "key": "badges_1",
+   "label": "1 badge",
+   "badges": 1,
+   "tarmigan_mansion_done": false,
+   "vanilla": 22,
+   "difficult": 26
+  },
+  {
+   "key": "badges_2",
+   "label": "2 badges",
+   "badges": 2,
+   "tarmigan_mansion_done": false,
+   "vanilla": 29,
+   "difficult": 32
+  },
+  {
+   "key": "badges_3",
+   "label": "3 badges",
+   "badges": 3,
+   "tarmigan_mansion_done": false,
+   "vanilla": 33,
+   "difficult": 36
+  },
+  {
+   "key": "badges_4",
+   "label": "4 badges",
+   "badges": 4,
+   "tarmigan_mansion_done": false,
+   "vanilla": 37,
+   "difficult": 40
+  },
+  {
+   "key": "post_tarmigan_mansion",
+   "label": "4 badges + Tarmigan Mansion finished",
+   "badges": 4,
+   "tarmigan_mansion_done": true,
+   "vanilla": 43,
+   "difficult": 45
+  },
+  {
+   "key": "badges_5",
+   "label": "5 badges",
+   "badges": 5,
+   "tarmigan_mansion_done": true,
+   "vanilla": 51,
+   "difficult": 52
+  },
+  {
+   "key": "badges_6",
+   "label": "6 badges",
+   "badges": 6,
+   "tarmigan_mansion_done": true,
+   "vanilla": 55,
+   "difficult": 57
+  },
+  {
+   "key": "badges_7",
+   "label": "7 badges",
+   "badges": 7,
+   "tarmigan_mansion_done": true,
+   "vanilla": 60,
+   "difficult": 61
+  },
+  {
+   "key": "badges_8",
+   "label": "8 badges",
+   "badges": 8,
+   "tarmigan_mansion_done": true,
+   "vanilla": 66,
+   "difficult": 75
+  }
+ ],
+ "cross_check": "unboundwiki-style Fandom list (https://pokemonunbound.fandom.com/wiki/Gym_Leader) shows the same Difficult+ caps before gyms: 20,26,32,36,45,52,57,61. Third-party pokemonunboundpokedex.com lists different caps (20,26,32,36,45,52,58,64) and is NOT used.",
+ "extra": "No extra cap steps exist beyond the Tarmigan Mansion step; caps vanish once you are Champion."
+}
