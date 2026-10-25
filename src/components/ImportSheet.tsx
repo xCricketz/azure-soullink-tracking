@@ -3,6 +3,7 @@ import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'rea
 import { ROUTES } from '../data/routes'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
+import { formatPlaytime } from '../lib/save/explain'
 import { readImportedNats, writeImportedNats } from '../lib/save/memory'
 import { confirmAllIds, liveDecisions, planSave, routeClash, type AreaHint, type PlannedMon, type RouteDecision } from '../lib/save/plan'
 import type { ParsedSave } from '../lib/save/unbound-save'
@@ -317,8 +318,9 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
         {plan && save && (
           <>
             <button className="text-btn" type="button" onClick={() => { setSave(null); setError(''); setDone([]); settledRoutes.current = new Map() }}>Choose another file</button>
-            <p className="import-summary">
+            <p className="import-summary" data-playtime={formatPlaytime(save.trainer.playtime) ?? ''}>
               <strong>{save.trainer.name || 'Trainer'}</strong>
+              {formatPlaytime(save.trainer.playtime) ? ` · played ${formatPlaytime(save.trainer.playtime)}` : ''}
               {' · '}Pokédex caught {save.dex.caughtCount}
               {' · '}party {partyCount}
               {' · '}boxed {plan.mons.length - partyCount}

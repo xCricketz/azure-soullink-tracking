@@ -40,20 +40,25 @@ interface MapRegion {
   ry: number
 }
 
+interface MapIsland {
+  id: string
+  name: string
+  x: number
+  y: number
+  rx: number
+  ry: number
+}
+
 const GUIDE = guideData as GuideStep[]
 const NODES = layout.nodes as MapNode[]
 const EDGES = layout.edges as [string, string, 'story' | 'side' | 'link'][]
 const REGIONS = (layout.regions ?? []) as MapRegion[]
+const ISLANDS = ((layout as { islands?: MapIsland[] }).islands ?? []) as MapIsland[]
 const WORLD_W = layout.width
 const WORLD_H = layout.height
 const SHOW = 4
 
-const RADIUS: Record<string, number> = { town: 18, gym: 15, route: 9, cave: 12, dungeon: 13, other: 12 }
-const HUBS = new Set(['kbt-expressway', 'pokemon-league', 'victory-road'])
-const MAJOR = new Set([
-  'frozen-heights', 'dresco-town', 'crater-town', 'blizzard-city', 'fallshore-city',
-  'dehara-city', 'antisis-city', 'seaport-city', 'pokemon-league', 'kbt-expressway',
-])
+const RADIUS: Record<string, number> = { town: 20, gym: 16, route: 9, cave: 12, dungeon: 13, other: 12 }
 
 export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const app = useApp()
@@ -98,6 +103,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
     return node ? [{ player, x: node.x, y: node.y }] : []
   })
   const upcoming = useMemo(() => stepsAfter(progress?.key ?? '', progress?.order ?? 0), [progress])
+  const nextKey = upcoming[0]?.route_key && upcoming[0].route_key !== progress?.key ? upcoming[0].route_key : null
   const shown = expanded ? GUIDE : upcoming.slice(0, SHOW)
   const place = open ? placeByKey(open) : undefined
   const area = open && areas ? areas.get(open) : undefined
@@ -219,7 +225,8 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
 
   const byPos = new Map(NODES.map((node) => [node.key, node]))
   const showAllLabels = view.scale >= 0.82
-  const labelSize = showAllLabels ? 13 : Math.max(13, 10 / view.scale)
+  const labelSize = showAllLabels ? 13 : Math.max(13, 12 / view.scale)
+  const tagSize = Math.max(12, 11 / view.scale)
   const stageBox = stageRef.current?.getBoundingClientRect()
   const labelShift = showAllLabels
     ? new Map<string, { x: number; y: number }>()
@@ -252,13 +259,14 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
           width={WORLD_W}
           height={WORLD_H}
           style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}
-          aria-label="Schematic Borrius map"
+          aria-label="Borrius region map"
         >
           <defs>
             <filter id="map-blob" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="22" />
+              <feGaussianBlur stdDeviation="18" />
             </filter>
           </defs>
+          <rect className="map-water" x={0} y={0} width={WORLD_W} height={WORLD_H} />
           {REGIONS.map((region) => (
             <ellipse
               key={region.id}
@@ -269,6 +277,15 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
               ry={region.ry}
               filter="url(#map-blob)"
             />
+          ))}
+          {ISLANDS.map((isle) => (
+            <g key={isle.id} className="map-island" data-island={isle.id}>
+              <ellipse className="map-blob island" cx={isle.x} cy={isle.y} rx={isle.rx} ry={isle.ry} filter="url(#map-blob)" />
+              <ellipse className="map-shore" cx={isle.x} cy={isle.y} rx={isle.rx * 0.72} ry={isle.ry * 0.62} />
+              {view.scale >= 0.45 && (
+                <text className="map-isle" x={isle.x} y={isle.y + 4} textAnchor="middle" fontSize={tagSize}>{isle.name}</text>
+              )}
+            </g>
           ))}
           {EDGES.map(([from, to, role]) => {
             const a = byPos.get(from)
@@ -290,16 +307,20 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
             const r = RADIUS[node.kind] ?? 11
             const labelled = showNodeLabel(node, view.scale)
             const townBadge = node.kind === 'town' ? node.badge : null
+            const here = node.key === progress?.key
+            const next = node.key === nextKey
             const shift = labelShift.get(node.key) ?? { x: 0, y: 0 }
             const labelX = node.labelX + shift.x
             const labelY = node.labelY + shift.y
             return (
               <g
                 key={node.key}
-                className={cx('map-node', state, node.kind)}
+                className={cx('map-node', state, node.kind, here && 'here', next && 'next')}
                 transform={`translate(${node.x} ${node.y})`}
                 data-map-node={node.key}
                 data-state={state}
+                data-here={here ? 'true' : 'false'}
+                data-next={next ? 'true' : 'false'}
               >
                 <circle className="hit" r={Math.max(22, r + 8)} />
                 <circle className="core" r={r} />
@@ -314,6 +335,11 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
                     <text textAnchor="middle" y="3">{townBadge}</text>
                   </g>
                 ) : null}
+                {(here || next) && (
+                  <text className="map-tag" textAnchor="middle" y={-(r + 10)} fontSize={tagSize}>
+                    {here ? 'Here' : 'Next'}
+                  </text>
+                )}
                 {labelled && (
                   <text
                     className="lbl"
@@ -359,7 +385,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
         <span><i className="gym" /> Gym</span>
         <span><i className="cave" /> Cave</span>
       </div>
-      <p className="hint map-caption">Schematic, not a geographic map of Borrius. Drag to pan, pinch or use the buttons to zoom. Pins mark the latest log for each player.</p>
+      <p className="hint map-caption">{layout.caption} Pins mark the latest log for each player. Here is the furthest catch, and Next is the following guide step.</p>
       <section className="gcard ladder-card" aria-label="Level cap ladder">
         <h3>Level cap ladder</h3>
         <p>{options.levelCapOn ? 'The highlighted step is the cap for the badges you have now.' : 'The level cap is off, so these numbers are only the table.'}</p>
@@ -451,9 +477,8 @@ function NodeMark({ kind }: { kind: string }) {
 }
 
 function showNodeLabel(node: MapNode, scale: number): boolean {
-  if (scale >= 0.82) return true
-  if (scale >= 0.48) return node.kind === 'town' || node.kind === 'gym' || HUBS.has(node.key)
-  return MAJOR.has(node.key)
+  if (node.kind === 'town' || node.key === 'pokemon-league') return true
+  return scale >= 0.34
 }
 
 function avoidLabelCollisions(

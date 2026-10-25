@@ -130,7 +130,7 @@ function planOne(
     ? suggestRoute(mon.name, opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
     : null
   const formNote = mon.formIndex && mon.formIndex > 0
-    ? `Form index ${mon.formIndex}. Stored as the base species. The save does not name the form.`
+    ? `Form ${mon.formIndex} of this species. Soul-Link counts it as the base species. The first catch on a route is the one that stays.`
     : null
   const route = located.route ?? (area?.suggestion === 'area' ? area.route : null)
   return {
