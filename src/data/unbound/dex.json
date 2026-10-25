@@ -3209,7 +3209,7 @@
   ],
   "how": "cave",
   "gen8": false,
-  "note": "wiki lists Borrius #147 for both Magmar and Magby; Magby set to 146 (inferred, unverified)"
+  "note": "wiki lists Borrius #147 for both Magmar and Magby; Magby set to 146 (inferred, unverified) | confirmed by ROM v2.1.1.1 Borrius table (0x1A3F398)"
  },
  {
   "nat": 241,
@@ -3566,7 +3566,7 @@
   ],
   "how": "evolve Cascoon L10",
   "gen8": false,
-  "note": "wiki lists Borrius #422 for both Dustox and Hippopotas; Dustox set to 432 (inferred from sequence 428-431, unverified)"
+  "note": "wiki lists Borrius #422 for both Dustox and Hippopotas; Dustox set to 432 (inferred from sequence 428-431, unverified) | confirmed by ROM v2.1.1.1 Borrius table (0x1A3F398)"
  },
  {
   "nat": 270,
@@ -4091,7 +4091,7 @@
  },
  {
   "nat": 315,
-  "borrius": null,
+  "borrius": 121,
   "name": "Roselia",
   "form": null,
   "types": [
@@ -4099,7 +4099,8 @@
    "Poison"
   ],
   "how": "yellow flowers / grass or evolve Budew (friendship)",
-  "gen8": false
+  "gen8": false,
+  "note": "Borrius 121 per ROM v2.1.1.1 Borrius table (0x1A3F398); wiki table had it empty (Roserade was listed at 121)"
  },
  {
   "nat": 316,
@@ -4274,18 +4275,19 @@
  },
  {
   "nat": 331,
-  "borrius": null,
+  "borrius": 418,
   "name": "Cacnea",
   "form": null,
   "types": [
    "Grass"
   ],
   "how": "breed Cacturne; or Magnolia Cafe egg lady",
-  "gen8": false
+  "gen8": false,
+  "note": "Borrius 418 per ROM v2.1.1.1 Borrius table (0x1A3F398); missing in wiki table"
  },
  {
   "nat": 332,
-  "borrius": null,
+  "borrius": 419,
   "name": "Cacturne",
   "form": null,
   "types": [
@@ -4293,7 +4295,8 @@
    "Dark"
   ],
   "how": "wild or evolve Cacnea L32",
-  "gen8": false
+  "gen8": false,
+  "note": "Borrius 419 per ROM v2.1.1.1 Borrius table (0x1A3F398); missing in wiki table"
  },
  {
   "nat": 333,
@@ -4586,14 +4589,15 @@
  },
  {
   "nat": 358,
-  "borrius": null,
+  "borrius": 376,
   "name": "Chimecho",
   "form": null,
   "types": [
    "Psychic"
   ],
   "how": "cave or evolve Chingling (friendship, night)",
-  "gen8": false
+  "gen8": false,
+  "note": "Borrius 376 per ROM v2.1.1.1 Borrius table (0x1A3F398); wiki table had it empty (Stunky was listed at 376)"
  },
  {
   "nat": 359,
@@ -5147,7 +5151,7 @@
  },
  {
   "nat": 407,
-  "borrius": 121,
+  "borrius": 122,
   "name": "Roserade",
   "form": null,
   "types": [
@@ -5155,7 +5159,8 @@
    "Poison"
   ],
   "how": "Shiny Stone",
-  "gen8": false
+  "gen8": false,
+  "note": "Borrius 122 per ROM v2.1.1.1 Borrius table (0x1A3F398); wiki table had 121 (Roselia is 121)"
  },
  {
   "nat": 408,
@@ -5480,7 +5485,7 @@
  },
  {
   "nat": 434,
-  "borrius": 376,
+  "borrius": null,
   "name": "Stunky",
   "form": null,
   "types": [
@@ -5488,7 +5493,8 @@
    "Dark"
   ],
   "how": "Bellin Town gentleman gift (1 of 3 random); or breed Skuntank",
-  "gen8": false
+  "gen8": false,
+  "note": "No Borrius number per ROM v2.1.1.1 Borrius table (0x1A3F398) (not in the table); wiki table wrongly had 376"
  },
  {
   "nat": 435,
@@ -5500,7 +5506,8 @@
    "Dark"
   ],
   "how": "wild or evolve Stunky L34",
-  "gen8": false
+  "gen8": false,
+  "note": "No Borrius number per ROM v2.1.1.1 Borrius table (0x1A3F398) (confirmed absent; Stunky line is not in the Borrius dex)"
  },
  {
   "nat": 436,

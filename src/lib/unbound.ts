@@ -18,6 +18,7 @@ export interface UEvo {
   method: string
   category: string
   confidence: string
+  source?: string
 }
 
 export interface EncounterRow {
@@ -136,6 +137,7 @@ export function loadEvolutions(): Promise<UEvo[]> {
 }
 
 export function evoUnconfirmed(evo: UEvo): boolean {
+  if (evo.source === 'rom') return false
   return evo.confidence.startsWith('UNCONFIRMED')
 }
 

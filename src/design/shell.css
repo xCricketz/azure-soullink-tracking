@@ -183,3 +183,24 @@ textarea, .field input, .picker input, .search {
 
 [data-me="seri"] { --me: var(--seri); --me-hi: var(--seri-hi); --me-ink: var(--seri-ink); --me-tint: var(--seri-tint); --me-glow: var(--seri-glow); }
 [data-me="fisi"] { --me: var(--fisi); --me-hi: var(--fisi-hi); --me-ink: var(--fisi-ink); --me-tint: var(--fisi-tint); --me-glow: var(--fisi-glow); }
+
+.import-sheet { display: flex; flex-direction: column; gap: 10px; }
+.import-help { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 18px; }
+.import-help strong { color: var(--text); }
+.import-actions { display: flex; flex-direction: column; gap: 8px; }
+.import-error { margin: 0; color: var(--dead-ink, #9b2c2c); font-size: 14px; line-height: 18px; }
+.import-summary { margin: 0; font-size: 14px; line-height: 18px; }
+.import-block h3 { margin: 4px 0 0; font: 700 13px/16px var(--font-body); letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
+.import-box { border-top: 1px solid var(--line); padding-top: 8px; }
+.import-box summary { font-weight: 650; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.import-mon { display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid var(--line); }
+.import-top { display: flex; gap: 10px; align-items: flex-start; }
+.import-top input { width: 22px; height: 22px; margin-top: 2px; }
+.import-flags { display: flex; flex-wrap: wrap; gap: 6px; }
+.import-pill { font: 650 11px/14px var(--font-body); padding: 3px 8px; border-radius: 999px; background: var(--fill); color: var(--text-muted); }
+.import-pill.new { background: var(--fisi-tint); color: var(--fisi-ink); }
+.import-meta { margin: 0; color: var(--text-muted); font-size: 12px; line-height: 16px; }
+.import-route { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 650; }
+.import-route select { width: 100%; min-height: 44px; }
+.import-jump { margin-bottom: 8px; }
+.text-btn { align-self: flex-start; border: 0; background: transparent; color: var(--me-ink, var(--fisi-ink)); font: 650 14px/20px var(--font-body); padding: 0; min-height: 44px; }

@@ -402,10 +402,10 @@
  {
   "species": "Galarian Darumaka",
   "evolves_to": "Galarian Darmanitan",
-  "method": "Level 35.",
+  "method": "Use an Ice Stone (item ID 105 in ROM); not Level 35.",
   "category": "regional_form",
-  "confidence": "wiki table",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value \"Level 35\" corrected",
+  "source": "rom"
  },
  {
   "species": "Galarian Slowpoke",
@@ -594,113 +594,145 @@
  {
   "species": "Binacle",
   "evolves_to": "Barbaracle",
-  "method": "Level 36 (was 39 before v2.1.1).",
+  "method": "Level 36 (main series: 39).",
   "category": "level_changed",
-  "confidence": "wiki table + changelog snippet",
-  "source": "https://unboundwiki.com/pokemon/ ; changelog https://pastebin.com/2SnXNHRz"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
  },
  {
   "species": "Dragonair",
   "evolves_to": "Dragonite",
-  "method": "Level 50 according to the wiki table (main series: 55).",
+  "method": "Level 55 (same as main series; the wiki value 50 was wrong).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 50 corrected",
+  "source": "rom"
  },
  {
   "species": "Roggenrola",
   "evolves_to": "Boldore",
-  "method": "Level 45 according to the wiki table (main series: 25).",
+  "method": "Level 25 (same as main series; the wiki value 45 was wrong).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 45 corrected",
+  "source": "rom"
  },
  {
   "species": "Tympole",
   "evolves_to": "Palpitoad",
-  "method": "Level 45 according to the wiki table (main series: 25).",
+  "method": "Level 25 (same as main series; the wiki value 45 was wrong).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 45 corrected",
+  "source": "rom"
  },
  {
   "species": "Ducklett",
   "evolves_to": "Swanna",
-  "method": "Level 30 according to the wiki table (main series: 35).",
+  "method": "Level 30 (main series: 35).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
  },
  {
   "species": "Vanillite",
   "evolves_to": "Vanillish",
-  "method": "Level 24 according to the wiki table (main series: 35).",
+  "method": "Level 24 (main series: 35).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
  },
  {
   "species": "Vanillish",
   "evolves_to": "Vanilluxe",
-  "method": "Level 42 according to the wiki table (main series: 47).",
+  "method": "Level 42 (main series: 47).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
  },
  {
   "species": "Klink",
   "evolves_to": "Klang",
-  "method": "Level 35 according to the wiki table (main series: 38).",
+  "method": "Level 35 (main series: 38).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
  },
  {
   "species": "Klang",
   "evolves_to": "Klinklang",
-  "method": "Level 45 according to the wiki table (main series: 49).",
+  "method": "Level 45 (main series: 49).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
  },
  {
   "species": "Rufflet",
   "evolves_to": "Braviary",
-  "method": "Level 50 according to the wiki table (main series: 54).",
+  "method": "Level 50 (main series: 54).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
  },
  {
   "species": "Rookidee",
   "evolves_to": "Corvisquire",
-  "method": "Level 16 according to the wiki table (main series: 18).",
+  "method": "Level 18 (same as main series; the wiki value 16 was wrong).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 16 corrected",
+  "source": "rom"
  },
  {
   "species": "Glameow",
   "evolves_to": "Purugly",
-  "method": "Level 34 according to the wiki table (main series: 38).",
+  "method": "Level 34 (main series: 38).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
  },
  {
   "species": "Gothorita",
   "evolves_to": "Gothitelle",
-  "method": "Level 45 according to the wiki table (main series: 41).",
+  "method": "Level 41 (same as main series; the wiki value 45 was wrong).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 45 corrected",
+  "source": "rom"
  },
  {
   "species": "Mienfoo",
   "evolves_to": "Mienshao",
-  "method": "Level 46 according to the wiki table (main series: 50).",
+  "method": "Level 46 (main series: 50).",
   "category": "level_changed",
-  "confidence": "UNCONFIRMED: wiki table value differs from main series; could be a deliberate Unbound tweak or a wiki typo",
-  "source": "https://unboundwiki.com/pokemon/"
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Slugma",
+  "evolves_to": "Magcargo",
+  "method": "Level 30 (main series: 38).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); not listed in wiki table",
+  "source": "rom"
+ },
+ {
+  "species": "Pupitar",
+  "evolves_to": "Tyranitar",
+  "method": "Level 48 (main series: 55).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); not listed in wiki table",
+  "source": "rom"
+ },
+ {
+  "species": "Snorunt",
+  "evolves_to": "Glalie",
+  "method": "Level 30 (main series: 42).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); not listed in wiki table",
+  "source": "rom"
+ },
+ {
+  "species": "Vullaby",
+  "evolves_to": "Mandibuzz",
+  "method": "Level 50 (main series: 54).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); not listed in wiki table",
+  "source": "rom"
  }
 ]
