@@ -4,6 +4,7 @@ import { BottomSheet, cx } from '../components/ui'
 import guideData from '../data/unbound/guide.json'
 import layout from '../data/unbound/layout.json'
 import { placeByKey, ROUTES, routeTitleByKey } from '../data/routes'
+import { capLadder, optionsOf } from '../lib/options'
 import { monName } from '../lib/text'
 import { PLAYERS, type Catch } from '../lib/types'
 import { loadAreas, monLabel, type EncounterArea } from '../lib/unbound'
@@ -58,6 +59,15 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
     return best
   }, [caught])
 
+  const options = optionsOf(app.run)
+  const ladder = capLadder(app.run?.badges ?? 0, options.difficulty, options.mansionDone)
+  const pins = (['fisi', 'seri'] as const).flatMap((player) => {
+    const row = app.catches
+      .filter((item) => item.player === player && item.status !== 'missed')
+      .sort((a, b) => (b.route_order ?? 0) - (a.route_order ?? 0))[0]
+    const node = row ? NODES.find((item) => item.key === row.route) : undefined
+    return node ? [{ player, x: node.x, y: node.y }] : []
+  })
   const upcoming = useMemo(() => stepsAfter(progress?.key ?? '', progress?.order ?? 0), [progress])
   const shown = expanded ? GUIDE : upcoming.slice(0, SHOW)
   const place = open ? placeByKey(open) : undefined
@@ -208,6 +218,22 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
               </g>
             )
           })}
+          {pins.map((pin) => (
+            <g key={pin.player} className="map-pin" transform={`translate(${pin.x} ${pin.y - 36})`}>
+              <path d="M-6 13 L0 22 L6 13Z" fill={pin.player === 'fisi' ? '#1E9BFF' : '#FF4F86'} />
+              <circle r="16" fill="#fff" />
+              <circle r="14" fill={pin.player === 'fisi' ? '#1E9BFF' : '#FF4F86'} />
+              <clipPath id={`pin-${pin.player}`}><circle r="12" /></clipPath>
+              <image
+                href={`${import.meta.env.BASE_URL}trainers/${pin.player}-avatar-256.png`}
+                x="-12"
+                y="-12"
+                width="24"
+                height="24"
+                clipPath={`url(#pin-${pin.player})`}
+              />
+            </g>
+          ))}
         </svg>
         <div className="map-tools">
           <button type="button" aria-label="Zoom in" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale * 1.25)}><Plus size={18} /></button>
@@ -220,7 +246,20 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
         <span><i className="visited" /> Been there</span>
         <span><i className="ahead" /> Not yet</span>
       </div>
-      <p className="hint">Story order, drawn from the route links. Not a geographic map of Borrius.</p>
+      <p className="hint">Story order, drawn from the route links. Not a geographic map of Borrius. Pins mark the latest log for each player.</p>
+      <section className="gcard ladder-card" aria-label="Level cap ladder">
+        <h3>Level cap ladder</h3>
+        <p>{options.levelCapOn ? 'The highlighted step is the cap for the badges you have now.' : 'The level cap is off, so these numbers are only the table.'}</p>
+        <div className="ladder">
+          {ladder.map((step) => (
+            <div key={`${step.label}-${step.level}`} className={step.now ? 'st1 now' : 'st1'}>
+              <small>{step.label}</small>
+              <b>{step.level}</b>
+              <em>{step.now ? 'now' : ''}</em>
+            </div>
+          ))}
+        </div>
+      </section>
       <section className="next-steps" aria-label="Next steps">
         <h2>Next steps</h2>
         {shown.length === 0 ? <p className="hint">That’s the end of the guide.</p> : (
@@ -247,6 +286,8 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
             <h3 className="wiki-sec">Encounters</h3>
             {!area || (area.wild.length === 0 && area.special.length === 0) ? (
               <p className="hint">No encounter list for this area.</p>
+            ) : options.randomizerSpecies ? (
+              <p className="hint">Species randomizer is on. Methods in {area.name}: {[...new Set([...area.wild, ...area.special].map((row) => row.method))].join(', ') || 'not listed'}. Species names stay hidden.</p>
             ) : (
               <ul className="enc-list">
                 {[...area.wild, ...area.special].slice(0, 24).map((row, index) => (

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#0B1020" />
+    <meta name="theme-color" content="#E4F3FF" />
     <meta name="color-scheme" content="dark light" />
     <meta name="description" content="Fisi's Tracker for Fisi and Seri · Pokémon Unbound" />
     <meta name="robots" content="noindex, nofollow" />
@@ -16,10 +16,9 @@
     <title>Fisi's Tracker · Pokémon Unbound</title>
     <script>
       try {
-        var theme = localStorage.getItem('sl-theme') || 'dark'
-        if (theme === 'light' || theme === 'dark' || theme === 'system') {
-          document.documentElement.dataset.theme = theme
-        }
+        var choice = localStorage.getItem('sl-theme') || 'light'
+        var dark = choice === 'dark' || (choice === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light'
       } catch (e) {}
     </script>
   </head>

@@ -1,16 +1,19 @@
-import { ArrowLeftRight, ChartColumn, ChevronRight, Download, Moon, RotateCcw, ScrollText, Smartphone, Sun } from 'lucide-react'
+import { ChartColumn, ChevronRight, Download, FlaskConical, Gauge, Moon, RotateCcw, ScrollText, Shuffle, Smartphone, Sparkles, Sun } from 'lucide-react'
 import { useState } from 'react'
 import { InstallHint } from '../components/InstallHint'
-import { TrainerShot } from '../components/TrainerShot'
+import { Photo } from '../components/Photo'
 import { BottomSheet, Dialog } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
 import { findMon, useDex } from '../lib/unbound'
+import { difficultyLabel, optionsOf } from '../lib/options'
 import { useApp } from '../state/context'
-import { DEFAULT_RULES, PLAYERS, type ThemeChoice } from '../lib/types'
+import { DEFAULT_RULES, otherPlayer, PLAYERS, type SpeciesClause, type ThemeChoice } from '../lib/types'
 import { pushToast } from '../lib/toast'
 
-export function More() {
+export function More({ onDex }: { onDex?: () => void }) {
   const app = useApp()
+  const options = optionsOf(app.run)
+  const partner = otherPlayer(app.me)
   const [rulesOpen, setRulesOpen] = useState(false)
   const [rules, setRules] = useState(app.run?.rules ?? DEFAULT_RULES)
   const [installOpen, setInstallOpen] = useState(false)
@@ -26,17 +29,151 @@ export function More() {
 
   return (
     <div className="screen more">
-      <section className={cxProfile(app.me)}>
-        <TrainerShot id={app.me} crop="avatar" className={`av ${app.me}`} alt="" />
-        <div className="t">
-          <small>Profile</small>
-          <b>{app.demo ? 'Demo run as ' : 'Signed in as '}<span className={app.me}>{me.name}</span></b>
+      <section className="profile">
+        <Photo id={app.me} size="lg" alt="" />
+        <div>
+          <div className="s">{app.demo ? 'Demo run as' : 'Signed in as'}</div>
+          <b>{me.name}</b>
+          <div className="s" style={{ marginTop: 2 }}>{me.device} · {app.run?.badges ?? 0} badges</div>
         </div>
-        <button className="btn btn-ghost btn-sm swap" type="button" onClick={() => setSwitchOpen(true)}>
-          <ArrowLeftRight size={16} aria-hidden="true" />
-          Switch player
+        <button className="sw-btn" type="button" onClick={() => setSwitchOpen(true)}>
+          <Photo id={partner} size="xs" alt="" />
+          Switch
         </button>
       </section>
+
+      <button className="feature" type="button" onClick={() => onDex?.()}>
+        <div className="pb"><span className="ic"><ChartColumn aria-hidden="true" /></span></div>
+        <div>
+          <b>Pokédex</b>
+          <div className="s">{stats.total} catches logged · {stats.favorite ?? 'no type yet'}</div>
+        </div>
+        <ChevronRight style={{ marginLeft: 'auto' }} aria-hidden="true" />
+      </button>
+
+      <div className="grp-t micro">Run settings {options.ngPlus && <span className="rb ngp"><Sparkles aria-hidden="true" />NG+ run</span>}</div>
+      <div className="grp">
+        <label className="row">
+          <span className="ic rand"><Shuffle aria-hidden="true" /></span>
+          <div>
+            <b>Species randomizer: {options.randomizerSpecies ? 'on' : 'off'}</b>
+            <span className="s">{options.randomizerSpecies ? 'Route lists will not guess a species' : 'Encounter lists can suggest a species'}</span>
+          </div>
+          <span className="v"><span className={options.randomizerSpecies ? 'sw on' : 'sw'} /></span>
+          <input type="checkbox" className="sr-only" checked={options.randomizerSpecies} onChange={(event) => void app.saveOptions({ randomizerSpecies: event.target.checked })} />
+        </label>
+        <label className="row">
+          <span className="ic rand"><Shuffle aria-hidden="true" /></span>
+          <div>
+            <b>Move randomizer: {options.randomizerMoves ? 'on' : 'off'}</b>
+            <span className="s">Recorded for the run. This tracker does not predict moves.</span>
+          </div>
+          <span className="v"><span className={options.randomizerMoves ? 'sw on' : 'sw'} /></span>
+          <input type="checkbox" className="sr-only" checked={options.randomizerMoves} onChange={(event) => void app.saveOptions({ randomizerMoves: event.target.checked })} />
+        </label>
+        <label className="row">
+          <span className="ic rand"><Shuffle aria-hidden="true" /></span>
+          <div>
+            <b>Ability randomizer: {options.randomizerAbilities ? 'on' : 'off'}</b>
+            <span className="s">Recorded for the run. Ability text stays a main-series note.</span>
+          </div>
+          <span className="v"><span className={options.randomizerAbilities ? 'sw on' : 'sw'} /></span>
+          <input type="checkbox" className="sr-only" checked={options.randomizerAbilities} onChange={(event) => void app.saveOptions({ randomizerAbilities: event.target.checked })} />
+        </label>
+        <div className="row col">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span className="ic" style={{ ['--c' as string]: 'var(--ember)' }}><Gauge aria-hidden="true" /></span>
+            <div style={{ flex: 1 }}>
+              <b>Difficulty</b>
+              <span className="s">{difficultyLabel(options.difficulty)} · cap {options.levelCapOn ? 'on' : 'off'}</span>
+            </div>
+          </div>
+          <div className="seg diff" role="group" aria-label="Difficulty">
+            {(['vanilla', 'difficult', 'expert', 'insane'] as const).map((mode) => (
+              <button key={mode} type="button" className={options.difficulty === mode ? 'on' : ''} aria-pressed={options.difficulty === mode} onClick={() => void app.saveOptions({ difficulty: mode })}>
+                {difficultyLabel(mode)}
+              </button>
+            ))}
+          </div>
+        </div>
+        <label className="row">
+          <span className="ic ngp"><Sparkles aria-hidden="true" /></span>
+          <div>
+            <b>New Game Plus</b>
+            <span className="s">NG+ itself adds no randomness. The gold badge is only a flag.</span>
+          </div>
+          <span className="v"><span className={options.ngPlus ? 'sw on' : 'sw'} /></span>
+          <input type="checkbox" className="sr-only" checked={options.ngPlus} onChange={(event) => void app.saveOptions({ ngPlus: event.target.checked })} />
+        </label>
+        <div className="row col">
+          <div>
+            <b>Species clause</b>
+            <span className="s">An app rule. The game has no species clause.</span>
+          </div>
+          <div className="seg diff" role="group" aria-label="Species clause">
+            {([
+              ['off', 'Off'],
+              ['player', 'Each player'],
+              ['both', 'Both'],
+            ] as const).map(([id, label]) => (
+              <button key={id} type="button" className={options.speciesClause === id ? 'on' : ''} aria-pressed={options.speciesClause === id} onClick={() => void app.saveOptions({ speciesClause: id as SpeciesClause })}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <label className="row">
+          <span className="ic" style={{ ['--c' as string]: 'var(--dead)' }}><FlaskConical aria-hidden="true" /></span>
+          <div>
+            <b>Sandbox warning</b>
+            <span className="s">Expert and Insane in the game. It fights Soul-Link. This does not turn it on.</span>
+          </div>
+          <span className="v"><span className={options.sandbox ? 'sw on' : 'sw'} /></span>
+          <input type="checkbox" className="sr-only" checked={options.sandbox} onChange={(event) => void app.saveOptions({ sandbox: event.target.checked })} />
+        </label>
+      </div>
+      {options.sandbox && (
+        <div className="banner" role="status">
+          <span>Sandbox ignores fainting in the game and conflicts with a soul link. Leave it off for this run. Deaths here still link.</span>
+        </div>
+      )}
+      {options.ngPlus && (
+        <>
+          <div className="ngp-ph" aria-disabled="true">
+            <span className="ic"><FlaskConical aria-hidden="true" /></span>
+            <div>
+              <b>NG+ extras <span className="tbd">Coming soon</span></b>
+              <p>New Game Plus does not randomize the save. Extra NG+ tools are not built yet.</p>
+              <div className="sk"><s style={{ ['--w' as string]: '38%' }} /><s style={{ ['--w' as string]: '24%' }} /><s style={{ ['--w' as string]: '18%' }} /></div>
+            </div>
+          </div>
+          <div className="grp">
+            <div className="row col">
+              <div>
+                <b>Carried team</b>
+                <span className="s">Up to six names from the previous save. Level 10 in the game. Not route encounters.</span>
+              </div>
+              <div className="carried">
+                {Array.from({ length: 6 }, (_, index) => (
+                  <input
+                    key={index}
+                    value={options.carried[index] ?? ''}
+                    maxLength={24}
+                    aria-label={`Carried Pokémon ${index + 1}`}
+                    placeholder={`Slot ${index + 1}`}
+                    onChange={(event) => {
+                      const carried = [...options.carried]
+                      while (carried.length < 6) carried.push('')
+                      carried[index] = event.target.value
+                      void app.saveOptions({ carried: carried.map((name) => name.trim()).filter(Boolean) })
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
       <h2 className="group-lbl">Run</h2>
       <div className="group">
@@ -74,8 +211,12 @@ export function More() {
       <h2 className="group-lbl">Hints</h2>
       <div className="group hints">
         <label className="switch">
+          <input type="checkbox" checked={app.settings.reduceMotion} onChange={(event) => app.updateSettings({ reduceMotion: event.target.checked })} />
+          <span>Reduce motion</span>
+        </label>
+        <label className="switch">
           <input type="checkbox" checked={app.settings.dupeClause} onChange={(event) => app.updateSettings({ dupeClause: event.target.checked })} />
-          <span>Dupes Clause: warn on a duplicate species</span>
+          <span>Extra dupe warning on this phone</span>
         </label>
         <label className="switch">
           <input type="checkbox" checked={app.settings.typeClause} onChange={(event) => app.updateSettings({ typeClause: event.target.checked })} />
@@ -215,10 +356,6 @@ export function More() {
       </Dialog>
     </div>
   )
-}
-
-function cxProfile(me: string) {
-  return `prof ${me}`
 }
 
 function summarize(catches: { player: 'fisi' | 'seri'; status: string; route: string; dex_id: number | null; form: string | null }[], dex: ReturnType<typeof useDex>) {

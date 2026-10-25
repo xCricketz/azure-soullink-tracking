@@ -1,8 +1,10 @@
 import { Archive, ChevronDown, ChevronUp, Link2, TriangleAlert } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { Photo } from '../components/Photo'
 import { EmptyState, SpritePlate, TypePills, cx } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
 import { teamOf } from '../lib/edits'
+import { activeCap } from '../lib/options'
 import { dexKey, findMon, useDex, type UMon } from '../lib/unbound'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type Catch, type PlayerId, type TeamView } from '../lib/types'
@@ -16,9 +18,29 @@ export function Team({ onWiki }: { onWiki: (id: string) => void }) {
   const warnings = useMemo(() => teamWarnings(app.me, app.catches, app.settings.dupeClause, app.settings.typeClause, dex), [app, dex])
   const mine = teamOf(app.catches, app.me)
   const theirs = teamOf(app.catches, partner)
+  const cap = activeCap(app.run)
+  const over = cap ? mine.filter((row) => (row.level ?? 0) > cap.level) : []
+  const aliveCount = (player: PlayerId) => app.catches.filter((row) => row.player === player && row.status === 'alive').length
 
   return (
     <div className="screen">
+      <div className="pairbar">
+        <div className="p l">
+          <Photo id="fisi" size="md" alt="Fisi" />
+          <div><b>Fisi</b><small>{aliveCount('fisi')} alive</small></div>
+        </div>
+        <div className="lk2"><span className="ln" /><span className="nd"><Link2 aria-hidden="true" /></span><span className="ln" /></div>
+        <div className="p r">
+          <Photo id="seri" size="md" alt="Seri" />
+          <div><b>Seri</b><small>{aliveCount('seri')} alive</small></div>
+        </div>
+      </div>
+      {over.length > 0 && cap && (
+        <div className="banner" role="status">
+          <TriangleAlert aria-hidden="true" />
+          <span><b>{monName(over[0])}</b> is over the level cap ({over[0].level} / {cap.level}). The cap does not block the team.</span>
+        </div>
+      )}
       <div className="seg" role="group" aria-label="Team view">
         {([['mine', 'My team'], ['partner', `${PLAYERS[partner].name}’s team`], ['both', 'Both']] as const).map(([id, label]) => (
           <button key={id} type="button" className={view === id ? 'on' : ''} aria-pressed={view === id} onClick={() => setView(id)}>{label}</button>
@@ -46,6 +68,7 @@ export function Team({ onWiki }: { onWiki: (id: string) => void }) {
           empty={view === 'mine'}
           warned={new Set(warnings)}
           onWiki={onWiki}
+          capLevel={cap?.level ?? null}
         />
       )}
       {view === 'mine' && <Reserves onWiki={onWiki} />}
@@ -61,6 +84,7 @@ function Party({
   empty,
   warned,
   onWiki,
+  capLevel = null,
 }: {
   rows: Catch[]
   owner: PlayerId
@@ -69,6 +93,7 @@ function Party({
   empty: boolean
   warned?: Set<string>
   onWiki: (id: string) => void
+  capLevel?: number | null
 }) {
   const app = useApp()
   const dex = useDex()
@@ -77,16 +102,19 @@ function Party({
   }
   if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} doesn’t have anyone in the team yet.`} trainer={owner} />
   return (
-    <div className="team-grid">
+    <div className="grid2">
       {rows.map((row, index) => {
         const partner = catches.find((item) => item.player !== row.player && item.route === row.route)
         const partnerId = row.player === 'fisi' ? 'seri' : 'fisi'
         const split = partner ? partner.status !== 'alive' || !partner.in_team : true
         const name = monName(row)
         const flagged = warned ? [...warned].some((warning) => warning.startsWith(name)) : split && editable
+        const overBy = capLevel != null && row.level != null && row.level > capLevel ? row.level - capLevel : 0
         return (
-          <article key={row.id} className={cx('tcard', flagged && 'warn')}>
-            <div className="plate-wrap">
+          <article key={row.id} className={cx('tcard', flagged && 'warn', overBy > 0 && 'over')} style={{ ['--tc' as string]: 'var(--me)' }}>
+            <div className="art">
+              <span className="lv"><small>Lv</small>{row.level ?? '–'}</span>
+              {overBy > 0 && <span className="cap"><TriangleAlert aria-hidden="true" />+{overBy}</span>}
               <button
                 className="wiki-hit"
                 type="button"
@@ -96,7 +124,6 @@ function Party({
               >
                 <SpritePlate id={row.dex_id} alt={speciesName(row)} size="lg" types={findMon(dex, row.dex_id, row.form)?.types} />
               </button>
-              <span className="lv">Lv {row.level ?? '–'}</span>
             </div>
             <div className="nm">
               <b>{row.nickname || speciesName(row)}</b>
@@ -104,6 +131,7 @@ function Party({
             </div>
             <TypePills id={row.dex_id} names={findMon(dex, row.dex_id, row.form)?.types} />
             <div className={cx('lk', partnerId)}>
+              <Photo id={partnerId} size="xs" alt="" />
               <Link2 aria-hidden="true" />
               {partner && partner.status !== 'missed' && partner.dex_id && (
                 <button

@@ -1,0 +1,187 @@
+/* ============================================================
+   animations.css — Sunrise Meadow (v2; same motion system as v1, ambient layer swapped). Drop-in. ONLY transform / opacity (+ rare filter on ≤2 small elements).
+   Budget: ≤ 12 concurrently animating elements per screen; looping ambient ≤ 4. See DESIGN.md §9.
+   Trigger by toggling a class (JS adds .is-*, removes on `animationend`).
+   ============================================================ */
+
+/* ---------- 0. Global helpers ---------- */
+.gpu{will-change:transform,opacity}            /* add only while animating; remove on animationend */
+.pressable{transition:transform var(--dur-1) var(--ease-out);-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pressable:active{transform:scale(var(--press))}
+.pressable.tight:active{transform:scale(.92)}   /* small round buttons */
+
+/* ---------- 1. Screen transitions ---------- */
+/* Tab switch = fade-through (siblings, no direction). Push (More→Pokédex, list→detail) = shared-axis X. */
+@keyframes screen-in{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:none}}
+@keyframes screen-out{to{opacity:0;transform:translate3d(0,-6px,0)}}
+@keyframes push-in{from{opacity:0;transform:translate3d(28px,0,0)}to{opacity:1;transform:none}}
+@keyframes push-out{to{opacity:0;transform:translate3d(-18px,0,0)}}
+@keyframes pop-in{from{opacity:0;transform:translate3d(-28px,0,0)}to{opacity:1;transform:none}}
+.screen-in{animation:screen-in var(--dur-3) var(--ease-out) both}
+.screen-out{animation:screen-out var(--dur-1) var(--ease-in) both}
+.push-in{animation:push-in var(--dur-3) var(--ease-out) both}
+.push-out{animation:push-out var(--dur-2) var(--ease-in) both}
+.pop-in{animation:pop-in var(--dur-3) var(--ease-out) both}
+
+/* ---------- 2. List stagger-in  (set style="--i:n" on children, JS caps n at 8) ---------- */
+@keyframes rise{from{opacity:0;transform:translate3d(0,18px,0) scale(.98)}to{opacity:1;transform:none}}
+.stagger>*{animation:rise var(--dur-3) var(--ease-out) both;animation-delay:calc(min(var(--i,0),8) * var(--stagger))}
+
+/* ---------- 3. Dock indicator morph ---------- */
+/* .dock-ind translates to the active slot (spring); inner <span> squashes/stretches mid-flight. */
+.dock-ind{position:absolute;top:8px;bottom:8px;left:8px;width:calc((100% - 16px) / 5);
+  transform:translate3d(calc(var(--i,0) * 100%),0,0);transition:transform var(--dur-3) var(--ease-spring-soft)}
+.dock-ind>span{position:absolute;inset:0;border-radius:20px;background:linear-gradient(180deg,var(--me-tint),transparent 140%),var(--surface);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--me) 38%,transparent),0 0 22px -4px var(--me-glow)}
+.dock-ind.is-moving>span{animation:ind-squish var(--dur-3) var(--ease-inout)}
+@keyframes ind-squish{0%{transform:scale(1,1)}35%{transform:scale(1.28,.88)}100%{transform:scale(1,1)}}
+.dk .ic{transition:transform var(--dur-2) var(--ease-spring),color var(--dur-1)}
+.dk.on .ic{transform:translate3d(0,-1px,0) scale(1.12);color:var(--me-ink)}
+
+/* ---------- 4. Chain-link pulse (soul-link forms) ---------- */
+@keyframes node-pop{0%{transform:scale(.6)}40%{transform:scale(1.35)}100%{transform:scale(1)}}
+@keyframes node-ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+@keyframes line-flash{0%{opacity:.7;transform:scaleX(0)}60%{opacity:1;transform:scaleX(1)}100%{opacity:.7;transform:scaleX(1)}}
+.chain.is-forming .node{animation:node-pop var(--dur-4) var(--ease-spring) both}
+.chain.is-forming .node::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--link);animation:node-ring var(--dur-5) var(--ease-out) both}
+.chain.is-forming .line{transform-origin:0 50%;animation:line-flash var(--dur-4) var(--ease-out) both}
+/* idle shimmer: one spark travels the line (only on the card in view, ≤1 at a time) */
+@keyframes spark{from{transform:translate3d(-8px,0,0);opacity:0}15%{opacity:1}85%{opacity:1}to{transform:translate3d(var(--len,150px),0,0);opacity:0}}
+.chain.is-live .spark{animation:spark var(--dur-loop) var(--ease-inout) infinite}
+
+/* ---------- 5. Partner-catch glow (partner saved something) ---------- */
+/* Pre-painted glow layer .halo, only opacity animates. */
+.halo{position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:0;
+  box-shadow:0 0 0 1.5px var(--halo,var(--seri)),0 0 30px -2px var(--halo-glow,var(--seri-glow))}
+.glow-seri{--halo:var(--seri);--halo-glow:var(--seri-glow)} .glow-fisi{--halo:var(--fisi);--halo-glow:var(--fisi-glow)}
+@keyframes halo{0%{opacity:0}18%{opacity:1}100%{opacity:0}}
+.is-partner-update .halo{animation:halo 1800ms var(--ease-out) both}
+@keyframes half-flash{0%{opacity:0}25%{opacity:.9}100%{opacity:0}}
+.half .flash{position:absolute;inset:0;border-radius:inherit;background:var(--me-tint);opacity:0;pointer-events:none}
+.half.is-saved .flash{animation:half-flash var(--dur-4) var(--ease-out) both}
+/* sprite "arrives": drop-in with a tiny bounce */
+@keyframes sprite-land{0%{opacity:0;transform:translate3d(-50%,-18px,0) scale(.7)}60%{opacity:1;transform:translate3d(-50%,2px,0) scale(1.05)}100%{transform:translate3d(-50%,0,0) scale(1)}}
+.orb.is-new img{animation:sprite-land var(--dur-4) var(--ease-out) both}
+
+/* ---------- 6. Death sequence (pair falls) — total 2.2 s, see DESIGN.md §9.6 ---------- */
+/* JS: card.classList.add('is-dying'); at 2200ms replace with 'is-dead'. Ghost clones are created once and reused. */
+@keyframes dying-shake{0%,100%{transform:none}10%{transform:translate3d(-4px,0,0)}20%{transform:translate3d(4px,0,0)}30%{transform:translate3d(-3px,0,0)}40%{transform:translate3d(3px,0,0)}50%{transform:translate3d(-1px,0,0)}}
+@keyframes dying-flash{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+@keyframes sprite-gray{to{filter:grayscale(1) brightness(.72)}}            /* 600 ms, filter on the 2 sprites only */
+@keyframes crack-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}   /* SVG path pathLength=1 */
+@keyframes ghost-rise{0%{opacity:0;transform:translate3d(-50%,0,0) scale(1)}15%{opacity:.75}100%{opacity:0;transform:translate3d(calc(-50% + var(--drift,6px)),-64px,0) scale(1.18)}}
+@keyframes chain-snap-l{to{transform:translate3d(-7px,3px,0) rotate(-14deg);opacity:.5}}
+@keyframes chain-snap-r{to{transform:translate3d(7px,3px,0) rotate(14deg);opacity:.5}}
+@keyframes card-sink{to{transform:translate3d(0,0,0) scale(.985)}}
+.lcard .dflash{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(80% 90% at 50% 50%,rgba(242,95,92,.45),transparent 70%);opacity:0;pointer-events:none}
+.lcard .crack{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0}
+.lcard .crack path{stroke:var(--dead);stroke-width:2;fill:none;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 4px var(--dead))}
+.lcard .ghost{position:absolute;left:50%;width:56px;height:56px;opacity:0;pointer-events:none;mix-blend-mode:screen;filter:blur(1px) brightness(2) saturate(0)}
+.lcard.is-dying{animation:dying-shake 500ms var(--ease-inout) both}
+.lcard.is-dying .dflash{animation:dying-flash 700ms var(--ease-out) both}
+.lcard.is-dying .orb img{animation:sprite-gray var(--dur-4) var(--ease-inout) 300ms both}
+.lcard.is-dying .crack{opacity:1}
+.lcard.is-dying .crack path{animation:crack-draw 450ms var(--ease-out) 350ms forwards}
+.lcard.is-dying .ghost{animation:ghost-rise 1400ms var(--ease-out) 700ms both}
+.lcard.is-dying .chain .node{animation:node-pop var(--dur-2) var(--ease-in) reverse both,chain-snap-l var(--dur-3) var(--ease-out) 500ms both}
+/* resting dead state (class .dead): see app.css */
+
+/* ---------- 7. Bottom sheet (spring) ---------- */
+@keyframes sheet-in{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
+@keyframes sheet-out{to{transform:translate3d(0,100%,0)}}
+@keyframes scrim-in{from{opacity:0}to{opacity:1}}
+.sheet.is-open{animation:sheet-in 460ms var(--ease-spring-soft) both}
+.sheet.is-closing{animation:sheet-out var(--dur-2) var(--ease-in) both}
+.scrim.is-open{animation:scrim-in var(--dur-2) var(--ease-out) both}
+.scrim.is-closing{animation:scrim-in var(--dur-2) var(--ease-in) reverse both}
+/* drag: JS sets style.transform=translate3d(0,Ypx,0) while pointer is down (no transition); on release: dy>120 || vy>.6px/ms → close, else spring back (transition:transform 380ms var(--ease-spring-soft)). */
+/* result rows inside autocomplete */
+@keyframes row-in{from{opacity:0;transform:translate3d(0,-6px,0)}to{opacity:1;transform:none}}
+.res .r{animation:row-in var(--dur-2) var(--ease-out) both;animation-delay:calc(var(--i,0) * 30ms)}
+
+/* ---------- 8. Map ---------- */
+/* route lines use pathLength="1" */
+@keyframes route-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.m-route-done{stroke-dasharray:1;stroke-dashoffset:0}
+.map.is-drawing .m-route-done{stroke-dashoffset:1;animation:route-draw 1600ms var(--ease-inout) 200ms forwards}
+@keyframes node-in{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+.m-node{transform-box:fill-box;transform-origin:center}
+.map.is-drawing .m-node{animation:node-in var(--dur-3) var(--ease-spring) both;animation-delay:calc(200ms + var(--k,0) * 70ms)}
+@keyframes pin-pulse{0%{transform:scale(.6);opacity:.8}100%{transform:scale(2.6);opacity:0}}
+.m-pulse{transform-box:fill-box;transform-origin:center;animation:pin-pulse 2000ms var(--ease-out) infinite}
+.m-pulse.b{animation-delay:1000ms}
+@keyframes pin-bob{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-3px,0)}}
+.m-pin{animation:pin-bob 2400ms var(--ease-inout) infinite}
+@keyframes next-glow{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.9;transform:scale(1.15)}}
+.m-next-ring{transform-box:fill-box;transform-origin:center;animation:next-glow 2000ms var(--ease-inout) infinite}
+@keyframes dash-march{to{stroke-dashoffset:-14}}   /* upcoming path: 1 element only */
+.m-route-todo{animation:dash-march 1600ms linear infinite}
+
+/* ---------- 9. Badge unlock / level-cap raise ---------- */
+@keyframes badge-pop{0%{transform:scale(.2) rotate(-90deg);opacity:0}55%{transform:scale(1.4) rotate(8deg);opacity:1}80%{transform:scale(.94) rotate(-3deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes badge-shine{from{transform:translate3d(-130%,0,0) skewX(-20deg)}to{transform:translate3d(230%,0,0) skewX(-20deg)}}
+@keyframes spark-burst{0%{transform:translate3d(0,0,0) scale(1);opacity:1}100%{transform:translate3d(var(--dx),var(--dy),0) scale(0);opacity:0}}
+.pip.is-unlocking{animation:badge-pop 800ms var(--ease-spring) both}
+.pip.is-unlocking::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.9) 50%,transparent 70%);animation:badge-shine 900ms var(--ease-out) 250ms both;mix-blend-mode:overlay}
+.pip .sp{position:absolute;left:50%;top:50%;width:4px;height:4px;margin:-2px;border-radius:50%;background:var(--ember-2);opacity:0}
+.pip.is-unlocking .sp{animation:spark-burst 800ms var(--ease-out) 150ms both}   /* 8 sparks, --dx/--dy set inline */
+/* cap number roll: two stacked spans; JS toggles .is-rolling */
+@keyframes digit-roll{from{transform:translate3d(0,0,0)}to{transform:translate3d(0,-50%,0)}}
+.roll{display:block}   /* .rollbox{height:34px;overflow:hidden} > .roll > span×2 (old, new), each 34px high */
+.roll.is-rolling{animation:digit-roll var(--dur-3) var(--ease-out) both}
+@keyframes ring-fill{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.cap-ring .seg.is-new{transform-box:fill-box;transform-origin:center;animation:ring-fill var(--dur-4) var(--ease-spring) both}
+
+/* ---------- 10. Skeleton shimmer ---------- */
+@keyframes shimmer{from{transform:translate3d(-100%,0,0)}to{transform:translate3d(100%,0,0)}}
+.skel{position:relative;overflow:hidden;background:var(--surface-2);border-radius:12px}
+.skel::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.7) 50%,transparent 80%);animation:shimmer 1400ms var(--ease-inout) infinite}
+
+/* ---------- 11. Pull to refresh ---------- */
+/* JS maps drag distance d (0..96, rubber-band .5) to --pull: indicator translateY(var(--pull)); rotation = d*3deg.
+   Release ≥ 72 → .is-refreshing: links spin; resolve → .is-done (snap + check). */
+.ptr{position:absolute;left:50%;top:-44px;width:40px;height:40px;margin-left:-20px;border-radius:50%;display:grid;place-items:center;
+  background:var(--surface-3);box-shadow:var(--e-1);transform:translate3d(0,var(--pull,0px),0) scale(var(--ptr-s,1));opacity:var(--ptr-o,0)}
+.ptr svg{transform:rotate(calc(var(--pull,0) * 3deg))}
+@keyframes ptr-spin{to{transform:rotate(360deg)}}
+.ptr.is-refreshing svg{animation:ptr-spin 900ms linear infinite}
+@keyframes ptr-done{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+.ptr.is-done{animation:ptr-done var(--dur-3) var(--ease-spring) both}
+
+/* ---------- 12. Toasts (undo) ---------- */
+@keyframes toast-in{from{opacity:0;transform:translate3d(0,24px,0) scale(.96)}to{opacity:1;transform:none}}
+@keyframes toast-out{to{opacity:0;transform:translate3d(0,12px,0) scale(.98)}}
+@keyframes toast-timer{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.toast.is-open{animation:toast-in var(--dur-3) var(--ease-spring-soft) both}
+.toast.is-closing{animation:toast-out var(--dur-2) var(--ease-in) both}
+.toast .timer{transform-origin:0 50%;animation:toast-timer 5s linear both}
+
+/* ---------- 13. Ambient (≤4 loops total) ---------- */
+/* v2 ambient: ONE group = 2 clouds drifting (transform only); sun breathes (opacity) on Start; motes rise on Start. logo-float on Start. => <= 4 loops */
+@keyframes cloud-drift{from{transform:translate3d(-24px,0,0)}to{transform:translate3d(52px,0,0)}}
+.bgt .cloud.c1{animation:cloud-drift 46s var(--ease-inout) infinite alternate}
+.bgt .cloud.c2{animation:cloud-drift 62s var(--ease-inout) infinite alternate-reverse}
+@keyframes sun-breathe{from{opacity:.78}to{opacity:1}}
+.bgt .sun{animation:sun-breathe 6s var(--ease-inout) infinite alternate}
+@keyframes ember-rise{0%{transform:translate3d(0,0,0) scale(1);opacity:0}15%{opacity:.9}100%{transform:translate3d(var(--ex,10px),-360px,0) scale(.4);opacity:0}}
+.embers b{position:absolute;bottom:-10px;width:4px;height:4px;border-radius:50%;background:var(--c,var(--ember));opacity:0;
+  left:var(--x);animation:ember-rise var(--t,7s) linear infinite;animation-delay:var(--d,0s)}
+@keyframes logo-float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-5px,0)}}
+.logo-float{animation:logo-float 4s var(--ease-inout) infinite}
+@keyframes fab-in{from{opacity:0;transform:translate3d(0,24px,0) scale(.8)}to{opacity:1;transform:none}}
+.fab{animation:fab-in var(--dur-4) var(--ease-spring) 300ms both}
+/* Dex tile reveal (silhouette → color): two stacked layers, crossfade opacity */
+@keyframes dex-reveal{0%{opacity:0;transform:scale(.7)}60%{opacity:1;transform:scale(1.12)}100%{transform:scale(1)}}
+.dex-tile.is-new .art{animation:dex-reveal var(--dur-4) var(--ease-spring) both}
+
+/* ---------- 14. Reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:1ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:1ms!important;scroll-behavior:auto!important}
+  .stagger>*,.screen-in,.push-in,.pop-in{animation:fade-only 150ms linear both!important}
+  .sheet.is-open{animation:fade-only 150ms linear both!important}
+  .m-route-done{stroke-dashoffset:0!important}
+  .bgt .cloud,.bgt .sun,.embers b,.m-pulse,.m-pin,.m-next-ring,.m-route-todo,.logo-float,.chain.is-live .spark{animation:none!important}
+}
+@keyframes fade-only{from{opacity:0}to{opacity:1}}
+/* In-app override (Settings → Motion → Reduced) : <html data-motion="reduced"> behaves identically to the media query. */
+[data-motion="reduced"] *,[data-motion="reduced"] *::before,[data-motion="reduced"] *::after{animation-duration:1ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:1ms!important}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="Soul-Link">
+  <defs>
+    <linearGradient id="lt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E3F1FF"/></linearGradient>
+    <linearGradient id="la" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5CBBFF"/><stop offset="1" stop-color="#1E86F0"/></linearGradient>
+    <linearGradient id="lr" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF86AB"/><stop offset="1" stop-color="#F0366F"/></linearGradient>
+    <radialGradient id="lg" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#7C4DFF" stop-opacity=".22"/><stop offset="1" stop-color="#7C4DFF" stop-opacity="0"/></radialGradient>
+    <clipPath id="lc"><circle cx="38" cy="52" r="19"/></clipPath>
+  </defs>
+  <rect width="96" height="96" rx="28" fill="url(#lt)"/>
+  <rect x="1" y="1" width="94" height="94" rx="27" fill="none" stroke="#1E86F0" stroke-opacity=".22" stroke-width="2"/>
+  <circle cx="48" cy="52" r="30" fill="url(#lg)"/>
+  <circle cx="38" cy="52" r="19" fill="none" stroke="url(#la)" stroke-width="7" stroke-linecap="round"/>
+  <!-- the rose ring is deliberately open: "Unbound" -->
+  <g transform="rotate(38 58 52)"><circle cx="58" cy="52" r="19" fill="none" stroke="url(#lr)" stroke-width="7" stroke-linecap="round" stroke-dasharray="100 19.4"/></g>
+  <circle cx="58" cy="52" r="19" fill="none" stroke="#9B72FF" stroke-width="7" clip-path="url(#lc)"/>
+  <path d="M48 14 L50.6 21.4 L58 24 L50.6 26.6 L48 34 L45.4 26.6 L38 24 L45.4 21.4Z" fill="#FFB400"/>
+  <path d="M48 14 L50.6 21.4 L58 24 L50.6 26.6 L48 34 L45.4 26.6 L38 24 L45.4 21.4Z" fill="#FF8A1F" opacity=".4" transform="translate(0 1)"/>
+</svg>

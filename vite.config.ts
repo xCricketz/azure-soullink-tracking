@@ -27,8 +27,8 @@ export default defineConfig({
         scope: '/azure-soullink-tracking/',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#0B1020',
-        theme_color: '#0B1020',
+        background_color: '#E4F3FF',
+        theme_color: '#E4F3FF',
         icons: [
           { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
@@ -37,9 +37,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        cacheId: 'unbound-v8',
+        cacheId: 'unbound-v8-meadow',
         cleanupOutdatedCaches: true,
-        globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff,woff2,ico,webmanifest}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff,woff2,ttf,ico,webmanifest}'],
         navigateFallback: 'index.html',
         runtimeCaching: [
           {

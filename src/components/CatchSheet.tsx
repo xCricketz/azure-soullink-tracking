@@ -1,4 +1,4 @@
-import { Archive, Ban, Check, ChevronDown, Dices, Heart, MapPin, Search, Skull } from 'lucide-react'
+import { Archive, Ban, Check, ChevronDown, Dices, Heart, MapPin, Search, Shuffle, Skull } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { randomNickname } from '../data/nicknames'
 import { groupTitle, routeTitle, routeTitleByKey } from '../data/routes'
@@ -8,6 +8,10 @@ import { findRoute, nextOpenRoute, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type CatchDraft, type Status } from '../lib/types'
 import { norm } from '../lib/text'
+import { dexKey } from '../lib/unbound'
+import { optionsOf } from '../lib/options'
+import { speciesName } from '../lib/text'
+import { Photo } from './Photo'
 import { BottomSheet, cx, Marked, SpritePlate, StatusChip, TypePills } from './ui'
 
 const SEGMENTS: { status: Status; label: string; icon: typeof Heart }[] = [
@@ -105,6 +109,20 @@ export function CatchSheet({
   })
   const pickedLabel = draft?.pokemon ? (draft.form ? `${draft.pokemon} (${draft.form})` : draft.pokemon) : ''
   const showResults = Boolean(query.trim()) && !(draft?.dexId && norm(query) === norm(pickedLabel))
+  const options = optionsOf(app.run)
+  const randomized = options.randomizerSpecies
+  const speciesHints = randomized ? [] : suggested
+  const methods = area ? [...new Set([...area.wild, ...area.special].map((row) => row.method))] : []
+  const clauseDex = draft?.dexId ?? null
+  const clause = clauseDex && draft && options.speciesClause !== 'off'
+    ? app.catches.find((row) => {
+        if (!row.dex_id || row.status === 'missed' || row.status === 'dead') return false
+        if (row.route === draft.route && row.player === app.me) return false
+        if (dexKey(row.dex_id, row.form) !== dexKey(clauseDex, draft.form)) return false
+        if (options.speciesClause === 'player') return row.player === app.me
+        return true
+      })
+    : undefined
 
   async function save() {
     if (!draft || busy) return
@@ -134,7 +152,9 @@ export function CatchSheet({
             void save()
           }}
         >
+          {randomized && <p className="rand-note"><Shuffle size={14} aria-hidden="true" /> Randomizer on · any species. Area names and methods only.</p>}
           <div className={cx('partner', partnerMeta.id)}>
+            <Photo id={partnerMeta.id} size="sm" alt="" />
             {partner && partner.status !== 'missed' ? (
               <>
                 <SpritePlate id={partner.dex_id} alt={partner.pokemon ?? 'Pokémon'} size="sm" />
@@ -246,9 +266,12 @@ export function CatchSheet({
                 />
                 {query.trim() && <span className="hit-count">{results.length} results</span>}
               </div>
-              {suggested.length > 0 && (
+              {randomized && area && (
+                <p className="hint">{area.name}{methods.length ? ` · ${methods.join(', ')}` : ''}. The species list is hidden while the randomizer is on.</p>
+              )}
+              {speciesHints.length > 0 && (
                 <div className="enc-row" aria-label="Species seen here">
-                  {suggested.map((mon) => (
+                  {speciesHints.map((mon) => (
                     <button
                       key={mon.key}
                       type="button"
@@ -281,6 +304,7 @@ export function CatchSheet({
                 </div>
               )}
 
+              {clause && <p className="clause-note">Species clause: {PLAYERS[clause.player].name} already logged {speciesName(clause)}.</p>}
               <div className="fl">Nickname <em>optional</em></div>
               <div className="nickrow">
                 <div className="inp">

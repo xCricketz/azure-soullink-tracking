@@ -1,9 +1,10 @@
-import { useMemo, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Shell } from './App'
 import { abandonHistory } from './lib/history'
+import { DEFAULT_OPTIONS, optionsOf } from './lib/options'
+import { applyTheme, DEFAULT_SETTINGS } from './lib/settings'
 import { pushToast } from './lib/toast'
-import { DEFAULT_SETTINGS } from './lib/settings'
-import { DEFAULT_RULES, type Catch } from './lib/types'
+import { DEFAULT_RULES, type Catch, type RunOptions, type Settings } from './lib/types'
 import { AppContext, type AppContextValue } from './state/context'
 
 const DEMO_TOAST = "Demo mode – changes aren't saved"
@@ -15,6 +16,7 @@ const RUN = {
   active: true,
   badges: 2,
   level_cap: 29,
+  options: { ...DEFAULT_OPTIONS, randomizerSpecies: true, ngPlus: true, carried: ['Pikachu', 'Eevee'] },
   created_at: '2026-10-12T09:00:00.000Z',
   updated_at: '2026-10-22T19:40:00.000Z',
 }
@@ -87,7 +89,7 @@ const SEED: Catch[] = [
   side('s-r4', 'seri', 'route-4', 11, 'Mankey', 56, 'Fury', { status: 'boxed', level: 22 }),
   side('f-cinder', 'fisi', 'cinder-volcano', 12, 'Vulpix', 37, 'Ember', { in_team: true, team_order: 5, level: 29 }),
   side('s-cinder', 'seri', 'cinder-volcano', 12, 'Slugma', 218, 'Lava', { in_team: true, team_order: 5, level: 28 }),
-  side('f-r5', 'fisi', 'route-5', 13, 'Growlithe', 58, 'Scout', { in_team: true, team_order: 6, level: 29 }),
+  side('f-r5', 'fisi', 'route-5', 13, 'Growlithe', 58, 'Scout', { in_team: true, team_order: 6, level: 30 }),
   side('s-r5', 'seri', 'route-5', 13, 'Venonat', 48, 'Lamp', { in_team: true, team_order: 6, level: 28 }),
   side('f-r6', 'fisi', 'route-6', 18, 'Goldeen', 118, 'Goldie', { level: 27 }),
   side('s-r6', 'seri', 'route-6', 18, 'Ledyba', 165, 'Dot', { level: 26 }),
@@ -106,12 +108,15 @@ export function DemoApp({ onExit }: { onExit: () => void }) {
 }
 
 function DemoProvider({ onExit, children }: { onExit: () => void; children: ReactNode }) {
+  const [settings, setSettings] = useState<Settings>({ ...DEFAULT_SETTINGS, theme: 'light' })
+  const [run, setRun] = useState({ ...RUN })
+  useEffect(() => { applyTheme(settings.theme) }, [settings.theme])
   const value = useMemo<AppContextValue>(() => ({
     me: 'fisi',
-    run: RUN,
+    run,
     catches: SEED,
     sync: 'live',
-    settings: { ...DEFAULT_SETTINGS },
+    settings,
     customRoutes: [],
     glow: null,
     pulse: null,
@@ -121,8 +126,19 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
       abandonHistory()
       onExit()
     },
-    updateSettings: () => deny(),
+    updateSettings: (patch) => {
+      const keys = Object.keys(patch)
+      if (keys.every((key) => key === 'theme' || key === 'reduceMotion')) {
+        setSettings((current) => ({ ...current, ...patch }))
+        return
+      }
+      deny()
+    },
     saveProgress: async () => deny(),
+    saveOptions: async (patch: Partial<RunOptions>) => {
+      setRun((current) => ({ ...current, options: { ...optionsOf(current), ...patch } }))
+      deny()
+    },
     signOut: async () => deny(),
     saveCatch: async () => {
       deny()
@@ -146,7 +162,7 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
       return null
     },
     revivePair: async () => deny(),
-  }), [onExit])
+  }), [onExit, run, settings])
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

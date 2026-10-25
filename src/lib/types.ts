@@ -3,6 +3,8 @@ export type Status = 'alive' | 'boxed' | 'dead' | 'missed'
 export type ThemeChoice = 'dark' | 'light' | 'system'
 export type TabId = 'routes' | 'team' | 'grave' | 'wiki' | 'map' | 'more'
 export type CapMode = 'vanilla' | 'difficult'
+export type Difficulty = 'vanilla' | 'difficult' | 'expert' | 'insane'
+export type SpeciesClause = 'off' | 'player' | 'both'
 export type DexOrder = 'borrius' | 'national'
 export type SyncState = 'live' | 'syncing' | 'offline'
 export type RouteFilter = 'all' | 'open' | 'alive' | 'boxed' | 'dead' | 'missed' | 'pairs'
@@ -31,6 +33,20 @@ export interface Catch {
   updated_at: string
 }
 
+export interface RunOptions {
+  randomizerSpecies: boolean
+  randomizerMoves: boolean
+  randomizerAbilities: boolean
+  difficulty: Difficulty
+  levelCapOn: boolean
+  mansionDone: boolean
+  ngPlus: boolean
+  /** Up to six names from a previous save. Level 10 in the game. Not route encounters. */
+  carried: string[]
+  sandbox: boolean
+  speciesClause: SpeciesClause
+}
+
 export interface Run {
   id: string
   name: string
@@ -38,6 +54,7 @@ export interface Run {
   active: boolean
   badges?: number
   level_cap?: number | null
+  options?: unknown
   created_at: string
   updated_at: string
 }
@@ -84,6 +101,7 @@ export interface Settings {
   mansionDone: boolean
   showGen8: boolean
   dexOrder: DexOrder
+  reduceMotion: boolean
 }
 
 export interface DeathPrompt {

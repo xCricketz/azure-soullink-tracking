@@ -58,8 +58,8 @@ export function statusLabel(status: Status, inTeam = false): string {
 
 export function shortStatus(status: Status): string {
   if (status === 'alive') return 'Alive'
-  if (status === 'boxed') return 'Box'
-  if (status === 'dead') return 'Fainted'
+  if (status === 'boxed') return 'Boxed'
+  if (status === 'dead') return 'Fallen'
   return 'Missed'
 }
 

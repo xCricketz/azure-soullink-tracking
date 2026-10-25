@@ -4,6 +4,7 @@ import { BottomSheet, SpritePlate, TypePills } from '../components/ui'
 import { NATURES, STAT_EN } from '../data/natures'
 import { abilityText, loadAbilityText } from '../lib/abilities'
 import { loadWiki, peekWiki, type EvoNode, type WikiMon } from '../lib/pokeapi'
+import { optionsOf } from '../lib/options'
 import { norm } from '../lib/text'
 import {
   evoUnconfirmed,
@@ -202,6 +203,7 @@ function DexList({
 }
 
 export function WikiDetail({ id, onOpen, onClose }: { id: string; onOpen: (id: string) => void; onClose: () => void }) {
+  const app = useApp()
   const dex = useDex()
   const parsed = parseDexKey(id)
   const local = findMon(dex, parsed.nat, parsed.form)
@@ -276,7 +278,11 @@ export function WikiDetail({ id, onOpen, onClose }: { id: string; onOpen: (id: s
           {local && (
             <>
               <h3 className="wiki-sec">How to get</h3>
-              <p className="how-note">{local.how}</p>
+              {optionsOf(app.run).randomizerSpecies ? (
+                <p className="how-note">Species randomizer is on, so this note does not predict what you will find. The area name is still useful. The species list is not.</p>
+              ) : (
+                <p className="how-note">{local.how}</p>
+              )}
               {local.note && <p className="hint">{local.note}</p>}
               <h3 className="wiki-sec">Evolution in Unbound</h3>
               {evos.length === 0 ? (
