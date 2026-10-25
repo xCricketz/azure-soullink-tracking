@@ -264,6 +264,14 @@ input, textarea, select { font-size: 16px; }
 .import-box { border-top: 1px solid var(--line); padding-top: 8px; }
 .import-box summary { font-weight: 650; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
 .import-mon { display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid var(--line); }
+.import-mon.is-new {
+  background: var(--fisi-tint);
+  box-shadow: inset 3px 0 0 var(--fisi);
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 8px;
+}
+.import-mon.is-new .import-pill.new { background: var(--fisi); color: #fff; }
 .import-top { display: flex; gap: 10px; align-items: flex-start; }
 .import-top input { width: 22px; height: 22px; margin-top: 2px; }
 .import-flags { display: flex; flex-wrap: wrap; gap: 6px; }

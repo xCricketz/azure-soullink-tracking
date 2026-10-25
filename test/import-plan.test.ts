@@ -5,7 +5,7 @@ import { describe, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { explainSaveError } from '../src/lib/save/explain.ts'
 import { readImportedNats, writeImportedNats, type NatStore } from '../src/lib/save/memory.ts'
-import { detectedImportIds, furthestRoute, planSave, routeClash, suggestRoute, type RouteOption } from '../src/lib/save/plan.ts'
+import { confirmAllIds, detectedImportIds, furthestRoute, liveDecisions, planSave, routeClash, suggestRoute, type RouteOption } from '../src/lib/save/plan.ts'
 import { parseSave, type SpeciesTable } from '../src/lib/save/unbound-save.ts'
 import { sampleSave } from '../src/lib/save/synthetic.ts'
 
@@ -155,6 +155,53 @@ describe('Import planning', () => {
     assert.equal(hintedMon?.suggestion, 'area')
     assert.equal(hintedMon?.suggestedRoute, 'route-1')
     assert.deepEqual(detectedImportIds(hinted.mons), [])
+  })
+
+  test('a chosen route stays a suggestion, and only the first catch can be confirmed', () => {
+    const parsed = parseSave(sampleSave(), { table, dexNames: dex })
+    const logged = [{ player: 'fisi' as const, route: 'route-6', pokemon: 'Sentret', status: 'alive' }]
+    const plan = planSave(parsed, {
+      me: 'fisi',
+      catches: [{ ...logged[0], dex_id: null }],
+      previousNats: [],
+      randomizerSpecies: true,
+      routes,
+      areas: [],
+      sections: { 88: { route: 'route-1' }, 90: { route: 'route-6' } },
+    })
+    const zeraora = plan.mons.find((mon) => mon.nat === 807)!
+    const goldeen = plan.mons.find((mon) => mon.nat === 118)!
+    const bulbasaur = plan.mons.find((mon) => mon.nat === 1)!
+    const suggested = {
+      [zeraora.id]: 'route-1',
+      [goldeen.id]: 'route-6',
+      [bulbasaur.id]: 'route-1',
+    }
+    const asSuggested = liveDecisions(plan.mons, suggested, logged, 'fisi')
+    assert.equal(asSuggested.get(zeraora.id)?.duplicate, false)
+    assert.equal(asSuggested.get(goldeen.id)?.duplicate, true)
+    assert.equal(asSuggested.get(goldeen.id)?.duplicateOf, 'Sentret')
+    assert.equal(asSuggested.get(bulbasaur.id)?.duplicate, true)
+    assert.equal(asSuggested.get(bulbasaur.id)?.duplicateOf, 'Zeraora')
+    assert.deepEqual(confirmAllIds(plan.mons, suggested, asSuggested), [zeraora.id])
+
+    const freed = { ...suggested, [goldeen.id]: 'cube-corp', [bulbasaur.id]: '' }
+    const changed = liveDecisions(plan.mons, freed, logged, 'fisi')
+    assert.equal(changed.get(goldeen.id)?.duplicate, false)
+    assert.equal(changed.get(bulbasaur.id)?.duplicate, false)
+    assert.deepEqual(confirmAllIds(plan.mons, freed, changed), [zeraora.id, goldeen.id])
+
+    const cleared = { ...freed, [zeraora.id]: '' }
+    const emptyClaimsNothing = liveDecisions(plan.mons, cleared, logged, 'fisi')
+    assert.equal(emptyClaimsNothing.get(zeraora.id)?.duplicate, false)
+    assert.deepEqual(confirmAllIds(plan.mons, cleared, emptyClaimsNothing), [goldeen.id])
+
+    const after = { [zeraora.id]: 'route-1', [goldeen.id]: 'route-1', [bulbasaur.id]: '' }
+    const blocked = liveDecisions(plan.mons, after, logged, 'fisi', [zeraora.id])
+    assert.equal(blocked.get(zeraora.id)?.duplicate, false)
+    assert.equal(blocked.get(goldeen.id)?.duplicate, true)
+    assert.equal(blocked.get(goldeen.id)?.duplicateOf, 'Zeraora')
+    assert.deepEqual(confirmAllIds(plan.mons, after, blocked, [zeraora.id]), [])
   })
 
   test('two Pokémon on one route are a clash', () => {

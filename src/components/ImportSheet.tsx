@@ -4,7 +4,7 @@ import { ROUTES } from '../data/routes'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
 import { readImportedNats, writeImportedNats } from '../lib/save/memory'
-import { detectedImportIds, planSave, routeClash, type AreaHint, type PlannedMon } from '../lib/save/plan'
+import { confirmAllIds, liveDecisions, planSave, routeClash, type AreaHint, type PlannedMon, type RouteDecision } from '../lib/save/plan'
 import type { ParsedSave } from '../lib/save/unbound-save'
 import { pushToast } from '../lib/toast'
 import { PLAYERS, otherPlayer, type CatchDraft } from '../lib/types'
@@ -54,10 +54,13 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const [busy, setBusy] = useState(false)
   const [denied, setDenied] = useState(false)
   const [routes, setRoutes] = useState<Record<string, string>>({})
+  const [done, setDone] = useState<string[]>([])
+  const [importRev, setImportRev] = useState(0)
   const [areasReady, setAreasReady] = useState(false)
   const seededFor = useRef<ParsedSave | null>(null)
+  const settledRoutes = useRef<Map<string, string>>(new Map())
   const options = optionsOf(app.run)
-  const previous = useMemo(() => (open ? readImportedNats(app.run?.id) : []), [open, app.run?.id, save])
+  const previous = useMemo(() => (open ? readImportedNats(app.run?.id) : []), [open, app.run?.id, save, importRev])
 
   const plan = useMemo(() => {
     if (!save) return null
@@ -79,7 +82,10 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     setBusy(false)
     setDenied(false)
     setRoutes({})
+    setDone([])
+    setImportRev(0)
     seededFor.current = null
+    settledRoutes.current = new Map()
     setAreasReady(false)
     void loadAreas().then((map) => {
       if (cancel) return
@@ -182,47 +188,68 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     }
   }
 
-  async function confirm(ids: string[]) {
+  const decisions = useMemo(() => {
+    if (!plan) return new Map<string, RouteDecision>()
+    return liveDecisions(plan.mons, routes, app.catches, app.me, done)
+  }, [plan, routes, app.catches, app.me, done])
+
+  function remember(nats: number[], ids: string[]) {
+    if (ids.length) setDone((current) => [...current, ...ids.filter((id) => !current.includes(id))])
+    if (!app.run || !nats.length) return
+    writeImportedNats(app.run.id, [...readImportedNats(app.run.id), ...nats])
+    setImportRev((rev) => rev + 1)
+  }
+
+  async function confirm(ids: string[], closeAfter: boolean) {
     if (!save || !plan || busy) return
     const byId = new Map(plan.mons.map((mon) => [mon.id, mon]))
     const adding = ids.filter((id) => {
       const mon = byId.get(id)
-      return mon && !mon.duplicate
+      const decision = decisions.get(id)
+      return Boolean(mon) && !done.includes(id) && Boolean(routes[id]) && !decision?.duplicate
     })
     if (!adding.length) {
-      pushToast('Nothing to add. Detected routes are already taken or still missing.')
-      return
-    }
-    if (adding.some((id) => !routes[id])) {
-      pushToast('Choose a route for each Pokémon you add.')
+      pushToast('Nothing to confirm. Suggested routes are already taken or still missing.')
       return
     }
     if (routeClash(adding, routes)) {
       pushToast('Two Pokémon are on the same route. A route holds one catch.')
       return
     }
-    if (adding.some((id) => occupies(app.catches, app.me, routes[id]))) {
+    if (adding.some((id) => taken(routes[id]))) {
       pushToast('That route already has your catch.')
       return
     }
     setBusy(true)
     setDenied(false)
+    const written: number[] = []
+    const finished: string[] = []
     for (const id of adding) {
       const mon = byId.get(id)
-      if (!mon) continue
+      const route = routes[id]
+      if (!mon || !route) continue
+      if (taken(route)) {
+        pushToast('That route already has your catch.')
+        break
+      }
       const result = await app.saveCatch(draftFor(mon))
       if (result === 'invalid') {
+        remember(written, finished)
         setBusy(false)
         setDenied(true)
         return
       }
+      settledRoutes.current.set(route, mon.name)
+      written.push(mon.nat)
+      finished.push(id)
     }
-    if (app.run) {
-      const owned = plan.mons.map((mon) => mon.nat)
-      writeImportedNats(app.run.id, owned)
-    }
+    remember(written, finished)
     setBusy(false)
-    onClose()
+    if (closeAfter && written.length > 0 && written.length === adding.length) onClose()
+  }
+
+  function taken(route: string): boolean {
+    return settledRoutes.current.has(route) || occupies(app.catches, app.me, route)
   }
 
   const groups = groupRoutes()
@@ -230,19 +257,25 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const fromSave = plan?.mons.filter((mon) => mon.place === 'route') ?? []
   const needsRoute = plan?.mons.filter((mon) => mon.place === 'needs-route') ?? []
   const special = plan?.mons.filter((mon) => mon.place === 'trade' || mon.place === 'gift' || mon.place === 'event') ?? []
-  const detected = plan ? detectedImportIds(plan.mons).filter((id) => routes[id]) : []
+  const ready = plan ? confirmAllIds(plan.mons, routes, decisions, done) : []
+  const highlightNew = previous.length > 0
 
   function rowProps(mon: PlannedMon) {
+    const decision = decisions.get(mon.id) ?? { duplicate: false, duplicateOf: null }
+    const confirmed = done.includes(mon.id)
     return {
       mon,
       route: routes[mon.id] ?? '',
+      decision,
+      confirmed,
+      highlightNew: highlightNew && mon.newSinceImport && !confirmed,
       groups,
       catches: app.catches,
       me: app.me,
       clause: options.speciesClause,
       busy,
       onRoute: (value: string) => setRoutes((current) => ({ ...current, [mon.id]: value })),
-      onAdd: () => void confirm([mon.id]),
+      onConfirm: () => void confirm([mon.id], false),
     }
   }
 
@@ -252,9 +285,9 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
       title="Import save"
       onClose={onClose}
       footer={plan ? (
-        <button className="btn btn-primary" type="button" disabled={busy || detected.length === 0} onClick={() => void confirm(detected)}>
+        <button className="btn btn-primary" type="button" data-confirm="all" disabled={busy || ready.length === 0} onClick={() => void confirm(ready, true)}>
           <Check size={18} aria-hidden="true" />
-          {busy ? 'Adding…' : `Import all with detected routes (${detected.length})`}
+          {busy ? 'Confirming…' : `Confirm all (${ready.length})`}
         </button>
       ) : undefined}
     >
@@ -284,7 +317,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
         {error && <p className="import-error" role="alert">{error}</p>}
         {plan && save && (
           <>
-            <button className="text-btn" type="button" onClick={() => { setSave(null); setError('') }}>Choose another file</button>
+            <button className="text-btn" type="button" onClick={() => { setSave(null); setError(''); setDone([]); settledRoutes.current = new Map() }}>Choose another file</button>
             <p className="import-summary">
               <strong>{save.trainer.name || 'Trainer'}</strong>
               {' · '}Pokédex caught {save.dex.caughtCount}
@@ -294,8 +327,9 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
               {' · '}{needsRoute.length} need a route
             </p>
             <p className="import-help">
-              Nothing is written until you import. This logs only your side. Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
-              The route is the met location stored on the Pokémon. The first catch on a route is kept. A later one is marked and skipped.
+              Reading this file does not change the run. Each route is a suggestion. Confirm a row to log that catch, or use Confirm all for every suggested route that is still the first catch.
+              Confirm all closes this list. A row that still needs a route is logged only if you confirm it first.
+              A route holds one catch. Change a suggestion if it is wrong. Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
               Shiny is a guess. Box levels are worked out from EXP. A mint would not show.
               {!save.checksumsOk && ' One save slot failed its checksum, so this is the other slot.'}
             </p>
@@ -367,47 +401,53 @@ function routeTitle(key: string): string {
   return ROUTES.find((route) => route.name === key)?.en ?? key
 }
 
-function placeCopy(mon: PlannedMon): string {
+function placeCopy(mon: PlannedMon, decision: RouteDecision): string {
   const where = mon.metLevel > 0
     ? `map section ${mon.metLocation}, met at Lv ${mon.metLevel}`
     : `map section ${mon.metLocation}`
-  if (mon.duplicate) {
-    return mon.duplicateOf
-      ? `${mon.duplicateOf} is already the catch on this route, so this one is not added.`
-      : 'This route already has a catch, so this one is not added.'
+  if (decision.duplicate) {
+    return decision.duplicateOf
+      ? `${decision.duplicateOf} is already the catch on this route. Pick another route, or leave it.`
+      : 'This route already has a catch. Pick another route, or leave it.'
   }
-  if (mon.place === 'trade') return `Caught by another trainer (${where}). Not added automatically.`
+  if (mon.place === 'trade') return `Caught by another trainer (${where}). Confirm all skips this. Pick a route and confirm it only if it should count.`
   if (mon.place === 'gift' || mon.place === 'event') {
     const label = mon.placeLabel ?? (mon.place === 'gift' ? 'Gift' : 'Event')
-    return `${label} (${where}). Not added automatically.`
+    return `${label} (${where}). Confirm all skips this. Pick a route and confirm it only if it should count.`
   }
-  if (mon.place === 'route') return `Route from the save (${where}).`
-  if (mon.ambiguous.length > 0) return `This place could be ${mon.ambiguous.map(routeTitle).join(' or ')}. Choose one.`
-  if (mon.suggestion === 'area') return 'An encounter list names this place. That is a hint, not the save, so it is not imported automatically.'
-  if (!mon.metLocation) return 'No met location was stored. Choose the route.'
-  return `Map section ${mon.metLocation} is not in the route table yet. Choose the route.`
+  if (mon.place === 'route') return `Suggested route from the save (${where}). Confirm it, or pick another.`
+  if (mon.ambiguous.length > 0) return `This place could be ${mon.ambiguous.map(routeTitle).join(' or ')}. Choose one, then confirm.`
+  if (mon.suggestion === 'area') return 'An encounter list names this place. That is a hint, not the save. Confirm it only if the route is right.'
+  if (!mon.metLocation) return 'No met location was stored. Choose the route, then confirm.'
+  return `Map section ${mon.metLocation} is not in the route table yet. Choose the route, then confirm.`
 }
 
 function MonRow({
   mon,
   route,
+  decision,
+  confirmed,
+  highlightNew,
   groups,
   catches,
   me,
   clause,
   busy,
   onRoute,
-  onAdd,
+  onConfirm,
 }: {
   mon: PlannedMon
   route: string
+  decision: RouteDecision
+  confirmed: boolean
+  highlightNew: boolean
   groups: [string, { name: string; en: string }[]][]
   catches: { player: 'fisi' | 'seri'; route: string; pokemon: string | null; status: string; dex_id: number | null }[]
   me: 'fisi' | 'seri'
   clause: 'off' | 'player' | 'both'
   busy: boolean
   onRoute: (route: string) => void
-  onAdd: () => void
+  onConfirm: () => void
 }) {
   const partner = route ? catches.find((row) => row.player !== me && row.route === route && row.pokemon && row.status !== 'missed') : undefined
   const clauseHit = clause === 'off' || !route ? undefined : catches.find((row) => {
@@ -421,16 +461,16 @@ function MonRow({
     : mon.levelSource === 'exp-derived'
       ? `Lv ${mon.level} · worked out from EXP`
       : `Lv ${mon.level} · from the save`
-  const manual = mon.place !== 'route' && !mon.duplicate
   return (
     <article
-      className="import-mon"
+      className={cx('import-mon', highlightNew && 'is-new')}
       data-mon={mon.name}
       data-place={mon.place}
-      data-duplicate={mon.duplicate ? 'true' : 'false'}
+      data-duplicate={decision.duplicate ? 'true' : 'false'}
       data-met={mon.metLocation}
       data-logged={mon.alreadyLogged ? 'true' : 'false'}
-      data-new={mon.newSinceImport ? 'true' : 'false'}
+      data-new={highlightNew ? 'true' : 'false'}
+      data-confirmed={confirmed ? 'true' : 'false'}
     >
       <div className="import-top">
         <span>
@@ -440,16 +480,17 @@ function MonRow({
         </span>
       </div>
       <div className="import-flags">
-        {mon.duplicate && <span className="import-pill">Duplicate</span>}
+        {confirmed && <span className="import-pill">Confirmed</span>}
+        {decision.duplicate && <span className="import-pill">Duplicate</span>}
         {mon.alreadyLogged && <span className="import-pill">On this run</span>}
-        {mon.newSinceImport && <span className="import-pill new">New since last import</span>}
+        {highlightNew && <span className="import-pill new">New since last import</span>}
         {mon.shiny && <span className="import-pill">Maybe shiny (guess, xor {mon.shinyXor})</span>}
       </div>
       <p className="import-meta">Nature is from personality. A mint would not show.</p>
       {mon.formNote && <p className="import-meta">{mon.formNote}</p>}
       <label className="import-route">
         Route
-        <select aria-label={`Route for ${mon.name}`} value={route} disabled={mon.duplicate} onChange={(event) => onRoute(event.target.value)}>
+        <select aria-label={`Route for ${mon.name}`} value={route} disabled={confirmed || busy} onChange={(event) => onRoute(event.target.value)}>
           <option value="">Choose a route</option>
           {groups.map(([group, list]) => (
             <optgroup key={group} label={group}>
@@ -458,12 +499,12 @@ function MonRow({
           ))}
         </select>
       </label>
-      <p className="import-meta">{placeCopy(mon)}</p>
-      {partner && !mon.duplicate && <p className="import-meta">{PLAYERS[otherPlayer(me)].name} already has a catch here. Adding yours links the pair.</p>}
-      {clauseHit && <p className="import-meta">Species clause: {PLAYERS[clauseHit.player].name} already logged this species. You can still add it.</p>}
-      {manual && (
-        <button className="btn btn-sm" type="button" disabled={busy || !route} onClick={onAdd}>
-          Add this one
+      <p className="import-meta">{confirmed ? 'Confirmed. This catch is logged.' : placeCopy(mon, decision)}</p>
+      {partner && !decision.duplicate && !confirmed && <p className="import-meta">{PLAYERS[otherPlayer(me)].name} already has a catch here. Confirming yours links the pair.</p>}
+      {clauseHit && <p className="import-meta">Species clause: {PLAYERS[clauseHit.player].name} already logged this species. You can still confirm it.</p>}
+      {!confirmed && !decision.duplicate && (
+        <button className="btn btn-sm" type="button" data-confirm="row" disabled={busy || !route} onClick={onConfirm}>
+          Confirm
         </button>
       )}
     </article>

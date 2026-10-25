@@ -49,7 +49,7 @@ export interface PlannedMon {
   /** Other routes the same map section might be. The player still chooses. */
   ambiguous: string[]
   placeLabel: string | null
-  /** A later Pokémon on a route that already has a catch. Not imported. */
+  /** A later Pokémon on a route that already has a catch, using the suggested route. The sheet recomputes this from the route the player actually picks. */
   duplicate: boolean
   duplicateOf: string | null
 }
@@ -205,9 +205,68 @@ function markDuplicates(mons: PlannedMon[], me: PlayerId, catches: CatchHint[]) 
   }
 }
 
-/** Pokémon whose route came from the save and is still the first catch on that route. */
+/** Pokémon whose route came from the save and is still the first catch on that suggested route. These are suggestions, not writes. */
 export function detectedImportIds(mons: PlannedMon[]): string[] {
   return mons.filter((mon) => mon.place === 'route' && !mon.duplicate && mon.suggestedRoute).map((mon) => mon.id)
+}
+
+export interface RouteDecision {
+  duplicate: boolean
+  duplicateOf: string | null
+}
+
+/**
+ * First catch per route, using the routes the player currently has selected.
+ * An empty selection claims nothing. A route already logged, or taken by an
+ * earlier Pokémon, marks the later one. Rows already confirmed keep their route.
+ */
+export function liveDecisions(
+  mons: PlannedMon[],
+  chosen: Record<string, string>,
+  catches: Pick<CatchHint, 'player' | 'route' | 'pokemon' | 'status'>[],
+  me: PlayerId,
+  doneIds: readonly string[] = [],
+): Map<string, RouteDecision> {
+  const done = new Set(doneIds)
+  const claimed = new Map<string, string>()
+  const out = new Map<string, RouteDecision>()
+  for (const mon of mons) {
+    if (!done.has(mon.id)) continue
+    const route = chosen[mon.id] ?? ''
+    if (route && !claimed.has(route)) claimed.set(route, mon.name)
+    out.set(mon.id, { duplicate: false, duplicateOf: null })
+  }
+  for (const mon of mons) {
+    if (done.has(mon.id)) continue
+    const route = chosen[mon.id] ?? ''
+    if (!route) {
+      out.set(mon.id, { duplicate: false, duplicateOf: null })
+      continue
+    }
+    const logged = catches.find((row) => row.player === me && row.route === route && row.pokemon && row.status !== 'missed')
+    const earlier = claimed.get(route)
+    if (logged || earlier) {
+      out.set(mon.id, { duplicate: true, duplicateOf: earlier ?? logged?.pokemon ?? null })
+    } else {
+      claimed.set(route, mon.name)
+      out.set(mon.id, { duplicate: false, duplicateOf: null })
+    }
+  }
+  return out
+}
+
+/** Suggested routes that are still the first catch. Rows that need a route, and trades, gifts, and events, are confirmed one at a time. */
+export function confirmAllIds(
+  mons: PlannedMon[],
+  chosen: Record<string, string>,
+  decisions: ReadonlyMap<string, RouteDecision>,
+  doneIds: readonly string[] = [],
+): string[] {
+  const done = new Set(doneIds)
+  return mons.filter((mon) => {
+    if (mon.place !== 'route' || done.has(mon.id) || !chosen[mon.id]) return false
+    return !decisions.get(mon.id)?.duplicate
+  }).map((mon) => mon.id)
 }
 
 export function routeClash(ids: string[], chosen: Record<string, string>): boolean {
