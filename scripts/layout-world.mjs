@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync } from 'node:fs'
 
 const routes = JSON.parse(readFileSync(new URL('../src/data/unbound/routes.json', import.meta.url), 'utf8'))
+const guide = JSON.parse(readFileSync(new URL('../src/data/unbound/guide.json', import.meta.url), 'utf8'))
 const byKey = new Map(routes.map((node) => [node.key, node]))
 
 /** Column / row on a regional board. Spacing is applied below. Not geographic. */
@@ -99,8 +100,8 @@ const BLOBS = [
 ]
 
 const RADIUS = { town: 18, gym: 15, route: 9, cave: 12, dungeon: 13, other: 12 }
-const STEP_X = 158
-const STEP_Y = 142
+const STEP_X = 176
+const STEP_Y = 168
 const ORIGIN_X = 150
 const ORIGIN_Y = 130
 
@@ -144,10 +145,33 @@ for (const node of routes) {
     edgeSet.add(pair.join('|'))
   }
 }
-const edges = [...edgeSet].map((pair) => pair.split('|'))
+const spine = []
+for (const step of guide) {
+  if (step.route_key && !spine.includes(step.route_key)) spine.push(step.route_key)
+}
+const storyPairs = new Set()
+for (let i = 0; i < spine.length - 1; i++) storyPairs.add([spine[i], spine[i + 1]].sort().join('|'))
 
-function clip(name) {
-  return name.length > 16 ? `${name.slice(0, 15)}…` : name
+function edgeRole(a, b) {
+  if (storyPairs.has([a, b].sort().join('|'))) return 'story'
+  const [ac, ar] = CELL[a]
+  const [bc, br] = CELL[b]
+  const manhattan = Math.abs(ac - bc) + Math.abs(ar - br)
+  if (a === 'kbt-expressway' || b === 'kbt-expressway' || manhattan >= 4) return 'link'
+  return 'side'
+}
+
+const edges = [...edgeSet].map((pair) => {
+  const [a, b] = pair.split('|')
+  return [a, b, edgeRole(a, b)]
+})
+
+function labelLines(name) {
+  if (name.length <= 14 || !name.includes(' ')) return [name]
+  let splitAt = name.lastIndexOf(' ', 18)
+  if (splitAt < 4) splitAt = name.indexOf(' ')
+  if (splitAt < 1) return [name]
+  return [name.slice(0, splitAt), name.slice(splitAt + 1)]
 }
 
 function boxOf(node, opt, w, h) {
@@ -175,9 +199,9 @@ function coversCircle(box, node) {
 
 const placed = []
 for (const node of nodes) {
-  const text = clip(node.name)
-  const w = Math.ceil(text.length * 6.8) + 8
-  const h = 16
+  const lines = labelLines(node.name)
+  const w = Math.ceil(Math.max(...lines.map((line) => line.length)) * 6.8) + 10
+  const h = lines.length * 16 + 4
   const options = [
     { dx: 0, dy: node.r + 18, anchor: 'middle' },
     { dx: 0, dy: -(node.r + 8), anchor: 'middle' },
@@ -250,6 +274,8 @@ const ySpread = Math.max(...ys) - Math.min(...ys)
 if (ySpread < 600) throw new Error(`layout is too flat (${ySpread})`)
 if (minDist < 120) throw new Error(`nodes too close (${minDist})`)
 if (edges.length !== 93) throw new Error(`expected 93 edges, got ${edges.length}`)
+if (!edges.some((edge) => edge[2] === 'story')) throw new Error('story path missing')
+if (!edges.some((edge) => edge[2] === 'link')) throw new Error('long links missing')
 if (labelOverlaps > 8) throw new Error(`${labelOverlaps} label overlaps`)
 
 const layout = {

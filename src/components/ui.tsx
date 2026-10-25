@@ -142,12 +142,15 @@ export function BottomSheet({
   onClose,
   children,
   footer,
+  peek = false,
 }: {
   open: boolean
   title: string
   onClose: () => void
   children: ReactNode
   footer?: ReactNode
+  /** Content-sized sheet above the dock. Map areas use this. */
+  peek?: boolean
 }) {
   const titleId = useId()
   const [snap, setSnap] = useState<'full' | 'half'>('full')
@@ -174,15 +177,15 @@ export function BottomSheet({
   }, [open])
   if (!open) return null
   return (
-    <div className="overlay" onClick={onClose}>
+    <div className={cx('overlay', peek && 'overlay-peek')} onClick={onClose}>
       <div
-        className="sheet-align"
+        className={cx('sheet-align', peek && 'sheet-align-peek')}
         onClick={(event) => event.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
       >
-        <div className={cx('sheet', snap === 'half' && 'snap-half')} style={{ transform: drag ? `translateY(${Math.max(drag, 0)}px)` : undefined }}>
+        <div className={cx('sheet', peek && 'sheet-peek', !peek && snap === 'half' && 'snap-half')} style={{ transform: drag ? `translateY(${Math.max(drag, 0)}px)` : undefined }}>
           <button
             className="handle"
             type="button"
@@ -197,7 +200,8 @@ export function BottomSheet({
             }}
             onPointerUp={(event) => {
               const dy = event.clientY - startY.current
-              if (snap === 'full' && dy > 220) onClose()
+              if (peek && dy > 48) onClose()
+              else if (snap === 'full' && dy > 220) onClose()
               else if (snap === 'full' && dy > 90) setSnap('half')
               else if (snap === 'half' && dy > 80) onClose()
               else if (snap === 'half' && dy < -40) setSnap('full')
