@@ -1,9 +1,10 @@
-import { useMemo, type ReactNode } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { Shell } from './App'
 import { abandonHistory } from './lib/history'
+import { DEFAULT_OPTIONS, optionsOf } from './lib/options'
+import { applyTheme, DEFAULT_SETTINGS } from './lib/settings'
 import { pushToast } from './lib/toast'
-import { DEFAULT_SETTINGS } from './lib/settings'
-import { DEFAULT_RULES, type Catch } from './lib/types'
+import { DEFAULT_RULES, type Catch, type RunOptions, type Settings } from './lib/types'
 import { AppContext, type AppContextValue } from './state/context'
 
 const DEMO_TOAST = "Demo mode – changes aren't saved"
@@ -13,8 +14,9 @@ const RUN = {
   name: 'Demo run',
   rules: `Sample data for showing the app. Not the real run.\n\n${DEFAULT_RULES}`,
   active: true,
-  badges: 3,
-  level_cap: 42,
+  badges: 2,
+  level_cap: 29,
+  options: { ...DEFAULT_OPTIONS, randomizerSpecies: true, ngPlus: true, carried: ['Pikachu', 'Eevee'] },
   created_at: '2026-10-12T09:00:00.000Z',
   updated_at: '2026-10-22T19:40:00.000Z',
 }
@@ -45,6 +47,7 @@ function side(
     route_order: routeOrder,
     pokemon,
     dex_id: dexId,
+    form: null,
     nickname,
     status: 'alive',
     in_team: false,
@@ -58,40 +61,38 @@ function side(
   })
 }
 
-/** Twelve linked pairs. Obviously invented, using real Gen 1–4 species. */
+/** Eleven linked pairs on early Unbound routes. Invented nicknames, real species. */
 const SEED: Catch[] = [
-  side('f-starter', 'fisi', 'Starter', 10, 'Chimchar', 390, 'Chili', { in_team: true, team_order: 1, level: 36 }),
-  side('s-starter', 'seri', 'Starter', 10, 'Piplup', 393, 'Flocke', { in_team: true, team_order: 1, level: 35 }),
-  side('f-201', 'fisi', 'Route 201', 20, 'Starly', 396, 'Pieps', { in_team: true, team_order: 2, level: 32 }),
-  side('s-201', 'seri', 'Route 201', 20, 'Bidoof', 399, 'Waldi', { in_team: true, team_order: 2, level: 31 }),
-  side('f-shore', 'fisi', 'Wahrheitsufer', 30, 'Shinx', 403, 'Blitz', { in_team: true, team_order: 3, level: 34 }),
-  side('s-shore', 'seri', 'Wahrheitsufer', 30, 'Abra', 63, 'Hokus', { in_team: true, team_order: 3, level: 33 }),
-  side('f-lake', 'fisi', 'See der Wahrheit', 40, 'Psyduck', 54, 'Quak', {
-    status: 'dead', level: 14, death_cause: "Mars's Purugly", epitaph: 'The lake was colder than it looked.', died_at: '2026-10-14T16:20:00.000Z',
+  side('f-r1', 'fisi', 'route-1', 2, 'Delibird', 225, 'Frost', { in_team: true, team_order: 1, level: 28 }),
+  side('s-r1', 'seri', 'route-1', 2, 'Snorunt', 361, 'Snow', { in_team: true, team_order: 1, level: 27 }),
+  side('f-ice', 'fisi', 'icicle-cave', 4, 'Sandshrew', 27, 'Spike', { form: 'Alolan', in_team: true, team_order: 2, level: 26 }),
+  side('s-ice', 'seri', 'icicle-cave', 4, 'Zubat', 41, 'Nacht', { in_team: true, team_order: 2, level: 25 }),
+  side('f-r2', 'fisi', 'route-2', 5, 'Rattata', 19, 'Nib', { in_team: true, team_order: 3, level: 24 }),
+  side('s-r2', 'seri', 'route-2', 5, 'Krabby', 98, 'Pinch', { in_team: true, team_order: 3, level: 24 }),
+  side('f-dresco', 'fisi', 'dresco-town', 6, 'Staryu', 120, 'Star', { in_team: true, team_order: 4, level: 27 }),
+  side('s-dresco', 'seri', 'dresco-town', 6, 'Basculin', 550, 'Stripe', { in_team: true, team_order: 4, level: 26 }),
+  side('f-r3', 'fisi', 'route-3', 8, 'Poliwag', 60, 'Puddle', {
+    status: 'dead', level: 18, death_cause: 'a trainer’s Tangela', epitaph: 'The flowers were not friendly.', died_at: '2026-10-16T15:10:00.000Z',
   }),
-  side('s-lake', 'seri', 'See der Wahrheit', 40, 'Cherubi', 420, 'Kirsche', {
-    status: 'dead', level: 13, death_cause: "Mars's Purugly", epitaph: 'One Purugly was enough.', died_at: '2026-10-14T16:20:00.000Z',
+  side('s-r3', 'seri', 'route-3', 8, 'Slowpoke', 79, 'Daze', {
+    status: 'dead', level: 17, death_cause: 'a trainer’s Tangela', epitaph: 'Too slow for the grass.', died_at: '2026-10-16T15:10:00.000Z',
   }),
-  side('f-202', 'fisi', 'Route 202', 50, 'Kricketot', 401, 'Zirp', { level: 18 }),
-  side('s-202', 'seri', 'Route 202', 50, 'Pachirisu', 417, 'Kiki', { level: 17 }),
-  side('f-204', 'fisi', 'Route 204', 60, 'Geodude', 74, 'Kiesel', { level: 16 }),
-  side('s-204', 'seri', 'Route 204', 60, 'Zubat', 41, 'Nacht', { level: 16 }),
-  side('f-mine', 'fisi', 'Erzelingen-Mine', 90, 'Magnemite', 81, 'Schraube', { status: 'boxed', level: 22 }),
-  side('s-mine', 'seri', 'Erzelingen-Mine', 90, 'Nosepass', 299, 'Nase', { status: 'boxed', level: 21 }),
-  side('f-fossil', 'fisi', 'Fossil', 100, 'Cranidos', 408, 'Schädel', { in_team: true, team_order: 4, level: 33 }),
-  side('s-fossil', 'seri', 'Fossil', 100, 'Shieldon', 410, 'Panzer', { in_team: true, team_order: 4, level: 32 }),
-  side('f-wind', 'fisi', 'Windkraftwerk', 130, 'Luxio', 404, 'Funke', { level: 29 }),
-  side('s-wind', 'seri', 'Windkraftwerk', 130, 'Ponyta', 77, 'Loki', { level: 28 }),
-  side('f-forest', 'fisi', 'Ewigwald', 150, 'Gible', 443, 'Zacken', { in_team: true, team_order: 5, level: 35 }),
-  side('s-forest', 'seri', 'Ewigwald', 150, 'Buizel', 418, 'Flitz', { in_team: true, team_order: 5, level: 34 }),
-  side('f-208', 'fisi', 'Route 208', 240, 'Roselia', 315, 'Dorn', { level: 30 }),
-  side('s-208', 'seri', 'Route 208', 240, 'Budew', 406, 'Knospe', { level: 29 }),
-  side('f-209', 'fisi', 'Route 209', 260, 'Ralts', 280, 'Traum', {
-    status: 'dead', level: 38, death_cause: "Fantina's Mismagius", epitaph: 'The chandelier blinked first.', died_at: '2026-10-22T18:05:00.000Z',
+  side('f-flower', 'fisi', 'flower-paradise', 9, 'Roselia', 315, 'Thorn', { level: 22 }),
+  side('s-flower', 'seri', 'flower-paradise', 9, 'Combee', 415, 'Buzz', { level: 21 }),
+  side('f-grim', 'fisi', 'grim-woods', 10, 'Gastly', 92, 'Haze', {
+    status: 'dead', level: 20, death_cause: 'a wild Haunter', epitaph: 'The woods kept this one.', died_at: '2026-10-18T21:40:00.000Z',
   }),
-  side('s-209', 'seri', 'Route 209', 260, 'Drifloon', 425, 'Ballon', {
-    status: 'dead', level: 37, death_cause: "Fantina's Mismagius", epitaph: "Ghosts don't play fair.", died_at: '2026-10-22T18:05:00.000Z',
+  side('s-grim', 'seri', 'grim-woods', 10, 'Seedot', 273, 'Acorn', {
+    status: 'dead', level: 19, death_cause: 'a wild Haunter', epitaph: 'One shadow was enough.', died_at: '2026-10-18T21:40:00.000Z',
   }),
+  side('f-r4', 'fisi', 'route-4', 11, 'Ekans', 23, 'Coil', { status: 'boxed', level: 23 }),
+  side('s-r4', 'seri', 'route-4', 11, 'Mankey', 56, 'Fury', { status: 'boxed', level: 22 }),
+  side('f-cinder', 'fisi', 'cinder-volcano', 12, 'Vulpix', 37, 'Ember', { in_team: true, team_order: 5, level: 29 }),
+  side('s-cinder', 'seri', 'cinder-volcano', 12, 'Slugma', 218, 'Lava', { in_team: true, team_order: 5, level: 28 }),
+  side('f-r5', 'fisi', 'route-5', 13, 'Growlithe', 58, 'Scout', { in_team: true, team_order: 6, level: 30 }),
+  side('s-r5', 'seri', 'route-5', 13, 'Venonat', 48, 'Lamp', { in_team: true, team_order: 6, level: 28 }),
+  side('f-r6', 'fisi', 'route-6', 18, 'Goldeen', 118, 'Goldie', { level: 27 }),
+  side('s-r6', 'seri', 'route-6', 18, 'Ledyba', 165, 'Dot', { level: 26 }),
 ]
 
 function deny() {
@@ -107,12 +108,15 @@ export function DemoApp({ onExit }: { onExit: () => void }) {
 }
 
 function DemoProvider({ onExit, children }: { onExit: () => void; children: ReactNode }) {
+  const [settings, setSettings] = useState<Settings>({ ...DEFAULT_SETTINGS, theme: 'light' })
+  const [run, setRun] = useState({ ...RUN })
+  useEffect(() => { applyTheme(settings.theme) }, [settings.theme])
   const value = useMemo<AppContextValue>(() => ({
     me: 'fisi',
-    run: RUN,
+    run,
     catches: SEED,
     sync: 'live',
-    settings: { ...DEFAULT_SETTINGS },
+    settings,
     customRoutes: [],
     glow: null,
     pulse: null,
@@ -122,8 +126,19 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
       abandonHistory()
       onExit()
     },
-    updateSettings: () => deny(),
+    updateSettings: (patch) => {
+      const keys = Object.keys(patch)
+      if (keys.every((key) => key === 'theme' || key === 'reduceMotion')) {
+        setSettings((current) => ({ ...current, ...patch }))
+        return
+      }
+      deny()
+    },
     saveProgress: async () => deny(),
+    saveOptions: async (patch: Partial<RunOptions>) => {
+      setRun((current) => ({ ...current, options: { ...optionsOf(current), ...patch } }))
+      deny()
+    },
     signOut: async () => deny(),
     saveCatch: async () => {
       deny()
@@ -147,7 +162,7 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
       return null
     },
     revivePair: async () => deny(),
-  }), [onExit])
+  }), [onExit, run, settings])
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

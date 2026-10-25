@@ -1,6 +1,6 @@
-import { ArrowRight, Lock } from 'lucide-react'
+import { ArrowRight, Lock, PlayCircle } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { TrainerShot } from '../components/TrainerShot'
+import { Cutout, Photo } from '../components/Photo'
 import { BottomSheet, SpritePlate } from '../components/ui'
 import { supabase } from '../lib/supabase'
 import { authError, relativeWhen } from '../lib/text'
@@ -56,15 +56,16 @@ export function Login({
   }
 
   return (
-    <div className="login" data-me={sessionPlayer ?? picked ?? 'fisi'} data-screen="start">
-      <div className="login-inner">
-        <header className="lg">
-          <img className="logo" src={`${import.meta.env.BASE_URL}icon-192.png`} alt="" />
-          <h1 className="pixel">FISI'S TRACKER</h1>
-          <p className="sub">Azure Platinum · Fisi & Seri</p>
-          <h2>Who are you?</h2>
-        </header>
-        <div className="who-grid">
+    <div className="login-app" data-me={sessionPlayer ?? picked ?? 'fisi'} data-screen="start">
+      <div className="bgt sunrise"><i className="sun" /><i className="cloud c1" /><i className="cloud c2" /></div>
+      <div className="scroll">
+        <div className="login-hero">
+          <img className="logo logo-float" src={`${import.meta.env.BASE_URL}design/app-logo.svg`} alt="" width={76} height={76} />
+          <div className="wordmark">Fisi's Tracker</div>
+          <div className="tagline">Two trainers. One fate.</div>
+          <span className="ver">Pokémon Unbound</span>
+        </div>
+        <div className="pcards">
           {(['fisi', 'seri'] as PlayerId[]).map((id) => {
             const player = PLAYERS[id]
             const card = preview?.players?.[id]
@@ -76,40 +77,43 @@ export function Login({
             return (
               <button
                 key={id}
-                className={sessionPlayer === id ? 'pc you' : 'pc'}
-                style={{ ['--pc' as string]: `var(--${id})` }}
+                className={`pcard ${id}`}
                 type="button"
                 aria-label={sessionPlayer === id ? `Continue as ${player.name}` : `Start as ${player.name}`}
                 onClick={() => choose(id)}
               >
-                <TrainerShot id={id} crop="full" className="pc-figure" alt="" />
-                <div className="r1">
-                  <span>
-                    <span className="nm">{player.name}</span>
-                    <span className="meta">{meta}</span>
-                  </span>
+                <span className="ground" />
+                <Cutout id={id} />
+                <div className="col">
+                  <div className="row1">
+                    <Photo id={id} size="md" alt={player.name} />
+                    <div>
+                      <h2>{player.name}</h2>
+                      <div className="m">{meta || player.device}</div>
+                    </div>
+                  </div>
+                  {sprites.length > 0 && (
+                    <div className="team">
+                      {sprites.map((dex) => <SpritePlate key={dex} id={dex} alt="" size="sm" />)}
+                      {extra > 0 && <span className="more">+{extra}</span>}
+                    </div>
+                  )}
+                  <div className="cta">
+                    {sessionPlayer === id ? 'Continue' : `Start as ${player.name}`}
+                    <ArrowRight size={18} aria-hidden="true" />
+                  </div>
                 </div>
-                {sprites.length > 0 && (
-                  <span className="mons">
-                    {sprites.map((dex) => <SpritePlate key={dex} id={dex} alt="" />)}
-                    {extra > 0 && <span className="more">+{extra}</span>}
-                  </span>
-                )}
-                <span className="go">
-                  {sessionPlayer === id ? 'Continue' : `Start as ${player.name}`}
-                  <ArrowRight size={18} aria-hidden="true" />
-                </span>
               </button>
             )
           })}
         </div>
-        {sessionPlayer ? (
-          <button className="btn btn-primary login-go" type="button" onClick={() => onContinue?.()}>Continue</button>
-        ) : null}
-        <button className="btn btn-ghost demo-entry" type="button" onClick={() => onDemo?.()}>View demo</button>
+        <button className="demo" type="button" onClick={() => onDemo?.()}>
+          <PlayCircle size={18} aria-hidden="true" />
+          View demo
+        </button>
         <p className="note">
           <Lock size={14} aria-hidden="true" />
-          {sessionPlayer ? ' Signed in. Tap your card or Continue.' : ' Enter the secret code once. You’ll stay signed in.'}
+          {sessionPlayer ? 'Signed in. Tap your card.' : 'Enter the secret code once. You’ll stay signed in.'}
         </p>
       </div>
       <BottomSheet

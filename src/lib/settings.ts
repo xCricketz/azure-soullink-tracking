@@ -3,13 +3,30 @@ import type { Settings } from './types'
 const KEY = 'sl-settings'
 
 export const DEFAULT_SETTINGS: Settings = {
-  theme: 'dark',
+  theme: 'light',
   dupeClause: false,
   typeClause: false,
   badges: 0,
   installDismissed: false,
   milestones: [],
   notify: false,
+  capMode: 'vanilla',
+  mansionDone: false,
+  showGen8: false,
+  dexOrder: 'borrius',
+  reduceMotion: false,
+}
+
+export function resolvedTheme(choice: Settings['theme']): 'light' | 'dark' {
+  if (choice === 'dark') return 'dark'
+  if (choice === 'light') return 'light'
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+export function applyTheme(choice: Settings['theme']) {
+  const theme = resolvedTheme(choice)
+  document.documentElement.dataset.theme = theme
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#E4F3FF' : '#070A14')
 }
 
 export function loadSettings(): Settings {
@@ -25,7 +42,7 @@ export function loadSettings(): Settings {
 export function saveSettings(settings: Settings) {
   localStorage.setItem(KEY, JSON.stringify(settings))
   localStorage.setItem('sl-theme', settings.theme)
-  document.documentElement.dataset.theme = settings.theme
+  applyTheme(settings.theme)
 }
 
 const CUSTOM_KEY = 'sl-custom-routes'

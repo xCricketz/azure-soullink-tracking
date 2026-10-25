@@ -7,10 +7,23 @@ import { marksFor } from '../data/marks'
 import { groupTitle, routeTitle } from '../data/routes'
 import { suggestedCap } from '../lib/caps'
 import { nextLeader } from '../lib/gym'
+import { activeCap, capColumn, optionsOf } from '../lib/options'
 import { countPairs, graveRows, isLinked, matchesFilter, matchesQuery, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { PLAYERS, type RouteFilter, type Status } from '../lib/types'
 import { monName, speciesName } from '../lib/text'
+import { dexKey } from '../lib/unbound'
+
+const RING = [
+  'M53.7 8.2A42 42 0 0 1 77.0 17.8',
+  'M82.2 23.0A42 42 0 0 1 91.8 46.3',
+  'M91.8 53.7A42 42 0 0 1 82.2 77.0',
+  'M77.0 82.2A42 42 0 0 1 53.7 91.8',
+  'M46.3 91.8A42 42 0 0 1 23.0 82.2',
+  'M17.8 77.0A42 42 0 0 1 8.2 53.7',
+  'M8.2 46.3A42 42 0 0 1 17.8 23.0',
+  'M23.0 17.8A42 42 0 0 1 46.3 8.2',
+]
 
 const CHIPS: { id: RouteFilter; label: string }[] = [
   { id: 'all', label: 'All' },
@@ -21,7 +34,7 @@ const CHIPS: { id: RouteFilter; label: string }[] = [
   { id: 'missed', label: 'Missed' },
 ]
 
-export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onWiki: (id: number) => void }) {
+export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onWiki: (id: string) => void }) {
   const app = useApp()
   const [filter, setFilter] = useState<RouteFilter>('all')
   const [query, setQuery] = useState('')
@@ -34,10 +47,14 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
   const detailRow = rows.find((row) => row.route.name === detail)
   const quickRow = rows.find((row) => row.route.name === quick)
   const mine = quickRow ? quickRow[app.me] : undefined
+  const options = optionsOf(app.run)
   const badges = app.run?.badges ?? 0
   const cap = app.run?.level_cap ?? null
+  const shown = activeCap(app.run)
   const leader = nextLeader(badges)
-  const suggestion = suggestedCap(cap)
+  const suggestion = options.levelCapOn
+    ? suggestedCap(badges, capColumn(options.difficulty), options.mansionDone, cap)
+    : null
   const linked = rows.filter((row) => isLinked(row.fisi, row.seri))
   const living = linked.filter((row) => row.fisi?.status !== 'dead' && row.seri?.status !== 'dead').length
   const fallen = rows.filter((row) => row.fisi?.status === 'dead' || row.seri?.status === 'dead').length
@@ -45,39 +62,45 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
 
   return (
     <div className="screen">
-      <div className="progress" role="group" aria-label="Run overview">
-        <button className="ptile" type="button" onClick={() => setEditor('badges')}>
-          <div className="lbl">Badges</div>
-          <div className="val">{badges}<small>/ 8</small></div>
-          <div className="badges" aria-hidden="true">
-            {Array.from({ length: 8 }, (_, index) => <b key={index} className={index < badges ? 'on' : ''} />)}
-          </div>
+      <section className="hero" aria-label="Run progress">
+        <button className="cap-ring" type="button" aria-label="Open the level cap" onClick={() => window.dispatchEvent(new Event('sl-open-cap'))}>
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            {RING.map((d, index) => (
+              <path key={d} className={index < badges ? 'seg on' : 'seg'} d={d} transform="rotate(90 50 50)" />
+            ))}
+          </svg>
+          <div className="num"><b>{shown?.level ?? '–'}</b><small>{options.levelCapOn ? 'Level cap' : 'Cap off'}</small></div>
         </button>
-        <div className="ptile">
-          <button className="ptile-hit" type="button" onClick={() => setEditor('cap')}>
-            <div className="lbl">Level cap</div>
-            <div className="val">{cap ?? '–'}</div>
-            {leader && <div className="species">Next: {leader.name}</div>}
-          </button>
-          {suggestion && suggestion.level !== cap && (
+        <div>
+          <div className="micro gate-l">Next gate</div>
+          <h2>{leader?.city ?? 'Champion'}</h2>
+          <div className="gate">{leader ? `Gym ${leader.badge} · ${leader.leader}` : `${countPairs(rows)} pairs · ${living} linked`}</div>
+          <div className="pips" aria-label={`${badges} of 8 badges`}>
+            {Array.from({ length: 8 }, (_, index) => (
+              <span key={index} className={index < badges ? 'pip on' : 'pip'}>
+                <svg viewBox="0 0 20 22"><path className="hexo" d="M10 1.2 18 5.6v10.8L10 20.8 2 16.4V5.6z" /><path className="hexi" d="M10 5 14.5 7.6v6.8L10 17 5.5 14.4V7.6z" /></svg>
+              </span>
+            ))}
+          </div>
+          <div className="seg" role="group" aria-label="Level cap rules">
+            <button type="button" className={options.difficulty === 'vanilla' ? 'on' : ''} aria-pressed={options.difficulty === 'vanilla'} onClick={() => void app.saveOptions({ difficulty: 'vanilla' })}>Vanilla</button>
             <button
-              className="cap-suggest"
               type="button"
-              aria-label={`Set level cap to ${suggestion.label}, Lv ${suggestion.level}`}
-              onClick={() => void app.saveProgress({ level_cap: suggestion.level })}
+              className={options.difficulty !== 'vanilla' ? 'on' : ''}
+              aria-pressed={options.difficulty !== 'vanilla'}
+              onClick={() => { if (options.difficulty === 'vanilla') void app.saveOptions({ difficulty: 'difficult' }) }}
             >
+              {options.difficulty === 'expert' || options.difficulty === 'insane' ? (options.difficulty === 'expert' ? 'Expert' : 'Insane') : 'Difficult+'}
+            </button>
+          </div>
+          {suggestion && (
+            <button className="btn btn-sm" type="button" style={{ marginTop: 8, width: 'auto' }} onClick={() => void app.saveProgress({ level_cap: suggestion.level })}>
               Suggest Lv {suggestion.level}
             </button>
           )}
+          <p className="hint">{living} linked · {fallen} fallen</p>
         </div>
-        <div className="ptile">
-          <div className="lbl">Pairs</div>
-          <div className="val">{countPairs(rows)}</div>
-          <div className="species">
-            <span className="alive-ink">{living} ♥</span> · <span className="dead-ink">{fallen} ✝</span>
-          </div>
-        </div>
-      </div>
+      </section>
       <div className="chips" role="toolbar" aria-label="Filter">
         {CHIPS.map((chip) => (
           <button key={chip.id} className={cx('chip', filter === chip.id && 'on')} type="button" aria-pressed={filter === chip.id} onClick={() => setFilter(chip.id)}>
@@ -111,7 +134,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
           <p>Log your first catch.</p>
         </div>
       )}
-      <div className="route-list">
+      <div className="list stagger">
         {visible.map((row, index) => {
           const previous = visible[index - 1]
           const showGroup = !query && filter === 'all' && row.route.group !== previous?.route.group
@@ -131,6 +154,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
                 onAdd={() => onLog(row.route.name)}
                 onQuick={() => row[app.me] && setQuick(row.route.name)}
                 onWiki={(id) => { setDetail(null); setQuick(null); onWiki(id) }}
+                randomized={options.randomizerSpecies}
               />
             </div>
           )
@@ -148,7 +172,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
             <Plus />
           </button>
         </div>
-        <p className="hint center">Applies to both of you. {leader ? `Next: ${leader.name} in ${leader.city}, ace Lv. ${leader.ace}.` : 'All eight badges are here.'}</p>
+        <p className="hint center">Applies to both of you. {leader ? `Next: ${leader.leader} in ${leader.city}. ${leader.boss}` : 'All eight badges are here.'}</p>
       </BottomSheet>
       <BottomSheet open={editor === 'cap'} title="Level cap" onClose={() => setEditor(null)}>
         <div className="stepper">
@@ -160,12 +184,8 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
             <Plus />
           </button>
         </div>
-        {suggestion && suggestion.level !== cap && (
-          <button className="btn btn-primary cap-apply" type="button" onClick={() => void app.saveProgress({ level_cap: suggestion.level })}>
-            Use {suggestion.label} · Lv {suggestion.level}
-          </button>
-        )}
-        <p className="hint center">{suggestion ? `Next documented cap: ${suggestion.label}, Lv ${suggestion.level}.` : 'You’re past the last documented cap.'} The list is for Normal mode.</p>
+        <p className="hint center">Shared with the run. Open the level-cap chip for difficulty, the mansion step, and the on/off switch.</p>
+        <button className="btn btn-primary" type="button" onClick={() => window.dispatchEvent(new Event('sl-open-cap'))}>Open cap settings</button>
       </BottomSheet>
 
       <BottomSheet open={Boolean(detailRow)} title={detailRow ? routeTitle(detailRow.route) : 'Route'} onClose={() => setDetail(null)}>
@@ -190,7 +210,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
                             className="wiki-hit"
                             type="button"
                             aria-label={`${speciesName(row)} in the Pokédex`}
-                            onClick={() => { setDetail(null); onWiki(row.dex_id as number) }}
+                            onClick={() => { setDetail(null); onWiki(dexKey(row.dex_id as number, row.form)) }}
                           >
                             <SpritePlate id={row.dex_id} alt={speciesName(row)} dim={row.status === 'dead'} />
                           </button>

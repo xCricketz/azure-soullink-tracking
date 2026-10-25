@@ -1,26 +1,26 @@
 # Fisi's Tracker
 
-Privater Nuzlocke-Tracker für Fisi und Seri, Pokémon Azure Platinum. Installierbare PWA, Deutsch, dunkel als Standard.
+Soul-link Nuzlocke tracker for Fisi and Seri. The current run is Pokémon Unbound v2.1.1.1. Installable PWA, English UI, dark by default.
 
-## Lokal
+Live: https://xcricketz.github.io/azure-soullink-tracking/
+
+## Local
 
 ```bash
 npm install
 npm run dev
 ```
 
-Der Dev-Server nutzt den Basispfad `/azure-soullink-tracking/`.
+The dev server uses the base path `/azure-soullink-tracking/`.
 
-## Live
+## Before using this build
 
-GitHub Pages (Source: GitHub Actions) veröffentlicht `main` nach `.github/workflows/pages.yml`.
+Apply `supabase/migrations/20261025120000_unbound_run.sql` in the Supabase SQL editor. It archives the finished Azure Platinum run (`active = false`), adds `catches.form` for regional forms, and inserts a fresh active run named `Pokémon Unbound Soul-Link` if none is active. The app does not run that SQL itself. Until it is applied, logging a catch that sends `form` will fail, and the active run stays the old one.
 
-Geplante Adresse: https://xcricketz.github.io/azure-soullink-tracking/
+Sign-in is unchanged: pick Fisi or Seri and enter the shared secret code (`fisi@soullink.app` / `seri@soullink.app`). “View demo” is a bundled sample run and does not call Supabase.
 
-Falls Pages noch auf „Deploy from a branch“ steht: Repository → Settings → Pages → Build and deployment → Source: **GitHub Actions**.
+## Unbound data
 
-## Anmeldung
+`src/data/unbound/` is the source of truth (dex, evolutions, routes, encounters, level caps, guide, and a precomputed map layout). Text is kept as written. Sprites and ability blurbs still come from PokeAPI main-series data and are not claimed as Unbound stat changes.
 
-Auf „Wer bist du?“ Fisi oder Seri wählen und den gemeinsamen Geheimcode eingeben. Die App ruft `signInWithPassword` mit `fisi@soullink.app` bzw. `seri@soullink.app` auf. Die Session bleibt gespeichert. „Spieler wechseln“ unter Mehr meldet ab.
-
-Die Zeilen in `players` sind mit den bestehenden Auth-Nutzern verknüpft. Wenn die Konten neu angelegt werden, `supabase/migrations/20261023120000_reset_and_link.sql` ausführen. Dieselbe Datei legt `reset_run` an, damit „Run zurücksetzen“ beide Fanglisten löscht. Ohne die Funktion kann jede Seite nur die eigenen Fänge löschen. „Ja, beide“ und „Wiederbeleben“ nutzen das vorhandene `set_pair_status`.
+Dex order and the Gen 8 post-game toggle default to Borrius order and Gen 8 hidden. The level-cap table defaults to Vanilla and is stored on this phone, not on the shared run.

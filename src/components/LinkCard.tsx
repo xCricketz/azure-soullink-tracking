@@ -1,11 +1,11 @@
-import { Hourglass, Link2, Plus, Skull, Unlink2 } from 'lucide-react'
+import { Hourglass, Link2, Plus, Shuffle, Skull, Unlink2 } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { marksFor } from '../data/marks'
 import { routeTitle, type RouteDef } from '../data/routes'
 import { speciesName } from '../lib/text'
+import { dexKey, findMon, useDex } from '../lib/unbound'
 import { bothAlive } from '../lib/pairs'
 import { PLAYERS, type Catch, type PlayerId } from '../lib/types'
-import { TrainerShot } from './TrainerShot'
 import { cx, SpritePlate, StatusChip } from './ui'
 
 export function LinkCard({
@@ -20,6 +20,7 @@ export function LinkCard({
   onAdd,
   onQuick,
   onWiki,
+  randomized = false,
 }: {
   route: RouteDef
   index: number
@@ -31,7 +32,8 @@ export function LinkCard({
   onOpen: () => void
   onAdd: () => void
   onQuick: () => void
-  onWiki?: (id: number) => void
+  onWiki?: (id: string) => void
+  randomized?: boolean
 }) {
   const state = pairState(fisi, seri, me)
   const alive = bothAlive(fisi, seri)
@@ -57,18 +59,20 @@ export function LinkCard({
   return (
     <article className={cx('lcard', state.tone === 'dead' && 'dead', glowClass)} onClick={onOpen}>
       <div className="top">
-        <TrainerShot id="fisi" crop="avatar" className="lc-face" alt="Fisi" />
         <h2 className="route">
           <span className="no">#{index}</span>
           {routeTitle(route)}
+          {route.gym ? ' · Gym' : ''}
         </h2>
-        <span className={cx('pairstate', state.tone)}>
-          {state.tone === 'link' && <Link2 aria-hidden="true" />}
-          {state.tone === 'dead' && <Skull aria-hidden="true" />}
-          {state.tone === 'wait' && <Hourglass aria-hidden="true" />}
-          {state.label}
+        <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {randomized && <span className="rbadge" title="Randomized"><Shuffle aria-hidden="true" /></span>}
+          <span className={cx('pairstate', state.tone)}>
+            {state.tone === 'link' && <Link2 aria-hidden="true" />}
+            {state.tone === 'dead' && <Skull aria-hidden="true" />}
+            {state.tone === 'wait' && <Hourglass aria-hidden="true" />}
+            {state.label}
+          </span>
         </span>
-        <TrainerShot id="seri" crop="avatar" className="lc-face seri" alt="Seri" />
       </div>
       {marks.length > 0 && (
         <div className="rbads">
@@ -85,7 +89,8 @@ export function LinkCard({
           onClick={pokeChain}
           aria-label={state.chain === 'on' ? 'Soul link' : 'Link open'}
         >
-          <span>
+          <span className="line" />
+          <span className="node">
             {state.chain === 'broken' ? <Unlink2 aria-hidden="true" /> : <Link2 aria-hidden="true" />}
           </span>
           {burst && (
@@ -132,8 +137,10 @@ function Half({
   flash: boolean
   onAdd: () => void
   onQuick: () => void
-  onWiki?: (id: number) => void
+  onWiki?: (id: string) => void
 }) {
+  const dex = useDex()
+  const types = findMon(dex, catchRow?.dex_id, catchRow?.form)?.types
   const press = useRef<{ timer: number; x: number; y: number; fired: boolean } | null>(null)
   if (!catchRow) {
     if (mine) {
@@ -203,13 +210,13 @@ function Half({
           onPointerDown={(event) => event.stopPropagation()}
           onClick={(event) => {
             event.stopPropagation()
-            onWiki(catchRow.dex_id as number)
+            if (catchRow.dex_id) onWiki(dexKey(catchRow.dex_id, catchRow.form))
           }}
         >
-          <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} />
+          <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} types={types} />
         </button>
       ) : !missed ? (
-        <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} />
+        <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} types={types} />
       ) : null}
       <div className="meta">
         <div className="nick">{catchRow.nickname || (missed ? 'Missed' : speciesName(catchRow))}</div>

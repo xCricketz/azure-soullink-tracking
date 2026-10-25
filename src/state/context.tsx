@@ -24,10 +24,12 @@ import {
   type DeathPrompt,
   type PlayerId,
   type Run,
+  type RunOptions,
   type Settings,
   type Status,
   type SyncState,
 } from '../lib/types'
+import { optionsOf } from '../lib/options'
 
 interface OutOp {
   kind: 'upsert' | 'delete' | 'rpc'
@@ -48,6 +50,7 @@ export interface AppContextValue {
   death: DeathPrompt | null
   updateSettings: (patch: Partial<Settings>) => void
   saveProgress: (patch: { badges?: number; level_cap?: number | null }) => Promise<void>
+  saveOptions: (patch: Partial<RunOptions>) => Promise<void>
   signOut: () => Promise<void>
   saveCatch: (draft: CatchDraft) => Promise<'saved' | 'death' | 'invalid'>
   setStatus: (id: string, status: Status) => Promise<void>
@@ -152,8 +155,9 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
   customRef.current = customRoutes
 
   const writeCatches = useCallback((next: Catch[]) => {
-    catchesRef.current = next
-    setCatches(next)
+    const rows = next.map((row) => ({ ...row, form: row.form ?? null }))
+    catchesRef.current = rows
+    setCatches(rows)
   }, [])
 
   const publishSync = useCallback(() => {
@@ -543,7 +547,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       const next = { ...current, ...patch }
       if ((patch.badges ?? current.badges) >= 8 && current.badges < 8 && !next.milestones.includes('badges-8')) {
         next.milestones = [...next.milestones, 'badges-8']
-        pushToast('Eighth badge! Sinnoh is proud of you.')
+        pushToast('Eighth badge. Borrius noticed.')
       }
       saveSettings(next)
       return next
@@ -670,7 +674,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     setRun(next)
     runRef.current = next
     if (nextPatch.badges === 8 && (active.badges ?? 0) < 8) {
-      pushToast('Eighth badge! Sinnoh is proud of you.')
+      pushToast('Eighth badge. Borrius noticed.')
     }
     const { error } = await supabase.from('runs').update({ ...nextPatch, updated_at: new Date().toISOString() }).eq('id', active.id)
     if (error) {
@@ -678,6 +682,23 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       runRef.current = active
       const missing = error.code === 'PGRST204' || /badges|level_cap|schema cache|column/i.test(error.message ?? '')
       pushToast(missing ? 'Badges and the level cap still need the database update.' : 'Couldn’t save.')
+    }
+  }, [])
+
+  const saveOptions = useCallback(async (patch: Partial<RunOptions>) => {
+    const active = runRef.current
+    if (!active) return
+    const options = { ...optionsOf(active), ...patch }
+    if (patch.carried) options.carried = patch.carried.slice(0, 6)
+    const next = { ...active, options }
+    setRun(next)
+    runRef.current = next
+    const { error } = await supabase.from('runs').update({ options, updated_at: new Date().toISOString() }).eq('id', active.id)
+    if (error) {
+      setRun(active)
+      runRef.current = active
+      const missing = error.code === 'PGRST204' || /options|schema cache|column/i.test(error.message ?? '')
+      pushToast(missing ? 'Run settings need the new database column. Apply the SQL file first.' : 'Couldn’t save.')
     }
   }, [])
 
@@ -730,7 +751,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     }
     const { data, error } = await supabase
       .from('runs')
-      .insert({ name: "Fisi's Tracker", rules: runRef.current?.rules || DEFAULT_RULES, active: true })
+      .insert({ name: 'Pokémon Unbound Soul-Link', rules: runRef.current?.rules || DEFAULT_RULES, active: true })
       .select('*')
       .single()
     if (error || !data) {
@@ -855,6 +876,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     death,
     updateSettings,
     saveProgress,
+    saveOptions,
     signOut,
     saveCatch,
     setStatus,

@@ -1,30 +1,58 @@
-import { BookOpen, Ellipsis, MapPin, Plus, Skull } from 'lucide-react'
+import { ChevronLeft, Gauge, LayoutGrid, Map as MapIcon, Plus, Shuffle, Signpost, Skull, Sparkles } from 'lucide-react'
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { CatchSheet } from './components/CatchSheet'
+import { CapSheet } from './components/CapSheet'
 import { DeathDialog } from './components/DeathDialog'
-import { TrainerShot } from './components/TrainerShot'
 import { PokeballIcon, SyncIndicator, ToastHost } from './components/ui'
 import { teamOf } from './lib/edits'
 import { releaseLayer, upsertLayer } from './lib/history'
+import { activeCap, difficultyLabel, optionsOf } from './lib/options'
+import { applyTheme, loadSettings } from './lib/settings'
 import { clearHidden, markHidden, resumeNeedsStart } from './lib/start'
 import { supabase } from './lib/supabase'
 import { greetingLine, playerFromEmail, PLAYERS, type PlayerId, type TabId } from './lib/types'
+import { parseDexKey } from './lib/unbound'
 import { DemoApp } from './demo'
 import { Login, UnknownAccount } from './screens/Login'
 import { Graveyard } from './screens/Graveyard'
+import { MapScreen } from './screens/Map'
 import { More } from './screens/More'
 import { Routes } from './screens/Routes'
 import { Team } from './screens/Team'
 import { WikiDetail, WikiHome } from './screens/Wiki'
 import { AppProvider, useApp } from './state/context'
 
-const TABS: { id: TabId; label: string }[] = [
+const DOCK: { id: Exclude<TabId, 'wiki'>; label: string }[] = [
   { id: 'routes', label: 'Routes' },
+  { id: 'map', label: 'Map' },
   { id: 'team', label: 'Team' },
   { id: 'grave', label: 'Graveyard' },
-  { id: 'wiki', label: 'Pokédex' },
   { id: 'more', label: 'More' },
 ]
+
+function Backdrop({ kind }: { kind: 'sky' | 'sunrise' | 'meadow' | 'lilac' }) {
+  return (
+    <div className={`bgt ${kind}`}>
+      {(kind === 'sunrise' || kind === 'lilac') && <i className="sun" />}
+      <i className="cloud c1" />
+      <i className="cloud c2" />
+    </div>
+  )
+}
+
+export function EmberDefs() {
+  return (
+    <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
+      <defs>
+        <linearGradient id="emberG" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#FFD36B" />
+          <stop offset="0.6" stopColor="#FF8A2B" />
+          <stop offset="1" stopColor="#E8531F" />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
 
 export default function App() {
   return <RealApp />
@@ -81,7 +109,7 @@ function RealApp() {
     })
   }
 
-  if (demo) return <DemoApp onExit={() => setDemo(false)} />
+  if (demo) return <DemoApp onExit={() => { applyTheme(loadSettings().theme); setDemo(false) }} />
   if (!ready) {
     return <div className="boot"><p className="pixel">FISI'S TRACKER</p><p>Connecting…</p></div>
   }
@@ -99,20 +127,42 @@ export function Shell() {
   const app = useApp()
   const [tab, setTab] = useState<TabId>('routes')
   const [sheet, setSheet] = useState<{ route?: string } | null>(null)
-  const [wikiId, setWikiId] = useState<number | null>(null)
+  const [wikiId, setWikiId] = useState<string | null>(null)
   const greet = useMemo(() => greetingLine(), [])
 
+  const [capOpen, setCapOpen] = useState(false)
+  const options = optionsOf(app.run)
+  const cap = activeCap(app.run)
+  const showCap = tab === 'routes' || tab === 'team' || tab === 'map'
+  const bg = tab === 'grave' ? 'lilac' : tab === 'more' || tab === 'wiki' || wikiId ? 'meadow' : 'sky'
+  const dockTab = tab === 'wiki' ? 'more' : tab
+  const dockIndex = Math.max(0, DOCK.findIndex((item) => item.id === dockTab))
+
   useEffect(() => {
+    document.documentElement.dataset.me = app.me
+    applyTheme(app.settings.theme)
+    const media = window.matchMedia('(prefers-color-scheme: dark)')
+    const onTheme = () => applyTheme(app.settings.theme)
+    media.addEventListener('change', onTheme)
+    return () => media.removeEventListener('change', onTheme)
+  }, [app.me, app.settings.theme])
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
     const apply = () => {
-      const theme = document.documentElement.dataset.theme
-      const light = theme === 'light' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches)
-      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', light ? '#F4F6FB' : '#0B1020')
+      if (app.settings.reduceMotion || media.matches) document.documentElement.dataset.motion = 'reduced'
+      else delete document.documentElement.dataset.motion
     }
     apply()
-    const media = window.matchMedia('(prefers-color-scheme: light)')
     media.addEventListener('change', apply)
     return () => media.removeEventListener('change', apply)
-  }, [app.settings.theme])
+  }, [app.settings.reduceMotion])
+
+  useEffect(() => {
+    const open = () => setCapOpen(true)
+    window.addEventListener('sl-open-cap', open)
+    return () => window.removeEventListener('sl-open-cap', open)
+  }, [])
 
   useEffect(() => {
     if (tab === 'routes') {
@@ -133,8 +183,8 @@ export function Shell() {
     upsertLayer('wiki', () => setWikiId(null))
   }, [wikiId])
 
-  function openWiki(id: number) {
-    if (id > 0) setWikiId(id)
+  function openWiki(id: string) {
+    if (parseDexKey(id).nat > 0) setWikiId(id)
   }
 
   function chooseTab(id: TabId) {
@@ -145,71 +195,109 @@ export function Shell() {
   const team = teamOf(app.catches, app.me)
   const levels = team.map((row) => row.level).filter((level): level is number => typeof level === 'number')
   const average = levels.length ? Math.round(levels.reduce((sum, level) => sum + level, 0) / levels.length) : 0
-  const cap = app.run?.level_cap
   let title: ReactNode = 'More'
-  let sub: string | null = null
-  if (tab === 'routes') {
-    title = <>Hey <span className={app.me}>{PLAYERS[app.me].name}</span> 👋</>
-    sub = greet
-  } else if (tab === 'team') {
-    title = (
-      <span className="team-title">
-        <TrainerShot id="fisi" crop="avatar" className="ht-face" alt="" />
-        Team
-        <TrainerShot id="seri" crop="avatar" className="ht-face seri" alt="" />
-      </span>
+  let sub: ReactNode = null
+  if (wikiId) {
+    title = 'Pokédex'
+    sub = 'Entry'
+  } else if (tab === 'routes') {
+    title = <>Hey {PLAYERS[app.me].name} 👋</>
+    sub = (
+      <div className="runbadges">
+        {options.randomizerSpecies && <span className="rb rand"><Shuffle aria-hidden="true" />Randomized</span>}
+        {options.ngPlus && <span className="rb ngp"><Sparkles aria-hidden="true" />NG+</span>}
+        {!options.randomizerSpecies && !options.ngPlus && greet}
+      </div>
     )
-    sub = `${team.length} / 6 · avg Lv ${average}${cap ? ` · Level cap ${cap}` : ''}`
+  } else if (tab === 'team') {
+    title = 'Team'
+    sub = `${team.length} / 6 · Avg Lv ${average}`
   } else if (tab === 'wiki') {
     title = 'Pokédex'
-    sub = 'Gen 1–4 · All 493'
-  } else if (tab === 'grave') {
-    title = 'Graveyard'
+    sub = app.settings.showGen8 ? 'Post-game on' : 'Story dex'
+  } else if (tab === 'map') {
+    title = 'Map'
+    sub = 'Borrius · story order'
   }
 
   return (
-    <div className="app" data-me={app.me} data-tab={tab} data-demo={app.demo ? '1' : '0'}>
+    <div className="app" data-me={app.me} data-tab={wikiId ? 'wiki' : tab} data-demo={app.demo ? '1' : '0'}>
+      <EmberDefs />
+      <Backdrop kind={bg} />
       {app.demo && (
         <div className="demo-bar">
           <span className="demo-pill">DEMO</span>
-          <button className="btn btn-ghost btn-sm" type="button" onClick={app.exitDemo}>Exit demo</button>
+          <button className="btn btn-sm" type="button" onClick={app.exitDemo}>Exit demo</button>
         </div>
       )}
-      <header className="header">
-        <div className="header-copy">
-          <h1>{title}</h1>
-          {sub && <p className="sub">{sub}</p>}
-        </div>
-        {app.demo ? null : <SyncIndicator state={app.sync} />}
-      </header>
-      <main className="main">
-        {tab === 'routes' && <Routes onLog={(route) => setSheet({ route })} onWiki={openWiki} />}
-        {tab === 'team' && <Team onWiki={openWiki} />}
-        {tab === 'grave' && <Graveyard />}
-        {tab === 'wiki' && <WikiHome onOpen={openWiki} />}
-        {tab === 'more' && <More />}
-      </main>
+      <div className="scroll">
+        <header className="hdr sticky">
+          <div className="l">
+            {(tab === 'wiki' || wikiId) && (
+              <button className="ibtn back" type="button" aria-label="Back" onClick={() => { if (wikiId) setWikiId(null); else setTab('more') }}>
+                <ChevronLeft aria-hidden="true" />
+              </button>
+            )}
+            <div>
+              <h1>{title}</h1>
+              {sub && <div className="sub">{sub}</div>}
+            </div>
+          </div>
+          <div className="r">
+            {app.demo ? null : <SyncIndicator state={app.sync} />}
+            {showCap && !wikiId && (
+              <button
+                className="capchip"
+                type="button"
+                aria-label={cap ? `Level cap ${cap.level}, ${difficultyLabel(options.difficulty)}` : 'Level cap off'}
+                onClick={() => setCapOpen(true)}
+              >
+                <span className="g"><Gauge aria-hidden="true" /></span>
+                <span className="t">
+                  <small>Level cap</small>
+                  <b>{cap ? cap.level : 'Off'}<em>{cap ? difficultyLabel(options.difficulty) : ''}</em></b>
+                </span>
+              </button>
+            )}
+          </div>
+        </header>
+        <main>
+          {wikiId !== null ? (
+            <WikiDetail id={wikiId} onOpen={openWiki} onClose={() => setWikiId(null)} />
+          ) : (
+            <>
+              {tab === 'routes' && <Routes onLog={(route) => setSheet({ route })} onWiki={openWiki} />}
+              {tab === 'team' && <Team onWiki={openWiki} />}
+              {tab === 'grave' && <Graveyard />}
+              {tab === 'wiki' && <WikiHome onOpen={openWiki} />}
+              {tab === 'map' && <MapScreen onLog={(route) => setSheet({ route })} />}
+              {tab === 'more' && <More onDex={() => chooseTab('wiki')} />}
+            </>
+          )}
+        </main>
+      </div>
       {tab === 'routes' && wikiId === null && (
         <button className="fab" type="button" aria-label="Log a catch" onClick={() => setSheet({})}>
-          <Plus size={22} strokeWidth={2.75} aria-hidden="true" />
+          <Plus aria-hidden="true" />
           Catch
         </button>
       )}
-      <nav className="tabbar" aria-label="Main">
-        {TABS.map((item) => (
-          <button key={item.id} type="button" className="tab" aria-current={tab === item.id ? 'page' : undefined} onClick={() => chooseTab(item.id)}>
+      <nav className="dock" aria-label="Main">
+        <div className="dock-ind" style={{ ['--i' as string]: dockIndex }}><span /></div>
+        {DOCK.map((item) => (
+          <button key={item.id} type="button" className={dockTab === item.id ? 'dk on' : 'dk'} aria-current={dockTab === item.id ? 'page' : undefined} onClick={() => chooseTab(item.id)}>
             <span className="ic">
-              {item.id === 'routes' && <MapPin size={20} strokeWidth={2} aria-hidden="true" />}
-              {item.id === 'team' && <PokeballIcon size={20} />}
-              {item.id === 'grave' && <Skull size={20} strokeWidth={2} aria-hidden="true" />}
-              {item.id === 'wiki' && <BookOpen size={20} strokeWidth={2} aria-hidden="true" />}
-              {item.id === 'more' && <Ellipsis size={20} strokeWidth={2} aria-hidden="true" />}
+              {item.id === 'routes' && <Signpost aria-hidden="true" />}
+              {item.id === 'map' && <MapIcon aria-hidden="true" />}
+              {item.id === 'team' && <PokeballIcon size={23} />}
+              {item.id === 'grave' && <Skull aria-hidden="true" />}
+              {item.id === 'more' && <LayoutGrid aria-hidden="true" />}
             </span>
-            <span>{item.label}</span>
+            {item.label}
           </button>
         ))}
       </nav>
-      {wikiId !== null && <WikiDetail id={wikiId} onOpen={openWiki} onClose={() => setWikiId(null)} />}
+      <CapSheet open={capOpen} onClose={() => setCapOpen(false)} />
       <CatchSheet open={sheet !== null} presetRoute={sheet?.route} onClose={() => setSheet(null)} />
       <DeathDialog />
       <ToastHost />

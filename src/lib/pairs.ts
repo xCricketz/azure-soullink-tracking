@@ -13,7 +13,7 @@ export function buildRouteList(catches: Catch[], custom: CustomRoute[]): RouteDe
   for (const route of ROUTES) map.set(route.name, route)
   for (const route of custom) {
     if (!map.has(route.name)) {
-      map.set(route.name, { name: route.name, en: route.name, order: route.order, group: 'Custom' })
+      map.set(route.name, { name: route.name, en: route.name, order: route.order, group: 'Custom', kind: 'other' })
     }
   }
   for (const catchRow of catches) {
@@ -23,6 +23,7 @@ export function buildRouteList(catches: Catch[], custom: CustomRoute[]): RouteDe
         en: catchRow.route,
         order: catchRow.route_order ?? CUSTOM_ORDER_START,
         group: 'Custom',
+        kind: 'other',
       })
     }
   }
@@ -78,7 +79,7 @@ export function findRoute(name: string, custom: CustomRoute[]): RouteDef | null 
   const official = ROUTES.find((route) => norm(route.name) === norm(name) || norm(route.en) === norm(name))
   if (official) return official
   const extra = custom.find((route) => norm(route.name) === norm(name))
-  if (extra) return { name: extra.name, en: extra.name, order: extra.order, group: 'Custom' }
+  if (extra) return { name: extra.name, en: extra.name, order: extra.order, group: 'Custom', kind: 'other' }
   return null
 }
 

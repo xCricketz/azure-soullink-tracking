@@ -1,0 +1,738 @@
+[
+ {
+  "species": "Kadabra",
+  "evolves_to": "Alakazam",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Machoke",
+  "evolves_to": "Machamp",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Graveler",
+  "evolves_to": "Golem",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Alolan Graveler",
+  "evolves_to": "Alolan Golem",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Haunter",
+  "evolves_to": "Gengar",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Gurdurr",
+  "evolves_to": "Conkeldurr",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Boldore",
+  "evolves_to": "Gigalith",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Karrablast",
+  "evolves_to": "Escavalier",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Shelmet",
+  "evolves_to": "Accelgor",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Phantump",
+  "evolves_to": "Trevenant",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Pumpkaboo",
+  "evolves_to": "Gourgeist",
+  "method": "Use a Link Stone on it; no trading needed (stands in for the trade evolution).",
+  "category": "trade_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Onix",
+  "evolves_to": "Steelix",
+  "method": "Use the Metal Coat on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Scyther",
+  "evolves_to": "Scizor",
+  "method": "Use the Metal Coat on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Seadra",
+  "evolves_to": "Kingdra",
+  "method": "Use the Dragon Scale on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Poliwhirl",
+  "evolves_to": "Politoed",
+  "method": "Use the King's Rock on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Slowpoke",
+  "evolves_to": "Slowking",
+  "method": "Use the King's Rock on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Porygon",
+  "evolves_to": "Porygon2",
+  "method": "Use the Up-Grade on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Porygon2",
+  "evolves_to": "Porygon-Z",
+  "method": "Use the Dubious Disc on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Rhydon",
+  "evolves_to": "Rhyperior",
+  "method": "Use the Protector on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Electabuzz",
+  "evolves_to": "Electivire",
+  "method": "Use the Electirizer on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Magmar",
+  "evolves_to": "Magmortar",
+  "method": "Use the Magmarizer on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Dusclops",
+  "evolves_to": "Dusknoir",
+  "method": "Use the Reaper Cloth on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Clamperl",
+  "evolves_to": "Huntail",
+  "method": "Use the Deep Sea Tooth on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Clamperl",
+  "evolves_to": "Gorebyss",
+  "method": "Use the Deep Sea Scale on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Spritzee",
+  "evolves_to": "Aromatisse",
+  "method": "Use the Sachet on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Swirlix",
+  "evolves_to": "Slurpuff",
+  "method": "Use the Whipped Dream on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Meltan",
+  "evolves_to": "Melmetal",
+  "method": "Use the Metal Coat on it (item alone is enough, wiki lists no trade).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Feebas",
+  "evolves_to": "Milotic",
+  "method": "Use a Prism Scale on it (as in the main games).",
+  "category": "trade_item_replaced",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Magneton",
+  "evolves_to": "Magnezone",
+  "method": "Thunder Stone, or level up inside Thundercap Mountain.",
+  "category": "location_or_item",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Nosepass",
+  "evolves_to": "Probopass",
+  "method": "Thunder Stone, or level up inside Thundercap Mountain.",
+  "category": "location_or_item",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Charjabug",
+  "evolves_to": "Vikavolt",
+  "method": "Thunder Stone, or level up inside Thundercap Mountain.",
+  "category": "location_or_item",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Eevee",
+  "evolves_to": "Leafeon",
+  "method": "Leaf Stone (no mossy rock needed).",
+  "category": "item_instead_of_location",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Eevee",
+  "evolves_to": "Glaceon",
+  "method": "Ice Stone (no icy rock needed).",
+  "category": "item_instead_of_location",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Tangela",
+  "evolves_to": "Tangrowth",
+  "method": "Level up while knowing Ancient Power (as in later games).",
+  "category": "item_instead_of_move",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Pikachu line",
+  "evolves_to": "Alolan Raichu",
+  "method": "Thunder Stone, only while standing on a beach.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Alolan Sandshrew",
+  "evolves_to": "Alolan Sandslash",
+  "method": "Ice Stone.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Alolan Vulpix",
+  "evolves_to": "Alolan Ninetales",
+  "method": "Ice Stone.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Alolan Rattata",
+  "evolves_to": "Alolan Raticate",
+  "method": "Level 20, only at night.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Alolan Meowth",
+  "evolves_to": "Alolan Persian",
+  "method": "High friendship.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Alolan Diglett",
+  "evolves_to": "Alolan Dugtrio",
+  "method": "Level 26.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Alolan Grimer",
+  "evolves_to": "Alolan Muk",
+  "method": "Level 38.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Cubone",
+  "evolves_to": "Marowak (Alolan)",
+  "method": "Level 28 at night gives the Alolan form; level 28 by day gives the normal one.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Exeggcute",
+  "evolves_to": "Alolan Exeggutor",
+  "method": "Leaf Stone, but only works on an Exeggcute caught in the Safari Zone.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Galarian Zigzagoon",
+  "evolves_to": "Galarian Linoone",
+  "method": "Level 20.",
+  "category": "regional_form",
+  "confidence": "wiki table (standard)",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Galarian Linoone",
+  "evolves_to": "Obstagoon",
+  "method": "Level 35 at night.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Galarian Meowth",
+  "evolves_to": "Perrserker",
+  "method": "Level 28.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Galarian Corsola",
+  "evolves_to": "Cursola",
+  "method": "Level 38.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Galarian Farfetch'd",
+  "evolves_to": "Sirfetch'd",
+  "method": "Land 3 critical hits in one battle.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Galarian Mr. Mime",
+  "evolves_to": "Mr. Rime",
+  "method": "Level 42.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Galarian Yamask",
+  "evolves_to": "Runerigus",
+  "method": "Level 35.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Galarian Darumaka",
+  "evolves_to": "Galarian Darmanitan",
+  "method": "Use an Ice Stone (item ID 105 in ROM); not Level 35.",
+  "category": "regional_form",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value \"Level 35\" corrected",
+  "source": "rom"
+ },
+ {
+  "species": "Galarian Slowpoke",
+  "evolves_to": "Galarian Slowbro / Slowking",
+  "method": "Galarica Cuff gives Slowbro; Galarica Wreath gives Slowking.",
+  "category": "regional_form",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Quilava",
+  "evolves_to": "Hisuian Typhlosion",
+  "method": "Level 36 while holding a Hisui Rock.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Dewott",
+  "evolves_to": "Hisuian Samurott",
+  "method": "Level 36 while holding a Hisui Rock.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Dartrix",
+  "evolves_to": "Hisuian Decidueye",
+  "method": "Level 34 while holding a Hisui Rock.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Petilil",
+  "evolves_to": "Hisuian Lilligant",
+  "method": "Sun Stone on Petilil that is holding a Hisui Rock.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Rufflet",
+  "evolves_to": "Hisuian Braviary",
+  "method": "Level 50 while holding a Hisui Rock.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Goomy",
+  "evolves_to": "Hisuian Sliggoo",
+  "method": "Level 40 while holding a Hisui Rock.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Hisuian Sliggoo",
+  "evolves_to": "Hisuian Goodra",
+  "method": "Level 50 during rain or fog.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Bergmite",
+  "evolves_to": "Hisuian Avalugg",
+  "method": "Level 37 while holding a Hisui Rock.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Hisuian Growlithe",
+  "evolves_to": "Hisuian Arcanine",
+  "method": "Fire Stone.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Hisuian Voltorb",
+  "evolves_to": "Hisuian Electrode",
+  "method": "Leaf Stone.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Hisuian Zorua",
+  "evolves_to": "Hisuian Zoroark",
+  "method": "Level 30.",
+  "category": "hisuian",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Stantler",
+  "evolves_to": "Wyrdeer",
+  "method": "Level up while knowing Psyshield Bash.",
+  "category": "legends_arceus",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Scyther",
+  "evolves_to": "Kleavor",
+  "method": "Black Augurite.",
+  "category": "legends_arceus",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Ursaring",
+  "evolves_to": "Ursaluna",
+  "method": "Peat Block, at night.",
+  "category": "legends_arceus",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Hisuian Basculin",
+  "evolves_to": "Basculegion",
+  "method": "Level up while knowing Wave Crash.",
+  "category": "legends_arceus",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Sneasel",
+  "evolves_to": "Sneasler",
+  "method": "Razor Claw, by day.",
+  "category": "legends_arceus",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Sneasel",
+  "evolves_to": "Weavile",
+  "method": "Level up holding a Razor Claw at night (standard).",
+  "category": "legends_arceus",
+  "confidence": "wiki table (standard)",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Poipole",
+  "evolves_to": "Naganadel",
+  "method": "Level up while knowing Dragon Pulse.",
+  "category": "other",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Kubfu",
+  "evolves_to": "Urshifu (Single-Strike)",
+  "method": "Dusk Stone.",
+  "category": "other",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Kubfu",
+  "evolves_to": "Urshifu (Rapid-Strike)",
+  "method": "Water Stone.",
+  "category": "other",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Crabrawler",
+  "evolves_to": "Crabominable",
+  "method": "Ice Stone (a wild one also appears in Frozen Forest on a Thursday or during mission 43).",
+  "category": "other",
+  "confidence": "wiki table",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Cosmoem",
+  "evolves_to": "Solgaleo / Lunala",
+  "method": "Level 53: day gives Solgaleo, night gives Lunala.",
+  "category": "other",
+  "confidence": "wiki table (standard)",
+  "source": "https://unboundwiki.com/pokemon/"
+ },
+ {
+  "species": "Binacle",
+  "evolves_to": "Barbaracle",
+  "method": "Level 36 (main series: 39).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Dragonair",
+  "evolves_to": "Dragonite",
+  "method": "Level 55 (same as main series; the wiki value 50 was wrong).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 50 corrected",
+  "source": "rom"
+ },
+ {
+  "species": "Roggenrola",
+  "evolves_to": "Boldore",
+  "method": "Level 25 (same as main series; the wiki value 45 was wrong).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 45 corrected",
+  "source": "rom"
+ },
+ {
+  "species": "Tympole",
+  "evolves_to": "Palpitoad",
+  "method": "Level 25 (same as main series; the wiki value 45 was wrong).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 45 corrected",
+  "source": "rom"
+ },
+ {
+  "species": "Ducklett",
+  "evolves_to": "Swanna",
+  "method": "Level 30 (main series: 35).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Vanillite",
+  "evolves_to": "Vanillish",
+  "method": "Level 24 (main series: 35).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Vanillish",
+  "evolves_to": "Vanilluxe",
+  "method": "Level 42 (main series: 47).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Klink",
+  "evolves_to": "Klang",
+  "method": "Level 35 (main series: 38).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Klang",
+  "evolves_to": "Klinklang",
+  "method": "Level 45 (main series: 49).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Rufflet",
+  "evolves_to": "Braviary",
+  "method": "Level 50 (main series: 54).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Rookidee",
+  "evolves_to": "Corvisquire",
+  "method": "Level 18 (same as main series; the wiki value 16 was wrong).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 16 corrected",
+  "source": "rom"
+ },
+ {
+  "species": "Glameow",
+  "evolves_to": "Purugly",
+  "method": "Level 34 (main series: 38).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Gothorita",
+  "evolves_to": "Gothitelle",
+  "method": "Level 41 (same as main series; the wiki value 45 was wrong).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value 45 corrected",
+  "source": "rom"
+ },
+ {
+  "species": "Mienfoo",
+  "evolves_to": "Mienshao",
+  "method": "Level 46 (main series: 50).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); wiki value confirmed",
+  "source": "rom"
+ },
+ {
+  "species": "Slugma",
+  "evolves_to": "Magcargo",
+  "method": "Level 30 (main series: 38).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); not listed in wiki table",
+  "source": "rom"
+ },
+ {
+  "species": "Pupitar",
+  "evolves_to": "Tyranitar",
+  "method": "Level 48 (main series: 55).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); not listed in wiki table",
+  "source": "rom"
+ },
+ {
+  "species": "Snorunt",
+  "evolves_to": "Glalie",
+  "method": "Level 30 (main series: 42).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); not listed in wiki table",
+  "source": "rom"
+ },
+ {
+  "species": "Vullaby",
+  "evolves_to": "Mandibuzz",
+  "method": "Level 50 (main series: 54).",
+  "category": "level_changed",
+  "confidence": "verified in own ROM v2.1.1.1 (gEvolutionTable 0x19F3A7A, high confidence); not listed in wiki table",
+  "source": "rom"
+ }
+]

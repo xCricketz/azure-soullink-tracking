@@ -99,10 +99,14 @@ export function platinumSpriteUrl(id: number): string {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/${id}.png`
 }
 
-/** Gen IV Platinum up to Arceus (#493), then the default sprite. Artwork is the last resort. */
+/** Newest art first, then Home, then the default sprite. */
 export function spriteSources(id: number): string[] {
-  if (id <= 493) return [platinumSpriteUrl(id), spriteUrl(id), artworkUrl(id)]
-  return [spriteUrl(id), artworkUrl(id)]
+  if (id < 1) return []
+  return [
+    artworkUrl(id),
+    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`,
+    spriteUrl(id),
+  ]
 }
 
 export function artworkUrl(id: number): string {

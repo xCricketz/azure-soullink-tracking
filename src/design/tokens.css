@@ -1,0 +1,116 @@
+/* ============================================================
+   SOUL-LINK · "SUNRISE MEADOW" design tokens  (v2 · Pokémon Unbound · bright)
+   LIGHT is the default (:root). Dark = optional [data-theme="dark"] (same token names).
+   "system" = set data-theme from matchMedia in JS.
+   Device owner accent: <html data-me="fisi"> | <html data-me="seri">
+   ============================================================ */
+@font-face{font-family:"Inter";src:url(fonts/Inter-Variable.ttf) format("truetype");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Sora";src:url(fonts/Sora-Variable.ttf) format("truetype");font-weight:100 800;font-display:swap}
+
+:root{
+  /* ---- surfaces (airy daylight) ---- */
+  --bg:#E4F3FF; --bg-2:#FFFFFF;
+  --surface:#FFFFFF; --surface-2:#F0F7FF; --surface-3:#DCEBFF; --switch-off:#A9BCE0;
+  --glass:rgba(255,255,255,.84); --glass-line:rgba(255,255,255,.95);
+  --line:rgba(40,80,170,.12); --line-strong:rgba(40,80,170,.26);
+  --scrim:rgba(18,32,74,.36);
+  /* component surfaces (every card/sheet/fill is a token => dark theme only swaps values) */
+  --card:linear-gradient(180deg,#FFFFFF,#F6FAFF);
+  --card-hero:linear-gradient(135deg,#FFF3D0,#FFFFFF 58%,#E6F2FF);
+  --sheet-bg:linear-gradient(180deg,#FFFFFF,#F4F9FF 45%); --sheet-solid:#F4F9FF;
+  --pop:#FFFFFF;                          /* autocomplete list etc. */
+  --fill:rgba(30,80,170,.06); --fill-2:rgba(30,80,170,.10); --seg-on:#FFFFFF;
+  --toast-bg:rgba(18,32,74,.94); --toast-text:#FFFFFF; --toast-act:#8AD3FF;
+  --tag-bg:rgba(255,255,255,.9);
+  /* ---- text (all >= 4.5:1 on white AND on the lightest/darkest bg templates; see DESIGN.md table) ---- */
+  --text:#12204A; --text-muted:#46567F; --text-faint:#56638B; --on-accent:#06214A;
+  /* ---- players: vivid fill + darker "ink" for text on light ---- */
+  --fisi:#1E9BFF; --fisi-hi:#5CBBFF; --fisi-ink:#0A62B5; --fisi-tint:rgba(30,155,255,.14); --fisi-glow:rgba(30,155,255,.38);
+  --seri:#FF4F86; --seri-hi:#FF86AB; --seri-ink:#BE2459; --seri-tint:rgba(255,79,134,.12); --seri-glow:rgba(255,79,134,.36);
+  --me:var(--fisi); --me-hi:var(--fisi-hi); --me-ink:var(--fisi-ink); --me-tint:var(--fisi-tint); --me-glow:var(--fisi-glow);
+  /* ---- link + ember ---- */
+  --link:#7C4DFF; --link-ink:#6338C8; --link-glow:rgba(124,77,255,.38);
+  --aurora:linear-gradient(90deg,var(--fisi),var(--link) 50%,var(--seri));
+  --ember:#FF8A1F; --ember-2:#FFC53D; --ember-ink:#9A4300; --ember-grad:linear-gradient(160deg,#FFD05A,#FF8A1F 70%,#F0561C);
+  --ember-glow:rgba(255,138,31,.45); --ember-tint:rgba(255,160,40,.16);
+  /* ---- status (fill colour + ink for text) ---- */
+  --alive:#12B886; --alive-ink:#076B47; --boxed:#E8A400; --boxed-ink:#7A5000; --dead:#EF4452; --dead-ink:#B32426; --ghost:#7A82D0; --ghost-ink:#52599C; --missed:#8A96B8;
+  --danger:#EF4452; --danger-tint:rgba(239,68,82,.12); --warn:#E8A400; --warn-tint:rgba(232,164,0,.16); --ok-tint:rgba(18,184,134,.14); --ghost-tint:rgba(122,130,208,.16);
+  --conf-verified:#076B47; --conf-likely:#7A5000; --conf-unsure:#B3380F;
+  /* ---- v2: Randomizer + NG+ ---- */
+  --rand:#9B5CF6; --rand-ink:#6D28D9; --rand-tint:rgba(155,92,246,.14);
+  --ngp:#FFB400; --ngp-ink:#7A4A00; --ngp-grad:linear-gradient(135deg,#FFE27A,#FFB400); 
+  /* ---- type colours --t-<type> (unchanged) ---- */
+  --t-normal:#A4A6A0; --t-fire:#FF5A3C; --t-water:#3A8BFF; --t-grass:#47C03A; --t-electric:#FFD21F;
+  --t-ice:#4FD8F5; --t-fighting:#FF8A1F; --t-poison:#A855E8; --t-ground:#B5703A; --t-flying:#8FC0FF;
+  --t-psychic:#FF4F8E; --t-bug:#9DBB1E; --t-rock:#BDB68A; --t-ghost:#7C5BC7; --t-dragon:#5B6CFF;
+  --t-dark:#7A6466; --t-steel:#6FB3CC; --t-fairy:#FF7FE0;
+  --aurora-ink:linear-gradient(90deg,#0A62B5,#6338C8 50%,#BE2459); --icon-pct:76%; --ember-num:linear-gradient(160deg,#E26100,#A84A00); --ph-gap:#FFFFFF;
+  --ty-ink:#0A1432; --ty-mix:45%;          /* type pill text = 45% type colour + navy => >= 5:1 on every pill */
+  /* ---- elevation (coloured, soft) ---- */
+  --e-1:0 1px 0 #fff inset,0 8px 22px -8px rgba(30,80,190,.22);
+  --e-2:0 1px 0 #fff inset,0 16px 36px -10px rgba(30,80,190,.30);
+  --e-sheet:0 -16px 50px rgba(30,60,140,.28);
+  --e-dock:0 18px 36px -10px rgba(30,80,190,.38),0 0 0 1px var(--glass-line);
+  --shadow-img:rgba(20,50,120,.30);
+  /* ---- map ---- */
+  --map-sea-a:#8FD8FF; --map-sea-b:#C9F1FF; --map-land-a:#FFF8DC; --map-land-b:#E8FAD9; --map-coast:#FFFFFF; --map-grid:#2E78D6;
+  --map-lbl:#1B2A57; --map-lbl-halo:#FFFFFF; --map-lbl-dim:#3E4C7C; --map-node:#FFFFFF; --map-node-ink:#2C3B6E; --map-node-dim:#8C9BC6;
+  /* ---- type scale (px) ---- */
+  --font-display:"Sora","Inter",system-ui,sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,"Roboto",sans-serif;
+  --fs-hero:34px; --fs-title:26px; --fs-h2:20px; --fs-card:16px; --fs-body:15px; --fs-small:13px; --fs-micro:11px;
+  /* ---- spacing (4px grid) ---- */
+  --s-1:4px; --s-2:8px; --s-3:12px; --s-4:16px; --s-5:20px; --s-6:24px; --s-8:32px; --s-10:40px;
+  --page-x:16px; --touch:48px;
+  /* ---- radius ---- */
+  --r-pill:999px; --r-card:24px; --r-inner:16px; --r-chip:12px; --r-sheet:30px; --r-dock:26px;
+  /* ---- elevation ---- */
+  --e-1:0 1px 0 rgba(255,255,255,.05) inset,0 6px 18px rgba(0,0,0,.28);
+  --e-2:0 1px 0 rgba(255,255,255,.07) inset,0 14px 34px rgba(0,0,0,.42);
+  --e-sheet:0 -18px 60px rgba(0,0,0,.6);
+  --e-dock:0 1px 0 rgba(255,255,255,.1) inset,0 18px 40px rgba(0,0,0,.55),0 0 0 1px var(--glass-line);
+  /* ---- layout / safe areas ---- */
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  --dock-h:66px; --dock-gap:10px;
+  --dock-total:calc(var(--dock-h) + var(--dock-gap) + max(var(--sab),8px)); /* scroll-padding-bottom for content */
+  /* ---- motion tokens ---- */
+  --dur-instant:90ms; --dur-1:150ms; --dur-2:250ms; --dur-3:380ms; --dur-4:600ms; --dur-5:1200ms; --dur-loop:2400ms;
+  --ease-out:cubic-bezier(.16,1,.3,1);          /* default enter */
+  --ease-in:cubic-bezier(.5,0,.75,0);           /* exit */
+  --ease-inout:cubic-bezier(.65,0,.35,1);       /* morph */
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);   /* fallback */
+  --ease-spring:linear(0, 0.279, 0.543, 0.76, 0.92, 1.025, 1.082, 1.104, 1.102, 1.087, 1.065, 1.044, 1.025, 1.011, 1.001, 0.995, 0.992, 0.992, 0.993, 0.994, 0.996, 0.997, 0.999, 1, 1);   /* ~8 % overshoot: pops, chips, nodes */
+  --ease-spring-soft:cubic-bezier(.2,1.2,.4,1);
+  --ease-spring-soft:linear(0, 0.314, 0.571, 0.764, 0.896, 0.979, 1.024, 1.044, 1.048, 1.043, 1.035, 1.026, 1.017, 1.01, 1.006, 1.002, 1, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 1, 1);   /* ~4 % overshoot: sheets, dock indicator */
+  --stagger:40ms;   /* per item, cap at 8 items (=320 ms) */
+  --press:.97;
+}
+[data-me="seri"]{--me:var(--seri);--me-hi:var(--seri-hi);--me-ink:var(--seri-ink);--me-tint:var(--seri-tint);--me-glow:var(--seri-glow)}
+
+/* ============ Optional DARK theme (v1 "Obsidian Ember" values, same token names) ============ */
+[data-theme="dark"]{
+  --bg:#070A14; --bg-2:#0B1020; --surface:#10162B; --surface-2:#171F3B; --surface-3:#212B4E; --switch-off:#3A4676;
+  --glass:rgba(20,28,56,.62); --glass-line:rgba(170,190,255,.16); --line:rgba(150,170,255,.12); --line-strong:rgba(150,170,255,.24); --scrim:rgba(3,5,12,.66);
+  --card:linear-gradient(180deg,#141B35,#0F1530); --card-hero:linear-gradient(135deg,#17214a,#0E1430);
+  --sheet-bg:linear-gradient(180deg,#19213F,#111833 40%); --sheet-solid:#111833; --pop:#1A2244;
+  --fill:rgba(255,255,255,.05); --fill-2:rgba(255,255,255,.08); --seg-on:#212B4E;
+  --toast-bg:rgba(34,42,78,.92); --toast-text:#EEF2FF; --toast-act:#8AD3FF; --tag-bg:rgba(7,10,20,.7);
+  --text:#EEF2FF; --text-muted:#9DA9D1; --text-faint:#6A759E; --on-accent:#05101C;
+  --fisi:#3FB2FF; --fisi-hi:#8AD3FF; --fisi-ink:#8AD3FF; --fisi-tint:rgba(63,178,255,.14); --fisi-glow:rgba(63,178,255,.45);
+  --seri:#FF6B9A; --seri-hi:#FFA3C0; --seri-ink:#FFA3C0; --seri-tint:rgba(255,107,154,.14); --seri-glow:rgba(255,107,154,.45);
+  --link:#B58CFF; --link-ink:#B58CFF; --link-glow:rgba(181,140,255,.5);
+  --ember:#FF9A3C; --ember-2:#FFD36B; --ember-ink:#FFD36B; --ember-glow:rgba(255,154,60,.5); --ember-tint:rgba(255,154,60,.14);
+  --alive:#34D399; --alive-ink:#34D399; --boxed:#FBBF24; --boxed-ink:#FBBF24; --dead:#F25F5C; --dead-ink:#F58A88; --ghost:#9AA3DA; --ghost-ink:#9AA3DA; --missed:#7C86A8;
+  --danger:#F25F5C; --danger-tint:rgba(242,95,92,.14); --warn:#FBBF24; --warn-tint:rgba(251,191,36,.13); --ok-tint:rgba(52,211,153,.13); --ghost-tint:rgba(154,163,218,.14);
+  --conf-verified:#34D399; --conf-likely:#FBBF24; --conf-unsure:#FF8A5C;
+  --rand:#B58CFF; --rand-ink:#CDB2FF; --rand-tint:rgba(181,140,255,.16); --ngp-ink:#FFD36B;
+  --aurora-ink:var(--aurora); --icon-pct:100%; --ember-num:var(--ember-grad); --ph-gap:#0F1530;
+  --ty-ink:#fff; --ty-mix:55%;
+  --e-1:0 1px 0 rgba(255,255,255,.05) inset,0 6px 18px rgba(0,0,0,.28); --e-2:0 1px 0 rgba(255,255,255,.07) inset,0 14px 34px rgba(0,0,0,.42);
+  --e-sheet:0 -18px 60px rgba(0,0,0,.6); --e-dock:0 1px 0 rgba(255,255,255,.1) inset,0 18px 40px rgba(0,0,0,.55),0 0 0 1px var(--glass-line); --shadow-img:rgba(0,0,0,.45);
+  --map-sea-a:#0F1D45; --map-sea-b:#070C1F; --map-land-a:#1B2B5E; --map-land-b:#141F47; --map-coast:#4A63B8; --map-grid:#5470C8;
+  --map-lbl:#C9D3F5; --map-lbl-halo:#091227; --map-lbl-dim:#7E8BB8; --map-node:#0E1430; --map-node-ink:#C9D3F5; --map-node-dim:#5A6797;
+}
+[data-theme="dark"][data-me="seri"]{--me-ink:var(--seri-ink)}
+[data-theme="dark"]:not([data-me="seri"]){--me-ink:var(--fisi-ink)}

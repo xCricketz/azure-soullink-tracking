@@ -33,16 +33,18 @@ export function SpritePlate({
   size = 'md',
   dim = false,
   grave = false,
+  types,
 }: {
   id?: number | null
   alt: string
   size?: 'sm' | 'md' | 'lg'
   dim?: boolean
   grave?: boolean
+  types?: string[]
 }) {
-  const type = (id && id <= 493 ? gen4TypeNames(id)[0] : monTypes(id)[0])
+  const type = types?.[0] || (id && id <= 493 ? gen4TypeNames(id)[0] : monTypes(id)[0])
   return (
-    <span className={cx('plate', size, dim && 'dim', grave && 'grave')} style={typeStyle(type)}>
+    <span className={cx('orb', size, dim && 'dim', grave && 'gone')} style={typeStyle(type)}>
       <PlateImage id={id} alt={alt} size={size} />
     </span>
   )

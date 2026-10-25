@@ -1,17 +1,17 @@
-import '@fontsource/rubik/latin-500.css'
-import '@fontsource/rubik/latin-600.css'
-import '@fontsource/rubik/latin-700.css'
-import '@fontsource/rubik/latin-ext-500.css'
-import '@fontsource/rubik/latin-ext-600.css'
-import '@fontsource/rubik/latin-ext-700.css'
 import '@fontsource/press-start-2p/latin-400.css'
-import './fonts/inter.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { registerSW } from 'virtual:pwa-register'
 import App from './App'
 import { installHistory } from './lib/history'
+import { applyTheme, loadSettings } from './lib/settings'
 import './styles.css'
+import './design/tokens.css'
+import './design/app.css'
+import './design/animations.css'
+import './design/shell.css'
+
+applyTheme(loadSettings().theme)
 
 installHistory()
 

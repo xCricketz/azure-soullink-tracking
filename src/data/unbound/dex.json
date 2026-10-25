@@ -1,0 +1,11238 @@
+[
+ {
+  "nat": 1,
+  "borrius": null,
+  "name": "Bulbasaur",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "egg from Magnolia Cafe egg lady (random)",
+  "gen8": false
+ },
+ {
+  "nat": 2,
+  "borrius": null,
+  "name": "Ivysaur",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "evolve Bulbasaur L16",
+  "gen8": false
+ },
+ {
+  "nat": 3,
+  "borrius": null,
+  "name": "Venusaur",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "evolve Ivysaur L32",
+  "gen8": false
+ },
+ {
+  "nat": 4,
+  "borrius": null,
+  "name": "Charmander",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "egg from Magnolia Cafe egg lady (random)",
+  "gen8": false
+ },
+ {
+  "nat": 5,
+  "borrius": null,
+  "name": "Charmeleon",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "evolve Charmander L16",
+  "gen8": false
+ },
+ {
+  "nat": 6,
+  "borrius": null,
+  "name": "Charizard",
+  "form": null,
+  "types": [
+   "Fire",
+   "Flying"
+  ],
+  "how": "evolve Charmeleon L36",
+  "gen8": false
+ },
+ {
+  "nat": 7,
+  "borrius": null,
+  "name": "Squirtle",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "egg from Magnolia Cafe egg lady (random)",
+  "gen8": false
+ },
+ {
+  "nat": 8,
+  "borrius": null,
+  "name": "Wartortle",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve Squirtle L16",
+  "gen8": false
+ },
+ {
+  "nat": 9,
+  "borrius": null,
+  "name": "Blastoise",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve Wartortle L36",
+  "gen8": false
+ },
+ {
+  "nat": 10,
+  "borrius": 93,
+  "name": "Caterpie",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 11,
+  "borrius": 94,
+  "name": "Metapod",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild or evolve Caterpie L7",
+  "gen8": false
+ },
+ {
+  "nat": 12,
+  "borrius": 95,
+  "name": "Butterfree",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "evolve Metapod L10",
+  "gen8": false
+ },
+ {
+  "nat": 13,
+  "borrius": 96,
+  "name": "Weedle",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 14,
+  "borrius": 97,
+  "name": "Kakuna",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "wild or evolve Weedle L7",
+  "gen8": false
+ },
+ {
+  "nat": 15,
+  "borrius": 98,
+  "name": "Beedrill",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "evolve Kakuna L10",
+  "gen8": false
+ },
+ {
+  "nat": 16,
+  "borrius": 467,
+  "name": "Pidgey",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "egg from Magnolia Cafe egg lady, or breed Pidgeotto",
+  "gen8": false
+ },
+ {
+  "nat": 17,
+  "borrius": 468,
+  "name": "Pidgeotto",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild or evolve Pidgey L18",
+  "gen8": false
+ },
+ {
+  "nat": 18,
+  "borrius": 469,
+  "name": "Pidgeot",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve Pidgeotto L36",
+  "gen8": false
+ },
+ {
+  "nat": 19,
+  "borrius": 39,
+  "name": "Rattata",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 19,
+  "borrius": null,
+  "name": "Rattata",
+  "form": "Alolan",
+  "types": [
+   "Dark",
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 20,
+  "borrius": 40,
+  "name": "Raticate",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild or evolve Rattata L20",
+  "gen8": false
+ },
+ {
+  "nat": 20,
+  "borrius": null,
+  "name": "Raticate",
+  "form": "Alolan",
+  "types": [
+   "Dark",
+   "Normal"
+  ],
+  "how": "wild or evolve Alolan Rattata L20 at night",
+  "gen8": false
+ },
+ {
+  "nat": 21,
+  "borrius": 239,
+  "name": "Spearow",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 22,
+  "borrius": 240,
+  "name": "Fearow",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve Spearow L20",
+  "gen8": false
+ },
+ {
+  "nat": 23,
+  "borrius": 123,
+  "name": "Ekans",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 24,
+  "borrius": 124,
+  "name": "Arbok",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "evolve Ekans L22",
+  "gen8": false
+ },
+ {
+  "nat": 25,
+  "borrius": 447,
+  "name": "Pikachu",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "swarm, or evolve Pichu (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 26,
+  "borrius": 448,
+  "name": "Raichu",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Thunder Stone",
+  "gen8": false
+ },
+ {
+  "nat": 26,
+  "borrius": null,
+  "name": "Raichu",
+  "form": "Alolan",
+  "types": [
+   "Electric",
+   "Psychic"
+  ],
+  "how": "Thunder Stone while standing on a beach",
+  "gen8": false
+ },
+ {
+  "nat": 27,
+  "borrius": 30,
+  "name": "Sandshrew",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "breed Sandslash",
+  "gen8": false
+ },
+ {
+  "nat": 27,
+  "borrius": null,
+  "name": "Sandshrew",
+  "form": "Alolan",
+  "types": [
+   "Ice",
+   "Steel"
+  ],
+  "how": "wild after mission #67",
+  "gen8": false
+ },
+ {
+  "nat": 28,
+  "borrius": 31,
+  "name": "Sandslash",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild or evolve Sandshrew L22",
+  "gen8": false
+ },
+ {
+  "nat": 28,
+  "borrius": null,
+  "name": "Sandslash",
+  "form": "Alolan",
+  "types": [
+   "Ice",
+   "Steel"
+  ],
+  "how": "Ice Stone",
+  "gen8": false
+ },
+ {
+  "nat": 29,
+  "borrius": 161,
+  "name": "Nidoran♀",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 30,
+  "borrius": 162,
+  "name": "Nidorina",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "evolve L16",
+  "gen8": false
+ },
+ {
+  "nat": 31,
+  "borrius": 163,
+  "name": "Nidoqueen",
+  "form": null,
+  "types": [
+   "Poison",
+   "Ground"
+  ],
+  "how": "Moon Stone",
+  "gen8": false
+ },
+ {
+  "nat": 32,
+  "borrius": 158,
+  "name": "Nidoran♂",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 33,
+  "borrius": 159,
+  "name": "Nidorino",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "evolve L16",
+  "gen8": false
+ },
+ {
+  "nat": 34,
+  "borrius": 160,
+  "name": "Nidoking",
+  "form": null,
+  "types": [
+   "Poison",
+   "Ground"
+  ],
+  "how": "Moon Stone",
+  "gen8": false
+ },
+ {
+  "nat": 35,
+  "borrius": null,
+  "name": "Clefairy",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "hidden grotto behind bookshelf in Crater Town Pokemon Center; or evolve Cleffa (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 36,
+  "borrius": null,
+  "name": "Clefable",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "Moon Stone",
+  "gen8": false
+ },
+ {
+  "nat": 37,
+  "borrius": 150,
+  "name": "Vulpix",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 37,
+  "borrius": null,
+  "name": "Vulpix",
+  "form": "Alolan",
+  "types": [
+   "Ice"
+  ],
+  "how": "mission #43 reward",
+  "gen8": false
+ },
+ {
+  "nat": 38,
+  "borrius": 151,
+  "name": "Ninetales",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Fire Stone",
+  "gen8": false
+ },
+ {
+  "nat": 38,
+  "borrius": null,
+  "name": "Ninetales",
+  "form": "Alolan",
+  "types": [
+   "Ice",
+   "Fairy"
+  ],
+  "how": "Ice Stone",
+  "gen8": false
+ },
+ {
+  "nat": 39,
+  "borrius": null,
+  "name": "Jigglypuff",
+  "form": null,
+  "types": [
+   "Normal",
+   "Fairy"
+  ],
+  "how": "wild (grass maze)",
+  "gen8": false
+ },
+ {
+  "nat": 40,
+  "borrius": null,
+  "name": "Wigglytuff",
+  "form": null,
+  "types": [
+   "Normal",
+   "Fairy"
+  ],
+  "how": "Moon Stone",
+  "gen8": false
+ },
+ {
+  "nat": 41,
+  "borrius": 9,
+  "name": "Zubat",
+  "form": null,
+  "types": [
+   "Poison",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 42,
+  "borrius": 10,
+  "name": "Golbat",
+  "form": null,
+  "types": [
+   "Poison",
+   "Flying"
+  ],
+  "how": "wild or evolve Zubat L22",
+  "gen8": false
+ },
+ {
+  "nat": 43,
+  "borrius": 409,
+  "name": "Oddish",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 44,
+  "borrius": 410,
+  "name": "Gloom",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "wild or evolve Oddish L21",
+  "gen8": false
+ },
+ {
+  "nat": 45,
+  "borrius": 411,
+  "name": "Vileplume",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "Leaf Stone",
+  "gen8": false
+ },
+ {
+  "nat": 46,
+  "borrius": 440,
+  "name": "Paras",
+  "form": null,
+  "types": [
+   "Bug",
+   "Grass"
+  ],
+  "how": "mushroom encounter",
+  "gen8": false
+ },
+ {
+  "nat": 47,
+  "borrius": 441,
+  "name": "Parasect",
+  "form": null,
+  "types": [
+   "Bug",
+   "Grass"
+  ],
+  "how": "evolve Paras L24",
+  "gen8": false
+ },
+ {
+  "nat": 48,
+  "borrius": 170,
+  "name": "Venonat",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 49,
+  "borrius": 171,
+  "name": "Venomoth",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "evolve L31",
+  "gen8": false
+ },
+ {
+  "nat": 50,
+  "borrius": null,
+  "name": "Diglett",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 50,
+  "borrius": null,
+  "name": "Diglett",
+  "form": "Alolan",
+  "types": [
+   "Ground",
+   "Steel"
+  ],
+  "how": "Safari Zone (medium/hard)",
+  "gen8": false
+ },
+ {
+  "nat": 51,
+  "borrius": null,
+  "name": "Dugtrio",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild or evolve Diglett L26",
+  "gen8": false
+ },
+ {
+  "nat": 51,
+  "borrius": null,
+  "name": "Dugtrio",
+  "form": "Alolan",
+  "types": [
+   "Ground",
+   "Steel"
+  ],
+  "how": "Safari Zone (insane) or evolve Alolan Diglett L26",
+  "gen8": false
+ },
+ {
+  "nat": 52,
+  "borrius": null,
+  "name": "Meowth",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "breed Persian",
+  "gen8": false
+ },
+ {
+  "nat": 52,
+  "borrius": null,
+  "name": "Meowth",
+  "form": "Alolan",
+  "types": [
+   "Dark"
+  ],
+  "how": "Safari Zone (easy)",
+  "gen8": false
+ },
+ {
+  "nat": 52,
+  "borrius": null,
+  "name": "Meowth",
+  "form": "Galarian",
+  "types": [
+   "Steel"
+  ],
+  "how": "wild (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 53,
+  "borrius": null,
+  "name": "Persian",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild or evolve Meowth L28",
+  "gen8": false
+ },
+ {
+  "nat": 53,
+  "borrius": null,
+  "name": "Persian",
+  "form": "Alolan",
+  "types": [
+   "Dark"
+  ],
+  "how": "evolve Alolan Meowth (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 54,
+  "borrius": 329,
+  "name": "Psyduck",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 55,
+  "borrius": 330,
+  "name": "Golduck",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 56,
+  "borrius": 127,
+  "name": "Mankey",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 57,
+  "borrius": 128,
+  "name": "Primeape",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "evolve L28",
+  "gen8": false
+ },
+ {
+  "nat": 58,
+  "borrius": 164,
+  "name": "Growlithe",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 58,
+  "borrius": null,
+  "name": "Growlithe",
+  "form": "Hisuian",
+  "types": [
+   "Fire",
+   "Rock"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 59,
+  "borrius": 165,
+  "name": "Arcanine",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Fire Stone",
+  "gen8": false
+ },
+ {
+  "nat": 59,
+  "borrius": null,
+  "name": "Arcanine",
+  "form": "Hisuian",
+  "types": [
+   "Fire",
+   "Rock"
+  ],
+  "how": "Fire Stone on Hisuian Growlithe; also a post-game mystery gift",
+  "gen8": true
+ },
+ {
+  "nat": 60,
+  "borrius": 325,
+  "name": "Poliwag",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 61,
+  "borrius": 326,
+  "name": "Poliwhirl",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild or evolve Poliwag L25",
+  "gen8": false
+ },
+ {
+  "nat": 62,
+  "borrius": 327,
+  "name": "Poliwrath",
+  "form": null,
+  "types": [
+   "Water",
+   "Fighting"
+  ],
+  "how": "Water Stone",
+  "gen8": false
+ },
+ {
+  "nat": 63,
+  "borrius": 211,
+  "name": "Abra",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 64,
+  "borrius": 212,
+  "name": "Kadabra",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve Abra L16",
+  "gen8": false
+ },
+ {
+  "nat": 65,
+  "borrius": 213,
+  "name": "Alakazam",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 66,
+  "borrius": 318,
+  "name": "Machop",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 67,
+  "borrius": 319,
+  "name": "Machoke",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild or evolve Machop L28",
+  "gen8": false
+ },
+ {
+  "nat": 68,
+  "borrius": 320,
+  "name": "Machamp",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 69,
+  "borrius": 406,
+  "name": "Bellsprout",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 70,
+  "borrius": 407,
+  "name": "Weepinbell",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 71,
+  "borrius": 408,
+  "name": "Victreebel",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "Leaf Stone",
+  "gen8": false
+ },
+ {
+  "nat": 72,
+  "borrius": 388,
+  "name": "Tentacool",
+  "form": null,
+  "types": [
+   "Water",
+   "Poison"
+  ],
+  "how": "surf almost everywhere",
+  "gen8": false
+ },
+ {
+  "nat": 73,
+  "borrius": 389,
+  "name": "Tentacruel",
+  "form": null,
+  "types": [
+   "Water",
+   "Poison"
+  ],
+  "how": "surf almost everywhere",
+  "gen8": false
+ },
+ {
+  "nat": 74,
+  "borrius": 142,
+  "name": "Geodude",
+  "form": null,
+  "types": [
+   "Rock",
+   "Ground"
+  ],
+  "how": "cave / rock smash",
+  "gen8": false
+ },
+ {
+  "nat": 74,
+  "borrius": null,
+  "name": "Geodude",
+  "form": "Alolan",
+  "types": [
+   "Rock",
+   "Electric"
+  ],
+  "how": "cave / rock smash",
+  "gen8": false
+ },
+ {
+  "nat": 75,
+  "borrius": 143,
+  "name": "Graveler",
+  "form": null,
+  "types": [
+   "Rock",
+   "Ground"
+  ],
+  "how": "cave or evolve Geodude L25",
+  "gen8": false
+ },
+ {
+  "nat": 75,
+  "borrius": null,
+  "name": "Graveler",
+  "form": "Alolan",
+  "types": [
+   "Rock",
+   "Electric"
+  ],
+  "how": "cave or evolve Alolan Geodude L25",
+  "gen8": false
+ },
+ {
+  "nat": 76,
+  "borrius": 144,
+  "name": "Golem",
+  "form": null,
+  "types": [
+   "Rock",
+   "Ground"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 76,
+  "borrius": null,
+  "name": "Golem",
+  "form": "Alolan",
+  "types": [
+   "Rock",
+   "Electric"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 77,
+  "borrius": 336,
+  "name": "Ponyta",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 77,
+  "borrius": null,
+  "name": "Ponyta",
+  "form": "Galarian",
+  "types": [
+   "Psychic"
+  ],
+  "how": "wild (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 78,
+  "borrius": 337,
+  "name": "Rapidash",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "evolve L40",
+  "gen8": false
+ },
+ {
+  "nat": 78,
+  "borrius": null,
+  "name": "Rapidash",
+  "form": "Galarian",
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
+  "how": "evolve Galarian Ponyta L40",
+  "gen8": true
+ },
+ {
+  "nat": 79,
+  "borrius": 403,
+  "name": "Slowpoke",
+  "form": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 79,
+  "borrius": null,
+  "name": "Slowpoke",
+  "form": "Galarian",
+  "types": [
+   "Water",
+   "Psychic"
+  ],
+  "how": "surf (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 80,
+  "borrius": 404,
+  "name": "Slowbro",
+  "form": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
+  "how": "evolve Slowpoke L37",
+  "gen8": false
+ },
+ {
+  "nat": 80,
+  "borrius": null,
+  "name": "Slowbro",
+  "form": "Galarian",
+  "types": [
+   "Poison",
+   "Psychic"
+  ],
+  "how": "Galarica Cuff",
+  "gen8": true
+ },
+ {
+  "nat": 81,
+  "borrius": 295,
+  "name": "Magnemite",
+  "form": null,
+  "types": [
+   "Electric",
+   "Steel"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 82,
+  "borrius": 296,
+  "name": "Magneton",
+  "form": null,
+  "types": [
+   "Electric",
+   "Steel"
+  ],
+  "how": "wild or evolve Magnemite L30",
+  "gen8": false
+ },
+ {
+  "nat": 83,
+  "borrius": null,
+  "name": "Farfetch'd",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 83,
+  "borrius": null,
+  "name": "Farfetch'd",
+  "form": "Galarian",
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 84,
+  "borrius": 207,
+  "name": "Doduo",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 85,
+  "borrius": 208,
+  "name": "Dodrio",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve L31",
+  "gen8": false
+ },
+ {
+  "nat": 86,
+  "borrius": 277,
+  "name": "Seel",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "surf / good rod",
+  "gen8": false
+ },
+ {
+  "nat": 87,
+  "borrius": 278,
+  "name": "Dewgong",
+  "form": null,
+  "types": [
+   "Water",
+   "Ice"
+  ],
+  "how": "surf / super rod or evolve Seel L34",
+  "gen8": false
+ },
+ {
+  "nat": 88,
+  "borrius": 459,
+  "name": "Grimer",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild (water rods and surf)",
+  "gen8": false
+ },
+ {
+  "nat": 88,
+  "borrius": null,
+  "name": "Grimer",
+  "form": "Alolan",
+  "types": [
+   "Poison",
+   "Dark"
+  ],
+  "how": "mission #57 reward",
+  "gen8": false
+ },
+ {
+  "nat": 89,
+  "borrius": 460,
+  "name": "Muk",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild or evolve Grimer L38",
+  "gen8": false
+ },
+ {
+  "nat": 89,
+  "borrius": null,
+  "name": "Muk",
+  "form": "Alolan",
+  "types": [
+   "Poison",
+   "Dark"
+  ],
+  "how": "evolve Alolan Grimer L38",
+  "gen8": false
+ },
+ {
+  "nat": 90,
+  "borrius": 279,
+  "name": "Shellder",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good/super rod",
+  "gen8": false
+ },
+ {
+  "nat": 91,
+  "borrius": 280,
+  "name": "Cloyster",
+  "form": null,
+  "types": [
+   "Water",
+   "Ice"
+  ],
+  "how": "super rod",
+  "gen8": false
+ },
+ {
+  "nat": 92,
+  "borrius": 104,
+  "name": "Gastly",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 93,
+  "borrius": 105,
+  "name": "Haunter",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Poison"
+  ],
+  "how": "cave or evolve Gastly L25",
+  "gen8": false
+ },
+ {
+  "nat": 94,
+  "borrius": 106,
+  "name": "Gengar",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Poison"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 95,
+  "borrius": 227,
+  "name": "Onix",
+  "form": null,
+  "types": [
+   "Rock",
+   "Ground"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 96,
+  "borrius": 219,
+  "name": "Drowzee",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 97,
+  "borrius": 220,
+  "name": "Hypno",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve L26",
+  "gen8": false
+ },
+ {
+  "nat": 98,
+  "borrius": 70,
+  "name": "Krabby",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good rod / rock smash",
+  "gen8": false
+ },
+ {
+  "nat": 99,
+  "borrius": 71,
+  "name": "Kingler",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "super rod / rock smash or evolve Krabby L28",
+  "gen8": false
+ },
+ {
+  "nat": 100,
+  "borrius": null,
+  "name": "Voltorb",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Dehara gym encounter",
+  "gen8": false
+ },
+ {
+  "nat": 100,
+  "borrius": null,
+  "name": "Voltorb",
+  "form": "Hisuian",
+  "types": [
+   "Electric",
+   "Grass"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 101,
+  "borrius": null,
+  "name": "Electrode",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Dehara gym encounter; trade at Blizzard City for an Onix; or evolve Voltorb L30",
+  "gen8": false
+ },
+ {
+  "nat": 101,
+  "borrius": null,
+  "name": "Electrode",
+  "form": "Hisuian",
+  "types": [
+   "Electric",
+   "Grass"
+  ],
+  "how": "Leaf Stone on Hisuian Voltorb; also a post-game mystery gift",
+  "gen8": true
+ },
+ {
+  "nat": 102,
+  "borrius": 264,
+  "name": "Exeggcute",
+  "form": null,
+  "types": [
+   "Grass",
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 103,
+  "borrius": 265,
+  "name": "Exeggutor",
+  "form": null,
+  "types": [
+   "Grass",
+   "Psychic"
+  ],
+  "how": "Leaf Stone",
+  "gen8": false
+ },
+ {
+  "nat": 103,
+  "borrius": null,
+  "name": "Exeggutor",
+  "form": "Alolan",
+  "types": [
+   "Grass",
+   "Dragon"
+  ],
+  "how": "Leaf Stone on an Exeggcute caught in the Safari Zone",
+  "gen8": false
+ },
+ {
+  "nat": 104,
+  "borrius": 298,
+  "name": "Cubone",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 105,
+  "borrius": 299,
+  "name": "Marowak",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild or evolve Cubone L28 by day",
+  "gen8": false
+ },
+ {
+  "nat": 105,
+  "borrius": null,
+  "name": "Marowak",
+  "form": "Alolan",
+  "types": [
+   "Fire",
+   "Ghost"
+  ],
+  "how": "evolve Cubone L28 at night",
+  "gen8": false
+ },
+ {
+  "nat": 106,
+  "borrius": null,
+  "name": "Hitmonlee",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "evolve Tyrogue L20 if Atk > Def",
+  "gen8": false
+ },
+ {
+  "nat": 107,
+  "borrius": null,
+  "name": "Hitmonchan",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "evolve Tyrogue L20 if Def > Atk",
+  "gen8": false
+ },
+ {
+  "nat": 108,
+  "borrius": 156,
+  "name": "Lickitung",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 109,
+  "borrius": 461,
+  "name": "Koffing",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 110,
+  "borrius": 462,
+  "name": "Weezing",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild or evolve Koffing L35",
+  "gen8": false
+ },
+ {
+  "nat": 110,
+  "borrius": null,
+  "name": "Weezing",
+  "form": "Galarian",
+  "types": [
+   "Poison",
+   "Fairy"
+  ],
+  "how": "wild (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 111,
+  "borrius": null,
+  "name": "Rhyhorn",
+  "form": null,
+  "types": [
+   "Ground",
+   "Rock"
+  ],
+  "how": "Safari Zone (easy/medium)",
+  "gen8": false
+ },
+ {
+  "nat": 112,
+  "borrius": null,
+  "name": "Rhydon",
+  "form": null,
+  "types": [
+   "Ground",
+   "Rock"
+  ],
+  "how": "Safari Zone (hard/insane) or evolve Rhyhorn L42",
+  "gen8": false
+ },
+ {
+  "nat": 113,
+  "borrius": null,
+  "name": "Chansey",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild (maze grass) or evolve Happiny by day holding Oval Stone",
+  "gen8": false
+ },
+ {
+  "nat": 114,
+  "borrius": 449,
+  "name": "Tangela",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 115,
+  "borrius": null,
+  "name": "Kangaskhan",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Safari Zone (medium+)",
+  "gen8": false
+ },
+ {
+  "nat": 116,
+  "borrius": 377,
+  "name": "Horsea",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 117,
+  "borrius": 378,
+  "name": "Seadra",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "super rod or evolve Horsea L32",
+  "gen8": false
+ },
+ {
+  "nat": 118,
+  "borrius": 285,
+  "name": "Goldeen",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 119,
+  "borrius": 286,
+  "name": "Seaking",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "super rod or evolve Goldeen L33",
+  "gen8": false
+ },
+ {
+  "nat": 120,
+  "borrius": 281,
+  "name": "Staryu",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good/super rod",
+  "gen8": false
+ },
+ {
+  "nat": 121,
+  "borrius": 282,
+  "name": "Starmie",
+  "form": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
+  "how": "super rod or Water Stone",
+  "gen8": false
+ },
+ {
+  "nat": 122,
+  "borrius": 222,
+  "name": "Mr. Mime",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 122,
+  "borrius": null,
+  "name": "Mr. Mime",
+  "form": "Galarian",
+  "types": [
+   "Ice",
+   "Psychic"
+  ],
+  "how": "wild (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 123,
+  "borrius": null,
+  "name": "Scyther",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "headbutt",
+  "gen8": false
+ },
+ {
+  "nat": 124,
+  "borrius": 18,
+  "name": "Jynx",
+  "form": null,
+  "types": [
+   "Ice",
+   "Psychic"
+  ],
+  "how": "cave or evolve Smoochum L30",
+  "gen8": false
+ },
+ {
+  "nat": 125,
+  "borrius": 304,
+  "name": "Electabuzz",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "cave or evolve Elekid L30",
+  "gen8": false
+ },
+ {
+  "nat": 126,
+  "borrius": 147,
+  "name": "Magmar",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Shadow Base / cave or evolve Magby L30",
+  "gen8": false
+ },
+ {
+  "nat": 127,
+  "borrius": null,
+  "name": "Pinsir",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "headbutt",
+  "gen8": false
+ },
+ {
+  "nat": 128,
+  "borrius": null,
+  "name": "Tauros",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 129,
+  "borrius": 223,
+  "name": "Magikarp",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "old rod anywhere",
+  "gen8": false
+ },
+ {
+  "nat": 130,
+  "borrius": 224,
+  "name": "Gyarados",
+  "form": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
+  "how": "super rod",
+  "gen8": false
+ },
+ {
+  "nat": 131,
+  "borrius": 390,
+  "name": "Lapras",
+  "form": null,
+  "types": [
+   "Water",
+   "Ice"
+  ],
+  "how": "surf / super rod",
+  "gen8": false
+ },
+ {
+  "nat": 132,
+  "borrius": null,
+  "name": "Ditto",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 133,
+  "borrius": 355,
+  "name": "Eevee",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Dehara Game Corner (1500 coins)",
+  "gen8": false
+ },
+ {
+  "nat": 134,
+  "borrius": 356,
+  "name": "Vaporeon",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Water Stone",
+  "gen8": false
+ },
+ {
+  "nat": 135,
+  "borrius": 357,
+  "name": "Jolteon",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Thunder Stone",
+  "gen8": false
+ },
+ {
+  "nat": 136,
+  "borrius": 358,
+  "name": "Flareon",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Fire Stone",
+  "gen8": false
+ },
+ {
+  "nat": 137,
+  "borrius": 367,
+  "name": "Porygon",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Dehara Game Corner (9999 coins)",
+  "gen8": false
+ },
+ {
+  "nat": 138,
+  "borrius": null,
+  "name": "Omanyte",
+  "form": null,
+  "types": [
+   "Rock",
+   "Water"
+  ],
+  "how": "Helix Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 139,
+  "borrius": null,
+  "name": "Omastar",
+  "form": null,
+  "types": [
+   "Rock",
+   "Water"
+  ],
+  "how": "evolve L40",
+  "gen8": false
+ },
+ {
+  "nat": 140,
+  "borrius": null,
+  "name": "Kabuto",
+  "form": null,
+  "types": [
+   "Rock",
+   "Water"
+  ],
+  "how": "Dome Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 141,
+  "borrius": null,
+  "name": "Kabutops",
+  "form": null,
+  "types": [
+   "Rock",
+   "Water"
+  ],
+  "how": "evolve L40",
+  "gen8": false
+ },
+ {
+  "nat": 142,
+  "borrius": null,
+  "name": "Aerodactyl",
+  "form": null,
+  "types": [
+   "Rock",
+   "Flying"
+  ],
+  "how": "Old Amber fossil (Great Desert); wiki table lists Rock/Water which is probably a typo",
+  "gen8": false,
+  "note": "wiki table type was wrong (Rock/Water); corrected to Rock/Flying (PokeAPI + Unbound-Cloud)"
+ },
+ {
+  "nat": 143,
+  "borrius": null,
+  "name": "Snorlax",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "static encounter",
+  "gen8": false
+ },
+ {
+  "nat": 144,
+  "borrius": 483,
+  "name": "Articuno",
+  "form": null,
+  "types": [
+   "Ice",
+   "Flying"
+  ],
+  "how": "static encounter",
+  "gen8": false
+ },
+ {
+  "nat": 144,
+  "borrius": null,
+  "name": "Articuno",
+  "form": "Galarian",
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": true
+ },
+ {
+  "nat": 145,
+  "borrius": 484,
+  "name": "Zapdos",
+  "form": null,
+  "types": [
+   "Electric",
+   "Flying"
+  ],
+  "how": "summit static encounter",
+  "gen8": false
+ },
+ {
+  "nat": 145,
+  "borrius": null,
+  "name": "Zapdos",
+  "form": "Galarian",
+  "types": [
+   "Fighting",
+   "Flying"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": true
+ },
+ {
+  "nat": 146,
+  "borrius": 485,
+  "name": "Moltres",
+  "form": null,
+  "types": [
+   "Fire",
+   "Flying"
+  ],
+  "how": "summit static encounter",
+  "gen8": false
+ },
+ {
+  "nat": 146,
+  "borrius": null,
+  "name": "Moltres",
+  "form": "Galarian",
+  "types": [
+   "Dark",
+   "Flying"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": true
+ },
+ {
+  "nat": 147,
+  "borrius": null,
+  "name": "Dratini",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "breed Dragonair",
+  "gen8": false
+ },
+ {
+  "nat": 148,
+  "borrius": null,
+  "name": "Dragonair",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "surf at Crystal Peak or evolve Dratini L30",
+  "gen8": false
+ },
+ {
+  "nat": 149,
+  "borrius": null,
+  "name": "Dragonite",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
+  "how": "evolve Dragonair L50",
+  "gen8": false
+ },
+ {
+  "nat": 150,
+  "borrius": null,
+  "name": "Mewtwo",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": false
+ },
+ {
+  "nat": 151,
+  "borrius": null,
+  "name": "Mew",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "mission #17 reward",
+  "gen8": false
+ },
+ {
+  "nat": 152,
+  "borrius": null,
+  "name": "Chikorita",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "breed Bayleef",
+  "gen8": false
+ },
+ {
+  "nat": 153,
+  "borrius": null,
+  "name": "Bayleef",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 154,
+  "borrius": null,
+  "name": "Meganium",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L32",
+  "gen8": false
+ },
+ {
+  "nat": 155,
+  "borrius": null,
+  "name": "Cyndaquil",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "breed Quilava",
+  "gen8": false
+ },
+ {
+  "nat": 156,
+  "borrius": null,
+  "name": "Quilava",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 157,
+  "borrius": null,
+  "name": "Typhlosion",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "evolve Quilava L36",
+  "gen8": false
+ },
+ {
+  "nat": 157,
+  "borrius": null,
+  "name": "Typhlosion",
+  "form": "Hisuian",
+  "types": [
+   "Fire",
+   "Ghost"
+  ],
+  "how": "evolve Quilava L36 holding Hisui Rock",
+  "gen8": true
+ },
+ {
+  "nat": 158,
+  "borrius": null,
+  "name": "Totodile",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "breed Croconaw",
+  "gen8": false
+ },
+ {
+  "nat": 159,
+  "borrius": null,
+  "name": "Croconaw",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 160,
+  "borrius": null,
+  "name": "Feraligatr",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve Croconaw L30; also a mission #51 encounter",
+  "gen8": false
+ },
+ {
+  "nat": 161,
+  "borrius": 76,
+  "name": "Sentret",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 162,
+  "borrius": 77,
+  "name": "Furret",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "raid den or evolve Sentret L15",
+  "gen8": false
+ },
+ {
+  "nat": 163,
+  "borrius": 35,
+  "name": "Hoothoot",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 164,
+  "borrius": 36,
+  "name": "Noctowl",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild or evolve Hoothoot L20",
+  "gen8": false
+ },
+ {
+  "nat": 165,
+  "borrius": 191,
+  "name": "Ledyba",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 166,
+  "borrius": 192,
+  "name": "Ledian",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "wild or evolve Ledyba L18",
+  "gen8": false
+ },
+ {
+  "nat": 167,
+  "borrius": 193,
+  "name": "Spinarak",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 168,
+  "borrius": 194,
+  "name": "Ariados",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "wild or evolve Spinarak L22",
+  "gen8": false
+ },
+ {
+  "nat": 169,
+  "borrius": 11,
+  "name": "Crobat",
+  "form": null,
+  "types": [
+   "Poison",
+   "Flying"
+  ],
+  "how": "evolve Golbat (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 170,
+  "borrius": 316,
+  "name": "Chinchou",
+  "form": null,
+  "types": [
+   "Water",
+   "Electric"
+  ],
+  "how": "good rod / surf / underwater",
+  "gen8": false
+ },
+ {
+  "nat": 171,
+  "borrius": 317,
+  "name": "Lanturn",
+  "form": null,
+  "types": [
+   "Water",
+   "Electric"
+  ],
+  "how": "super rod / surf / underwater or evolve Chinchou L27",
+  "gen8": false
+ },
+ {
+  "nat": 172,
+  "borrius": 446,
+  "name": "Pichu",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "breed Pikachu",
+  "gen8": false
+ },
+ {
+  "nat": 172,
+  "borrius": null,
+  "name": "Pichu",
+  "form": "Spiky-Eared",
+  "types": [
+   "Electric"
+  ],
+  "how": "show a Pichu to the breeder at Seaport City Breeder School",
+  "gen8": false
+ },
+ {
+  "nat": 173,
+  "borrius": null,
+  "name": "Cleffa",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "breed Clefairy",
+  "gen8": false
+ },
+ {
+  "nat": 174,
+  "borrius": null,
+  "name": "Igglybuff",
+  "form": null,
+  "types": [
+   "Normal",
+   "Fairy"
+  ],
+  "how": "breed Jigglypuff",
+  "gen8": false
+ },
+ {
+  "nat": 175,
+  "borrius": null,
+  "name": "Togepi",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "egg gift from old lady in Fallshore City",
+  "gen8": false
+ },
+ {
+  "nat": 176,
+  "borrius": null,
+  "name": "Togetic",
+  "form": null,
+  "types": [
+   "Fairy",
+   "Flying"
+  ],
+  "how": "evolve Togepi (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 177,
+  "borrius": null,
+  "name": "Natu",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "Safari Zone (easy)",
+  "gen8": false
+ },
+ {
+  "nat": 178,
+  "borrius": null,
+  "name": "Xatu",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "Safari Zone (medium) or evolve Natu L25",
+  "gen8": false
+ },
+ {
+  "nat": 179,
+  "borrius": 214,
+  "name": "Mareep",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 180,
+  "borrius": 215,
+  "name": "Flaaffy",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "wild or evolve Mareep L15",
+  "gen8": false
+ },
+ {
+  "nat": 181,
+  "borrius": 216,
+  "name": "Ampharos",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "evolve L30",
+  "gen8": false
+ },
+ {
+  "nat": 182,
+  "borrius": 412,
+  "name": "Bellossom",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Sun Stone on Gloom",
+  "gen8": false
+ },
+ {
+  "nat": 183,
+  "borrius": 46,
+  "name": "Marill",
+  "form": null,
+  "types": [
+   "Water",
+   "Fairy"
+  ],
+  "how": "wild or evolve Azurill (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 184,
+  "borrius": 47,
+  "name": "Azumarill",
+  "form": null,
+  "types": [
+   "Water",
+   "Fairy"
+  ],
+  "how": "surf or evolve Marill L18",
+  "gen8": false
+ },
+ {
+  "nat": 185,
+  "borrius": null,
+  "name": "Sudowoodo",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 186,
+  "borrius": 328,
+  "name": "Politoed",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "surf / super rod, or King's Rock on Poliwhirl",
+  "gen8": false
+ },
+ {
+  "nat": 187,
+  "borrius": 463,
+  "name": "Hoppip",
+  "form": null,
+  "types": [
+   "Grass",
+   "Flying"
+  ],
+  "how": "breed Skiploom; or Magnolia Cafe egg lady",
+  "gen8": false
+ },
+ {
+  "nat": 188,
+  "borrius": 464,
+  "name": "Skiploom",
+  "form": null,
+  "types": [
+   "Grass",
+   "Flying"
+  ],
+  "how": "wild or evolve Hoppip L18",
+  "gen8": false
+ },
+ {
+  "nat": 189,
+  "borrius": 465,
+  "name": "Jumpluff",
+  "form": null,
+  "types": [
+   "Grass",
+   "Flying"
+  ],
+  "how": "evolve L27",
+  "gen8": false
+ },
+ {
+  "nat": 190,
+  "borrius": null,
+  "name": "Aipom",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "headbutt",
+  "gen8": false
+ },
+ {
+  "nat": 191,
+  "borrius": 200,
+  "name": "Sunkern",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 192,
+  "borrius": 201,
+  "name": "Sunflora",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Sun Stone",
+  "gen8": false
+ },
+ {
+  "nat": 193,
+  "borrius": 168,
+  "name": "Yanma",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 194,
+  "borrius": 321,
+  "name": "Wooper",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 195,
+  "borrius": 322,
+  "name": "Quagsire",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "cave or evolve Wooper L20",
+  "gen8": false
+ },
+ {
+  "nat": 196,
+  "borrius": 359,
+  "name": "Espeon",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "Eevee with max friendship by day",
+  "gen8": false
+ },
+ {
+  "nat": 197,
+  "borrius": 360,
+  "name": "Umbreon",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "Eevee with max friendship at night",
+  "gen8": false
+ },
+ {
+  "nat": 198,
+  "borrius": 154,
+  "name": "Murkrow",
+  "form": null,
+  "types": [
+   "Dark",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 199,
+  "borrius": 405,
+  "name": "Slowking",
+  "form": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
+  "how": "King's Rock on Slowpoke",
+  "gen8": false
+ },
+ {
+  "nat": 199,
+  "borrius": null,
+  "name": "Slowking",
+  "form": "Galarian",
+  "types": [
+   "Poison",
+   "Psychic"
+  ],
+  "how": "Galarica Wreath on Galarian Slowpoke",
+  "gen8": true
+ },
+ {
+  "nat": 200,
+  "borrius": 323,
+  "name": "Misdreavus",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 201,
+  "borrius": null,
+  "name": "Unown",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "Tomb of Borrius",
+  "gen8": false
+ },
+ {
+  "nat": 202,
+  "borrius": null,
+  "name": "Wobbuffet",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "Safari Zone (medium+) or evolve Wynaut L15",
+  "gen8": false
+ },
+ {
+  "nat": 203,
+  "borrius": 451,
+  "name": "Girafarig",
+  "form": null,
+  "types": [
+   "Normal",
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 204,
+  "borrius": null,
+  "name": "Pineco",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "headbutt",
+  "gen8": false
+ },
+ {
+  "nat": 205,
+  "borrius": null,
+  "name": "Forretress",
+  "form": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
+  "how": "evolve Pineco L31",
+  "gen8": false
+ },
+ {
+  "nat": 206,
+  "borrius": 188,
+  "name": "Dunsparce",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 207,
+  "borrius": 186,
+  "name": "Gligar",
+  "form": null,
+  "types": [
+   "Ground",
+   "Flying"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 208,
+  "borrius": 228,
+  "name": "Steelix",
+  "form": null,
+  "types": [
+   "Steel",
+   "Ground"
+  ],
+  "how": "cave or Metal Coat on Onix",
+  "gen8": false
+ },
+ {
+  "nat": 209,
+  "borrius": 338,
+  "name": "Snubbull",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 210,
+  "borrius": 339,
+  "name": "Granbull",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "evolve L23",
+  "gen8": false
+ },
+ {
+  "nat": 211,
+  "borrius": null,
+  "name": "Qwilfish",
+  "form": null,
+  "types": [
+   "Water",
+   "Poison"
+  ],
+  "how": "super rod",
+  "gen8": false
+ },
+ {
+  "nat": 211,
+  "borrius": null,
+  "name": "Qwilfish",
+  "form": "Hisuian",
+  "types": [
+   "Dark",
+   "Poison"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 212,
+  "borrius": null,
+  "name": "Scizor",
+  "form": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
+  "how": "Metal Coat on Scyther",
+  "gen8": false
+ },
+ {
+  "nat": 213,
+  "borrius": null,
+  "name": "Shuckle",
+  "form": null,
+  "types": [
+   "Bug",
+   "Rock"
+  ],
+  "how": "rock smash",
+  "gen8": false
+ },
+ {
+  "nat": 214,
+  "borrius": null,
+  "name": "Heracross",
+  "form": null,
+  "types": [
+   "Bug",
+   "Fighting"
+  ],
+  "how": "wild / headbutt",
+  "gen8": false
+ },
+ {
+  "nat": 215,
+  "borrius": 229,
+  "name": "Sneasel",
+  "form": null,
+  "types": [
+   "Dark",
+   "Ice"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 215,
+  "borrius": null,
+  "name": "Sneasel",
+  "form": "Hisuian",
+  "types": [
+   "Fighting",
+   "Poison"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 216,
+  "borrius": null,
+  "name": "Teddiursa",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "breed Ursaring",
+  "gen8": false
+ },
+ {
+  "nat": 217,
+  "borrius": null,
+  "name": "Ursaring",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild or evolve Teddiursa L30",
+  "gen8": false
+ },
+ {
+  "nat": 218,
+  "borrius": 138,
+  "name": "Slugma",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 219,
+  "borrius": 139,
+  "name": "Magcargo",
+  "form": null,
+  "types": [
+   "Fire",
+   "Rock"
+  ],
+  "how": "lava surf or evolve Slugma L38",
+  "gen8": false
+ },
+ {
+  "nat": 220,
+  "borrius": 22,
+  "name": "Swinub",
+  "form": null,
+  "types": [
+   "Ice",
+   "Ground"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 221,
+  "borrius": 23,
+  "name": "Piloswine",
+  "form": null,
+  "types": [
+   "Ice",
+   "Ground"
+  ],
+  "how": "cave or evolve Swinub L33",
+  "gen8": false
+ },
+ {
+  "nat": 222,
+  "borrius": null,
+  "name": "Corsola",
+  "form": null,
+  "types": [
+   "Water",
+   "Rock"
+  ],
+  "how": "rock smash / rods / underwater",
+  "gen8": false
+ },
+ {
+  "nat": 222,
+  "borrius": null,
+  "name": "Corsola",
+  "form": "Galarian",
+  "types": [
+   "Ghost"
+  ],
+  "how": "breed Cursola",
+  "gen8": true
+ },
+ {
+  "nat": 223,
+  "borrius": 287,
+  "name": "Remoraid",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 224,
+  "borrius": 288,
+  "name": "Octillery",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "super rod or evolve Remoraid L25",
+  "gen8": false
+ },
+ {
+  "nat": 225,
+  "borrius": 7,
+  "name": "Delibird",
+  "form": null,
+  "types": [
+   "Ice",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 226,
+  "borrius": 393,
+  "name": "Mantine",
+  "form": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
+  "how": "surf or evolve Mantyke with a Remoraid in party",
+  "gen8": false
+ },
+ {
+  "nat": 227,
+  "borrius": null,
+  "name": "Skarmory",
+  "form": null,
+  "types": [
+   "Steel",
+   "Flying"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 228,
+  "borrius": 166,
+  "name": "Houndour",
+  "form": null,
+  "types": [
+   "Dark",
+   "Fire"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 229,
+  "borrius": 167,
+  "name": "Houndoom",
+  "form": null,
+  "types": [
+   "Dark",
+   "Fire"
+  ],
+  "how": "evolve L24",
+  "gen8": false
+ },
+ {
+  "nat": 230,
+  "borrius": 379,
+  "name": "Kingdra",
+  "form": null,
+  "types": [
+   "Water",
+   "Dragon"
+  ],
+  "how": "super rod or Dragon Scale on Seadra",
+  "gen8": false
+ },
+ {
+  "nat": 231,
+  "borrius": 184,
+  "name": "Phanpy",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 232,
+  "borrius": 185,
+  "name": "Donphan",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild or evolve Phanpy L25",
+  "gen8": false
+ },
+ {
+  "nat": 233,
+  "borrius": 368,
+  "name": "Porygon2",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Up-Grade on Porygon",
+  "gen8": false
+ },
+ {
+  "nat": 234,
+  "borrius": 236,
+  "name": "Stantler",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 235,
+  "borrius": 204,
+  "name": "Smeargle",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 236,
+  "borrius": null,
+  "name": "Tyrogue",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "breed Hitmontop",
+  "gen8": false
+ },
+ {
+  "nat": 237,
+  "borrius": null,
+  "name": "Hitmontop",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "trade at Epidimy Town for a Lickitung; or evolve Tyrogue L20 if Atk = Def",
+  "gen8": false
+ },
+ {
+  "nat": 238,
+  "borrius": 17,
+  "name": "Smoochum",
+  "form": null,
+  "types": [
+   "Ice",
+   "Psychic"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 239,
+  "borrius": 303,
+  "name": "Elekid",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "cave; also mission #71 reward",
+  "gen8": false
+ },
+ {
+  "nat": 240,
+  "borrius": 146,
+  "name": "Magby",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "cave",
+  "gen8": false,
+  "note": "wiki lists Borrius #147 for both Magmar and Magby; Magby set to 146 (inferred, unverified) | confirmed by ROM v2.1.1.1 Borrius table (0x1A3F398)"
+ },
+ {
+  "nat": 241,
+  "borrius": null,
+  "name": "Miltank",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 242,
+  "borrius": null,
+  "name": "Blissey",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve Chansey (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 243,
+  "borrius": null,
+  "name": "Raikou",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "post-game portal at Ruins of Void, then roams",
+  "gen8": false
+ },
+ {
+  "nat": 244,
+  "borrius": null,
+  "name": "Entei",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "post-game portal at Ruins of Void, then roams",
+  "gen8": false
+ },
+ {
+  "nat": 245,
+  "borrius": null,
+  "name": "Suicune",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "post-game Ruins of Void portal room with Raikou and Entei in party",
+  "gen8": false
+ },
+ {
+  "nat": 246,
+  "borrius": null,
+  "name": "Larvitar",
+  "form": null,
+  "types": [
+   "Rock",
+   "Ground"
+  ],
+  "how": "starter choice at game start; post-game at Shadow Base or rival's house",
+  "gen8": false
+ },
+ {
+  "nat": 247,
+  "borrius": null,
+  "name": "Pupitar",
+  "form": null,
+  "types": [
+   "Rock",
+   "Ground"
+  ],
+  "how": "evolve Larvitar L30",
+  "gen8": false
+ },
+ {
+  "nat": 248,
+  "borrius": null,
+  "name": "Tyranitar",
+  "form": null,
+  "types": [
+   "Rock",
+   "Dark"
+  ],
+  "how": "evolve Pupitar L55",
+  "gen8": false
+ },
+ {
+  "nat": 249,
+  "borrius": null,
+  "name": "Lugia",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "post-game Ruins of Void lower basement with the three beasts in party",
+  "gen8": false
+ },
+ {
+  "nat": 250,
+  "borrius": null,
+  "name": "Ho-Oh",
+  "form": null,
+  "types": [
+   "Fire",
+   "Flying"
+  ],
+  "how": "post-game Ruins of Void lower basement with the three beasts in party",
+  "gen8": false
+ },
+ {
+  "nat": 251,
+  "borrius": null,
+  "name": "Celebi",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Grass"
+  ],
+  "how": "Redwood Village encounter with Spiky-Eared Pichu in party",
+  "gen8": false
+ },
+ {
+  "nat": 252,
+  "borrius": null,
+  "name": "Treecko",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Safari Zone (easy/medium)",
+  "gen8": false
+ },
+ {
+  "nat": 253,
+  "borrius": null,
+  "name": "Grovyle",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Safari Zone (hard/insane) or evolve Treecko L16",
+  "gen8": false
+ },
+ {
+  "nat": 254,
+  "borrius": null,
+  "name": "Sceptile",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 255,
+  "borrius": null,
+  "name": "Torchic",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Safari Zone (easy/medium)",
+  "gen8": false
+ },
+ {
+  "nat": 256,
+  "borrius": null,
+  "name": "Combusken",
+  "form": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
+  "how": "Safari Zone (hard/insane) or evolve Torchic L16",
+  "gen8": false
+ },
+ {
+  "nat": 257,
+  "borrius": null,
+  "name": "Blaziken",
+  "form": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
+  "how": "evolve L36",
+  "gen8": false,
+  "note": "unboundwiki table type was wrong (Fire/Flying); corrected to PokeAPI/Unbound-Cloud value"
+ },
+ {
+  "nat": 258,
+  "borrius": null,
+  "name": "Mudkip",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Safari Zone (easy/medium)",
+  "gen8": false
+ },
+ {
+  "nat": 259,
+  "borrius": null,
+  "name": "Marshtomp",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "Safari Zone (hard/insane) or evolve Mudkip L16",
+  "gen8": false
+ },
+ {
+  "nat": 260,
+  "borrius": null,
+  "name": "Swampert",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 261,
+  "borrius": 56,
+  "name": "Poochyena",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 262,
+  "borrius": 57,
+  "name": "Mightyena",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "evolve L18",
+  "gen8": false
+ },
+ {
+  "nat": 263,
+  "borrius": 257,
+  "name": "Zigzagoon",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "breed Linoone",
+  "gen8": false
+ },
+ {
+  "nat": 263,
+  "borrius": null,
+  "name": "Zigzagoon",
+  "form": "Galarian",
+  "types": [
+   "Dark",
+   "Normal"
+  ],
+  "how": "breed Galarian Linoone or Obstagoon (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 264,
+  "borrius": 258,
+  "name": "Linoone",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild or evolve Zigzagoon L20",
+  "gen8": false
+ },
+ {
+  "nat": 264,
+  "borrius": null,
+  "name": "Linoone",
+  "form": "Galarian",
+  "types": [
+   "Dark",
+   "Normal"
+  ],
+  "how": "wild (gen8 unlock) or evolve Galarian Zigzagoon L20",
+  "gen8": true
+ },
+ {
+  "nat": 265,
+  "borrius": 428,
+  "name": "Wurmple",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 266,
+  "borrius": 429,
+  "name": "Silcoon",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild or evolve Wurmple L7 (random branch)",
+  "gen8": false
+ },
+ {
+  "nat": 267,
+  "borrius": 430,
+  "name": "Beautifly",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "evolve Silcoon L10",
+  "gen8": false
+ },
+ {
+  "nat": 268,
+  "borrius": 431,
+  "name": "Cascoon",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild or evolve Wurmple L7 (random branch)",
+  "gen8": false
+ },
+ {
+  "nat": 269,
+  "borrius": 432,
+  "name": "Dustox",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "evolve Cascoon L10",
+  "gen8": false,
+  "note": "wiki lists Borrius #422 for both Dustox and Hippopotas; Dustox set to 432 (inferred from sequence 428-431, unverified) | confirmed by ROM v2.1.1.1 Borrius table (0x1A3F398)"
+ },
+ {
+  "nat": 270,
+  "borrius": 251,
+  "name": "Lotad",
+  "form": null,
+  "types": [
+   "Water",
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 271,
+  "borrius": 252,
+  "name": "Lombre",
+  "form": null,
+  "types": [
+   "Water",
+   "Grass"
+  ],
+  "how": "wild / Fallshore gym encounter or evolve Lotad L14",
+  "gen8": false
+ },
+ {
+  "nat": 272,
+  "borrius": 253,
+  "name": "Ludicolo",
+  "form": null,
+  "types": [
+   "Water",
+   "Grass"
+  ],
+  "how": "Water Stone",
+  "gen8": false
+ },
+ {
+  "nat": 273,
+  "borrius": 99,
+  "name": "Seedot",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 274,
+  "borrius": 100,
+  "name": "Nuzleaf",
+  "form": null,
+  "types": [
+   "Grass",
+   "Dark"
+  ],
+  "how": "evolve L14",
+  "gen8": false
+ },
+ {
+  "nat": 275,
+  "borrius": 101,
+  "name": "Shiftry",
+  "form": null,
+  "types": [
+   "Grass",
+   "Dark"
+  ],
+  "how": "Leaf Stone",
+  "gen8": false
+ },
+ {
+  "nat": 276,
+  "borrius": 152,
+  "name": "Taillow",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 277,
+  "borrius": 153,
+  "name": "Swellow",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve L22",
+  "gen8": false
+ },
+ {
+  "nat": 278,
+  "borrius": 58,
+  "name": "Wingull",
+  "form": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 279,
+  "borrius": 59,
+  "name": "Pelipper",
+  "form": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
+  "how": "wild / surf or evolve Wingull L25",
+  "gen8": false
+ },
+ {
+  "nat": 280,
+  "borrius": 129,
+  "name": "Ralts",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 281,
+  "borrius": 130,
+  "name": "Kirlia",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
+  "how": "evolve L20",
+  "gen8": false
+ },
+ {
+  "nat": 282,
+  "borrius": 131,
+  "name": "Gardevoir",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
+  "how": "evolve L30",
+  "gen8": false
+ },
+ {
+  "nat": 283,
+  "borrius": 68,
+  "name": "Surskit",
+  "form": null,
+  "types": [
+   "Bug",
+   "Water"
+  ],
+  "how": "wild / surf",
+  "gen8": false
+ },
+ {
+  "nat": 284,
+  "borrius": 69,
+  "name": "Masquerain",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "surf or evolve Surskit L22",
+  "gen8": false
+ },
+ {
+  "nat": 285,
+  "borrius": 244,
+  "name": "Shroomish",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 286,
+  "borrius": 245,
+  "name": "Breloom",
+  "form": null,
+  "types": [
+   "Grass",
+   "Fighting"
+  ],
+  "how": "evolve L23",
+  "gen8": false
+ },
+ {
+  "nat": 287,
+  "borrius": null,
+  "name": "Slakoth",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "breed Vigoroth",
+  "gen8": false
+ },
+ {
+  "nat": 288,
+  "borrius": null,
+  "name": "Vigoroth",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild or evolve Slakoth L18",
+  "gen8": false
+ },
+ {
+  "nat": 289,
+  "borrius": null,
+  "name": "Slaking",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 290,
+  "borrius": null,
+  "name": "Nincada",
+  "form": null,
+  "types": [
+   "Bug",
+   "Ground"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 291,
+  "borrius": null,
+  "name": "Ninjask",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "evolve Nincada L20",
+  "gen8": false
+ },
+ {
+  "nat": 292,
+  "borrius": null,
+  "name": "Shedinja",
+  "form": null,
+  "types": [
+   "Bug",
+   "Ghost"
+  ],
+  "how": "evolve Nincada L20 with a free party slot and a spare Poke Ball",
+  "gen8": false
+ },
+ {
+  "nat": 293,
+  "borrius": null,
+  "name": "Whismur",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "breed Loudred",
+  "gen8": false
+ },
+ {
+  "nat": 294,
+  "borrius": null,
+  "name": "Loudred",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "cave or evolve Whismur L20",
+  "gen8": false
+ },
+ {
+  "nat": 295,
+  "borrius": null,
+  "name": "Exploud",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve L40",
+  "gen8": false
+ },
+ {
+  "nat": 296,
+  "borrius": 12,
+  "name": "Makuhita",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 297,
+  "borrius": 13,
+  "name": "Hariyama",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "cave or evolve Makuhita L24",
+  "gen8": false
+ },
+ {
+  "nat": 298,
+  "borrius": 45,
+  "name": "Azurill",
+  "form": null,
+  "types": [
+   "Normal",
+   "Fairy"
+  ],
+  "how": "wild; or breed Marill with Sea Incense",
+  "gen8": false
+ },
+ {
+  "nat": 299,
+  "borrius": 179,
+  "name": "Nosepass",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 300,
+  "borrius": null,
+  "name": "Skitty",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Safari Zone (easy)",
+  "gen8": false
+ },
+ {
+  "nat": 301,
+  "borrius": null,
+  "name": "Delcatty",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Moon Stone",
+  "gen8": false
+ },
+ {
+  "nat": 302,
+  "borrius": 384,
+  "name": "Sableye",
+  "form": null,
+  "types": [
+   "Dark",
+   "Ghost"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 303,
+  "borrius": 29,
+  "name": "Mawile",
+  "form": null,
+  "types": [
+   "Steel",
+   "Fairy"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 304,
+  "borrius": 176,
+  "name": "Aron",
+  "form": null,
+  "types": [
+   "Steel",
+   "Rock"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 305,
+  "borrius": 177,
+  "name": "Lairon",
+  "form": null,
+  "types": [
+   "Steel",
+   "Rock"
+  ],
+  "how": "cave or evolve Aron L32",
+  "gen8": false
+ },
+ {
+  "nat": 306,
+  "borrius": 178,
+  "name": "Aggron",
+  "form": null,
+  "types": [
+   "Steel",
+   "Rock"
+  ],
+  "how": "evolve L42",
+  "gen8": false
+ },
+ {
+  "nat": 307,
+  "borrius": 271,
+  "name": "Meditite",
+  "form": null,
+  "types": [
+   "Fighting",
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 308,
+  "borrius": 272,
+  "name": "Medicham",
+  "form": null,
+  "types": [
+   "Fighting",
+   "Psychic"
+  ],
+  "how": "evolve L37",
+  "gen8": false
+ },
+ {
+  "nat": 309,
+  "borrius": 43,
+  "name": "Electrike",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 310,
+  "borrius": 44,
+  "name": "Manectric",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "evolve L26",
+  "gen8": false
+ },
+ {
+  "nat": 311,
+  "borrius": null,
+  "name": "Plusle",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Safari Zone (easy)",
+  "gen8": false
+ },
+ {
+  "nat": 312,
+  "borrius": null,
+  "name": "Minun",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Safari Zone (easy)",
+  "gen8": false
+ },
+ {
+  "nat": 313,
+  "borrius": 475,
+  "name": "Volbeat",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 314,
+  "borrius": 476,
+  "name": "Illumise",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 315,
+  "borrius": 121,
+  "name": "Roselia",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "yellow flowers / grass or evolve Budew (friendship)",
+  "gen8": false,
+  "note": "Borrius 121 per ROM v2.1.1.1 Borrius table (0x1A3F398); wiki table had it empty (Roserade was listed at 121)"
+ },
+ {
+  "nat": 316,
+  "borrius": 273,
+  "name": "Gulpin",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild; or breed Swalot",
+  "gen8": false
+ },
+ {
+  "nat": 317,
+  "borrius": 274,
+  "name": "Swalot",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "evolve L26",
+  "gen8": false
+ },
+ {
+  "nat": 318,
+  "borrius": 290,
+  "name": "Carvanha",
+  "form": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 319,
+  "borrius": 291,
+  "name": "Sharpedo",
+  "form": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
+  "how": "super rod / underwater or evolve Carvanha L30",
+  "gen8": false
+ },
+ {
+  "nat": 320,
+  "borrius": 353,
+  "name": "Wailmer",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 321,
+  "borrius": 354,
+  "name": "Wailord",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "super rod or evolve Wailmer L40",
+  "gen8": false
+ },
+ {
+  "nat": 322,
+  "borrius": 125,
+  "name": "Numel",
+  "form": null,
+  "types": [
+   "Fire",
+   "Ground"
+  ],
+  "how": "wild / cave",
+  "gen8": false
+ },
+ {
+  "nat": 323,
+  "borrius": 126,
+  "name": "Camerupt",
+  "form": null,
+  "types": [
+   "Fire",
+   "Ground"
+  ],
+  "how": "Shadow Base / cave or evolve Numel L33",
+  "gen8": false
+ },
+ {
+  "nat": 324,
+  "borrius": 145,
+  "name": "Torkoal",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 325,
+  "borrius": 269,
+  "name": "Spoink",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 326,
+  "borrius": 270,
+  "name": "Grumpig",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve L32",
+  "gen8": false
+ },
+ {
+  "nat": 327,
+  "borrius": null,
+  "name": "Spinda",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Safari Zone (medium/hard)",
+  "gen8": false
+ },
+ {
+  "nat": 328,
+  "borrius": 424,
+  "name": "Trapinch",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "breed Vibrava; or Magnolia Cafe egg lady",
+  "gen8": false
+ },
+ {
+  "nat": 329,
+  "borrius": 425,
+  "name": "Vibrava",
+  "form": null,
+  "types": [
+   "Ground",
+   "Dragon"
+  ],
+  "how": "wild or evolve Trapinch L35",
+  "gen8": false
+ },
+ {
+  "nat": 330,
+  "borrius": 426,
+  "name": "Flygon",
+  "form": null,
+  "types": [
+   "Ground",
+   "Dragon"
+  ],
+  "how": "evolve L45",
+  "gen8": false
+ },
+ {
+  "nat": 331,
+  "borrius": 418,
+  "name": "Cacnea",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "breed Cacturne; or Magnolia Cafe egg lady",
+  "gen8": false,
+  "note": "Borrius 418 per ROM v2.1.1.1 Borrius table (0x1A3F398); missing in wiki table"
+ },
+ {
+  "nat": 332,
+  "borrius": 419,
+  "name": "Cacturne",
+  "form": null,
+  "types": [
+   "Grass",
+   "Dark"
+  ],
+  "how": "wild or evolve Cacnea L32",
+  "gen8": false,
+  "note": "Borrius 419 per ROM v2.1.1.1 Borrius table (0x1A3F398); missing in wiki table"
+ },
+ {
+  "nat": 333,
+  "borrius": 266,
+  "name": "Swablu",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 334,
+  "borrius": 267,
+  "name": "Altaria",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
+  "how": "evolve L35",
+  "gen8": false
+ },
+ {
+  "nat": 335,
+  "borrius": 470,
+  "name": "Zangoose",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 336,
+  "borrius": 471,
+  "name": "Seviper",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 337,
+  "borrius": 385,
+  "name": "Lunatone",
+  "form": null,
+  "types": [
+   "Rock",
+   "Psychic"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 338,
+  "borrius": 386,
+  "name": "Solrock",
+  "form": null,
+  "types": [
+   "Rock",
+   "Psychic"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 339,
+  "borrius": 293,
+  "name": "Barboach",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 340,
+  "borrius": 294,
+  "name": "Whiscash",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "super rod or evolve Barboach L30",
+  "gen8": false
+ },
+ {
+  "nat": 341,
+  "borrius": 283,
+  "name": "Corphish",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 342,
+  "borrius": 284,
+  "name": "Crawdaunt",
+  "form": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
+  "how": "super rod or evolve Corphish L30",
+  "gen8": false
+ },
+ {
+  "nat": 343,
+  "borrius": 380,
+  "name": "Baltoy",
+  "form": null,
+  "types": [
+   "Ground",
+   "Psychic"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 344,
+  "borrius": 381,
+  "name": "Claydol",
+  "form": null,
+  "types": [
+   "Ground",
+   "Psychic"
+  ],
+  "how": "cave or evolve Baltoy L36",
+  "gen8": false
+ },
+ {
+  "nat": 345,
+  "borrius": null,
+  "name": "Lileep",
+  "form": null,
+  "types": [
+   "Rock",
+   "Grass"
+  ],
+  "how": "Root Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 346,
+  "borrius": null,
+  "name": "Cradily",
+  "form": null,
+  "types": [
+   "Rock",
+   "Grass"
+  ],
+  "how": "evolve L40",
+  "gen8": false
+ },
+ {
+  "nat": 347,
+  "borrius": null,
+  "name": "Anorith",
+  "form": null,
+  "types": [
+   "Rock",
+   "Bug"
+  ],
+  "how": "Claw Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 348,
+  "borrius": null,
+  "name": "Armaldo",
+  "form": null,
+  "types": [
+   "Rock",
+   "Bug"
+  ],
+  "how": "evolve L40",
+  "gen8": false
+ },
+ {
+  "nat": 349,
+  "borrius": null,
+  "name": "Feebas",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "mission #22 reward",
+  "gen8": false
+ },
+ {
+  "nat": 350,
+  "borrius": null,
+  "name": "Milotic",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Prism Scale",
+  "gen8": false
+ },
+ {
+  "nat": 351,
+  "borrius": null,
+  "name": "Castform",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "gift at Seaport boathouse (needs all weather TMs and Defog)",
+  "gen8": false
+ },
+ {
+  "nat": 352,
+  "borrius": null,
+  "name": "Kecleon",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "encounter that needs the Devon Scope",
+  "gen8": false
+ },
+ {
+  "nat": 353,
+  "borrius": 107,
+  "name": "Shuppet",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 354,
+  "borrius": 108,
+  "name": "Banette",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "evolve L37",
+  "gen8": false
+ },
+ {
+  "nat": 355,
+  "borrius": 109,
+  "name": "Duskull",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "wild / cave",
+  "gen8": false
+ },
+ {
+  "nat": 356,
+  "borrius": 110,
+  "name": "Dusclops",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "wild or evolve Duskull L37",
+  "gen8": false
+ },
+ {
+  "nat": 357,
+  "borrius": 466,
+  "name": "Tropius",
+  "form": null,
+  "types": [
+   "Grass",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 358,
+  "borrius": 376,
+  "name": "Chimecho",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "cave or evolve Chingling (friendship, night)",
+  "gen8": false,
+  "note": "Borrius 376 per ROM v2.1.1.1 Borrius table (0x1A3F398); wiki table had it empty (Stunky was listed at 376)"
+ },
+ {
+  "nat": 359,
+  "borrius": null,
+  "name": "Absol",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "Crystal Peak exterior",
+  "gen8": false
+ },
+ {
+  "nat": 360,
+  "borrius": null,
+  "name": "Wynaut",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "breed Wobbuffet with Lax Incense",
+  "gen8": false
+ },
+ {
+  "nat": 361,
+  "borrius": 1,
+  "name": "Snorunt",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 362,
+  "borrius": 2,
+  "name": "Glalie",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "wild or evolve Snorunt L42",
+  "gen8": false
+ },
+ {
+  "nat": 363,
+  "borrius": 14,
+  "name": "Spheal",
+  "form": null,
+  "types": [
+   "Ice",
+   "Water"
+  ],
+  "how": "cave / surf",
+  "gen8": false
+ },
+ {
+  "nat": 364,
+  "borrius": 15,
+  "name": "Sealeo",
+  "form": null,
+  "types": [
+   "Ice",
+   "Water"
+  ],
+  "how": "wild / surf or evolve Spheal L32",
+  "gen8": false
+ },
+ {
+  "nat": 365,
+  "borrius": 16,
+  "name": "Walrein",
+  "form": null,
+  "types": [
+   "Ice",
+   "Water"
+  ],
+  "how": "evolve L44",
+  "gen8": false
+ },
+ {
+  "nat": 366,
+  "borrius": 477,
+  "name": "Clamperl",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "underwater",
+  "gen8": false
+ },
+ {
+  "nat": 367,
+  "borrius": 478,
+  "name": "Huntail",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Deep Sea Tooth",
+  "gen8": false
+ },
+ {
+  "nat": 368,
+  "borrius": 479,
+  "name": "Gorebyss",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Deep Sea Scale",
+  "gen8": false
+ },
+ {
+  "nat": 369,
+  "borrius": 480,
+  "name": "Relicanth",
+  "form": null,
+  "types": [
+   "Water",
+   "Rock"
+  ],
+  "how": "underwater",
+  "gen8": false
+ },
+ {
+  "nat": 370,
+  "borrius": 292,
+  "name": "Luvdisc",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good/super rod",
+  "gen8": false
+ },
+ {
+  "nat": 371,
+  "borrius": 472,
+  "name": "Bagon",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 372,
+  "borrius": 473,
+  "name": "Shelgon",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "evolve L30",
+  "gen8": false
+ },
+ {
+  "nat": 373,
+  "borrius": 474,
+  "name": "Salamence",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
+  "how": "evolve L50",
+  "gen8": false
+ },
+ {
+  "nat": 374,
+  "borrius": null,
+  "name": "Beldum",
+  "form": null,
+  "types": [
+   "Steel",
+   "Psychic"
+  ],
+  "how": "starter choice at game start; post-game at Shadow Base or rival's house",
+  "gen8": false
+ },
+ {
+  "nat": 375,
+  "borrius": null,
+  "name": "Metang",
+  "form": null,
+  "types": [
+   "Steel",
+   "Psychic"
+  ],
+  "how": "evolve L20",
+  "gen8": false
+ },
+ {
+  "nat": 376,
+  "borrius": null,
+  "name": "Metagross",
+  "form": null,
+  "types": [
+   "Steel",
+   "Psychic"
+  ],
+  "how": "evolve L45",
+  "gen8": false
+ },
+ {
+  "nat": 377,
+  "borrius": 486,
+  "name": "Regirock",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "static encounter after mission #76",
+  "gen8": false
+ },
+ {
+  "nat": 378,
+  "borrius": 487,
+  "name": "Regice",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "static encounter after mission #76",
+  "gen8": false
+ },
+ {
+  "nat": 379,
+  "borrius": 488,
+  "name": "Registeel",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "static encounter after mission #76",
+  "gen8": false
+ },
+ {
+  "nat": 380,
+  "borrius": null,
+  "name": "Latias",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Psychic"
+  ],
+  "how": "mission reward (see wiki for gender-specific variants)",
+  "gen8": false
+ },
+ {
+  "nat": 381,
+  "borrius": null,
+  "name": "Latios",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Psychic"
+  ],
+  "how": "mission reward (see wiki for gender-specific variants)",
+  "gen8": false
+ },
+ {
+  "nat": 382,
+  "borrius": null,
+  "name": "Kyogre",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "bring Blue Orb to the underwater section",
+  "gen8": false
+ },
+ {
+  "nat": 383,
+  "borrius": null,
+  "name": "Groudon",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "bring Red Orb to the Groudon chamber (Shadow Base)",
+  "gen8": false
+ },
+ {
+  "nat": 384,
+  "borrius": null,
+  "name": "Rayquaza",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Flying"
+  ],
+  "how": "bring Jade Orb to the summit",
+  "gen8": false
+ },
+ {
+  "nat": 385,
+  "borrius": 490,
+  "name": "Jirachi",
+  "form": null,
+  "types": [
+   "Steel",
+   "Psychic"
+  ],
+  "how": "post-champion gift in Crater Town (old man, west house)",
+  "gen8": false
+ },
+ {
+  "nat": 386,
+  "borrius": 491,
+  "name": "Deoxys",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "Deoxys crater on path from Route 5 to Route 13",
+  "gen8": false,
+  "note": "unboundwiki table type was wrong (Water); corrected to PokeAPI/Unbound-Cloud value"
+ },
+ {
+  "nat": 387,
+  "borrius": null,
+  "name": "Turtwig",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Sinnoh Starter House in Dehara City (1st free, 2nd at 6 badges, 3rd at 8)",
+  "gen8": false
+ },
+ {
+  "nat": 388,
+  "borrius": null,
+  "name": "Grotle",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L18",
+  "gen8": false
+ },
+ {
+  "nat": 389,
+  "borrius": null,
+  "name": "Torterra",
+  "form": null,
+  "types": [
+   "Grass",
+   "Ground"
+  ],
+  "how": "evolve L32",
+  "gen8": false
+ },
+ {
+  "nat": 390,
+  "borrius": null,
+  "name": "Chimchar",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Sinnoh Starter House in Dehara City (1st free, 2nd at 6 badges, 3rd at 8)",
+  "gen8": false
+ },
+ {
+  "nat": 391,
+  "borrius": null,
+  "name": "Monferno",
+  "form": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
+  "how": "evolve L14",
+  "gen8": false
+ },
+ {
+  "nat": 392,
+  "borrius": null,
+  "name": "Infernape",
+  "form": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 393,
+  "borrius": null,
+  "name": "Piplup",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Sinnoh Starter House in Dehara City (1st free, 2nd at 6 badges, 3rd at 8)",
+  "gen8": false
+ },
+ {
+  "nat": 394,
+  "borrius": null,
+  "name": "Prinplup",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve L16",
+  "gen8": false
+ },
+ {
+  "nat": 395,
+  "borrius": null,
+  "name": "Empoleon",
+  "form": null,
+  "types": [
+   "Water",
+   "Steel"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 396,
+  "borrius": 114,
+  "name": "Starly",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 397,
+  "borrius": 115,
+  "name": "Staravia",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve L14",
+  "gen8": false
+ },
+ {
+  "nat": 398,
+  "borrius": 116,
+  "name": "Staraptor",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve L34",
+  "gen8": false
+ },
+ {
+  "nat": 399,
+  "borrius": 60,
+  "name": "Bidoof",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 400,
+  "borrius": 61,
+  "name": "Bibarel",
+  "form": null,
+  "types": [
+   "Normal",
+   "Water"
+  ],
+  "how": "wild or evolve Bidoof L15",
+  "gen8": false
+ },
+ {
+  "nat": 401,
+  "borrius": 202,
+  "name": "Kricketot",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 402,
+  "borrius": 203,
+  "name": "Kricketune",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "evolve L10",
+  "gen8": false
+ },
+ {
+  "nat": 403,
+  "borrius": 195,
+  "name": "Shinx",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 404,
+  "borrius": 196,
+  "name": "Luxio",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "wild or evolve Shinx L15",
+  "gen8": false
+ },
+ {
+  "nat": 405,
+  "borrius": 197,
+  "name": "Luxray",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "evolve L30",
+  "gen8": false
+ },
+ {
+  "nat": 406,
+  "borrius": 120,
+  "name": "Budew",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "wild; or breed Roselia with Rose Incense",
+  "gen8": false
+ },
+ {
+  "nat": 407,
+  "borrius": 122,
+  "name": "Roserade",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "Shiny Stone",
+  "gen8": false,
+  "note": "Borrius 122 per ROM v2.1.1.1 Borrius table (0x1A3F398); wiki table had 121 (Roselia is 121)"
+ },
+ {
+  "nat": 408,
+  "borrius": null,
+  "name": "Cranidos",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "Skull Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 409,
+  "borrius": null,
+  "name": "Rampardos",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "evolve L30",
+  "gen8": false
+ },
+ {
+  "nat": 410,
+  "borrius": null,
+  "name": "Shieldon",
+  "form": null,
+  "types": [
+   "Rock",
+   "Steel"
+  ],
+  "how": "Armor Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 411,
+  "borrius": null,
+  "name": "Bastiodon",
+  "form": null,
+  "types": [
+   "Rock",
+   "Steel"
+  ],
+  "how": "evolve L30",
+  "gen8": false
+ },
+ {
+  "nat": 412,
+  "borrius": 133,
+  "name": "Burmy",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "swarm (all cloaks)",
+  "gen8": false
+ },
+ {
+  "nat": 413,
+  "borrius": 134,
+  "name": "Wormadam",
+  "form": "Plant Cloak",
+  "types": [
+   "Bug",
+   "Grass"
+  ],
+  "how": "evolve female Burmy L20",
+  "gen8": false
+ },
+ {
+  "nat": 413,
+  "borrius": 134,
+  "name": "Wormadam",
+  "form": "Sandy Cloak",
+  "types": [
+   "Bug",
+   "Ground"
+  ],
+  "how": "evolve female Burmy L20 (cloak from where Burmy last battled)",
+  "gen8": false
+ },
+ {
+  "nat": 413,
+  "borrius": 134,
+  "name": "Wormadam",
+  "form": "Trash Cloak",
+  "types": [
+   "Bug",
+   "Steel"
+  ],
+  "how": "evolve female Burmy L20 (cloak from where Burmy last battled)",
+  "gen8": false
+ },
+ {
+  "nat": 414,
+  "borrius": 135,
+  "name": "Mothim",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "evolve male Burmy L20",
+  "gen8": false
+ },
+ {
+  "nat": 415,
+  "borrius": 90,
+  "name": "Combee",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "any flower",
+  "gen8": false
+ },
+ {
+  "nat": 416,
+  "borrius": 91,
+  "name": "Vespiquen",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "evolve female Combee L21",
+  "gen8": false
+ },
+ {
+  "nat": 417,
+  "borrius": null,
+  "name": "Pachirisu",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "trade at Tarmigan Town for a Manectric",
+  "gen8": false
+ },
+ {
+  "nat": 418,
+  "borrius": 62,
+  "name": "Buizel",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 419,
+  "borrius": 63,
+  "name": "Floatzel",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild / surf or evolve Buizel L26",
+  "gen8": false
+ },
+ {
+  "nat": 420,
+  "borrius": 72,
+  "name": "Cherubi",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 421,
+  "borrius": 73,
+  "name": "Cherrim",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L25",
+  "gen8": false
+ },
+ {
+  "nat": 422,
+  "borrius": 64,
+  "name": "Shellos",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild (West Sea form); East Sea form by breeding Gastrodon",
+  "gen8": false
+ },
+ {
+  "nat": 423,
+  "borrius": 65,
+  "name": "Gastrodon",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "wild West Sea / surf East Sea or evolve Shellos L30",
+  "gen8": false,
+  "note": "unboundwiki table type was wrong (Water); corrected to PokeAPI/Unbound-Cloud value"
+ },
+ {
+  "nat": 424,
+  "borrius": null,
+  "name": "Ambipom",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve Aipom while knowing Double Hit",
+  "gen8": false
+ },
+ {
+  "nat": 425,
+  "borrius": null,
+  "name": "Drifloon",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Flying"
+  ],
+  "how": "breed Drifblim",
+  "gen8": false
+ },
+ {
+  "nat": 426,
+  "borrius": null,
+  "name": "Drifblim",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Flying"
+  ],
+  "how": "Crystal Peak exterior or evolve Drifloon L28",
+  "gen8": false
+ },
+ {
+  "nat": 427,
+  "borrius": 209,
+  "name": "Buneary",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 428,
+  "borrius": 210,
+  "name": "Lopunny",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve Buneary (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 429,
+  "borrius": 324,
+  "name": "Mismagius",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "Dusk Stone on Misdreavus",
+  "gen8": false
+ },
+ {
+  "nat": 430,
+  "borrius": 155,
+  "name": "Honchkrow",
+  "form": null,
+  "types": [
+   "Dark",
+   "Flying"
+  ],
+  "how": "Dusk Stone on Murkrow",
+  "gen8": false
+ },
+ {
+  "nat": 431,
+  "borrius": 275,
+  "name": "Glameow",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Bellin Town gentleman gift (1 of 3 random) / Route 11 swarm",
+  "gen8": false
+ },
+ {
+  "nat": 432,
+  "borrius": 276,
+  "name": "Purugly",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve L34",
+  "gen8": false
+ },
+ {
+  "nat": 433,
+  "borrius": 375,
+  "name": "Chingling",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "breed Chimecho with Pure Incense",
+  "gen8": false
+ },
+ {
+  "nat": 434,
+  "borrius": null,
+  "name": "Stunky",
+  "form": null,
+  "types": [
+   "Poison",
+   "Dark"
+  ],
+  "how": "Bellin Town gentleman gift (1 of 3 random); or breed Skuntank",
+  "gen8": false,
+  "note": "No Borrius number per ROM v2.1.1.1 Borrius table (0x1A3F398) (not in the table); wiki table wrongly had 376"
+ },
+ {
+  "nat": 435,
+  "borrius": null,
+  "name": "Skuntank",
+  "form": null,
+  "types": [
+   "Poison",
+   "Dark"
+  ],
+  "how": "wild or evolve Stunky L34",
+  "gen8": false,
+  "note": "No Borrius number per ROM v2.1.1.1 Borrius table (0x1A3F398) (confirmed absent; Stunky line is not in the Borrius dex)"
+ },
+ {
+  "nat": 436,
+  "borrius": 225,
+  "name": "Bronzor",
+  "form": null,
+  "types": [
+   "Steel",
+   "Psychic"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 437,
+  "borrius": 226,
+  "name": "Bronzong",
+  "form": null,
+  "types": [
+   "Steel",
+   "Psychic"
+  ],
+  "how": "cave or evolve Bronzor L33",
+  "gen8": false
+ },
+ {
+  "nat": 438,
+  "borrius": null,
+  "name": "Bonsly",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "breed Sudowoodo with Rock Incense",
+  "gen8": false
+ },
+ {
+  "nat": 439,
+  "borrius": 221,
+  "name": "Mime Jr.",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
+  "how": "breed Mr. Mime with Odd Incense",
+  "gen8": false
+ },
+ {
+  "nat": 440,
+  "borrius": null,
+  "name": "Happiny",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild; or breed Chansey with Luck Incense",
+  "gen8": false
+ },
+ {
+  "nat": 441,
+  "borrius": 456,
+  "name": "Chatot",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 442,
+  "borrius": null,
+  "name": "Spiritomb",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Dark"
+  ],
+  "how": "gift from old lady in Gurun Town Pokemon Center (needs Odd Keystone)",
+  "gen8": false
+ },
+ {
+  "nat": 443,
+  "borrius": null,
+  "name": "Gible",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Ground"
+  ],
+  "how": "starter choice at game start; post-game at Shadow Base or rival's house",
+  "gen8": false
+ },
+ {
+  "nat": 444,
+  "borrius": null,
+  "name": "Gabite",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Ground"
+  ],
+  "how": "evolve L24",
+  "gen8": false
+ },
+ {
+  "nat": 445,
+  "borrius": null,
+  "name": "Garchomp",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Ground"
+  ],
+  "how": "evolve L48",
+  "gen8": false
+ },
+ {
+  "nat": 446,
+  "borrius": null,
+  "name": "Munchlax",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "breed Snorlax with Full Incense",
+  "gen8": false
+ },
+ {
+  "nat": 447,
+  "borrius": 52,
+  "name": "Riolu",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 448,
+  "borrius": 53,
+  "name": "Lucario",
+  "form": null,
+  "types": [
+   "Fighting",
+   "Steel"
+  ],
+  "how": "evolve Riolu (friendship, day)",
+  "gen8": false
+ },
+ {
+  "nat": 449,
+  "borrius": 422,
+  "name": "Hippopotas",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "breed Hippowdon; or Magnolia Cafe egg lady",
+  "gen8": false,
+  "note": "Borrius #422 per wiki (Dustox had the same number in the table)"
+ },
+ {
+  "nat": 450,
+  "borrius": 423,
+  "name": "Hippowdon",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild or evolve Hippopotas L34",
+  "gen8": false
+ },
+ {
+  "nat": 451,
+  "borrius": 246,
+  "name": "Skorupi",
+  "form": null,
+  "types": [
+   "Poison",
+   "Bug"
+  ],
+  "how": "Bellin Town gentleman gift (1 of 3 random) / wild",
+  "gen8": false
+ },
+ {
+  "nat": 452,
+  "borrius": 247,
+  "name": "Drapion",
+  "form": null,
+  "types": [
+   "Poison",
+   "Dark"
+  ],
+  "how": "wild or evolve Skorupi L40",
+  "gen8": false
+ },
+ {
+  "nat": 453,
+  "borrius": null,
+  "name": "Croagunk",
+  "form": null,
+  "types": [
+   "Poison",
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 454,
+  "borrius": null,
+  "name": "Toxicroak",
+  "form": null,
+  "types": [
+   "Poison",
+   "Fighting"
+  ],
+  "how": "wild or evolve Croagunk L37",
+  "gen8": false
+ },
+ {
+  "nat": 455,
+  "borrius": null,
+  "name": "Carnivine",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 456,
+  "borrius": 395,
+  "name": "Finneon",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 457,
+  "borrius": 396,
+  "name": "Lumineon",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "surf / super rod or evolve Finneon L31",
+  "gen8": false
+ },
+ {
+  "nat": 458,
+  "borrius": 392,
+  "name": "Mantyke",
+  "form": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
+  "how": "surf; or breed Mantine with Wave Incense",
+  "gen8": false
+ },
+ {
+  "nat": 459,
+  "borrius": 232,
+  "name": "Snover",
+  "form": null,
+  "types": [
+   "Grass",
+   "Ice"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 460,
+  "borrius": 233,
+  "name": "Abomasnow",
+  "form": null,
+  "types": [
+   "Grass",
+   "Ice"
+  ],
+  "how": "wild or evolve Snover L40",
+  "gen8": false
+ },
+ {
+  "nat": 461,
+  "borrius": 230,
+  "name": "Weavile",
+  "form": null,
+  "types": [
+   "Dark",
+   "Ice"
+  ],
+  "how": "Sneasel levelled holding Razor Claw at night",
+  "gen8": false
+ },
+ {
+  "nat": 462,
+  "borrius": 297,
+  "name": "Magnezone",
+  "form": null,
+  "types": [
+   "Electric",
+   "Steel"
+  ],
+  "how": "Thunder Stone, or level up in Thundercap Mountain",
+  "gen8": false
+ },
+ {
+  "nat": 463,
+  "borrius": 157,
+  "name": "Lickilicky",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Lickitung levelled while knowing Rollout",
+  "gen8": false
+ },
+ {
+  "nat": 464,
+  "borrius": null,
+  "name": "Rhyperior",
+  "form": null,
+  "types": [
+   "Ground",
+   "Rock"
+  ],
+  "how": "Protector on Rhydon",
+  "gen8": false
+ },
+ {
+  "nat": 465,
+  "borrius": 450,
+  "name": "Tangrowth",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Tangela levelled while knowing Ancient Power",
+  "gen8": false
+ },
+ {
+  "nat": 466,
+  "borrius": 305,
+  "name": "Electivire",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Electirizer on Electabuzz",
+  "gen8": false
+ },
+ {
+  "nat": 467,
+  "borrius": 148,
+  "name": "Magmortar",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Magmarizer on Magmar",
+  "gen8": false
+ },
+ {
+  "nat": 468,
+  "borrius": null,
+  "name": "Togekiss",
+  "form": null,
+  "types": [
+   "Fairy",
+   "Flying"
+  ],
+  "how": "Shiny Stone on Togetic",
+  "gen8": false
+ },
+ {
+  "nat": 469,
+  "borrius": 169,
+  "name": "Yanmega",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "Yanma levelled while knowing Ancient Power",
+  "gen8": false
+ },
+ {
+  "nat": 470,
+  "borrius": 361,
+  "name": "Leafeon",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Leaf Stone on Eevee",
+  "gen8": false
+ },
+ {
+  "nat": 471,
+  "borrius": 362,
+  "name": "Glaceon",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "Ice Stone on Eevee",
+  "gen8": false
+ },
+ {
+  "nat": 472,
+  "borrius": 187,
+  "name": "Gliscor",
+  "form": null,
+  "types": [
+   "Ground",
+   "Flying"
+  ],
+  "how": "Gligar levelled holding Razor Fang at night",
+  "gen8": false
+ },
+ {
+  "nat": 473,
+  "borrius": 24,
+  "name": "Mamoswine",
+  "form": null,
+  "types": [
+   "Ice",
+   "Ground"
+  ],
+  "how": "Piloswine levelled while knowing Ancient Power",
+  "gen8": false
+ },
+ {
+  "nat": 474,
+  "borrius": 369,
+  "name": "Porygon-Z",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Dubious Disc on Porygon2",
+  "gen8": false
+ },
+ {
+  "nat": 475,
+  "borrius": 132,
+  "name": "Gallade",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fighting"
+  ],
+  "how": "Dawn Stone on male Kirlia",
+  "gen8": false
+ },
+ {
+  "nat": 476,
+  "borrius": 180,
+  "name": "Probopass",
+  "form": null,
+  "types": [
+   "Rock",
+   "Steel"
+  ],
+  "how": "Thunder Stone on Nosepass, or level up in Thundercap Mountain",
+  "gen8": false
+ },
+ {
+  "nat": 477,
+  "borrius": 111,
+  "name": "Dusknoir",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "Reaper Cloth on Dusclops",
+  "gen8": false
+ },
+ {
+  "nat": 478,
+  "borrius": 3,
+  "name": "Froslass",
+  "form": null,
+  "types": [
+   "Ice",
+   "Ghost"
+  ],
+  "how": "Dawn Stone on female Snorunt",
+  "gen8": false
+ },
+ {
+  "nat": 479,
+  "borrius": null,
+  "name": "Rotom",
+  "form": null,
+  "types": [
+   "Electric",
+   "Ghost"
+  ],
+  "how": "mission #77 reward",
+  "gen8": false
+ },
+ {
+  "nat": 480,
+  "borrius": null,
+  "name": "Uxie",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "static during mission #27",
+  "gen8": false
+ },
+ {
+  "nat": 481,
+  "borrius": null,
+  "name": "Mesprit",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "static during mission #27",
+  "gen8": false
+ },
+ {
+  "nat": 482,
+  "borrius": null,
+  "name": "Azelf",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "static during mission #27",
+  "gen8": false
+ },
+ {
+  "nat": 483,
+  "borrius": null,
+  "name": "Dialga",
+  "form": null,
+  "types": [
+   "Steel",
+   "Dragon"
+  ],
+  "how": "mission #27 with the three lake spirits in party",
+  "gen8": false
+ },
+ {
+  "nat": 484,
+  "borrius": null,
+  "name": "Palkia",
+  "form": null,
+  "types": [
+   "Water",
+   "Dragon"
+  ],
+  "how": "during mission #4",
+  "gen8": false
+ },
+ {
+  "nat": 485,
+  "borrius": 492,
+  "name": "Heatran",
+  "form": null,
+  "types": [
+   "Fire",
+   "Steel"
+  ],
+  "how": "bring Lava Orb to the 1F lava pool",
+  "gen8": false
+ },
+ {
+  "nat": 486,
+  "borrius": 489,
+  "name": "Regigigas",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "with the three Regis in party",
+  "gen8": false
+ },
+ {
+  "nat": 487,
+  "borrius": null,
+  "name": "Giratina",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Dragon"
+  ],
+  "how": "static encounter",
+  "gen8": false
+ },
+ {
+  "nat": 488,
+  "borrius": null,
+  "name": "Cresselia",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "during mission #66",
+  "gen8": false
+ },
+ {
+  "nat": 489,
+  "borrius": null,
+  "name": "Phione",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "breed Manaphy",
+  "gen8": false
+ },
+ {
+  "nat": 490,
+  "borrius": null,
+  "name": "Manaphy",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "underwater egg after the tablet puzzle in mission #7",
+  "gen8": false
+ },
+ {
+  "nat": 491,
+  "borrius": null,
+  "name": "Darkrai",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "after mission #66",
+  "gen8": false
+ },
+ {
+  "nat": 492,
+  "borrius": 493,
+  "name": "Shaymin",
+  "form": "Land Forme",
+  "types": [
+   "Grass"
+  ],
+  "how": "Flower Paradise encounter",
+  "gen8": false
+ },
+ {
+  "nat": 492,
+  "borrius": 493,
+  "name": "Shaymin",
+  "form": "Sky Forme",
+  "types": [
+   "Grass",
+   "Flying"
+  ],
+  "how": "forme change item",
+  "gen8": false
+ },
+ {
+  "nat": 493,
+  "borrius": null,
+  "name": "Arceus",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Dream Research Lab with all Plates collected",
+  "gen8": false
+ },
+ {
+  "nat": 494,
+  "borrius": null,
+  "name": "Victini",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fire"
+  ],
+  "how": "mission #25 reward",
+  "gen8": false
+ },
+ {
+  "nat": 495,
+  "borrius": null,
+  "name": "Snivy",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Unovan Starter House on Route 5 (1st free, 2nd at 4 badges, 3rd at 7)",
+  "gen8": false
+ },
+ {
+  "nat": 496,
+  "borrius": null,
+  "name": "Servine",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L17",
+  "gen8": false
+ },
+ {
+  "nat": 497,
+  "borrius": null,
+  "name": "Serperior",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 498,
+  "borrius": null,
+  "name": "Tepig",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Unovan Starter House on Route 5 (1st free, 2nd at 4 badges, 3rd at 7)",
+  "gen8": false
+ },
+ {
+  "nat": 499,
+  "borrius": null,
+  "name": "Pignite",
+  "form": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
+  "how": "evolve L17",
+  "gen8": false
+ },
+ {
+  "nat": 500,
+  "borrius": null,
+  "name": "Emboar",
+  "form": null,
+  "types": [
+   "Fire",
+   "Fighting"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 501,
+  "borrius": null,
+  "name": "Oshawott",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Unovan Starter House on Route 5 (1st free, 2nd at 4 badges, 3rd at 7)",
+  "gen8": false
+ },
+ {
+  "nat": 502,
+  "borrius": null,
+  "name": "Dewott",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve L17",
+  "gen8": false
+ },
+ {
+  "nat": 503,
+  "borrius": null,
+  "name": "Samurott",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 503,
+  "borrius": null,
+  "name": "Samurott",
+  "form": "Hisuian",
+  "types": [
+   "Water",
+   "Dark"
+  ],
+  "how": "evolve Dewott L36 holding Hisui Rock",
+  "gen8": true
+ },
+ {
+  "nat": 504,
+  "borrius": 37,
+  "name": "Patrat",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 505,
+  "borrius": 38,
+  "name": "Watchog",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve L20",
+  "gen8": false
+ },
+ {
+  "nat": 506,
+  "borrius": 117,
+  "name": "Lillipup",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 507,
+  "borrius": 118,
+  "name": "Herdier",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve L16",
+  "gen8": false
+ },
+ {
+  "nat": 508,
+  "borrius": 119,
+  "name": "Stoutland",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve L32",
+  "gen8": false
+ },
+ {
+  "nat": 509,
+  "borrius": 172,
+  "name": "Purrloin",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 510,
+  "borrius": 173,
+  "name": "Liepard",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "evolve L20",
+  "gen8": false
+ },
+ {
+  "nat": 511,
+  "borrius": 84,
+  "name": "Pansage",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "pink flowers",
+  "gen8": false
+ },
+ {
+  "nat": 512,
+  "borrius": 85,
+  "name": "Simisage",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Leaf Stone",
+  "gen8": false
+ },
+ {
+  "nat": 513,
+  "borrius": 86,
+  "name": "Pansear",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "red flowers",
+  "gen8": false
+ },
+ {
+  "nat": 514,
+  "borrius": 87,
+  "name": "Simisear",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Fire Stone",
+  "gen8": false
+ },
+ {
+  "nat": 515,
+  "borrius": 88,
+  "name": "Panpour",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "blue flowers",
+  "gen8": false
+ },
+ {
+  "nat": 516,
+  "borrius": 89,
+  "name": "Simipour",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Water Stone",
+  "gen8": false
+ },
+ {
+  "nat": 517,
+  "borrius": null,
+  "name": "Munna",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "raid den; or breed Musharna",
+  "gen8": false
+ },
+ {
+  "nat": 518,
+  "borrius": null,
+  "name": "Musharna",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "raid den or Moon Stone on Munna",
+  "gen8": false
+ },
+ {
+  "nat": 519,
+  "borrius": null,
+  "name": "Pidove",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "breed Tranquill; or Magnolia Cafe egg lady",
+  "gen8": false
+ },
+ {
+  "nat": 520,
+  "borrius": null,
+  "name": "Tranquill",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild or evolve Pidove L21",
+  "gen8": false
+ },
+ {
+  "nat": 521,
+  "borrius": null,
+  "name": "Unfezant",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve L32",
+  "gen8": false
+ },
+ {
+  "nat": 522,
+  "borrius": null,
+  "name": "Blitzle",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Safari Zone (easy)",
+  "gen8": false
+ },
+ {
+  "nat": 523,
+  "borrius": null,
+  "name": "Zebstrika",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Safari Zone (medium/hard) or evolve Blitzle L27",
+  "gen8": false
+ },
+ {
+  "nat": 524,
+  "borrius": 19,
+  "name": "Roggenrola",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "cave / rock smash",
+  "gen8": false
+ },
+ {
+  "nat": 525,
+  "borrius": 20,
+  "name": "Boldore",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "cave or evolve Roggenrola L45",
+  "gen8": false
+ },
+ {
+  "nat": 526,
+  "borrius": 21,
+  "name": "Gigalith",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 527,
+  "borrius": 136,
+  "name": "Woobat",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 528,
+  "borrius": 137,
+  "name": "Swoobat",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "evolve Woobat (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 529,
+  "borrius": 27,
+  "name": "Drilbur",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 530,
+  "borrius": 28,
+  "name": "Excadrill",
+  "form": null,
+  "types": [
+   "Ground",
+   "Steel"
+  ],
+  "how": "Shadow Base / cave or evolve Drilbur L31",
+  "gen8": false
+ },
+ {
+  "nat": 531,
+  "borrius": 248,
+  "name": "Audino",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 532,
+  "borrius": 309,
+  "name": "Timburr",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 533,
+  "borrius": 310,
+  "name": "Gurdurr",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "cave or evolve Timburr L25",
+  "gen8": false
+ },
+ {
+  "nat": 534,
+  "borrius": 311,
+  "name": "Conkeldurr",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 535,
+  "borrius": 254,
+  "name": "Tympole",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 536,
+  "borrius": 255,
+  "name": "Palpitoad",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "wild / surf or evolve Tympole L45",
+  "gen8": false
+ },
+ {
+  "nat": 537,
+  "borrius": 256,
+  "name": "Seismitoad",
+  "form": null,
+  "types": [
+   "Water",
+   "Ground"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 538,
+  "borrius": 457,
+  "name": "Throh",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 539,
+  "borrius": 458,
+  "name": "Sawk",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 540,
+  "borrius": null,
+  "name": "Sewaddle",
+  "form": null,
+  "types": [
+   "Bug",
+   "Grass"
+  ],
+  "how": "breed Swadloon; or Magnolia Cafe egg lady",
+  "gen8": false
+ },
+ {
+  "nat": 541,
+  "borrius": null,
+  "name": "Swadloon",
+  "form": null,
+  "types": [
+   "Bug",
+   "Grass"
+  ],
+  "how": "wild or evolve Sewaddle L20",
+  "gen8": false
+ },
+ {
+  "nat": 542,
+  "borrius": null,
+  "name": "Leavanny",
+  "form": null,
+  "types": [
+   "Bug",
+   "Grass"
+  ],
+  "how": "evolve Swadloon (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 543,
+  "borrius": null,
+  "name": "Venipede",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "breed Whirlipede",
+  "gen8": false
+ },
+ {
+  "nat": 544,
+  "borrius": null,
+  "name": "Whirlipede",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "swarm or evolve Venipede L22",
+  "gen8": false
+ },
+ {
+  "nat": 545,
+  "borrius": null,
+  "name": "Scolipede",
+  "form": null,
+  "types": [
+   "Bug",
+   "Poison"
+  ],
+  "how": "evolve L30",
+  "gen8": false
+ },
+ {
+  "nat": 546,
+  "borrius": 436,
+  "name": "Cottonee",
+  "form": null,
+  "types": [
+   "Grass",
+   "Fairy"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 547,
+  "borrius": 437,
+  "name": "Whimsicott",
+  "form": null,
+  "types": [
+   "Grass",
+   "Fairy"
+  ],
+  "how": "Sun Stone",
+  "gen8": false
+ },
+ {
+  "nat": 548,
+  "borrius": 438,
+  "name": "Petilil",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 549,
+  "borrius": 439,
+  "name": "Lilligant",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Sun Stone",
+  "gen8": false
+ },
+ {
+  "nat": 549,
+  "borrius": null,
+  "name": "Lilligant",
+  "form": "Hisuian",
+  "types": [
+   "Grass",
+   "Fighting"
+  ],
+  "how": "Sun Stone on Petilil while holding Hisui Rock",
+  "gen8": true
+ },
+ {
+  "nat": 550,
+  "borrius": 391,
+  "name": "Basculin",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "surf (red-striped; blue-striped at Victory Road)",
+  "gen8": false
+ },
+ {
+  "nat": 550,
+  "borrius": null,
+  "name": "Basculin",
+  "form": "Hisuian",
+  "types": [
+   "Water"
+  ],
+  "how": "breed Basculegion; Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 551,
+  "borrius": 415,
+  "name": "Sandile",
+  "form": null,
+  "types": [
+   "Ground",
+   "Dark"
+  ],
+  "how": "breed Krokorok; or Magnolia Cafe egg lady",
+  "gen8": false
+ },
+ {
+  "nat": 552,
+  "borrius": 416,
+  "name": "Krokorok",
+  "form": null,
+  "types": [
+   "Ground",
+   "Dark"
+  ],
+  "how": "wild or evolve Sandile L29",
+  "gen8": false
+ },
+ {
+  "nat": 553,
+  "borrius": 417,
+  "name": "Krookodile",
+  "form": null,
+  "types": [
+   "Ground",
+   "Dark"
+  ],
+  "how": "evolve L40",
+  "gen8": false
+ },
+ {
+  "nat": 554,
+  "borrius": 420,
+  "name": "Darumaka",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 554,
+  "borrius": null,
+  "name": "Darumaka",
+  "form": "Galarian",
+  "types": [
+   "Ice"
+  ],
+  "how": "breed Galarian Darmanitan; Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 555,
+  "borrius": 421,
+  "name": "Darmanitan",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "evolve Darumaka L35 (Zen Mode is a battle form)",
+  "gen8": false
+ },
+ {
+  "nat": 555,
+  "borrius": null,
+  "name": "Darmanitan",
+  "form": "Galarian",
+  "types": [
+   "Ice"
+  ],
+  "how": "Victory Road encounter (gen8 unlock) or evolve Galarian Darumaka L35",
+  "gen8": true
+ },
+ {
+  "nat": 556,
+  "borrius": 427,
+  "name": "Maractus",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 557,
+  "borrius": 413,
+  "name": "Dwebble",
+  "form": null,
+  "types": [
+   "Bug",
+   "Rock"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 558,
+  "borrius": 414,
+  "name": "Crustle",
+  "form": null,
+  "types": [
+   "Bug",
+   "Rock"
+  ],
+  "how": "evolve L34",
+  "gen8": false
+ },
+ {
+  "nat": 559,
+  "borrius": 50,
+  "name": "Scraggy",
+  "form": null,
+  "types": [
+   "Dark",
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 560,
+  "borrius": 51,
+  "name": "Scrafty",
+  "form": null,
+  "types": [
+   "Dark",
+   "Fighting"
+  ],
+  "how": "evolve L39",
+  "gen8": false
+ },
+ {
+  "nat": 561,
+  "borrius": 387,
+  "name": "Sigilyph",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "cave / Tomb of Borrius",
+  "gen8": false
+ },
+ {
+  "nat": 562,
+  "borrius": 382,
+  "name": "Yamask",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "Ruins of Void interior",
+  "gen8": false
+ },
+ {
+  "nat": 562,
+  "borrius": null,
+  "name": "Yamask",
+  "form": "Galarian",
+  "types": [
+   "Ground",
+   "Ghost"
+  ],
+  "how": "Ruins of Void encounter (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 563,
+  "borrius": 383,
+  "name": "Cofagrigus",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "Ruins of Void interior or evolve Yamask L34",
+  "gen8": false
+ },
+ {
+  "nat": 564,
+  "borrius": null,
+  "name": "Tirtouga",
+  "form": null,
+  "types": [
+   "Water",
+   "Rock"
+  ],
+  "how": "Cover Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 565,
+  "borrius": null,
+  "name": "Carracosta",
+  "form": null,
+  "types": [
+   "Water",
+   "Rock"
+  ],
+  "how": "evolve L37",
+  "gen8": false
+ },
+ {
+  "nat": 566,
+  "borrius": null,
+  "name": "Archen",
+  "form": null,
+  "types": [
+   "Rock",
+   "Flying"
+  ],
+  "how": "Plume Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 567,
+  "borrius": null,
+  "name": "Archeops",
+  "form": null,
+  "types": [
+   "Rock",
+   "Flying"
+  ],
+  "how": "evolve L37",
+  "gen8": false
+ },
+ {
+  "nat": 568,
+  "borrius": null,
+  "name": "Trubbish",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "dumpsters",
+  "gen8": false
+ },
+ {
+  "nat": 569,
+  "borrius": null,
+  "name": "Garbodor",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "dumpsters or evolve Trubbish L36; mission #74 reward is a Gigantamax one",
+  "gen8": false
+ },
+ {
+  "nat": 570,
+  "borrius": null,
+  "name": "Zorua",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "breed Zoroark",
+  "gen8": false
+ },
+ {
+  "nat": 570,
+  "borrius": null,
+  "name": "Zorua",
+  "form": "Hisuian",
+  "types": [
+   "Normal",
+   "Ghost"
+  ],
+  "how": "breed Hisuian Zoroark",
+  "gen8": true
+ },
+ {
+  "nat": 571,
+  "borrius": null,
+  "name": "Zoroark",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "Redwood Forest encounter",
+  "gen8": false
+ },
+ {
+  "nat": 571,
+  "borrius": null,
+  "name": "Zoroark",
+  "form": "Hisuian",
+  "types": [
+   "Normal",
+   "Ghost"
+  ],
+  "how": "post-game mystery gift; or evolve Hisuian Zorua L30",
+  "gen8": true
+ },
+ {
+  "nat": 572,
+  "borrius": 41,
+  "name": "Minccino",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 573,
+  "borrius": 42,
+  "name": "Cinccino",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "Shiny Stone",
+  "gen8": false
+ },
+ {
+  "nat": 574,
+  "borrius": 343,
+  "name": "Gothita",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 575,
+  "borrius": 344,
+  "name": "Gothorita",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve L32",
+  "gen8": false
+ },
+ {
+  "nat": 576,
+  "borrius": 345,
+  "name": "Gothitelle",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve L45",
+  "gen8": false
+ },
+ {
+  "nat": 577,
+  "borrius": 346,
+  "name": "Solosis",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 578,
+  "borrius": 347,
+  "name": "Duosion",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve L32",
+  "gen8": false
+ },
+ {
+  "nat": 579,
+  "borrius": 348,
+  "name": "Reuniclus",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve L41",
+  "gen8": false
+ },
+ {
+  "nat": 580,
+  "borrius": null,
+  "name": "Ducklett",
+  "form": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
+  "how": "trade at Dresco Town for Alolan Sandshrew",
+  "gen8": false
+ },
+ {
+  "nat": 581,
+  "borrius": null,
+  "name": "Swanna",
+  "form": null,
+  "types": [
+   "Water",
+   "Flying"
+  ],
+  "how": "evolve Ducklett L30",
+  "gen8": false
+ },
+ {
+  "nat": 582,
+  "borrius": 4,
+  "name": "Vanillite",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 583,
+  "borrius": 5,
+  "name": "Vanillish",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "wild or evolve Vanillite L24",
+  "gen8": false
+ },
+ {
+  "nat": 584,
+  "borrius": 6,
+  "name": "Vanilluxe",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "evolve L42",
+  "gen8": false
+ },
+ {
+  "nat": 585,
+  "borrius": 198,
+  "name": "Deerling",
+  "form": null,
+  "types": [
+   "Normal",
+   "Grass"
+  ],
+  "how": "wild (season form depends on route: R6 spring, R12 summer, R9 autumn, R8 winter)",
+  "gen8": false
+ },
+ {
+  "nat": 586,
+  "borrius": 199,
+  "name": "Sawsbuck",
+  "form": null,
+  "types": [
+   "Normal",
+   "Grass"
+  ],
+  "how": "evolve Deerling L34 (keeps its season)",
+  "gen8": false
+ },
+ {
+  "nat": 587,
+  "borrius": 370,
+  "name": "Emolga",
+  "form": null,
+  "types": [
+   "Electric",
+   "Flying"
+  ],
+  "how": "Dehara Game Corner (500 coins)",
+  "gen8": false
+ },
+ {
+  "nat": 588,
+  "borrius": 249,
+  "name": "Karrablast",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 589,
+  "borrius": 250,
+  "name": "Escavalier",
+  "form": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 590,
+  "borrius": 442,
+  "name": "Foongus",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "Vivill Woods encounter (50% Foongus or Morelull)",
+  "gen8": false
+ },
+ {
+  "nat": 591,
+  "borrius": 443,
+  "name": "Amoonguss",
+  "form": null,
+  "types": [
+   "Grass",
+   "Poison"
+  ],
+  "how": "trade at Vivill Town for Shiinotic; or evolve Foongus L39",
+  "gen8": false
+ },
+ {
+  "nat": 592,
+  "borrius": null,
+  "name": "Frillish",
+  "form": null,
+  "types": [
+   "Water",
+   "Ghost"
+  ],
+  "how": "surf",
+  "gen8": false
+ },
+ {
+  "nat": 593,
+  "borrius": null,
+  "name": "Jellicent",
+  "form": null,
+  "types": [
+   "Water",
+   "Ghost"
+  ],
+  "how": "surf or evolve Frillish L40",
+  "gen8": false
+ },
+ {
+  "nat": 594,
+  "borrius": 398,
+  "name": "Alomomola",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "surf",
+  "gen8": false
+ },
+ {
+  "nat": 595,
+  "borrius": 312,
+  "name": "Joltik",
+  "form": null,
+  "types": [
+   "Bug",
+   "Electric"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 596,
+  "borrius": 313,
+  "name": "Galvantula",
+  "form": null,
+  "types": [
+   "Bug",
+   "Electric"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 597,
+  "borrius": 314,
+  "name": "Ferroseed",
+  "form": null,
+  "types": [
+   "Grass",
+   "Steel"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 598,
+  "borrius": 315,
+  "name": "Ferrothorn",
+  "form": null,
+  "types": [
+   "Grass",
+   "Steel"
+  ],
+  "how": "evolve L40",
+  "gen8": false
+ },
+ {
+  "nat": 599,
+  "borrius": 300,
+  "name": "Klink",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 600,
+  "borrius": 301,
+  "name": "Klang",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "cave or evolve Klink L35",
+  "gen8": false
+ },
+ {
+  "nat": 601,
+  "borrius": 302,
+  "name": "Klinklang",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "evolve L45",
+  "gen8": false
+ },
+ {
+  "nat": 602,
+  "borrius": 306,
+  "name": "Tynamo",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 603,
+  "borrius": 307,
+  "name": "Eelektrik",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "cave or evolve Tynamo L39",
+  "gen8": false
+ },
+ {
+  "nat": 604,
+  "borrius": 308,
+  "name": "Eelektross",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Thunder Stone",
+  "gen8": false
+ },
+ {
+  "nat": 605,
+  "borrius": 174,
+  "name": "Elgyem",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 606,
+  "borrius": 175,
+  "name": "Beheeyem",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve L42",
+  "gen8": false
+ },
+ {
+  "nat": 607,
+  "borrius": null,
+  "name": "Litwick",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Fire"
+  ],
+  "how": "breed Lampent",
+  "gen8": false
+ },
+ {
+  "nat": 608,
+  "borrius": null,
+  "name": "Lampent",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Fire"
+  ],
+  "how": "trade at Redwood Village for Zweilous; or evolve Litwick L41",
+  "gen8": false
+ },
+ {
+  "nat": 609,
+  "borrius": null,
+  "name": "Chandelure",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Fire"
+  ],
+  "how": "Dusk Stone",
+  "gen8": false
+ },
+ {
+  "nat": 610,
+  "borrius": 364,
+  "name": "Axew",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "Dehara Game Corner (5000 coins)",
+  "gen8": false
+ },
+ {
+  "nat": 611,
+  "borrius": 365,
+  "name": "Fraxure",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "cave or evolve Axew L38",
+  "gen8": false
+ },
+ {
+  "nat": 612,
+  "borrius": 366,
+  "name": "Haxorus",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "evolve L48",
+  "gen8": false
+ },
+ {
+  "nat": 613,
+  "borrius": 234,
+  "name": "Cubchoo",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 614,
+  "borrius": 235,
+  "name": "Beartic",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "wild or evolve Cubchoo L37",
+  "gen8": false
+ },
+ {
+  "nat": 615,
+  "borrius": 231,
+  "name": "Cryogonal",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 616,
+  "borrius": 262,
+  "name": "Shelmet",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 617,
+  "borrius": 263,
+  "name": "Accelgor",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 618,
+  "borrius": 397,
+  "name": "Stunfisk",
+  "form": null,
+  "types": [
+   "Ground",
+   "Electric"
+  ],
+  "how": "surf",
+  "gen8": false
+ },
+ {
+  "nat": 618,
+  "borrius": null,
+  "name": "Stunfisk",
+  "form": "Galarian",
+  "types": [
+   "Ground",
+   "Steel"
+  ],
+  "how": "surf (gen8 unlock)",
+  "gen8": true
+ },
+ {
+  "nat": 619,
+  "borrius": 340,
+  "name": "Mienfoo",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 620,
+  "borrius": 341,
+  "name": "Mienshao",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "evolve L46",
+  "gen8": false
+ },
+ {
+  "nat": 621,
+  "borrius": null,
+  "name": "Druddigon",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 622,
+  "borrius": 373,
+  "name": "Golett",
+  "form": null,
+  "types": [
+   "Ground",
+   "Ghost"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 623,
+  "borrius": 374,
+  "name": "Golurk",
+  "form": null,
+  "types": [
+   "Ground",
+   "Ghost"
+  ],
+  "how": "cave or evolve Golett L43",
+  "gen8": false
+ },
+ {
+  "nat": 624,
+  "borrius": 454,
+  "name": "Pawniard",
+  "form": null,
+  "types": [
+   "Dark",
+   "Steel"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 625,
+  "borrius": 455,
+  "name": "Bisharp",
+  "form": null,
+  "types": [
+   "Dark",
+   "Steel"
+  ],
+  "how": "evolve L52",
+  "gen8": false
+ },
+ {
+  "nat": 626,
+  "borrius": null,
+  "name": "Bouffalant",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 627,
+  "borrius": null,
+  "name": "Rufflet",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "Great Desert (Mondays only) / Crystal Peak exterior",
+  "gen8": false
+ },
+ {
+  "nat": 628,
+  "borrius": null,
+  "name": "Braviary",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve Rufflet L50",
+  "gen8": false
+ },
+ {
+  "nat": 628,
+  "borrius": null,
+  "name": "Braviary",
+  "form": "Hisuian",
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "evolve Rufflet L50 holding Hisui Rock",
+  "gen8": true
+ },
+ {
+  "nat": 629,
+  "borrius": null,
+  "name": "Vullaby",
+  "form": null,
+  "types": [
+   "Dark",
+   "Flying"
+  ],
+  "how": "Great Desert (Thursdays only) / Crystal Peak exterior",
+  "gen8": false
+ },
+ {
+  "nat": 630,
+  "borrius": null,
+  "name": "Mandibuzz",
+  "form": null,
+  "types": [
+   "Dark",
+   "Flying"
+  ],
+  "how": "evolve Vullaby L54",
+  "gen8": false
+ },
+ {
+  "nat": 631,
+  "borrius": 149,
+  "name": "Heatmor",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Shadow Base / cave",
+  "gen8": false
+ },
+ {
+  "nat": 632,
+  "borrius": null,
+  "name": "Durant",
+  "form": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 633,
+  "borrius": null,
+  "name": "Deino",
+  "form": null,
+  "types": [
+   "Dark",
+   "Dragon"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 634,
+  "borrius": null,
+  "name": "Zweilous",
+  "form": null,
+  "types": [
+   "Dark",
+   "Dragon"
+  ],
+  "how": "cave or evolve Deino L50",
+  "gen8": false
+ },
+ {
+  "nat": 635,
+  "borrius": null,
+  "name": "Hydreigon",
+  "form": null,
+  "types": [
+   "Dark",
+   "Dragon"
+  ],
+  "how": "evolve L64",
+  "gen8": false
+ },
+ {
+  "nat": 636,
+  "borrius": null,
+  "name": "Larvesta",
+  "form": null,
+  "types": [
+   "Bug",
+   "Fire"
+  ],
+  "how": "mission #79 reward",
+  "gen8": false
+ },
+ {
+  "nat": 637,
+  "borrius": null,
+  "name": "Volcarona",
+  "form": null,
+  "types": [
+   "Bug",
+   "Fire"
+  ],
+  "how": "evolve Larvesta L59",
+  "gen8": false
+ },
+ {
+  "nat": 638,
+  "borrius": null,
+  "name": "Cobalion",
+  "form": null,
+  "types": [
+   "Steel",
+   "Fighting"
+  ],
+  "how": "Victory Road snowy area during mission #59",
+  "gen8": false
+ },
+ {
+  "nat": 639,
+  "borrius": null,
+  "name": "Terrakion",
+  "form": null,
+  "types": [
+   "Rock",
+   "Fighting"
+  ],
+  "how": "Victory Road 3F cave during mission #59",
+  "gen8": false
+ },
+ {
+  "nat": 640,
+  "borrius": null,
+  "name": "Virizion",
+  "form": null,
+  "types": [
+   "Grass",
+   "Fighting"
+  ],
+  "how": "Victory Road maze area during mission #59",
+  "gen8": false
+ },
+ {
+  "nat": 641,
+  "borrius": null,
+  "name": "Tornadus",
+  "form": null,
+  "types": [
+   "Flying"
+  ],
+  "how": "post-game roaming from Magnolia Fields",
+  "gen8": false
+ },
+ {
+  "nat": 642,
+  "borrius": null,
+  "name": "Thundurus",
+  "form": null,
+  "types": [
+   "Electric",
+   "Flying"
+  ],
+  "how": "post-game roaming from Magnolia Fields",
+  "gen8": false
+ },
+ {
+  "nat": 643,
+  "borrius": null,
+  "name": "Reshiram",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Fire"
+  ],
+  "how": "post-game portal, Crystal Peak 3F, daytime",
+  "gen8": false
+ },
+ {
+  "nat": 644,
+  "borrius": null,
+  "name": "Zekrom",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Electric"
+  ],
+  "how": "post-game portal, Crystal Peak 3F, daytime",
+  "gen8": false
+ },
+ {
+  "nat": 645,
+  "borrius": null,
+  "name": "Landorus",
+  "form": null,
+  "types": [
+   "Ground",
+   "Flying"
+  ],
+  "how": "Magnolia Fields with Tornadus and Thundurus in party",
+  "gen8": false
+ },
+ {
+  "nat": 646,
+  "borrius": null,
+  "name": "Kyurem",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Ice"
+  ],
+  "how": "Kyurem's Cave",
+  "gen8": false
+ },
+ {
+  "nat": 647,
+  "borrius": 494,
+  "name": "Keldeo",
+  "form": null,
+  "types": [
+   "Water",
+   "Fighting"
+  ],
+  "how": "with Cobalion, Terrakion, Virizion in party",
+  "gen8": false
+ },
+ {
+  "nat": 648,
+  "borrius": null,
+  "name": "Meloetta",
+  "form": null,
+  "types": [
+   "Normal",
+   "Psychic"
+  ],
+  "how": "post-game night encounter (Pirouette Forme is Normal/Fighting in battle)",
+  "gen8": false
+ },
+ {
+  "nat": 649,
+  "borrius": null,
+  "name": "Genesect",
+  "form": null,
+  "types": [
+   "Bug",
+   "Steel"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": false
+ },
+ {
+  "nat": 650,
+  "borrius": null,
+  "name": "Chespin",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "egg from Magnolia Cafe egg lady (random)",
+  "gen8": false
+ },
+ {
+  "nat": 651,
+  "borrius": null,
+  "name": "Quilladin",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L16",
+  "gen8": false
+ },
+ {
+  "nat": 652,
+  "borrius": null,
+  "name": "Chesnaught",
+  "form": null,
+  "types": [
+   "Grass",
+   "Fighting"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 653,
+  "borrius": null,
+  "name": "Fennekin",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "egg from Magnolia Cafe egg lady (random)",
+  "gen8": false
+ },
+ {
+  "nat": 654,
+  "borrius": null,
+  "name": "Braixen",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "evolve L16",
+  "gen8": false
+ },
+ {
+  "nat": 655,
+  "borrius": null,
+  "name": "Delphox",
+  "form": null,
+  "types": [
+   "Fire",
+   "Psychic"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 656,
+  "borrius": null,
+  "name": "Froakie",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "egg from Magnolia Cafe egg lady (random)",
+  "gen8": false
+ },
+ {
+  "nat": 657,
+  "borrius": null,
+  "name": "Frogadier",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve L16",
+  "gen8": false
+ },
+ {
+  "nat": 658,
+  "borrius": null,
+  "name": "Greninja",
+  "form": null,
+  "types": [
+   "Water",
+   "Dark"
+  ],
+  "how": "evolve L36",
+  "gen8": false
+ },
+ {
+  "nat": 659,
+  "borrius": 189,
+  "name": "Bunnelby",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 660,
+  "borrius": 190,
+  "name": "Diggersby",
+  "form": null,
+  "types": [
+   "Normal",
+   "Ground"
+  ],
+  "how": "evolve L20",
+  "gen8": false
+ },
+ {
+  "nat": 661,
+  "borrius": 331,
+  "name": "Fletchling",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false,
+  "note": "unboundwiki table type was wrong (Normal/Ground); corrected to PokeAPI/Unbound-Cloud value"
+ },
+ {
+  "nat": 662,
+  "borrius": 332,
+  "name": "Fletchinder",
+  "form": null,
+  "types": [
+   "Fire",
+   "Flying"
+  ],
+  "how": "wild or evolve Fletchling L17",
+  "gen8": false
+ },
+ {
+  "nat": 663,
+  "borrius": 333,
+  "name": "Talonflame",
+  "form": null,
+  "types": [
+   "Fire",
+   "Flying"
+  ],
+  "how": "evolve L35",
+  "gen8": false
+ },
+ {
+  "nat": 664,
+  "borrius": 433,
+  "name": "Scatterbug",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 665,
+  "borrius": 434,
+  "name": "Spewpa",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild or evolve Scatterbug L9",
+  "gen8": false
+ },
+ {
+  "nat": 666,
+  "borrius": 435,
+  "name": "Vivillon",
+  "form": null,
+  "types": [
+   "Bug",
+   "Flying"
+  ],
+  "how": "evolve Spewpa L12",
+  "gen8": false
+ },
+ {
+  "nat": 667,
+  "borrius": null,
+  "name": "Litleo",
+  "form": null,
+  "types": [
+   "Fire",
+   "Normal"
+  ],
+  "how": "reward for beating all trainers on Route 2",
+  "gen8": false
+ },
+ {
+  "nat": 668,
+  "borrius": null,
+  "name": "Pyroar",
+  "form": null,
+  "types": [
+   "Fire",
+   "Normal"
+  ],
+  "how": "evolve L35",
+  "gen8": false
+ },
+ {
+  "nat": 669,
+  "borrius": 78,
+  "name": "Flabebe",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "all flowers",
+  "gen8": false
+ },
+ {
+  "nat": 670,
+  "borrius": 79,
+  "name": "Floette",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "evolve Flabebe L19",
+  "gen8": false
+ },
+ {
+  "nat": 670,
+  "borrius": null,
+  "name": "Floette",
+  "form": "AZ' (Eternal)",
+  "types": [
+   "Fairy"
+  ],
+  "how": "post-game portal",
+  "gen8": false
+ },
+ {
+  "nat": 671,
+  "borrius": 80,
+  "name": "Florges",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "Shiny Stone",
+  "gen8": false
+ },
+ {
+  "nat": 672,
+  "borrius": null,
+  "name": "Skiddo",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "breed Gogoat",
+  "gen8": false
+ },
+ {
+  "nat": 673,
+  "borrius": null,
+  "name": "Gogoat",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild or evolve Skiddo L32",
+  "gen8": false
+ },
+ {
+  "nat": 674,
+  "borrius": 452,
+  "name": "Pancham",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 675,
+  "borrius": 453,
+  "name": "Pangoro",
+  "form": null,
+  "types": [
+   "Fighting",
+   "Dark"
+  ],
+  "how": "evolve Pancham L32 with a Dark-type in the party",
+  "gen8": false
+ },
+ {
+  "nat": 676,
+  "borrius": null,
+  "name": "Furfrou",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 677,
+  "borrius": 217,
+  "name": "Espurr",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 678,
+  "borrius": 218,
+  "name": "Meowstic",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve L25",
+  "gen8": false
+ },
+ {
+  "nat": 679,
+  "borrius": null,
+  "name": "Honedge",
+  "form": null,
+  "types": [
+   "Steel",
+   "Ghost"
+  ],
+  "how": "breed Doublade or Aegislash",
+  "gen8": false
+ },
+ {
+  "nat": 680,
+  "borrius": null,
+  "name": "Doublade",
+  "form": null,
+  "types": [
+   "Steel",
+   "Ghost"
+  ],
+  "how": "Safari Zone (insane) or evolve Honedge L35",
+  "gen8": false
+ },
+ {
+  "nat": 681,
+  "borrius": null,
+  "name": "Aegislash",
+  "form": null,
+  "types": [
+   "Steel",
+   "Ghost"
+  ],
+  "how": "Dusk Stone on Doublade",
+  "gen8": false
+ },
+ {
+  "nat": 682,
+  "borrius": 351,
+  "name": "Spritzee",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 683,
+  "borrius": 352,
+  "name": "Aromatisse",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "Sachet",
+  "gen8": false
+ },
+ {
+  "nat": 684,
+  "borrius": 349,
+  "name": "Swirlix",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "swarm",
+  "gen8": false
+ },
+ {
+  "nat": 685,
+  "borrius": 350,
+  "name": "Slurpuff",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "Whipped Dream",
+  "gen8": false
+ },
+ {
+  "nat": 686,
+  "borrius": 54,
+  "name": "Inkay",
+  "form": null,
+  "types": [
+   "Dark",
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 687,
+  "borrius": 55,
+  "name": "Malamar",
+  "form": null,
+  "types": [
+   "Dark",
+   "Psychic"
+  ],
+  "how": "evolve L30",
+  "gen8": false
+ },
+ {
+  "nat": 688,
+  "borrius": null,
+  "name": "Binacle",
+  "form": null,
+  "types": [
+   "Rock",
+   "Water"
+  ],
+  "how": "Route 2 encounter / rock smash",
+  "gen8": false
+ },
+ {
+  "nat": 689,
+  "borrius": null,
+  "name": "Barbaracle",
+  "form": null,
+  "types": [
+   "Rock",
+   "Water"
+  ],
+  "how": "evolve Binacle L36 (Unbound change from L39)",
+  "gen8": false
+ },
+ {
+  "nat": 690,
+  "borrius": 399,
+  "name": "Skrelp",
+  "form": null,
+  "types": [
+   "Poison",
+   "Water"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 691,
+  "borrius": 400,
+  "name": "Dragalge",
+  "form": null,
+  "types": [
+   "Poison",
+   "Dragon"
+  ],
+  "how": "super rod or evolve Skrelp L48",
+  "gen8": false
+ },
+ {
+  "nat": 692,
+  "borrius": 401,
+  "name": "Clauncher",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good rod",
+  "gen8": false
+ },
+ {
+  "nat": 693,
+  "borrius": 402,
+  "name": "Clawitzer",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "super rod or evolve Clauncher L37",
+  "gen8": false
+ },
+ {
+  "nat": 694,
+  "borrius": null,
+  "name": "Helioptile",
+  "form": null,
+  "types": [
+   "Electric",
+   "Normal"
+  ],
+  "how": "Safari Zone (easy-hard)",
+  "gen8": false
+ },
+ {
+  "nat": 695,
+  "borrius": null,
+  "name": "Heliolisk",
+  "form": null,
+  "types": [
+   "Electric",
+   "Normal"
+  ],
+  "how": "Safari Zone (insane) or Sun Stone on Helioptile",
+  "gen8": false
+ },
+ {
+  "nat": 696,
+  "borrius": null,
+  "name": "Tyrunt",
+  "form": null,
+  "types": [
+   "Rock",
+   "Dragon"
+  ],
+  "how": "Jaw Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 697,
+  "borrius": null,
+  "name": "Tyrantrum",
+  "form": null,
+  "types": [
+   "Rock",
+   "Dragon"
+  ],
+  "how": "evolve Tyrunt L39 by day",
+  "gen8": false
+ },
+ {
+  "nat": 698,
+  "borrius": null,
+  "name": "Amaura",
+  "form": null,
+  "types": [
+   "Rock",
+   "Ice"
+  ],
+  "how": "Sail Fossil (Great Desert)",
+  "gen8": false
+ },
+ {
+  "nat": 699,
+  "borrius": null,
+  "name": "Aurorus",
+  "form": null,
+  "types": [
+   "Rock",
+   "Ice"
+  ],
+  "how": "evolve Amaura L39 at night",
+  "gen8": false
+ },
+ {
+  "nat": 700,
+  "borrius": 363,
+  "name": "Sylveon",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "Eevee levelled while knowing a Fairy move",
+  "gen8": false
+ },
+ {
+  "nat": 701,
+  "borrius": 371,
+  "name": "Hawlucha",
+  "form": null,
+  "types": [
+   "Fighting",
+   "Flying"
+  ],
+  "how": "Dehara Game Corner (1000 coins)",
+  "gen8": false
+ },
+ {
+  "nat": 702,
+  "borrius": 342,
+  "name": "Dedenne",
+  "form": null,
+  "types": [
+   "Electric",
+   "Fairy"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 703,
+  "borrius": 183,
+  "name": "Carbink",
+  "form": null,
+  "types": [
+   "Rock",
+   "Fairy"
+  ],
+  "how": "collapsed tunnels (Light Clay with the ADM)",
+  "gen8": false
+ },
+ {
+  "nat": 704,
+  "borrius": 259,
+  "name": "Goomy",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 705,
+  "borrius": 260,
+  "name": "Sliggoo",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "wild / surf or evolve Goomy L40",
+  "gen8": false
+ },
+ {
+  "nat": 705,
+  "borrius": null,
+  "name": "Sliggoo",
+  "form": "Hisuian",
+  "types": [
+   "Dragon",
+   "Steel"
+  ],
+  "how": "evolve Goomy L40 holding Hisui Rock",
+  "gen8": true
+ },
+ {
+  "nat": 706,
+  "borrius": 261,
+  "name": "Goodra",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "evolve Sliggoo L50 in rain or fog",
+  "gen8": false
+ },
+ {
+  "nat": 706,
+  "borrius": null,
+  "name": "Goodra",
+  "form": "Hisuian",
+  "types": [
+   "Dragon",
+   "Steel"
+  ],
+  "how": "evolve Hisuian Sliggoo L50 in rain or fog",
+  "gen8": true
+ },
+ {
+  "nat": 707,
+  "borrius": 372,
+  "name": "Klefki",
+  "form": null,
+  "types": [
+   "Steel",
+   "Fairy"
+  ],
+  "how": "Dehara Game Corner (3000 coins)",
+  "gen8": false
+ },
+ {
+  "nat": 708,
+  "borrius": 112,
+  "name": "Phantump",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 709,
+  "borrius": 113,
+  "name": "Trevenant",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 710,
+  "borrius": 102,
+  "name": "Pumpkaboo",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 711,
+  "borrius": 103,
+  "name": "Gourgeist",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
+  "how": "Link Stone (replaces trade)",
+  "gen8": false
+ },
+ {
+  "nat": 712,
+  "borrius": 25,
+  "name": "Bergmite",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 713,
+  "borrius": 26,
+  "name": "Avalugg",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "cave or evolve Bergmite L37",
+  "gen8": false
+ },
+ {
+  "nat": 713,
+  "borrius": null,
+  "name": "Avalugg",
+  "form": "Hisuian",
+  "types": [
+   "Ice",
+   "Rock"
+  ],
+  "how": "evolve Bergmite L37 holding Hisui Rock",
+  "gen8": true
+ },
+ {
+  "nat": 714,
+  "borrius": 181,
+  "name": "Noibat",
+  "form": null,
+  "types": [
+   "Flying",
+   "Dragon"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 715,
+  "borrius": 182,
+  "name": "Noivern",
+  "form": null,
+  "types": [
+   "Flying",
+   "Dragon"
+  ],
+  "how": "cave or evolve Noibat L48",
+  "gen8": false
+ },
+ {
+  "nat": 716,
+  "borrius": null,
+  "name": "Xerneas",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "post-game portal, Redwood Forest, day",
+  "gen8": false
+ },
+ {
+  "nat": 717,
+  "borrius": null,
+  "name": "Yveltal",
+  "form": null,
+  "types": [
+   "Dark",
+   "Flying"
+  ],
+  "how": "post-game portal, Crystal Peak, night",
+  "gen8": false
+ },
+ {
+  "nat": 718,
+  "borrius": null,
+  "name": "Zygarde",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Ground"
+  ],
+  "how": "mission #70 reward",
+  "gen8": false
+ },
+ {
+  "nat": 719,
+  "borrius": 495,
+  "name": "Diancie",
+  "form": null,
+  "types": [
+   "Rock",
+   "Fairy"
+  ],
+  "how": "collapsed tunnels after mission #38",
+  "gen8": false
+ },
+ {
+  "nat": 720,
+  "borrius": 498,
+  "name": "Hoopa",
+  "form": "Confined",
+  "types": [
+   "Psychic",
+   "Ghost"
+  ],
+  "how": "Crystal Peak story encounter",
+  "gen8": false
+ },
+ {
+  "nat": 720,
+  "borrius": 498,
+  "name": "Hoopa",
+  "form": "Unbound",
+  "types": [
+   "Psychic",
+   "Dark"
+  ],
+  "how": "forme change with Prison Bottle",
+  "gen8": false
+ },
+ {
+  "nat": 721,
+  "borrius": null,
+  "name": "Volcanion",
+  "form": null,
+  "types": [
+   "Fire",
+   "Water"
+  ],
+  "how": "post-game, after beating the Elite Four again",
+  "gen8": false
+ },
+ {
+  "nat": 722,
+  "borrius": null,
+  "name": "Rowlet",
+  "form": null,
+  "types": [
+   "Grass",
+   "Flying"
+  ],
+  "how": "Alolan Starter House in Seaport City (1st free, 2nd at 7 badges, 3rd at 8)",
+  "gen8": false
+ },
+ {
+  "nat": 723,
+  "borrius": null,
+  "name": "Dartrix",
+  "form": null,
+  "types": [
+   "Grass",
+   "Flying"
+  ],
+  "how": "evolve L17",
+  "gen8": false
+ },
+ {
+  "nat": 724,
+  "borrius": null,
+  "name": "Decidueye",
+  "form": null,
+  "types": [
+   "Grass",
+   "Ghost"
+  ],
+  "how": "evolve L34",
+  "gen8": false
+ },
+ {
+  "nat": 724,
+  "borrius": null,
+  "name": "Decidueye",
+  "form": "Hisuian",
+  "types": [
+   "Grass",
+   "Fighting"
+  ],
+  "how": "evolve Dartrix L34 holding Hisui Rock",
+  "gen8": true
+ },
+ {
+  "nat": 725,
+  "borrius": null,
+  "name": "Litten",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "Alolan Starter House in Seaport City (1st free, 2nd at 7 badges, 3rd at 8)",
+  "gen8": false
+ },
+ {
+  "nat": 726,
+  "borrius": null,
+  "name": "Torracat",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "evolve L17",
+  "gen8": false
+ },
+ {
+  "nat": 727,
+  "borrius": null,
+  "name": "Incineroar",
+  "form": null,
+  "types": [
+   "Fire",
+   "Dark"
+  ],
+  "how": "evolve L34",
+  "gen8": false
+ },
+ {
+  "nat": 728,
+  "borrius": null,
+  "name": "Popplio",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "Alolan Starter House in Seaport City (1st free, 2nd at 7 badges, 3rd at 8)",
+  "gen8": false
+ },
+ {
+  "nat": 729,
+  "borrius": null,
+  "name": "Brionne",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve L17",
+  "gen8": false
+ },
+ {
+  "nat": 730,
+  "borrius": null,
+  "name": "Primarina",
+  "form": null,
+  "types": [
+   "Water",
+   "Fairy"
+  ],
+  "how": "evolve L34",
+  "gen8": false
+ },
+ {
+  "nat": 731,
+  "borrius": 32,
+  "name": "Pikipek",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 732,
+  "borrius": 33,
+  "name": "Trumbeak",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve L14",
+  "gen8": false
+ },
+ {
+  "nat": 733,
+  "borrius": 34,
+  "name": "Toucannon",
+  "form": null,
+  "types": [
+   "Normal",
+   "Flying"
+  ],
+  "how": "evolve L28",
+  "gen8": false
+ },
+ {
+  "nat": 734,
+  "borrius": 205,
+  "name": "Yungoos",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 735,
+  "borrius": 206,
+  "name": "Gumshoos",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild or evolve Yungoos L20 by day",
+  "gen8": false
+ },
+ {
+  "nat": 736,
+  "borrius": 241,
+  "name": "Grubbin",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 737,
+  "borrius": 242,
+  "name": "Charjabug",
+  "form": null,
+  "types": [
+   "Bug",
+   "Electric"
+  ],
+  "how": "evolve Grubbin L20",
+  "gen8": false
+ },
+ {
+  "nat": 738,
+  "borrius": 243,
+  "name": "Vikavolt",
+  "form": null,
+  "types": [
+   "Bug",
+   "Electric"
+  ],
+  "how": "Thunder Stone on Charjabug, or level up in Thundercap Mountain",
+  "gen8": false
+ },
+ {
+  "nat": 739,
+  "borrius": 237,
+  "name": "Crabrawler",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "breed Crabominable",
+  "gen8": false
+ },
+ {
+  "nat": 740,
+  "borrius": 238,
+  "name": "Crabominable",
+  "form": null,
+  "types": [
+   "Fighting",
+   "Ice"
+  ],
+  "how": "Frozen Forest encounter on Thursday or during mission #43; or Ice Stone on Crabrawler",
+  "gen8": false
+ },
+ {
+  "nat": 741,
+  "borrius": 83,
+  "name": "Oricorio",
+  "form": "Baile",
+  "types": [
+   "Fire",
+   "Flying"
+  ],
+  "how": "red flowers",
+  "gen8": false
+ },
+ {
+  "nat": 741,
+  "borrius": 83,
+  "name": "Oricorio",
+  "form": "Pom-Pom",
+  "types": [
+   "Electric",
+   "Flying"
+  ],
+  "how": "yellow flowers",
+  "gen8": false
+ },
+ {
+  "nat": 741,
+  "borrius": 83,
+  "name": "Oricorio",
+  "form": "Pa'u",
+  "types": [
+   "Psychic",
+   "Flying"
+  ],
+  "how": "pink flowers",
+  "gen8": false
+ },
+ {
+  "nat": 741,
+  "borrius": 83,
+  "name": "Oricorio",
+  "form": "Sensu",
+  "types": [
+   "Ghost",
+   "Flying"
+  ],
+  "how": "purple/blue-yellow flowers; style changes with nectar",
+  "gen8": false
+ },
+ {
+  "nat": 742,
+  "borrius": 81,
+  "name": "Cutiefly",
+  "form": null,
+  "types": [
+   "Bug",
+   "Fairy"
+  ],
+  "how": "all flowers",
+  "gen8": false
+ },
+ {
+  "nat": 743,
+  "borrius": 82,
+  "name": "Ribombee",
+  "form": null,
+  "types": [
+   "Bug",
+   "Fairy"
+  ],
+  "how": "evolve Cutiefly L25",
+  "gen8": false
+ },
+ {
+  "nat": 744,
+  "borrius": 334,
+  "name": "Rockruff",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 745,
+  "borrius": 335,
+  "name": "Lycanroc",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "evolve Rockruff L25 (Midday 04:00-16:59, Dusk 17:00-19:59, Midnight 20:00-03:59)",
+  "gen8": false
+ },
+ {
+  "nat": 746,
+  "borrius": 289,
+  "name": "Wishiwashi",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "good/super rod",
+  "gen8": false
+ },
+ {
+  "nat": 747,
+  "borrius": 481,
+  "name": "Mareanie",
+  "form": null,
+  "types": [
+   "Poison",
+   "Water"
+  ],
+  "how": "underwater",
+  "gen8": false
+ },
+ {
+  "nat": 748,
+  "borrius": 482,
+  "name": "Toxapex",
+  "form": null,
+  "types": [
+   "Poison",
+   "Water"
+  ],
+  "how": "underwater or evolve Mareanie L38",
+  "gen8": false
+ },
+ {
+  "nat": 749,
+  "borrius": null,
+  "name": "Mudbray",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "breed Mudsdale",
+  "gen8": false
+ },
+ {
+  "nat": 750,
+  "borrius": null,
+  "name": "Mudsdale",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild or evolve Mudbray L30",
+  "gen8": false
+ },
+ {
+  "nat": 751,
+  "borrius": 66,
+  "name": "Dewpider",
+  "form": null,
+  "types": [
+   "Water",
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 752,
+  "borrius": 67,
+  "name": "Araquanid",
+  "form": null,
+  "types": [
+   "Water",
+   "Bug"
+  ],
+  "how": "surf or evolve Dewpider L22",
+  "gen8": false
+ },
+ {
+  "nat": 753,
+  "borrius": null,
+  "name": "Fomantis",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "breed Lurantis",
+  "gen8": false
+ },
+ {
+  "nat": 754,
+  "borrius": null,
+  "name": "Lurantis",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild or evolve Fomantis L34 by day",
+  "gen8": false
+ },
+ {
+  "nat": 755,
+  "borrius": 444,
+  "name": "Morelull",
+  "form": null,
+  "types": [
+   "Grass",
+   "Fairy"
+  ],
+  "how": "Vivill Woods encounter (50% Morelull or Foongus)",
+  "gen8": false
+ },
+ {
+  "nat": 756,
+  "borrius": 445,
+  "name": "Shiinotic",
+  "form": null,
+  "types": [
+   "Grass",
+   "Fairy"
+  ],
+  "how": "trade at Vivill Town for Amoonguss; or evolve Morelull L24",
+  "gen8": false
+ },
+ {
+  "nat": 757,
+  "borrius": 140,
+  "name": "Salandit",
+  "form": null,
+  "types": [
+   "Poison",
+   "Fire"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 758,
+  "borrius": 141,
+  "name": "Salazzle",
+  "form": null,
+  "types": [
+   "Poison",
+   "Fire"
+  ],
+  "how": "cave or evolve female Salandit L33",
+  "gen8": false
+ },
+ {
+  "nat": 759,
+  "borrius": 48,
+  "name": "Stufful",
+  "form": null,
+  "types": [
+   "Normal",
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 760,
+  "borrius": 49,
+  "name": "Bewear",
+  "form": null,
+  "types": [
+   "Normal",
+   "Fighting"
+  ],
+  "how": "evolve L27",
+  "gen8": false
+ },
+ {
+  "nat": 761,
+  "borrius": null,
+  "name": "Bounsweet",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Safari Zone (easy)",
+  "gen8": false
+ },
+ {
+  "nat": 762,
+  "borrius": null,
+  "name": "Steenee",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Safari Zone (medium) or evolve Bounsweet L18",
+  "gen8": false
+ },
+ {
+  "nat": 763,
+  "borrius": null,
+  "name": "Tsareena",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "Steenee levelled while knowing Stomp",
+  "gen8": false
+ },
+ {
+  "nat": 764,
+  "borrius": 92,
+  "name": "Comfey",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "all flowers",
+  "gen8": false
+ },
+ {
+  "nat": 765,
+  "borrius": null,
+  "name": "Oranguru",
+  "form": null,
+  "types": [
+   "Normal",
+   "Psychic"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 766,
+  "borrius": null,
+  "name": "Passimian",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 767,
+  "borrius": null,
+  "name": "Wimpod",
+  "form": null,
+  "types": [
+   "Bug",
+   "Water"
+  ],
+  "how": "breed Golisopod",
+  "gen8": false
+ },
+ {
+  "nat": 768,
+  "borrius": null,
+  "name": "Golisopod",
+  "form": null,
+  "types": [
+   "Bug",
+   "Water"
+  ],
+  "how": "Safari Zone (hard/insane) or evolve Wimpod L30",
+  "gen8": false
+ },
+ {
+  "nat": 769,
+  "borrius": 74,
+  "name": "Sandygast",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Ground"
+  ],
+  "how": "sand encounter Mon/Tue on Route 3; Dehara Beach sand castle Wed/Sun",
+  "gen8": false
+ },
+ {
+  "nat": 770,
+  "borrius": 75,
+  "name": "Palossand",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Ground"
+  ],
+  "how": "evolve Sandygast L42",
+  "gen8": false
+ },
+ {
+  "nat": 771,
+  "borrius": 394,
+  "name": "Pyukumuku",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "surf",
+  "gen8": false
+ },
+ {
+  "nat": 772,
+  "borrius": null,
+  "name": "Type: Null",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "mission reward after 20 missions (Mission HQ ranger)",
+  "gen8": false
+ },
+ {
+  "nat": 773,
+  "borrius": null,
+  "name": "Silvally",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve Type: Null (friendship)",
+  "gen8": false
+ },
+ {
+  "nat": 774,
+  "borrius": 8,
+  "name": "Minior",
+  "form": null,
+  "types": [
+   "Rock",
+   "Flying"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 775,
+  "borrius": null,
+  "name": "Komala",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 776,
+  "borrius": null,
+  "name": "Turtonator",
+  "form": null,
+  "types": [
+   "Fire",
+   "Dragon"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 777,
+  "borrius": 268,
+  "name": "Togedemaru",
+  "form": null,
+  "types": [
+   "Electric",
+   "Steel"
+  ],
+  "how": "wild",
+  "gen8": false
+ },
+ {
+  "nat": 778,
+  "borrius": null,
+  "name": "Mimikyu",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Fairy"
+  ],
+  "how": "encounter",
+  "gen8": false
+ },
+ {
+  "nat": 779,
+  "borrius": null,
+  "name": "Bruxish",
+  "form": null,
+  "types": [
+   "Water",
+   "Psychic"
+  ],
+  "how": "super rod",
+  "gen8": false
+ },
+ {
+  "nat": 780,
+  "borrius": null,
+  "name": "Drampa",
+  "form": null,
+  "types": [
+   "Normal",
+   "Dragon"
+  ],
+  "how": "cave",
+  "gen8": false
+ },
+ {
+  "nat": 781,
+  "borrius": null,
+  "name": "Dhelmise",
+  "form": null,
+  "types": [
+   "Ghost",
+   "Grass"
+  ],
+  "how": "super rod",
+  "gen8": false
+ },
+ {
+  "nat": 782,
+  "borrius": null,
+  "name": "Jangmo-o",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "breed Hakamo-o",
+  "gen8": false
+ },
+ {
+  "nat": 783,
+  "borrius": null,
+  "name": "Hakamo-o",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Fighting"
+  ],
+  "how": "cave or evolve Jangmo-o L35",
+  "gen8": false
+ },
+ {
+  "nat": 784,
+  "borrius": null,
+  "name": "Kommo-o",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Fighting"
+  ],
+  "how": "evolve L45",
+  "gen8": false
+ },
+ {
+  "nat": 785,
+  "borrius": null,
+  "name": "Tapu Koko",
+  "form": null,
+  "types": [
+   "Electric",
+   "Fairy"
+  ],
+  "how": "post-game portal",
+  "gen8": false
+ },
+ {
+  "nat": 786,
+  "borrius": null,
+  "name": "Tapu Lele",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
+  "how": "post-game portal",
+  "gen8": false
+ },
+ {
+  "nat": 787,
+  "borrius": null,
+  "name": "Tapu Bulu",
+  "form": null,
+  "types": [
+   "Grass",
+   "Fairy"
+  ],
+  "how": "post-game portal",
+  "gen8": false
+ },
+ {
+  "nat": 788,
+  "borrius": null,
+  "name": "Tapu Fini",
+  "form": null,
+  "types": [
+   "Water",
+   "Fairy"
+  ],
+  "how": "post-game portal",
+  "gen8": false
+ },
+ {
+  "nat": 789,
+  "borrius": null,
+  "name": "Cosmog",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "bag on Route 12 beach (any time on Vanilla; post-game only on harder difficulties)",
+  "gen8": false
+ },
+ {
+  "nat": 790,
+  "borrius": null,
+  "name": "Cosmoem",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "evolve Cosmog L43",
+  "gen8": false
+ },
+ {
+  "nat": 791,
+  "borrius": null,
+  "name": "Solgaleo",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Steel"
+  ],
+  "how": "post-game portal at Route 12 beach by day with Lunala in party; or evolve Cosmoem L53 by day",
+  "gen8": false
+ },
+ {
+  "nat": 792,
+  "borrius": null,
+  "name": "Lunala",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Ghost"
+  ],
+  "how": "post-game portal at Route 12 beach by night with Solgaleo in party; or evolve Cosmoem L53 by night",
+  "gen8": false
+ },
+ {
+  "nat": 793,
+  "borrius": null,
+  "name": "Nihilego",
+  "form": null,
+  "types": [
+   "Rock",
+   "Poison"
+  ],
+  "how": "post-game portal underwater, night",
+  "gen8": false
+ },
+ {
+  "nat": 794,
+  "borrius": null,
+  "name": "Buzzwole",
+  "form": null,
+  "types": [
+   "Bug",
+   "Fighting"
+  ],
+  "how": "post-game portal, top of Route 4 west waterfall, day",
+  "gen8": false
+ },
+ {
+  "nat": 795,
+  "borrius": null,
+  "name": "Pheromosa",
+  "form": null,
+  "types": [
+   "Bug",
+   "Fighting"
+  ],
+  "how": "post-game portal, day",
+  "gen8": false
+ },
+ {
+  "nat": 796,
+  "borrius": null,
+  "name": "Xurkitree",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "post-game portal, night",
+  "gen8": false
+ },
+ {
+  "nat": 797,
+  "borrius": null,
+  "name": "Celesteela",
+  "form": null,
+  "types": [
+   "Steel",
+   "Flying"
+  ],
+  "how": "post-game portal, night",
+  "gen8": false
+ },
+ {
+  "nat": 798,
+  "borrius": null,
+  "name": "Kartana",
+  "form": null,
+  "types": [
+   "Grass",
+   "Steel"
+  ],
+  "how": "post-game portal, day",
+  "gen8": false
+ },
+ {
+  "nat": 799,
+  "borrius": null,
+  "name": "Guzzlord",
+  "form": null,
+  "types": [
+   "Dark",
+   "Dragon"
+  ],
+  "how": "post-game portal, night",
+  "gen8": false
+ },
+ {
+  "nat": 800,
+  "borrius": null,
+  "name": "Necrozma",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "post-game portal at night with Solgaleo and Lunala in party",
+  "gen8": false
+ },
+ {
+  "nat": 800,
+  "borrius": null,
+  "name": "Necrozma",
+  "form": "Dusk Mane",
+  "types": [
+   "Psychic",
+   "Steel"
+  ],
+  "how": "fusion with Solgaleo",
+  "gen8": false
+ },
+ {
+  "nat": 800,
+  "borrius": null,
+  "name": "Necrozma",
+  "form": "Dawn Wings",
+  "types": [
+   "Psychic",
+   "Ghost"
+  ],
+  "how": "fusion with Lunala",
+  "gen8": false
+ },
+ {
+  "nat": 801,
+  "borrius": 496,
+  "name": "Magearna",
+  "form": null,
+  "types": [
+   "Steel",
+   "Fairy"
+  ],
+  "how": "Tomb of Borrius burial chamber during mission #76",
+  "gen8": false
+ },
+ {
+  "nat": 801,
+  "borrius": 496,
+  "name": "Magearna",
+  "form": "Original Color",
+  "types": [
+   "Steel",
+   "Fairy"
+  ],
+  "how": "mission #69 reward",
+  "gen8": false
+ },
+ {
+  "nat": 802,
+  "borrius": null,
+  "name": "Marshadow",
+  "form": null,
+  "types": [
+   "Fighting",
+   "Ghost"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": false
+ },
+ {
+  "nat": 803,
+  "borrius": null,
+  "name": "Poipole",
+  "form": null,
+  "types": [
+   "Poison"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": false
+ },
+ {
+  "nat": 804,
+  "borrius": null,
+  "name": "Naganadel",
+  "form": null,
+  "types": [
+   "Poison",
+   "Dragon"
+  ],
+  "how": "evolve Poipole while knowing Dragon Pulse",
+  "gen8": false
+ },
+ {
+  "nat": 805,
+  "borrius": null,
+  "name": "Stakataka",
+  "form": null,
+  "types": [
+   "Rock",
+   "Steel"
+  ],
+  "how": "post-game portal, day",
+  "gen8": false
+ },
+ {
+  "nat": 806,
+  "borrius": null,
+  "name": "Blacephalon",
+  "form": null,
+  "types": [
+   "Fire",
+   "Ghost"
+  ],
+  "how": "post-game portal, day",
+  "gen8": false
+ },
+ {
+  "nat": 807,
+  "borrius": 497,
+  "name": "Zeraora",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "post-game portal, Thundercap Mountain 4F, day",
+  "gen8": false
+ },
+ {
+  "nat": 808,
+  "borrius": null,
+  "name": "Meltan",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": false
+ },
+ {
+  "nat": 809,
+  "borrius": null,
+  "name": "Melmetal",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "Metal Coat on Meltan",
+  "gen8": false
+ },
+ {
+  "nat": 810,
+  "borrius": null,
+  "name": "Grookey",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "breed Thwackey",
+  "gen8": true
+ },
+ {
+  "nat": 811,
+  "borrius": null,
+  "name": "Thwackey",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild or evolve Grookey L16",
+  "gen8": true
+ },
+ {
+  "nat": 812,
+  "borrius": null,
+  "name": "Rillaboom",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L35",
+  "gen8": true
+ },
+ {
+  "nat": 813,
+  "borrius": null,
+  "name": "Scorbunny",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "breed Raboot",
+  "gen8": true
+ },
+ {
+  "nat": 814,
+  "borrius": null,
+  "name": "Raboot",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "wild or evolve Scorbunny L16",
+  "gen8": true
+ },
+ {
+  "nat": 815,
+  "borrius": null,
+  "name": "Cinderace",
+  "form": null,
+  "types": [
+   "Fire"
+  ],
+  "how": "evolve L35",
+  "gen8": true
+ },
+ {
+  "nat": 816,
+  "borrius": null,
+  "name": "Sobble",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "breed Drizzile",
+  "gen8": true
+ },
+ {
+  "nat": 817,
+  "borrius": null,
+  "name": "Drizzile",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild or evolve Sobble L16",
+  "gen8": true
+ },
+ {
+  "nat": 818,
+  "borrius": null,
+  "name": "Inteleon",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve L35",
+  "gen8": true
+ },
+ {
+  "nat": 819,
+  "borrius": null,
+  "name": "Skwovet",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 820,
+  "borrius": null,
+  "name": "Greedent",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "evolve L24",
+  "gen8": true
+ },
+ {
+  "nat": 821,
+  "borrius": null,
+  "name": "Rookidee",
+  "form": null,
+  "types": [
+   "Flying"
+  ],
+  "how": "breed Corvisquire",
+  "gen8": true
+ },
+ {
+  "nat": 822,
+  "borrius": null,
+  "name": "Corvisquire",
+  "form": null,
+  "types": [
+   "Flying"
+  ],
+  "how": "wild or evolve Rookidee L16",
+  "gen8": true
+ },
+ {
+  "nat": 823,
+  "borrius": null,
+  "name": "Corviknight",
+  "form": null,
+  "types": [
+   "Flying",
+   "Steel"
+  ],
+  "how": "evolve L38",
+  "gen8": true
+ },
+ {
+  "nat": 824,
+  "borrius": null,
+  "name": "Blipbug",
+  "form": null,
+  "types": [
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 825,
+  "borrius": null,
+  "name": "Dottler",
+  "form": null,
+  "types": [
+   "Bug",
+   "Psychic"
+  ],
+  "how": "evolve L10",
+  "gen8": true
+ },
+ {
+  "nat": 826,
+  "borrius": null,
+  "name": "Orbeetle",
+  "form": null,
+  "types": [
+   "Bug",
+   "Psychic"
+  ],
+  "how": "evolve L30",
+  "gen8": true
+ },
+ {
+  "nat": 827,
+  "borrius": null,
+  "name": "Nickit",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 828,
+  "borrius": null,
+  "name": "Thievul",
+  "form": null,
+  "types": [
+   "Dark"
+  ],
+  "how": "evolve L18",
+  "gen8": true
+ },
+ {
+  "nat": 829,
+  "borrius": null,
+  "name": "Gossifleur",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "wild; or breed Eldegoss",
+  "gen8": true
+ },
+ {
+  "nat": 830,
+  "borrius": null,
+  "name": "Eldegoss",
+  "form": null,
+  "types": [
+   "Grass"
+  ],
+  "how": "evolve L20",
+  "gen8": true
+ },
+ {
+  "nat": 831,
+  "borrius": null,
+  "name": "Wooloo",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "breed Dubwool",
+  "gen8": true
+ },
+ {
+  "nat": 832,
+  "borrius": null,
+  "name": "Dubwool",
+  "form": null,
+  "types": [
+   "Normal"
+  ],
+  "how": "tall grass / raid den or evolve Wooloo L24",
+  "gen8": true
+ },
+ {
+  "nat": 833,
+  "borrius": null,
+  "name": "Chewtle",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 834,
+  "borrius": null,
+  "name": "Drednaw",
+  "form": null,
+  "types": [
+   "Water",
+   "Rock"
+  ],
+  "how": "evolve L22",
+  "gen8": true
+ },
+ {
+  "nat": 835,
+  "borrius": null,
+  "name": "Yamper",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 836,
+  "borrius": null,
+  "name": "Boltund",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "evolve L25",
+  "gen8": true
+ },
+ {
+  "nat": 837,
+  "borrius": null,
+  "name": "Rolycoly",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "cave",
+  "gen8": true
+ },
+ {
+  "nat": 838,
+  "borrius": null,
+  "name": "Carkol",
+  "form": null,
+  "types": [
+   "Rock",
+   "Fire"
+  ],
+  "how": "evolve L18",
+  "gen8": true
+ },
+ {
+  "nat": 839,
+  "borrius": null,
+  "name": "Coalossal",
+  "form": null,
+  "types": [
+   "Rock",
+   "Fire"
+  ],
+  "how": "evolve L34",
+  "gen8": true
+ },
+ {
+  "nat": 840,
+  "borrius": null,
+  "name": "Applin",
+  "form": null,
+  "types": [
+   "Grass",
+   "Dragon"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 841,
+  "borrius": null,
+  "name": "Flapple",
+  "form": null,
+  "types": [
+   "Grass",
+   "Dragon"
+  ],
+  "how": "Tart Apple",
+  "gen8": true
+ },
+ {
+  "nat": 842,
+  "borrius": null,
+  "name": "Appletun",
+  "form": null,
+  "types": [
+   "Grass",
+   "Dragon"
+  ],
+  "how": "Sweet Apple",
+  "gen8": true
+ },
+ {
+  "nat": 843,
+  "borrius": null,
+  "name": "Silicobra",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 844,
+  "borrius": null,
+  "name": "Sandaconda",
+  "form": null,
+  "types": [
+   "Ground"
+  ],
+  "how": "evolve L36",
+  "gen8": true
+ },
+ {
+  "nat": 845,
+  "borrius": null,
+  "name": "Cramorant",
+  "form": null,
+  "types": [
+   "Flying",
+   "Water"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 846,
+  "borrius": null,
+  "name": "Arrokuda",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 847,
+  "borrius": null,
+  "name": "Barraskewda",
+  "form": null,
+  "types": [
+   "Water"
+  ],
+  "how": "evolve L26",
+  "gen8": true
+ },
+ {
+  "nat": 848,
+  "borrius": null,
+  "name": "Toxel",
+  "form": null,
+  "types": [
+   "Electric",
+   "Poison"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 849,
+  "borrius": null,
+  "name": "Toxtricity",
+  "form": null,
+  "types": [
+   "Electric",
+   "Poison"
+  ],
+  "how": "evolve L30",
+  "gen8": true
+ },
+ {
+  "nat": 850,
+  "borrius": null,
+  "name": "Sizzlipede",
+  "form": null,
+  "types": [
+   "Fire",
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 851,
+  "borrius": null,
+  "name": "Centiskorch",
+  "form": null,
+  "types": [
+   "Fire",
+   "Bug"
+  ],
+  "how": "evolve L28",
+  "gen8": true
+ },
+ {
+  "nat": 852,
+  "borrius": null,
+  "name": "Clobbopus",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 853,
+  "borrius": null,
+  "name": "Grapploct",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "Clobbopus levelled while knowing Taunt",
+  "gen8": true
+ },
+ {
+  "nat": 854,
+  "borrius": null,
+  "name": "Sinistea",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "cave",
+  "gen8": true
+ },
+ {
+  "nat": 855,
+  "borrius": null,
+  "name": "Polteageist",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "Cracked Pot or Chipped Pot",
+  "gen8": true
+ },
+ {
+  "nat": 856,
+  "borrius": null,
+  "name": "Hatenna",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "breed Hattrem",
+  "gen8": true
+ },
+ {
+  "nat": 857,
+  "borrius": null,
+  "name": "Hattrem",
+  "form": null,
+  "types": [
+   "Psychic"
+  ],
+  "how": "wild or evolve Hatenna L32",
+  "gen8": true
+ },
+ {
+  "nat": 858,
+  "borrius": null,
+  "name": "Hatterene",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Fairy"
+  ],
+  "how": "evolve L42",
+  "gen8": true
+ },
+ {
+  "nat": 859,
+  "borrius": null,
+  "name": "Impidimp",
+  "form": null,
+  "types": [
+   "Dark",
+   "Fairy"
+  ],
+  "how": "breed Morgrem",
+  "gen8": true
+ },
+ {
+  "nat": 860,
+  "borrius": null,
+  "name": "Morgrem",
+  "form": null,
+  "types": [
+   "Dark",
+   "Fairy"
+  ],
+  "how": "special night encounter in Vivill Woods",
+  "gen8": true
+ },
+ {
+  "nat": 861,
+  "borrius": null,
+  "name": "Grimmsnarl",
+  "form": null,
+  "types": [
+   "Dark",
+   "Fairy"
+  ],
+  "how": "evolve L42",
+  "gen8": true
+ },
+ {
+  "nat": 862,
+  "borrius": null,
+  "name": "Obstagoon",
+  "form": null,
+  "types": [
+   "Dark",
+   "Normal"
+  ],
+  "how": "wild or evolve Galarian Linoone L35 at night",
+  "gen8": true
+ },
+ {
+  "nat": 863,
+  "borrius": null,
+  "name": "Perrserker",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "evolve Galarian Meowth L28",
+  "gen8": true
+ },
+ {
+  "nat": 864,
+  "borrius": null,
+  "name": "Cursola",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "underwater or evolve Galarian Corsola L38",
+  "gen8": true
+ },
+ {
+  "nat": 865,
+  "borrius": null,
+  "name": "Sirfetch'd",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild or Galarian Farfetchd with 3 crits in one battle",
+  "gen8": true
+ },
+ {
+  "nat": 866,
+  "borrius": null,
+  "name": "Mr. Rime",
+  "form": null,
+  "types": [
+   "Ice",
+   "Psychic"
+  ],
+  "how": "evolve Galarian Mr. Mime L42",
+  "gen8": true
+ },
+ {
+  "nat": 867,
+  "borrius": null,
+  "name": "Runerigus",
+  "form": null,
+  "types": [
+   "Ground",
+   "Ghost"
+  ],
+  "how": "Ruins of Void encounter or evolve Galarian Yamask L35",
+  "gen8": true
+ },
+ {
+  "nat": 868,
+  "borrius": null,
+  "name": "Milcery",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 869,
+  "borrius": null,
+  "name": "Alcremie",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "Milcery levelled while holding a Sweet",
+  "gen8": true
+ },
+ {
+  "nat": 870,
+  "borrius": null,
+  "name": "Falinks",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 871,
+  "borrius": null,
+  "name": "Pincurchin",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "cave",
+  "gen8": true
+ },
+ {
+  "nat": 872,
+  "borrius": null,
+  "name": "Snom",
+  "form": null,
+  "types": [
+   "Ice",
+   "Bug"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 873,
+  "borrius": null,
+  "name": "Frosmoth",
+  "form": null,
+  "types": [
+   "Ice",
+   "Bug"
+  ],
+  "how": "evolve Snom (high friendship, night)",
+  "gen8": true
+ },
+ {
+  "nat": 874,
+  "borrius": null,
+  "name": "Stonjourner",
+  "form": null,
+  "types": [
+   "Rock"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 875,
+  "borrius": null,
+  "name": "Eiscue",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 876,
+  "borrius": null,
+  "name": "Indeedee",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Normal"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 877,
+  "borrius": null,
+  "name": "Morpeko",
+  "form": null,
+  "types": [
+   "Electric",
+   "Dark"
+  ],
+  "how": "wild",
+  "gen8": true
+ },
+ {
+  "nat": 878,
+  "borrius": null,
+  "name": "Cufant",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "breed Copperajah",
+  "gen8": true
+ },
+ {
+  "nat": 879,
+  "borrius": null,
+  "name": "Copperajah",
+  "form": null,
+  "types": [
+   "Steel"
+  ],
+  "how": "wild or evolve Cufant L34",
+  "gen8": true
+ },
+ {
+  "nat": 880,
+  "borrius": null,
+  "name": "Dracozolt",
+  "form": null,
+  "types": [
+   "Electric",
+   "Dragon"
+  ],
+  "how": "cave",
+  "gen8": true
+ },
+ {
+  "nat": 881,
+  "borrius": null,
+  "name": "Arctozolt",
+  "form": null,
+  "types": [
+   "Electric",
+   "Ice"
+  ],
+  "how": "cave",
+  "gen8": true
+ },
+ {
+  "nat": 882,
+  "borrius": null,
+  "name": "Dracovish",
+  "form": null,
+  "types": [
+   "Water",
+   "Dragon"
+  ],
+  "how": "surf",
+  "gen8": true
+ },
+ {
+  "nat": 883,
+  "borrius": null,
+  "name": "Arctovish",
+  "form": null,
+  "types": [
+   "Water",
+   "Ice"
+  ],
+  "how": "surf",
+  "gen8": true
+ },
+ {
+  "nat": 884,
+  "borrius": null,
+  "name": "Duraludon",
+  "form": null,
+  "types": [
+   "Steel",
+   "Dragon"
+  ],
+  "how": "cave",
+  "gen8": true
+ },
+ {
+  "nat": 885,
+  "borrius": null,
+  "name": "Dreepy",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Ghost"
+  ],
+  "how": "breed Drakloak",
+  "gen8": true
+ },
+ {
+  "nat": 886,
+  "borrius": null,
+  "name": "Drakloak",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Ghost"
+  ],
+  "how": "cave or evolve Dreepy L50",
+  "gen8": true
+ },
+ {
+  "nat": 887,
+  "borrius": null,
+  "name": "Dragapult",
+  "form": null,
+  "types": [
+   "Dragon",
+   "Ghost"
+  ],
+  "how": "evolve L60",
+  "gen8": true
+ },
+ {
+  "nat": 888,
+  "borrius": null,
+  "name": "Zacian",
+  "form": null,
+  "types": [
+   "Fairy"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 889,
+  "borrius": null,
+  "name": "Zamazenta",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 890,
+  "borrius": null,
+  "name": "Eternatus",
+  "form": null,
+  "types": [
+   "Poison",
+   "Dragon"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 891,
+  "borrius": null,
+  "name": "Kubfu",
+  "form": null,
+  "types": [
+   "Fighting"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 892,
+  "borrius": null,
+  "name": "Urshifu",
+  "form": "Single-Strike",
+  "types": [
+   "Fighting",
+   "Dark"
+  ],
+  "how": "Dusk Stone on Kubfu",
+  "gen8": true
+ },
+ {
+  "nat": 892,
+  "borrius": null,
+  "name": "Urshifu",
+  "form": "Rapid-Strike",
+  "types": [
+   "Fighting",
+   "Water"
+  ],
+  "how": "Water Stone on Kubfu",
+  "gen8": true
+ },
+ {
+  "nat": 893,
+  "borrius": null,
+  "name": "Zarude",
+  "form": null,
+  "types": [
+   "Dark",
+   "Grass"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": true,
+  "note": "unboundwiki table type was wrong (Water); corrected to PokeAPI/Unbound-Cloud value"
+ },
+ {
+  "nat": 894,
+  "borrius": null,
+  "name": "Regieleki",
+  "form": null,
+  "types": [
+   "Electric"
+  ],
+  "how": "Icy Hole static encounter (the Regis must be caught first)",
+  "gen8": true
+ },
+ {
+  "nat": 895,
+  "borrius": null,
+  "name": "Regidrago",
+  "form": null,
+  "types": [
+   "Dragon"
+  ],
+  "how": "Icy Hole static encounter (the Regis must be caught first)",
+  "gen8": true
+ },
+ {
+  "nat": 896,
+  "borrius": null,
+  "name": "Glastrier",
+  "form": null,
+  "types": [
+   "Ice"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 897,
+  "borrius": null,
+  "name": "Spectrier",
+  "form": null,
+  "types": [
+   "Ghost"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 898,
+  "borrius": null,
+  "name": "Calyrex",
+  "form": null,
+  "types": [
+   "Psychic",
+   "Grass"
+  ],
+  "how": "Unbound Cloud trade",
+  "gen8": true
+ },
+ {
+  "nat": 898,
+  "borrius": null,
+  "name": "Calyrex",
+  "form": "Ice Rider",
+  "types": [
+   "Psychic",
+   "Ice"
+  ],
+  "how": "forme fusion with Glastrier",
+  "gen8": true
+ },
+ {
+  "nat": 898,
+  "borrius": null,
+  "name": "Calyrex",
+  "form": "Shadow Rider",
+  "types": [
+   "Psychic",
+   "Ghost"
+  ],
+  "how": "forme fusion with Spectrier",
+  "gen8": true
+ },
+ {
+  "nat": 899,
+  "borrius": null,
+  "name": "Wyrdeer",
+  "form": null,
+  "types": [
+   "Normal",
+   "Psychic"
+  ],
+  "how": "Stantler levelled while knowing Psyshield Bash",
+  "gen8": true
+ },
+ {
+  "nat": 900,
+  "borrius": null,
+  "name": "Kleavor",
+  "form": null,
+  "types": [
+   "Bug",
+   "Rock"
+  ],
+  "how": "Black Augurite on Scyther",
+  "gen8": true
+ },
+ {
+  "nat": 901,
+  "borrius": null,
+  "name": "Ursaluna",
+  "form": null,
+  "types": [
+   "Ground",
+   "Normal"
+  ],
+  "how": "Peat Block on Ursaring at night",
+  "gen8": true
+ },
+ {
+  "nat": 902,
+  "borrius": null,
+  "name": "Basculegion",
+  "form": null,
+  "types": [
+   "Water",
+   "Ghost"
+  ],
+  "how": "Hisuian Basculin levelled while knowing Wave Crash; also a post-game mystery gift",
+  "gen8": true
+ },
+ {
+  "nat": 903,
+  "borrius": null,
+  "name": "Sneasler",
+  "form": null,
+  "types": [
+   "Fighting",
+   "Poison"
+  ],
+  "how": "Razor Claw on Sneasel by day; also a post-game mystery gift",
+  "gen8": true
+ },
+ {
+  "nat": 904,
+  "borrius": null,
+  "name": "Overqwil",
+  "form": null,
+  "types": [
+   "Dark",
+   "Poison"
+  ],
+  "how": "post-game mystery gift",
+  "gen8": true
+ },
+ {
+  "nat": 905,
+  "borrius": null,
+  "name": "Enamorus",
+  "form": null,
+  "types": [
+   "Fairy",
+   "Flying"
+  ],
+  "how": "Magnolia Fields encounter with Landorus in party",
+  "gen8": true
+ }
+]

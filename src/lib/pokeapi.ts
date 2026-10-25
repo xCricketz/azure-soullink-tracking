@@ -262,7 +262,7 @@ async function fetchWiki(id: number): Promise<WikiMon> {
 }
 
 export async function loadWiki(id: number): Promise<WikiMon> {
-  if (id < 1 || id > 493) throw new Error('Only Gen 1–4')
+  if (id < 1 || id > 1025) throw new Error('No main-series card for that number')
   const cached = await readWiki(id)
   if (cached) return cached
   const mon = await fetchWiki(id)
