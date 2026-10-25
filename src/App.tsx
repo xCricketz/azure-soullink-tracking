@@ -226,7 +226,7 @@ export function Shell() {
     sub = app.settings.showGen8 ? 'Post-game on' : 'Story dex'
   } else if (tab === 'map') {
     title = 'Map'
-    sub = 'Borrius · story order'
+    sub = 'Schematic route graph'
   }
 
   return (

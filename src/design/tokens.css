@@ -54,8 +54,9 @@
   --e-dock:0 18px 36px -10px rgba(30,80,190,.38),0 0 0 1px var(--glass-line);
   --shadow-img:rgba(20,50,120,.30);
   /* ---- map ---- */
-  --map-sea-a:#8FD8FF; --map-sea-b:#C9F1FF; --map-land-a:#FFF8DC; --map-land-b:#E8FAD9; --map-coast:#FFFFFF; --map-grid:#2E78D6;
+  --map-sea-a:#8FD8FF; --map-sea-b:#C9F1FF; --map-land-a:#FFF8DC; --map-land-b:#E8FAD9; --map-coast:#FFFFFF; --map-grid:#2E78D6; --map-road:#2F6B45;
   --map-lbl:#1B2A57; --map-lbl-halo:#FFFFFF; --map-lbl-dim:#3E4C7C; --map-node:#FFFFFF; --map-node-ink:#2C3B6E; --map-node-dim:#8C9BC6;
+  --blob-snow:#F4FBFF; --blob-grass:#C8EFA8; --blob-sea:#7ED4FF; --blob-mountain:#DDD0F6; --blob-desert:#FFE3A8; --blob-volcano:#FFC7B4; --blob-city:#D9E4FF;
   /* ---- type scale (px) ---- */
   --font-display:"Sora","Inter",system-ui,sans-serif;
   --font-body:"Inter",system-ui,-apple-system,"Roboto",sans-serif;
@@ -109,8 +110,9 @@
   --ty-ink:#fff; --ty-mix:55%;
   --e-1:0 1px 0 rgba(255,255,255,.05) inset,0 6px 18px rgba(0,0,0,.28); --e-2:0 1px 0 rgba(255,255,255,.07) inset,0 14px 34px rgba(0,0,0,.42);
   --e-sheet:0 -18px 60px rgba(0,0,0,.6); --e-dock:0 1px 0 rgba(255,255,255,.1) inset,0 18px 40px rgba(0,0,0,.55),0 0 0 1px var(--glass-line); --shadow-img:rgba(0,0,0,.45);
-  --map-sea-a:#0F1D45; --map-sea-b:#070C1F; --map-land-a:#1B2B5E; --map-land-b:#141F47; --map-coast:#4A63B8; --map-grid:#5470C8;
+  --map-sea-a:#0F1D45; --map-sea-b:#070C1F; --map-land-a:#1B2B5E; --map-land-b:#141F47; --map-coast:#4A63B8; --map-grid:#5470C8; --map-road:#8FCB9E;
   --map-lbl:#C9D3F5; --map-lbl-halo:#091227; --map-lbl-dim:#7E8BB8; --map-node:#0E1430; --map-node-ink:#C9D3F5; --map-node-dim:#5A6797;
+  --blob-snow:#24486E; --blob-grass:#1E4A34; --blob-sea:#163E68; --blob-mountain:#3A3160; --blob-desert:#6A4A1C; --blob-volcano:#6A2E24; --blob-city:#24345C;
 }
 [data-theme="dark"][data-me="seri"]{--me-ink:var(--seri-ink)}
 [data-theme="dark"]:not([data-me="seri"]){--me-ink:var(--fisi-ink)}

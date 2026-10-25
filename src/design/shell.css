@@ -86,8 +86,8 @@ button.tomb { width: 100%; display: block; }
 
 .demo-bar {
   position: absolute;
-  z-index: 28;
-  top: calc(8px + var(--sat));
+  z-index: 30;
+  top: calc(6px + var(--sat));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -98,11 +98,17 @@ button.tomb { width: 100%; display: block; }
   border-radius: 18px;
   background: var(--ember-grad);
   color: var(--on-accent);
+  pointer-events: auto;
 }
 .demo-pill { font: 800 11px/1 var(--font-body); letter-spacing: 0.1em; }
 .demo-bar .btn { height: 28px; width: auto; padding: 0 10px; border-radius: 12px; background: rgba(255,255,255,.55); color: var(--on-accent); box-shadow: none; }
-.app[data-demo="1"] > .scroll { padding-top: calc(48px + var(--sat)); }
-.app[data-demo="1"] .hdr.sticky { top: calc(44px + var(--sat)); padding-top: 6px; }
+.app[data-demo="1"] > .scroll { padding-top: calc(58px + var(--sat)); }
+.app[data-demo="1"] .hdr.sticky {
+  top: calc(50px + var(--sat));
+  padding-top: 8px;
+  background: var(--bg);
+  box-shadow: 0 10px 16px -14px rgba(18, 32, 74, 0.45);
+}
 
 .boot {
   min-height: 100vh;
@@ -140,23 +146,54 @@ textarea, .field input, .picker input, .search {
 
 .map-stage {
   position: relative;
-  height: min(42vh, 320px);
-  margin: 0 var(--page-x) 12px;
+  height: min(56vh, 440px);
+  margin: 0 var(--page-x) 8px;
   overflow: hidden;
   touch-action: none;
   border-radius: 22px;
-  background: var(--map-sea-a);
+  background:
+    radial-gradient(120% 80% at 10% 0%, var(--map-sea-b), transparent 55%),
+    var(--map-sea-a);
   box-shadow: var(--e-1), 0 0 0 1px var(--line);
 }
 .map-svg { position: absolute; top: 0; left: 0; transform-origin: 0 0; overflow: visible; }
-.map-edge { stroke: var(--link); stroke-width: 3; opacity: 0.55; }
+.map-blob { opacity: 0.9; pointer-events: none; }
+.map-blob.snow { fill: var(--blob-snow); }
+.map-blob.grass { fill: var(--blob-grass); }
+.map-blob.sea { fill: var(--blob-sea); }
+.map-blob.mountain { fill: var(--blob-mountain); }
+.map-blob.desert { fill: var(--blob-desert); }
+.map-blob.volcano { fill: var(--blob-volcano); }
+.map-blob.city { fill: var(--blob-city); }
+.map-edge { fill: none; stroke: var(--map-road); stroke-width: 8; stroke-linecap: round; opacity: 0.9; }
+.map-edge.highway { stroke: var(--map-grid); stroke-width: 4; stroke-dasharray: 10 8; opacity: 0.75; }
 .map-node { cursor: pointer; }
-.map-node circle { fill: var(--map-node); stroke: var(--map-node-ink); stroke-width: 2; }
-.map-node text { fill: var(--map-lbl); font-family: var(--font-body); }
-.map-node.visited circle { fill: var(--boxed); stroke: transparent; }
-.map-node.caught circle { fill: var(--alive); stroke: transparent; }
-.map-node.current circle { fill: var(--ember); stroke: #fff; stroke-width: 3; }
-.map-node.current text, .map-node.caught text { fill: var(--text); font-weight: 700; }
+.map-node .hit { fill: transparent; }
+.map-node .core { fill: var(--map-node); stroke: var(--map-node-ink); stroke-width: 2; }
+.map-node .ico { fill: var(--map-node-ink); stroke: none; }
+.map-node .lbl {
+  fill: var(--map-lbl);
+  stroke: var(--map-lbl-halo);
+  stroke-width: 4px;
+  paint-order: stroke;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  pointer-events: none;
+}
+.map-node.visited .core { fill: var(--boxed); stroke: transparent; }
+.map-node.caught .core { fill: var(--alive); stroke: transparent; }
+.map-node.current .core { fill: var(--ember); stroke: #fff; stroke-width: 3; }
+.map-node.visited .ico, .map-node.caught .ico, .map-node.current .ico { fill: #fff; }
+.map-node.gym .core { stroke: #E8A400; stroke-width: 3; }
+.map-node .badge-num { fill: var(--map-node-ink); font: 800 12px var(--font-body); pointer-events: none; }
+.map-node.caught .badge-num, .map-node.current .badge-num, .map-node.visited .badge-num { fill: #fff; }
+.map-node .town-badge circle { fill: #E8A400; stroke: #fff; stroke-width: 1.5; }
+.map-node .town-badge text { fill: #4A2600; font: 800 9px var(--font-body); pointer-events: none; }
+.map-pin path { fill: var(--fisi); }
+.map-pin.seri path, .map-pin.seri .ring { fill: var(--seri); }
+.map-pin .ring { fill: var(--fisi); }
+.map-pin .face { fill: #fff; }
 .map-pin image { pointer-events: none; }
 .map-tools { position: absolute; right: 8px; bottom: 8px; display: flex; flex-direction: column; gap: 6px; z-index: 2; }
 .map-tools button {
@@ -201,15 +238,23 @@ textarea, .field input, .picker input, .search {
 .import-help { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 18px; }
 .import-help strong { color: var(--text); }
 .import-actions { display: flex; flex-direction: column; gap: 8px; }
-.file-btn { position: relative; overflow: hidden; }
+.file-btn { position: relative; display: block; width: 100%; min-height: 48px; overflow: hidden; }
+.row.file-btn { display: flex; align-items: center; min-height: 56px; }
+.row.file-btn > label { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; width: 100%; }
+.file-btn > .btn { width: 100%; }
+.file-btn > label { pointer-events: none; }
 .file-btn input {
   position: absolute;
   inset: 0;
+  z-index: 3;
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
   opacity: 0;
-  font-size: 16px;
+  font-size: 100px;
   cursor: pointer;
+  border: 0;
 }
 input, textarea, select { font-size: 16px; }
 .import-error { margin: 0; color: var(--dead-ink, #9b2c2c); font-size: 14px; line-height: 18px; }
@@ -228,3 +273,99 @@ input, textarea, select { font-size: 16px; }
 .import-route select { width: 100%; min-height: 44px; }
 .import-jump { margin-bottom: 8px; }
 .text-btn { align-self: flex-start; border: 0; background: transparent; color: var(--me-ink, var(--fisi-ink)); font: 650 14px/20px var(--font-body); padding: 0; min-height: 44px; }
+
+/* Phone width: nothing in the scrollport may force a wider page. */
+.app, .app > .scroll, .screen, .screen > *, .both-grid, .both-grid > section, .grid2, .tcard, .lcard, .pairbar, .hero, .ladder-card, .next-steps, .group, .row {
+  min-width: 0;
+  max-width: 100%;
+}
+.hdr.sticky { max-width: 100%; }
+.hdr h1 { font-size: clamp(20px, 6vw, 26px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hdr .r { flex: none; }
+.capchip .t b { max-width: 92px; overflow: hidden; text-overflow: ellipsis; }
+.runbadges { flex-wrap: wrap; }
+.lcard .top { min-width: 0; gap: 8px; }
+.lcard .top > span { flex: none; }
+.route { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.half { overflow: hidden; }
+.half .wiki-hit, .half > .orb {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.half .orb { --sz: 44px; width: 44px; height: 44px; overflow: hidden; }
+.half .orb img, .tcard .orb img, .reserve .orb img {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  width: 40px;
+  height: 40px;
+  max-width: 100%;
+  transform: none;
+  display: block;
+  object-fit: contain;
+}
+.half .meta { flex: 1 1 auto; min-width: 0; overflow: hidden; }
+.grid2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); width: 100%; box-sizing: border-box; }
+.both-grid { grid-template-columns: minmax(0, 1fr); width: 100%; box-sizing: border-box; }
+.tcard { overflow: hidden; }
+.tcard .art { height: 108px; overflow: hidden; }
+.tcard .art .wiki-hit { width: 84px; height: 84px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.tcard .art .orb { --sz: 76px; margin-top: 8px; overflow: hidden; }
+.tcard .art .orb img { width: 70px; height: 70px; }
+.tcard .lv {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 12px;
+  line-height: 1;
+  height: auto;
+  min-height: 22px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--text);
+  background: var(--surface);
+  z-index: 4;
+}
+.tcard .nm { min-width: 0; flex-direction: column; align-items: flex-start; }
+.tcard .nm b, .tcard .nm span, .tcard .lk span, .pairbar b, .pairbar small, .rt, .rt small {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tcard .nm b, .tcard .nm span, .tcard .lk span { white-space: nowrap; display: block; }
+.tcard .lk { min-width: 0; }
+.tcard .lk .wiki-hit, .tcard .lk .orb { flex: none; overflow: hidden; }
+.tcard .lk .orb { --sz: 26px; }
+.tcard .lk .orb img { width: 22px; height: 22px; }
+.team-actions { flex-wrap: wrap; min-width: 0; }
+.team-actions .btn { width: auto; flex: 1 1 auto; min-width: 0; }
+.hero { grid-template-columns: 88px minmax(0, 1fr); }
+.hero h2, .hero .gate { overflow-wrap: anywhere; }
+.chips { flex-wrap: wrap; overflow: visible; }
+.ladder-card { display: block; box-sizing: border-box; overflow: hidden; }
+.ladder { grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; }
+.ladder .st1 small, .ladder .st1 b { overflow: hidden; text-overflow: ellipsis; }
+.next-steps { margin: 0 var(--page-x) 20px; box-sizing: border-box; }
+.next-steps li button { width: 100%; min-width: 0; box-sizing: border-box; overflow-wrap: anywhere; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; margin: 0 var(--page-x) 4px; color: var(--text-muted); font-size: 12px; }
+.map-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; vertical-align: baseline; }
+.map-legend .caught { background: var(--alive); }
+.map-legend .visited { background: var(--boxed); }
+.map-legend .ahead { background: var(--map-node); box-shadow: inset 0 0 0 1px var(--map-node-ink); }
+.map-legend .town { background: var(--map-node); box-shadow: inset 0 0 0 2px var(--map-node-ink); }
+.map-legend .gym { background: #E8A400; }
+.map-legend .cave { background: var(--map-node-ink); }
+.map-caption { margin: 4px var(--page-x) 12px; }
+.map-wiki { color: var(--me-ink, var(--fisi-ink)); font-weight: 700; }
+.map-screen { max-width: 100%; }
+.reserve { min-width: 0; }
+.reserve > div { min-width: 0; flex: 1; }
+.reserve strong, .reserve p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
+.group { overflow: hidden; }
+.pcard, .tomb, .banner { min-width: 0; max-width: 100%; box-sizing: border-box; }
+.banner span { min-width: 0; }
