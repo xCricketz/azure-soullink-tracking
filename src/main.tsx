@@ -15,7 +15,16 @@ applyTheme(loadSettings().theme)
 
 installHistory()
 
-registerSW({ immediate: true })
+registerSW({
+  immediate: true,
+  onRegisteredSW(_url, registration) {
+    if (!registration) return
+    const check = () => {
+      if (document.visibilityState === 'visible') void registration.update()
+    }
+    document.addEventListener('visibilitychange', check)
+  },
+})
 
 window.addEventListener('beforeinstallprompt', (event) => {
   event.preventDefault()

@@ -171,7 +171,11 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
 
   const storeOutbox = useCallback((ops: OutOp[]) => {
     outboxRef.current = ops
-    localStorage.setItem(OUTBOX_KEY, JSON.stringify(ops))
+    try {
+      localStorage.setItem(OUTBOX_KEY, JSON.stringify(ops))
+    } catch {
+      /* private mode or a full store */
+    }
     publishSync()
   }, [publishSync])
 
@@ -499,8 +503,14 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         channelOk.current = status === 'SUBSCRIBED'
         publishSync()
       })
+    const wake = () => {
+      if (document.visibilityState !== 'visible') return
+      if (!supabase.realtime.isConnected()) supabase.realtime.connect()
+    }
+    document.addEventListener('visibilitychange', wake)
     return () => {
       channelOk.current = false
+      document.removeEventListener('visibilitychange', wake)
       void supabase.removeChannel(channel)
     }
   }, [publishSync, queueAnnounce, run?.id, writeCatches])

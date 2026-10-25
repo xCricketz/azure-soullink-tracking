@@ -40,8 +40,12 @@ export function loadSettings(): Settings {
 }
 
 export function saveSettings(settings: Settings) {
-  localStorage.setItem(KEY, JSON.stringify(settings))
-  localStorage.setItem('sl-theme', settings.theme)
+  try {
+    localStorage.setItem(KEY, JSON.stringify(settings))
+    localStorage.setItem('sl-theme', settings.theme)
+  } catch {
+    /* private mode or a full store */
+  }
   applyTheme(settings.theme)
 }
 
@@ -59,5 +63,9 @@ export function loadCustomRoutes(): { name: string; order: number }[] {
 }
 
 export function saveCustomRoutes(routes: { name: string; order: number }[]) {
-  localStorage.setItem(CUSTOM_KEY, JSON.stringify(routes))
+  try {
+    localStorage.setItem(CUSTOM_KEY, JSON.stringify(routes))
+  } catch {
+    /* private mode or a full store */
+  }
 }

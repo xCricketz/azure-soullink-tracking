@@ -37,7 +37,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        cacheId: 'unbound-v8-meadow',
+        cacheId: 'unbound-v8-ios',
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff,woff2,ttf,ico,webmanifest}'],
         navigateFallback: 'index.html',

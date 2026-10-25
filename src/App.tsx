@@ -90,6 +90,15 @@ function RealApp() {
   const { entered, enter } = useAppOpen()
 
   useEffect(() => {
+    const wake = () => {
+      if (document.visibilityState === 'visible') void supabase.auth.startAutoRefresh()
+      else void supabase.auth.stopAutoRefresh()
+    }
+    document.addEventListener('visibilitychange', wake)
+    return () => document.removeEventListener('visibilitychange', wake)
+  }, [])
+
+  useEffect(() => {
     void supabase.auth.getSession().then(({ data }) => {
       setEmail(data.session?.user.email ?? null)
       setReady(true)
