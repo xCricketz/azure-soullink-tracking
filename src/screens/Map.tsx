@@ -219,7 +219,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
             )
           })}
           {pins.map((pin) => (
-            <g key={pin.player} className="map-pin" transform={`translate(${pin.x} ${pin.y - 36})`}>
+            <g key={pin.player} className="map-pin" transform={`translate(${pin.x + (pin.player === 'seri' ? 22 : -10)} ${pin.y - 36})`}>
               <path d="M-6 13 L0 22 L6 13Z" fill={pin.player === 'fisi' ? '#1E9BFF' : '#FF4F86'} />
               <circle r="16" fill="#fff" />
               <circle r="14" fill={pin.player === 'fisi' ? '#1E9BFF' : '#FF4F86'} />
