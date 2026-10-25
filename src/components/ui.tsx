@@ -1,5 +1,6 @@
 import { Archive, Ban, Heart, Loader2, Skull, WifiOff, X, type LucideIcon } from 'lucide-react'
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { gen4TypeNames } from '../data/typechart'
 import { monTypes, spriteSources, typeKey } from '../lib/dex'
 import { useHistoryLayer } from '../lib/history'
@@ -176,7 +177,8 @@ export function BottomSheet({
     }
   }, [open])
   if (!open) return null
-  return (
+  const host = document.querySelector('.app') ?? document.body
+  return createPortal(
     <div className={cx('overlay', peek && 'overlay-peek')} onClick={onClose}>
       <div
         className={cx('sheet-align', peek && 'sheet-align-peek')}
@@ -220,7 +222,8 @@ export function BottomSheet({
           {footer && <div className="sheet-foot">{footer}</div>}
         </div>
       </div>
-    </div>
+    </div>,
+    host,
   )
 }
 

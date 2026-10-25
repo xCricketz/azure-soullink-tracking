@@ -37,6 +37,25 @@ export const NATURES = [
 
 export const GROWTH = ['MEDIUM_FAST', 'ERRATIC', 'FLUCTUATING', 'MEDIUM_SLOW', 'FAST', 'SLOW'] as const;
 
+/** Met-location constants (vanilla Gen 3 values; Unbound uses them too, SPEC.md §5.5). */
+export const METLOC_SPECIAL_EGG = 253;
+export const METLOC_IN_GAME_TRADE = 254;
+export const METLOC_FATEFUL_ENCOUNTER = 255;
+/** First and last map-section id in the ROM name table (88..196). */
+export const MAPSEC_FIRST = 88;
+export const MAPSEC_LAST = 196;
+
+/** Origin game in bits 7–10. Unbound marks its own catches as 4 (FireRed). */
+export const ORIGIN_GAMES: Record<number, string> = {
+  1: 'Sapphire', 2: 'Ruby', 3: 'Emerald', 4: 'FireRed', 5: 'LeafGreen', 15: 'Colosseum/XD',
+};
+
+/** CFRU ball ids. Safari = 4 is measured. The other names are the usual order. */
+export const BALL_NAMES = [
+  'Master', 'Ultra', 'Great', 'Poké', 'Safari', 'Net', 'Dive', 'Nest', 'Repeat', 'Timer', 'Luxury', 'Premier',
+  'Dusk', 'Heal', 'Quick', 'Cherish', 'Park', 'Fast', 'Level', 'Lure', 'Heavy', 'Love', 'Friend', 'Moon', 'Sport', 'Beast', 'Dream',
+] as const;
+
 // ---------- Hilfsfunktionen ----------
 const ACCENTS: Record<number, string> = {
   0x01: 'À', 0x02: 'Á', 0x03: 'Â', 0x04: 'Ç', 0x05: 'È', 0x06: 'É', 0x07: 'Ê', 0x08: 'Ë', 0x09: 'Ì', 0x0b: 'Î',
@@ -130,11 +149,30 @@ export interface Mon {
   ivs: number[]; // hp, atk, def, spe, spa, spd
   evs: number[]; // hp, atk, def, spe, spa, spd (Reihenfolge wie im Spiel)
   hiddenAbility: boolean;
+  /**
+   * Met location. Box: map section at 0x33, origins word at 0x34, ball at 0x26.
+   * Party: map section at 0x45, origins word at 0x46, ball at 0x2A.
+   */
+  met: MetInfo;
   /** PID/TID/SID-Xor (Gen-3-Formel). Shiny nach Vanilla = xor < 8; Unbound scheint < 16 zu nutzen (VERMUTUNG, Histogramm) */
   shinyXor: number;
   shiny: boolean; // GERATEN: shinyXor < 16
   ownOT: boolean; // OT-ID == Trainer-ID des Spielers
   warnings: string[];
+}
+
+export interface MetInfo {
+  /** Map-section id. 88..196 are the ROM names. 254 is an in-game trade. 255 is an event. */
+  mapSectionId: number;
+  /** Catch level, origins bits 0–6. 0 means the Pokémon hatched here. */
+  catchLevel: number;
+  /** The origins word itself (box 0x34, party 0x46). */
+  originsWord: number;
+  originGame: number;
+  originGameName: string;
+  ball: number;
+  ballName: string | null;
+  category: 'area' | 'hatched' | 'in-game-trade' | 'fateful-event' | 'special-egg' | 'none' | 'foreign-origin' | 'unknown-location';
 }
 
 export interface SlotInfo {
@@ -205,6 +243,29 @@ export interface DecodeCtx {
   formIndexOf?: (id: number) => number | null;
 }
 
+/** Map section, catch level, and ball. Box passes 0x33 and 0x26. Party passes 0x45 and 0x2A. */
+export function buildMetInfo(mapSectionId: number, originsWord: number, ball: number): MetInfo {
+  const catchLevel = originsWord & 0x7f;
+  const originGame = (originsWord >>> 7) & 0xf;
+  const originGameName = ORIGIN_GAMES[originGame] ?? `Unknown (${originGame})`;
+  let category: MetInfo['category'];
+  if (originGame !== 4) category = 'foreign-origin';
+  else if (mapSectionId === 0) category = 'none';
+  else if (mapSectionId === METLOC_FATEFUL_ENCOUNTER) category = 'fateful-event';
+  else if (mapSectionId === METLOC_IN_GAME_TRADE) category = 'in-game-trade';
+  else if (mapSectionId === METLOC_SPECIAL_EGG) category = 'special-egg';
+  else if (mapSectionId >= MAPSEC_FIRST && mapSectionId <= MAPSEC_LAST) category = catchLevel === 0 ? 'hatched' : 'area';
+  else category = 'unknown-location';
+  return {
+    mapSectionId, catchLevel, originsWord, originGame, originGameName, ball,
+    ballName: BALL_NAMES[ball] ?? null, category,
+  };
+}
+
+function metFrom(r: Uint8Array, metOff: number, ballOff: number): MetInfo {
+  return buildMetInfo(r[metOff] ?? 0, u16(r, metOff + 1), r[ballOff] ?? 0);
+}
+
 function ivsFrom(word: number): { ivs: number[]; egg: boolean; ha: boolean } {
   const ivs: number[] = [];
   for (let i = 0; i < 6; i++) ivs.push((word >>> (5 * i)) & 31);
@@ -240,6 +301,7 @@ export function decodeBoxMon(r: Uint8Array, box: number, slot: number, ctx: Deco
   for (let i = 4; i >= 0; i--) packed = (packed << 8n) | BigInt(movesPacked[i]);
   const moves = [0, 1, 2, 3].map((i) => Number((packed >> BigInt(10 * i)) & 0x3ffn));
   const { ivs, egg, ha } = ivsFrom(u32(r, 54));
+  const met = metFrom(r, 0x33, 0x26);
   const exp = u32(r, 32);
   const row = ctx.table?.species[species];
   let level: number | null = null;
@@ -252,6 +314,7 @@ export function decodeBoxMon(r: Uint8Array, box: number, slot: number, ctx: Deco
     nickname: isEgg ? '' : decodeText(r.subarray(8, 18)), isEgg, ot: decodeText(r.subarray(20, 27)),
     level, levelSource, exp, item: u16(r, 30), moves,
     ivs, evs: [r[44], r[45], r[46], r[47], r[48], r[49]], hiddenAbility: ha,
+    met,
   }, ctx, w);
 }
 
@@ -263,6 +326,7 @@ export function decodePartyMon(r: Uint8Array, slot: number, ctx: DecodeCtx): Mon
   const w: string[] = [];
   const dv = new DataView(r.buffer, r.byteOffset, r.byteLength);
   const { ivs, egg, ha } = ivsFrom(dv.getUint32(0x48, true));
+  const met = metFrom(r, 0x45, 0x2a);
   const isEgg = egg || (r[0x13] & 4) !== 0;
   const otid = u32(r, 4);
   const moves = [0, 1, 2, 3].map((i) => u16(r, 0x2c + 2 * i));
@@ -271,6 +335,7 @@ export function decodePartyMon(r: Uint8Array, slot: number, ctx: DecodeCtx): Mon
     nickname: isEgg ? '' : decodeText(r.subarray(8, 18)), isEgg, ot: decodeText(r.subarray(20, 27)),
     level: r[0x54], levelSource: 'stored', exp: u32(r, 0x24), item: u16(r, 0x22), moves,
     ivs, evs: [r[0x38], r[0x39], r[0x3a], r[0x3b], r[0x3c], r[0x3d]], hiddenAbility: ha,
+    met,
   }, ctx, w);
 }
 

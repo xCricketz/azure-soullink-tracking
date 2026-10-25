@@ -53,11 +53,12 @@ export function boxMon(
   species: number,
   exp: number,
   pid: number,
+  met?: { location?: number; level?: number; otId?: number; ball?: number; originGame?: number },
 ): void {
   const row = new Uint8Array(58)
   const view = new DataView(row.buffer)
   view.setUint32(0, pid, true)
-  view.setUint32(4, 1234 | (4321 << 16), true)
+  view.setUint32(4, met?.otId ?? (1234 | (4321 << 16)), true)
   row.set(encodeGen3('Nick'), 8)
   row.fill(0xff, 12, 18)
   row[19] = 2
@@ -66,6 +67,12 @@ export function boxMon(
   view.setUint16(28, species, true)
   view.setUint32(32, exp, true)
   view.setUint32(54, 31 | (1 << 5), true)
+  if (met) {
+    row[0x33] = met.location ?? 0
+    const game = met.originGame ?? 4
+    view.setUint16(0x34, (met.level ?? 0) & 0x7f | ((game & 0xf) << 7), true)
+    row[0x26] = met.ball ?? 3
+  }
   const packed = 1n | (2n << 10n) | (3n << 20n) | (4n << 30n)
   for (let i = 0; i < 5; i++) row[39 + i] = Number((packed >> BigInt(8 * i)) & 0xffn)
   if (off) sectors[off.id].set(row, off.o)
@@ -93,10 +100,13 @@ export function sampleSave(): Uint8Array {
       party[15] = 0xff
       view.setUint16(0x20, 1078, true)
       view.setUint32(0x24, 640000, true)
+      party[0x2a] = 3
+      party[0x45] = 109
+      view.setUint16(0x46, 12 | (4 << 7), true)
       party[0x54] = 80
       sectors[1].set(party, 0x38)
-      boxMon(sectors, { id: 5, o: 4 }, null, 0, 118, 8000, 3)
-      boxMon(sectors, { id: 5, o: 4 + 58 }, null, 0, 1, 1000, 9)
+      boxMon(sectors, { id: 5, o: 4 }, null, 0, 118, 8000, 3, { location: 101, level: 8 })
+      boxMon(sectors, { id: 5, o: 4 + 58 }, null, 0, 1, 1000, 9, { location: 254, level: 50, otId: 9999 })
       markDex(sectors[1], 807)
       markDex(sectors[1], 118)
       markDex(sectors[1], 1)

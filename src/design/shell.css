@@ -70,7 +70,7 @@ body { overflow: hidden; }
   background: var(--scrim);
 }
 .sheet-align { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
-.sheet { width: 100%; max-height: 100%; top: max(52px, var(--sat)); }
+.sheet { width: 100%; height: auto; max-height: none; top: max(52px, var(--sat)); bottom: 0; }
 .overlay-peek { bottom: var(--dock-total); }
 .sheet-align-peek { align-items: flex-end; }
 .sheet.sheet-peek {
@@ -299,10 +299,19 @@ textarea, .field input, .picker input, .search {
 input, textarea, select { font-size: 16px; }
 .import-error { margin: 0; color: var(--dead-ink, #9b2c2c); font-size: 14px; line-height: 18px; }
 .import-summary { margin: 0; font-size: 14px; line-height: 18px; }
+.import-block + .import-block { margin-top: 14px; }
 .import-block h3 { margin: 4px 0 0; font: 700 13px/16px var(--font-body); letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
 .import-box { border-top: 1px solid var(--line); padding-top: 8px; }
 .import-box summary { font-weight: 650; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
 .import-mon { display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid var(--line); }
+.import-mon.is-new {
+  background: var(--fisi-tint);
+  box-shadow: inset 3px 0 0 var(--fisi);
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 8px;
+}
+.import-mon.is-new .import-pill.new { background: var(--fisi); color: #fff; }
 .import-top { display: flex; gap: 10px; align-items: flex-start; }
 .import-top input { width: 22px; height: 22px; margin-top: 2px; }
 .import-flags { display: flex; flex-wrap: wrap; gap: 6px; }
