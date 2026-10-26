@@ -69,12 +69,12 @@ export function decisionCopy(input: {
   ownOT: boolean
   placeName: string | null
   where: string
+  catchLevel?: number
 }): string | null {
-  if (input.decision === 'starter' && input.mapSectionId === 88) {
-    return 'Starter (guess). Frozen Heights on an older run. Not verified. Confirm or correct it. Confirm all skips this.'
-  }
   if (input.decision === 'starter') {
-    return 'Starter (likely). Not a Soul-Link route catch. Confirm or correct it. Confirm all skips this.'
+    const place = input.placeName ?? (input.mapSectionId ? `map section ${input.mapSectionId}` : 'this place')
+    const level = input.catchLevel && input.catchLevel > 0 ? `, Lv${input.catchLevel}` : ''
+    return `Starter? (met at ${place}${level})`
   }
   if (input.mapSectionId === 88 || input.placeName === 'Frozen Heights') {
     if (input.decision === 'unmapped' || input.decision == null) {

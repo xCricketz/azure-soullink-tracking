@@ -1,4 +1,4 @@
-import { CUSTOM_ORDER_START, ROUTES, groupTitle, type RouteDef } from '../data/routes'
+import { CUSTOM_ORDER_START, ROUTES, groupTitle, placeByKey, type RouteDef } from '../data/routes'
 import type { Catch, CustomRoute, PlayerId, RouteFilter, Status } from './types'
 import { norm } from './text'
 
@@ -18,12 +18,13 @@ export function buildRouteList(catches: Catch[], custom: CustomRoute[]): RouteDe
   }
   for (const catchRow of catches) {
     if (!map.has(catchRow.route)) {
+      const place = placeByKey(catchRow.route)
       map.set(catchRow.route, {
         name: catchRow.route,
-        en: catchRow.route,
-        order: catchRow.route_order ?? CUSTOM_ORDER_START,
-        group: 'Custom',
-        kind: 'other',
+        en: place?.name ?? catchRow.route,
+        order: place?.order ?? catchRow.route_order ?? CUSTOM_ORDER_START,
+        group: place ? 'Opening' : 'Custom',
+        kind: place?.kind ?? 'other',
       })
     }
   }

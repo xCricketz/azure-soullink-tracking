@@ -1,6 +1,6 @@
 import type { PlayerId } from '../types'
 import { MAP_SECTIONS, readLocation, type DecisionKind, type LocationReading, type MapConfidence, type MapsecTable } from './locations'
-import { classifyStarter } from './run-options'
+import { STARTER_SLOT, classifyStarter } from './run-options'
 import { identityOf } from './save-diff'
 import type { Mon, ParsedSave } from './unbound-save'
 
@@ -58,7 +58,7 @@ export interface PlannedMon {
   decision: DecisionKind | null
   confidence: MapConfidence | null
   placeName: string | null
-  /** S1 is the v2.1.1.1 starter room. S2 is the older Frozen Heights guess. */
+  /** S1 is the Shadow Base starter room. S2 is the older Frozen Heights guess. Both wait for a route. */
   starterRule: 'S1' | 'S2' | null
   ownOT: boolean
   /** A later Pokémon on a route that already has a catch, using the suggested route. The sheet recomputes this from the route the player actually picks. */
@@ -159,8 +159,8 @@ function planOne(
     ? {
       place: 'needs-decision' as const,
       decision: 'starter' as const,
-      route: null,
-      confidence: starter.confidence === 'likely' || starter.confidence === 'guess' ? starter.confidence : null,
+      route: STARTER_SLOT,
+      confidence: 'guess' as const,
       placeName: opts.sections[String(mon.met.mapSectionId)]?.name ?? null,
       source: 'met' as const,
     }

@@ -1,6 +1,7 @@
 import { Check, Upload } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react'
-import { ROUTES } from '../data/routes'
+import { ROUTES, placeByKey } from '../data/routes'
+import { STARTER_SLOT } from '../lib/save/run-options'
 import { decisionCopy } from '../lib/save/locations'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
@@ -198,10 +199,12 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   }
 
   function draftFor(mon: PlannedMon): CatchDraft {
-    const route = ROUTES.find((item) => item.name === routes[mon.id])
+    const key = routes[mon.id] ?? ''
+    const listed = ROUTES.find((item) => item.name === key)
+    const place = listed ? null : placeByKey(key)
     return {
-      route: route?.name ?? '',
-      routeOrder: route?.order ?? 0,
+      route: listed?.name ?? place?.key ?? '',
+      routeOrder: listed?.order ?? place?.order ?? 0,
       dexId: mon.nat,
       form: null,
       pokemon: mon.name,
@@ -430,6 +433,8 @@ function occupies(catches: { player: string; route: string; pokemon: string | nu
 
 function groupRoutes() {
   const groups = new Map<string, { name: string; en: string }[]>()
+  const starter = placeByKey(STARTER_SLOT)
+  if (starter) groups.set('Opening', [{ name: starter.key, en: starter.name }])
   for (const route of ROUTES) {
     const list = groups.get(route.group) ?? []
     list.push({ name: route.name, en: route.en })
@@ -497,6 +502,7 @@ function placeCopy(mon: PlannedMon, live: RouteDecision): string {
     ownOT: mon.ownOT,
     placeName: mon.placeName,
     where,
+    catchLevel: mon.catchLevel,
   })
   if (ruled) return ruled
   if (mon.decision === 'hatched') return `Hatched at ${mon.placeName ?? 'this place'}. The save stores the hatch place, not a catch route. Confirm all skips this.`

@@ -88,6 +88,7 @@ test('every synthetic fixture classifies trades and events from the met location
         ownOT: mon.ownOT,
         placeName: mon.placeName,
         where,
+        catchLevel: mon.catchLevel,
       }) ?? ''
       if (row.nickname === 'TradeOwn') {
         assert.equal(mon.ownOT, true)
@@ -98,8 +99,8 @@ test('every synthetic fixture classifies trades and events from the met location
       if (section === 88 && category === 'area') {
         if (mon.decision === 'starter') {
           assert.equal(mon.starterRule, 'S2', `${name} ${id}`)
-          assert.equal(mon.suggestedRoute, null, `${name} ${id}`)
-          assert.match(copy, /Starter \(guess\)/)
+          assert.equal(mon.suggestedRoute, 'frozen-heights', `${name} ${id}`)
+          assert.match(copy, /Starter\? \(met at Frozen Heights, Lv10\)/)
         } else {
           assert.match(copy, /Frozen Heights \(starter town, no Soul-Link route\)/)
         }

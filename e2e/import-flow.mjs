@@ -227,11 +227,13 @@ async function checkStarterAndOptions(page, engine) {
   await openImport(page, '/tmp/starter-options.sav')
   await page.locator('[data-import="review"]').waitFor({ timeout: 8000 })
   const starter = await rowFacts(page, 'Bulbasaur')
-  if (starter.starter !== 'S1' || starter.decision !== 'starter' || starter.confidence !== 'likely' || starter.met !== '133') {
+  if (starter.starter !== 'S1' || starter.decision !== 'starter' || starter.confidence !== 'guess' || starter.met !== '133') {
     failures.push(`${engine} S1 starter ${JSON.stringify({ starter: starter.starter, decision: starter.decision, confidence: starter.confidence, met: starter.met })}`)
   }
-  if (!starter.text.includes('Starter (likely)') || !starter.text.includes('Likely')) failures.push(`${engine} S1 copy: ${starter.text}`)
-  if (starter.route !== '' || starter.confirmEnabled) failures.push(`${engine} S1 was offered as a route catch`)
+  if (!starter.text.includes('Starter? (met at Shadow Base, Lv10)') || !starter.text.includes('Guess')) failures.push(`${engine} S1 copy: ${starter.text}`)
+  if (starter.route !== 'frozen-heights' || starter.routeLabel.trim() !== 'Frozen Heights' || !starter.confirmEnabled) {
+    failures.push(`${engine} S1 starter slot ${starter.route} ${starter.routeLabel} confirm ${starter.confirmEnabled}`)
+  }
   const patrat = await rowFacts(page, 'Patrat')
   if (patrat.starter !== '' || patrat.decision !== '' || patrat.confidence !== 'likely' || patrat.met !== '101' || patrat.route !== 'route-1') {
     failures.push(`${engine} Patrat ${JSON.stringify({ starter: patrat.starter, decision: patrat.decision, confidence: patrat.confidence, met: patrat.met, route: patrat.route })}`)
@@ -241,16 +243,18 @@ async function checkStarterAndOptions(page, engine) {
   if (legacy.starter !== 'S2' || legacy.decision !== 'starter' || legacy.confidence !== 'guess' || legacy.met !== '88') {
     failures.push(`${engine} S2 starter ${JSON.stringify({ starter: legacy.starter, decision: legacy.decision, confidence: legacy.confidence, met: legacy.met })}`)
   }
-  if (!legacy.text.includes('Starter (guess)') || !legacy.text.includes('Guess')) failures.push(`${engine} S2 copy: ${legacy.text}`)
-  if (legacy.route !== '' || legacy.confirmEnabled) failures.push(`${engine} S2 was offered as a route catch`)
+  if (!legacy.text.includes('Guess') || !legacy.text.includes('Starter')) failures.push(`${engine} S2 copy: ${legacy.text}`)
+  if (legacy.route !== 'frozen-heights' || legacy.routeLabel.trim() !== 'Frozen Heights') {
+    failures.push(`${engine} S2 starter slot ${legacy.route} ${legacy.routeLabel}`)
+  }
   const late = await rowFacts(page, 'Charizard')
   if (late.starter !== '' || late.decision === 'starter' || late.met !== '133') {
     failures.push(`${engine} late Shadow Base mon was classified as a starter`)
   }
-  if (late.text.includes('Starter (')) failures.push(`${engine} late mon copy: ${late.text}`)
+  if (late.text.includes('Starter?') || late.text.includes('Starter (')) failures.push(`${engine} late mon copy: ${late.text}`)
   const ready = await page.locator('[data-confirm="all"]').innerText()
   if (ready.includes('Bulbasaur') || ready.includes('Charmander')) failures.push(`${engine} confirm all named a starter`)
-  await page.locator('[data-mon="Bulbasaur"]').scrollIntoViewIfNeeded()
+  await page.locator('[data-mon="Bulbasaur"]').getByText('Starter?').scrollIntoViewIfNeeded()
   await page.screenshot({ path: `${shots}/phase11-${engine}-starter.png` })
   await page.getByRole('button', { name: 'Close', exact: true }).click()
 

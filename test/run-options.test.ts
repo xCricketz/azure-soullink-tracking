@@ -211,8 +211,8 @@ describe('starter recognition', () => {
     met: { category: over.met?.category ?? 'area', location, level, ballName: ball },
   })
 
-  test('S1: map section 133, catch level 10, Poké Ball, own OT is a likely starter', () => {
-    assert.deepEqual(classifyStarter(mon(133)), { isStarter: true, confidence: 'likely', rule: 'S1' })
+  test('S1: map section 133, catch level 10, Poké Ball, own OT is a starter guess until the section is checked', () => {
+    assert.deepEqual(classifyStarter(mon(133)), { isStarter: true, confidence: 'guess', rule: 'S1' })
   })
 
   test('S2: map section 88 is only a guess', () => {
@@ -265,8 +265,8 @@ describe('starter classification runs before the route map', () => {
     assert.equal(starter?.starterRule, 'S1')
     assert.equal(starter?.decision, 'starter')
     assert.equal(starter?.place, 'needs-decision')
-    assert.equal(starter?.confidence, 'likely')
-    assert.equal(starter?.suggestedRoute, null)
+    assert.equal(starter?.confidence, 'guess')
+    assert.equal(starter?.suggestedRoute, 'frozen-heights')
     assert.equal(patrat?.nat, 504)
     assert.equal(patrat?.starterRule, null)
     assert.equal(patrat?.place, 'route')
@@ -274,7 +274,7 @@ describe('starter classification runs before the route map', () => {
     assert.equal(patrat?.confidence, 'likely')
     assert.equal(legacy?.starterRule, 'S2')
     assert.equal(legacy?.confidence, 'guess')
-    assert.equal(legacy?.suggestedRoute, null)
+    assert.equal(legacy?.suggestedRoute, 'frozen-heights')
     assert.equal(late?.starterRule, null)
     assert.equal(late?.suggestedRoute, 'cinder-volcano-depths')
     assert.equal(late?.confidence, 'guess')
@@ -311,7 +311,7 @@ describe('real saves', () => {
         level: parsed.party[0].met.catchLevel,
         ballName: parsed.party[0].met.ballName,
       },
-    }), { isStarter: true, confidence: 'likely', rule: 'S1' })
+    }), { isStarter: true, confidence: 'guess', rule: 'S1' })
     assert.equal(classifyStarter({
       ownOT: parsed.party[1].ownOT,
       isEgg: parsed.party[1].isEgg,
