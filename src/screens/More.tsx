@@ -1,12 +1,13 @@
 import { ChartColumn, ChevronRight, Download, FlaskConical, Gauge, Moon, RotateCcw, ScrollText, Shuffle, Smartphone, Sparkles, Sun, Upload } from 'lucide-react'
 import { useState } from 'react'
+import { DifficultyPicker } from '../components/DifficultyPicker'
 import { ImportSheet, SaveFileControl } from '../components/ImportSheet'
 import { InstallHint } from '../components/InstallHint'
 import { Photo } from '../components/Photo'
 import { BottomSheet, Dialog } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
 import { findMon, useDex } from '../lib/unbound'
-import { capLadder, difficultyLabel, optionsOf } from '../lib/options'
+import { capLadder, difficultyLabel, EXPERT_CAP_NOTE, optionsOf } from '../lib/options'
 import { detectionChoices, patchFromDetection, readRunOptionsFromSave, type DetectionChoice, type SaveRunOptions } from '../lib/save/run-options'
 import { useApp } from '../state/context'
 import { DEFAULT_RULES, otherPlayer, PLAYERS, type SpeciesClause, type ThemeChoice } from '../lib/types'
@@ -119,13 +120,8 @@ export function More({ onDex }: { onDex?: () => void }) {
               <span className="s">{difficultyLabel(options.difficulty)} · cap {options.levelCapOn ? 'on' : 'off'}</span>
             </div>
           </div>
-          <div className="seg diff" role="group" aria-label="Difficulty">
-            {(['vanilla', 'difficult', 'expert', 'insane'] as const).map((mode) => (
-              <button key={mode} type="button" className={options.difficulty === mode ? 'on' : ''} aria-pressed={options.difficulty === mode} onClick={() => void app.saveOptions({ difficulty: mode })}>
-                {difficultyLabel(mode)}
-              </button>
-            ))}
-          </div>
+          <DifficultyPicker value={options.difficulty} onChange={(difficulty) => void app.saveOptions({ difficulty })} />
+          <p className="hint">{EXPERT_CAP_NOTE}</p>
         </div>
         <label className="row">
           <span className="ic ngp"><Sparkles aria-hidden="true" /></span>
