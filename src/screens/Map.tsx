@@ -274,6 +274,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       </div>
       <div
         className="map-stage"
+        style={{ aspectRatio: `${WORLD_W} / ${WORLD_H}` }}
         ref={stageRef}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
