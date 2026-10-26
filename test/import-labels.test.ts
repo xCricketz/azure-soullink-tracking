@@ -96,7 +96,13 @@ test('every synthetic fixture classifies trades and events from the met location
         assert.match(copy, /In-game trade/)
       }
       if (section === 88 && category === 'area') {
-        assert.match(copy, /Frozen Heights \(starter town, no Soul-Link route\)/)
+        if (mon.decision === 'starter') {
+          assert.equal(mon.starterRule, 'S2', `${name} ${id}`)
+          assert.equal(mon.suggestedRoute, null, `${name} ${id}`)
+          assert.match(copy, /Starter \(guess\)/)
+        } else {
+          assert.match(copy, /Frozen Heights \(starter town, no Soul-Link route\)/)
+        }
       }
       if (category === 'fateful-event' || section === 255) {
         assert.equal(copy.includes('Caught by another trainer'), false, `${name} ${copy}`)

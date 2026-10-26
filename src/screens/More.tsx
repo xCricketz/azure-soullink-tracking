@@ -7,6 +7,7 @@ import { BottomSheet, Dialog } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
 import { findMon, useDex } from '../lib/unbound'
 import { capLadder, difficultyLabel, optionsOf } from '../lib/options'
+import { detectionChoices, patchFromDetection, type DetectionChoice, type SaveRunOptions } from '../lib/save/run-options'
 import { useApp } from '../state/context'
 import { DEFAULT_RULES, otherPlayer, PLAYERS, type SpeciesClause, type ThemeChoice } from '../lib/types'
 import { pushToast } from '../lib/toast'
@@ -25,10 +26,38 @@ export function More({ onDex }: { onDex?: () => void }) {
   const [switchOpen, setSwitchOpen] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
   const [incoming, setIncoming] = useState<File | null>(null)
+  const [detectOpen, setDetectOpen] = useState(false)
+  const [detected, setDetected] = useState<SaveRunOptions | null>(null)
+  const [detectError, setDetectError] = useState('')
+  const [picked, setPicked] = useState<Record<string, boolean>>({})
   const [fallback, setFallback] = useState(false)
   const dex = useDex()
   const stats = summarize(app.catches, dex)
   const me = PLAYERS[app.me]
+
+  async function detectFromSave(file: File) {
+    setDetectError('')
+    setPicked({})
+    setDetected(null)
+    try {
+      const bytes = new Uint8Array(await file.arrayBuffer())
+      const { readRunOptionsFromSave } = await import('../lib/save/run-options')
+      setDetected(readRunOptionsFromSave(bytes))
+    } catch {
+      setDetectError('That file could not be read as a Pokémon Unbound save.')
+    }
+    setDetectOpen(true)
+  }
+
+  async function applyDetected() {
+    if (!detected) return
+    const selected = Object.entries(picked).filter(([, on]) => on).map(([key]) => key)
+    const patch = patchFromDetection(detected, selected)
+    if (!Object.keys(patch).length || 'ngPlus' in patch) return
+    await app.saveOptions(patch)
+    setDetectOpen(false)
+    if (!app.demo) pushToast('Run options updated from the save.')
+  }
 
   return (
     <div className="screen more">
@@ -103,7 +132,7 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="ic ngp"><Sparkles aria-hidden="true" /></span>
           <div>
             <b>New Game Plus</b>
-            <span className="s">NG+ itself adds no randomness. The dex carries over, so a full Pokédex is not a new run. The in-game flag is not read from the save.</span>
+            <span className="s">NG+ itself adds no randomness. The dex carries over, so a full Pokédex is not a new run. Detect from save can show the in-game flag as a guess. It is not applied from there.</span>
           </div>
           <span className="v"><span className={options.ngPlus ? 'sw on' : 'sw'} /></span>
           <input type="checkbox" className="sr-only" checked={options.ngPlus} onChange={(event) => void app.saveOptions({ ngPlus: event.target.checked })} />
@@ -145,9 +174,18 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="ic" style={{ ['--c' as string]: 'var(--dead)' }}><FlaskConical aria-hidden="true" /></span>
           <div>
             <b>Nuzlocke</b>
-            <span className="s">On in this tracker. The first catch on a route stays, and a death is logged here. The in-game Nuzlocke switch is not read from the save.</span>
+            <span className="s">On in this tracker. The first catch on a route stays, and a death is logged here. Nuzlocke is not stored in the save, so Detect from save leaves this as it is.</span>
           </div>
         </div>
+        <SaveFileControl
+          wrapClass="row"
+          inputLabel="Detect run options from a save"
+          onFile={(file) => void detectFromSave(file)}
+        >
+          <span className="ricon alive"><Upload size={18} aria-hidden="true" /></span>
+          <span className="rt">Detect from save<small>A suggestion only. Nothing changes until you apply it.</small></span>
+          <ChevronRight className="chev" size={18} aria-hidden="true" />
+        </SaveFileControl>
       </div>
       {options.ngPlus && (
         <>
@@ -155,7 +193,7 @@ export function More({ onDex }: { onDex?: () => void }) {
             <div className="row col">
               <div>
                 <b>Level cap</b>
-                <span className="s">The ladder follows the badges on this run. NG+ does not change the numbers. The in-game cap switch is not read from the save.</span>
+                <span className="s">The ladder follows the badges on this run. NG+ does not change the numbers. Detect from save can suggest the start prompt. The active flag is only a guess and is not applied.</span>
               </div>
               <div className="ladder" data-cap-ladder="ngplus">
                 {capLadder(app.run?.badges ?? 0, options.difficulty, options.mansionDone).map((step) => (
@@ -296,6 +334,23 @@ export function More({ onDex }: { onDex?: () => void }) {
         <InstallHint />
       </BottomSheet>
       <ImportSheet open={importOpen} incoming={incoming} onClose={() => { setImportOpen(false); setIncoming(null) }} />
+      <BottomSheet
+        open={detectOpen}
+        title="Run options from the save"
+        onClose={() => setDetectOpen(false)}
+        footer={detected ? (
+          <button className="btn btn-primary" type="button" data-apply-options disabled={!Object.values(picked).some(Boolean)} onClick={() => void applyDetected()}>
+            Apply selected
+          </button>
+        ) : undefined}
+      >
+        <DetectOptions
+          error={detectError}
+          options={detected}
+          picked={picked}
+          onPick={(key, on) => setPicked((current) => ({ ...current, [key]: on }))}
+        />
+      </BottomSheet>
 
       <Dialog
         open={switchOpen}
@@ -383,6 +438,46 @@ export function More({ onDex }: { onDex?: () => void }) {
         <input value={newText} onChange={(event) => setNewText(event.target.value)} aria-label="RESET" autoComplete="off" />
       </Dialog>
     </div>
+  )
+}
+
+function DetectOptions({
+  error,
+  options,
+  picked,
+  onPick,
+}: {
+  error: string
+  options: SaveRunOptions | null
+  picked: Record<string, boolean>
+  onPick: (key: string, on: boolean) => void
+}) {
+  const choices = options ? detectionChoices(options) : []
+  return (
+    <div data-run-options={options ? 'ready' : 'empty'}>
+      <p className="import-help">These are suggestions. Ticking a row does not change the run until you apply it. New Game Plus is only a guess, and Nuzlocke is not in the save, so neither is applied from here.</p>
+      {error && <p className="import-error" role="alert">{error}</p>}
+      {choices.map((choice) => (
+        <DetectRow key={choice.key} choice={choice} checked={picked[choice.key] === true} onPick={onPick} />
+      ))}
+    </div>
+  )
+}
+
+function DetectRow({ choice, checked, onPick }: { choice: DetectionChoice; checked: boolean; onPick: (key: string, on: boolean) => void }) {
+  const badge = choice.confidence === 'certain' ? 'v' : choice.confidence === 'likely' ? 'l' : 'u'
+  const badgeText = choice.confidence === 'certain' ? 'Certain' : choice.confidence === 'likely' ? 'Likely' : choice.confidence === 'guess' ? 'Guess' : 'Unknown'
+  return (
+    <label className="row" data-option={choice.key} data-confidence={choice.confidence} data-apply={choice.patch ? 'true' : 'false'}>
+      <div>
+        <b>{choice.label}: {choice.value}</b>
+        <span className="s">{choice.note}</span>
+      </div>
+      <span className={`conf ${badge}`}>{badgeText}</span>
+      {choice.patch ? (
+        <input type="checkbox" checked={checked} onChange={(event) => onPick(choice.key, event.target.checked)} aria-label={`Apply ${choice.label}`} />
+      ) : null}
+    </label>
   )
 }
 

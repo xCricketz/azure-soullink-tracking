@@ -564,6 +564,7 @@ function MonRow({
       data-met={mon.mapSectionId}
       data-decision={mon.decision ?? ''}
       data-confidence={mon.confidence ?? ''}
+      data-starter={mon.starterRule ?? ''}
       data-logged={mon.alreadyLogged ? 'true' : 'false'}
       data-new={highlightNew ? 'true' : 'false'}
       data-confirmed={confirmed ? 'true' : 'false'}
@@ -583,6 +584,7 @@ function MonRow({
         {mon.decision === 'event' && <span className="import-pill">Event</span>}
         {mon.decision === 'hatched' && <span className="import-pill">Hatched</span>}
         {mon.decision === 'gift' && <span className="import-pill">Gift</span>}
+        {mon.decision === 'starter' && <span className="import-pill">Starter</span>}
         {mon.unknown && <span className="import-pill">Unknown species</span>}
         {!mon.unknown && mon.decision === 'unmapped' && <span className="import-pill">Unmapped</span>}
         {decision.duplicate && <span className="import-pill">Duplicate</span>}

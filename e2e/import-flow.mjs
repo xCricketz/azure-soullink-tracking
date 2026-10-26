@@ -16,7 +16,8 @@ mkdirSync(shots, { recursive: true })
 const fixtureDir = '/workspace/save-import/fixtures-synthetic'
 const files = execFileSync('npx', ['tsx', '-e', `
   import { readFileSync, writeFileSync } from 'node:fs'
-  import { buildSave, sampleSave } from './src/lib/save/synthetic.ts'
+  import { boxMon, boxSlot, buildSave, sampleSave } from './src/lib/save/synthetic.ts'
+  import { FLAG_NGPLUS, FLAG_RANDOMIZER_SPECIES, FLAG_SANDBOX, VAR_DIFFICULTY } from './src/lib/save/run-options.ts'
   import { VAR_STORY_ACT1, VAR_STORY_MAIN } from './src/lib/save/missions.ts'
   import { parseSave } from './src/lib/save/unbound-save.ts'
   import { allMons, identityOf } from './src/lib/save/save-diff.ts'
@@ -57,6 +58,29 @@ const files = execFileSync('npx', ['tsx', '-e', `
     mutate: (sectors) => {
       setExtVar(sectors, VAR_STORY_ACT1, 42)
       setExtVar(sectors, VAR_STORY_MAIN, 67)
+    },
+  }))
+  const regions = [[0, 0xf24, 0xff0 - 0xf24], [4, 0xd98, 0xff0 - 0xd98], [13, 0x450, 0xff0 - 0x450]]
+  function setFlag(sectors, id) {
+    const bit = id - 0x900
+    let offset = bit >> 3
+    for (const [sector, from, len] of regions) {
+      if (offset < len) { sectors[sector][from + offset] |= 1 << (bit & 7); return }
+      offset -= len
+    }
+  }
+  writeFileSync('/tmp/starter-options.sav', buildSave({
+    indexA: 8,
+    indexB: 1,
+    mutate: (sectors) => {
+      boxMon(sectors, boxSlot(0, 0), null, 0, 1, 1000, 1010, { location: 133, level: 10, ball: 3 })
+      boxMon(sectors, boxSlot(0, 1), null, 0, 557, 800, 2020, { location: 101, level: 8, ball: 3 })
+      boxMon(sectors, boxSlot(0, 2), null, 0, 4, 1000, 3030, { location: 88, level: 10, ball: 3 })
+      boxMon(sectors, boxSlot(0, 3), null, 0, 6, 100000, 4040, { location: 133, level: 65, ball: 0 })
+      setFlag(sectors, FLAG_RANDOMIZER_SPECIES)
+      setFlag(sectors, FLAG_NGPLUS)
+      setFlag(sectors, FLAG_SANDBOX)
+      setExtVar(sectors, VAR_DIFFICULTY, 1)
     },
   }))
 `], { cwd: '/workspace', encoding: 'utf8' })
@@ -170,12 +194,135 @@ async function checkMap(page, engine) {
   }
 }
 
+async function rowFacts(page, name) {
+  const row = page.locator(`[data-mon="${name}"]`)
+  await row.waitFor()
+  const route = await row.locator('select').inputValue()
+  const routeLabel = route ? await row.locator('select option:checked').innerText() : ''
+  return {
+    row,
+    starter: await row.getAttribute('data-starter'),
+    decision: await row.getAttribute('data-decision'),
+    confidence: await row.getAttribute('data-confidence'),
+    met: await row.getAttribute('data-met'),
+    text: await row.innerText(),
+    route,
+    routeLabel,
+    confirmEnabled: await row.locator('[data-confirm="row"]').isEnabled(),
+  }
+}
+
+async function checkStarterAndOptions(page, engine) {
+  const species = page.getByRole('checkbox', { name: /Species randomizer/ })
+  const ngPlus = page.getByRole('checkbox', { name: /New Game Plus/ })
+  if (!(await species.isChecked())) failures.push(`${engine} demo species randomizer started off`)
+  if (!(await ngPlus.isChecked())) failures.push(`${engine} demo NG+ started off`)
+  await species.click()
+  await ngPlus.click()
+  await page.getByRole('button', { name: 'Difficult+', exact: true }).click()
+  if (await species.isChecked()) failures.push(`${engine} species randomizer stayed on`)
+  if (await ngPlus.isChecked()) failures.push(`${engine} NG+ stayed on`)
+
+  await openImport(page, '/tmp/starter-options.sav')
+  await page.locator('[data-import="review"]').waitFor({ timeout: 8000 })
+  const starter = await rowFacts(page, 'Bulbasaur')
+  if (starter.starter !== 'S1' || starter.decision !== 'starter' || starter.confidence !== 'likely' || starter.met !== '133') {
+    failures.push(`${engine} S1 starter ${JSON.stringify({ starter: starter.starter, decision: starter.decision, confidence: starter.confidence, met: starter.met })}`)
+  }
+  if (!starter.text.includes('Starter (likely)') || !starter.text.includes('Likely')) failures.push(`${engine} S1 copy: ${starter.text}`)
+  if (starter.route !== '' || starter.confirmEnabled) failures.push(`${engine} S1 was offered as a route catch`)
+  const patrat = await rowFacts(page, 'Patrat')
+  if (patrat.starter !== '' || patrat.decision !== '' || patrat.confidence !== 'likely' || patrat.met !== '101' || patrat.route !== 'route-1') {
+    failures.push(`${engine} Patrat ${JSON.stringify({ starter: patrat.starter, decision: patrat.decision, confidence: patrat.confidence, met: patrat.met, route: patrat.route })}`)
+  }
+  if (patrat.routeLabel.trim() !== 'Route 1') failures.push(`${engine} Patrat route label: ${patrat.routeLabel}`)
+  const legacy = await rowFacts(page, 'Charmander')
+  if (legacy.starter !== 'S2' || legacy.decision !== 'starter' || legacy.confidence !== 'guess' || legacy.met !== '88') {
+    failures.push(`${engine} S2 starter ${JSON.stringify({ starter: legacy.starter, decision: legacy.decision, confidence: legacy.confidence, met: legacy.met })}`)
+  }
+  if (!legacy.text.includes('Starter (guess)') || !legacy.text.includes('Guess')) failures.push(`${engine} S2 copy: ${legacy.text}`)
+  if (legacy.route !== '' || legacy.confirmEnabled) failures.push(`${engine} S2 was offered as a route catch`)
+  const late = await rowFacts(page, 'Charizard')
+  if (late.starter !== '' || late.decision === 'starter' || late.met !== '133') {
+    failures.push(`${engine} late Shadow Base mon was classified as a starter`)
+  }
+  if (late.text.includes('Starter (')) failures.push(`${engine} late mon copy: ${late.text}`)
+  const ready = await page.locator('[data-confirm="all"]').innerText()
+  if (ready.includes('Bulbasaur') || ready.includes('Charmander')) failures.push(`${engine} confirm all named a starter`)
+  await page.locator('[data-mon="Bulbasaur"]').scrollIntoViewIfNeeded()
+  await page.screenshot({ path: `${shots}/phase11-${engine}-starter.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  const detect = page.getByLabel('Detect run options from a save')
+  await detect.waitFor({ state: 'attached' })
+  const pending = page.waitForEvent('filechooser', { timeout: 8000 })
+  await detect.tap()
+  const chooser = await pending
+  await chooser.setFiles('/tmp/starter-options.sav')
+  await page.locator('[data-run-options="ready"]').waitFor()
+  const option = async (key) => {
+    const row = page.locator(`[data-option="${key}"]`)
+    return {
+      confidence: await row.getAttribute('data-confidence'),
+      apply: await row.getAttribute('data-apply'),
+      text: await row.innerText(),
+      boxes: await row.locator('input').count(),
+    }
+  }
+  const speciesRow = await option('randomizer.species')
+  if (speciesRow.confidence !== 'certain' || speciesRow.apply !== 'true' || speciesRow.boxes !== 1 || !speciesRow.text.includes('On') || !speciesRow.text.includes('Certain')) {
+    failures.push(`${engine} species detection ${JSON.stringify(speciesRow)}`)
+  }
+  const ngRow = await option('ngplus.active')
+  if (ngRow.confidence !== 'guess' || ngRow.apply !== 'false' || ngRow.boxes !== 0 || !ngRow.text.includes('On') || !ngRow.text.includes('Guess')) {
+    failures.push(`${engine} NG+ detection ${JSON.stringify(ngRow)}`)
+  }
+  const nuzRow = await option('nuzlocke')
+  if (nuzRow.confidence !== 'unknown' || nuzRow.apply !== 'false' || nuzRow.boxes !== 0 || !nuzRow.text.includes('Not in the save') || !nuzRow.text.includes('Unknown')) {
+    failures.push(`${engine} Nuzlocke detection ${JSON.stringify(nuzRow)}`)
+  }
+  const diffRow = await option('difficulty')
+  if (diffRow.confidence !== 'likely' || diffRow.apply !== 'true' || !diffRow.text.includes('Vanilla') || !diffRow.text.includes('Likely')) {
+    failures.push(`${engine} difficulty detection ${JSON.stringify(diffRow)}`)
+  }
+  const sandboxRow = await option('sandbox')
+  if (sandboxRow.confidence !== 'likely' || !sandboxRow.text.includes('On')) failures.push(`${engine} sandbox detection ${JSON.stringify(sandboxRow)}`)
+  if (await page.locator('[data-apply-options]').isEnabled()) failures.push(`${engine} Apply selected started enabled`)
+  await page.locator('[data-option="ngplus.active"]').scrollIntoViewIfNeeded()
+  await page.screenshot({ path: `${shots}/phase11-${engine}-detect.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+  if (await species.isChecked() || await ngPlus.isChecked()) failures.push(`${engine} closing detect wrote options`)
+  if ((await page.getByRole('button', { name: 'Difficult+', exact: true }).getAttribute('aria-pressed')) !== 'true') {
+    failures.push(`${engine} closing detect changed difficulty`)
+  }
+
+  const pendingAgain = page.waitForEvent('filechooser', { timeout: 8000 })
+  await detect.tap()
+  const chooserAgain = await pendingAgain
+  await chooserAgain.setFiles('/tmp/starter-options.sav')
+  await page.locator('[data-run-options="ready"]').waitFor()
+  await page.getByRole('checkbox', { name: 'Apply Species randomizer' }).check()
+  await page.getByRole('checkbox', { name: 'Apply Difficulty' }).check()
+  await page.locator('[data-apply-options]').click()
+  await page.getByText("Demo mode – changes aren't saved").waitFor()
+  await page.locator('[data-run-options="ready"]').waitFor({ state: 'detached' })
+  if (!(await species.isChecked())) failures.push(`${engine} applying species left it off`)
+  if (await ngPlus.isChecked()) failures.push(`${engine} applying detection turned NG+ on`)
+  if ((await page.getByRole('button', { name: 'Vanilla', exact: true }).getAttribute('aria-pressed')) !== 'true') {
+    failures.push(`${engine} applying difficulty did not select Vanilla`)
+  }
+  if (!(await page.getByText('Nuzlocke is not stored in the save').count())) {
+    failures.push(`${engine} Nuzlocke tracker copy changed`)
+  }
+}
+
 async function checkImport(page, engine) {
   await page.getByRole('button', { name: 'More', exact: true }).click()
   await page.getByText('Nuzlocke').waitFor()
   await page.locator('[data-cap-ladder="ngplus"]').waitFor()
   if (await page.getByText('Coming soon').count()) failures.push(`${engine} More still says Coming soon`)
   await page.screenshot({ path: `${shots}/phase11-${engine}-more-settings.png` })
+  await checkStarterAndOptions(page, engine)
   const bulbId = readFileSync('/tmp/sample-bulb-id.txt', 'utf8').trim()
   await page.evaluate((id) => {
     localStorage.setItem('sl-import-nats:demo-run', JSON.stringify([1]))

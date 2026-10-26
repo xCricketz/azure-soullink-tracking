@@ -1,5 +1,6 @@
 import type { PlayerId } from '../types'
 import { MAP_SECTIONS, readLocation, type DecisionKind, type LocationReading, type MapConfidence, type MapsecTable } from './locations'
+import { classifyStarter } from './run-options'
 import { identityOf } from './save-diff'
 import type { Mon, ParsedSave } from './unbound-save'
 
@@ -57,6 +58,8 @@ export interface PlannedMon {
   decision: DecisionKind | null
   confidence: MapConfidence | null
   placeName: string | null
+  /** S1 is the v2.1.1.1 starter room. S2 is the older Frozen Heights guess. */
+  starterRule: 'S1' | 'S2' | null
   ownOT: boolean
   /** A later Pokémon on a route that already has a catch, using the suggested route. The sheet recomputes this from the route the player actually picks. */
   duplicate: boolean
@@ -141,8 +144,27 @@ function planOne(
 ): PlannedMon | 'egg' {
   if (mon.isEgg) return 'egg'
   const unknown = !mon.nat || !mon.name
+  const starter = unknown ? { isStarter: false, confidence: null, rule: null } : classifyStarter({
+    ownOT: mon.ownOT,
+    isEgg: mon.isEgg,
+    met: {
+      category: mon.met.category,
+      location: mon.met.mapSectionId,
+      level: mon.met.catchLevel,
+      ballName: mon.met.ballName,
+    },
+  })
   const known = new Set(opts.routes.map((route) => route.name))
-  const located = readLocation(mon.met, mon.ownOT, opts.sections, known)
+  const located = starter.isStarter
+    ? {
+      place: 'needs-decision' as const,
+      decision: 'starter' as const,
+      route: null,
+      confidence: starter.confidence === 'likely' || starter.confidence === 'guess' ? starter.confidence : null,
+      placeName: opts.sections[String(mon.met.mapSectionId)]?.name ?? null,
+      source: 'met' as const,
+    }
+    : readLocation(mon.met, mon.ownOT, opts.sections, known)
   const area = !unknown && located.decision === 'unmapped' && !located.route
     ? suggestRoute(mon.name ?? '', opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
     : null
@@ -182,6 +204,7 @@ function planOne(
     decision: unknown ? 'unmapped' : located.decision,
     confidence: located.confidence,
     placeName: located.placeName,
+    starterRule: starter.isStarter ? starter.rule : null,
     ownOT: mon.ownOT,
     duplicate: false,
     duplicateOf: null,
@@ -198,6 +221,8 @@ export function planSave(save: ParsedSave, opts: {
   areas: AreaHint[]
   sections?: MapsecTable
 }): ImportPlan {
+  // previousNats is older storage. A Pokémon's identity is personality plus OT id, not its national number.
+  void opts.previousNats
   const progress = furthestRoute(opts.routes, opts.catches)
   const previousIds = new Set(opts.previousIds ?? [])
   const shared = { ...opts, previousIds, progress, sections: opts.sections ?? MAP_SECTIONS }
