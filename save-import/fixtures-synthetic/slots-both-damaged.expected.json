@@ -1,0 +1,28 @@
+{
+ "fixture": "slots-both-damaged",
+ "file": "slots-both-damaged.sav",
+ "description": "Beide Slots beschädigt (Prüfsummenfeld bzw. Datenbyte) → Parser muss mit Fehler „kein gültiger Slot\" abbrechen.",
+ "unverifiedAssumptions": [],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": false,
+   "saveIndex": 401,
+   "problemsContain": [
+    "Checksumme"
+   ]
+  },
+  {
+   "slot": 1,
+   "valid": false,
+   "saveIndex": 400,
+   "problemsContain": [
+    "Checksumme"
+   ]
+  }
+ ],
+ "error": {
+  "messageIncludes": "kein gültiger Slot"
+ }
+}

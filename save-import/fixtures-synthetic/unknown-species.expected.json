@@ -1,0 +1,593 @@
+{
+ "fixture": "unknown-species",
+ "file": "unknown-species.sav",
+ "description": "Species-IDs außerhalb der ROM-Tabelle (1294, 2000, 0xFFFF; Team und Box): nat=null, Warnung „nicht in Tabelle\", Box-Level unbekannt (levelSource unknown, level null), Team-Level bleibt stored. Dazu Platzhalter-IDs der Tabelle (252, 276: nat 0) und Species 0 mit PID≠0 – hier wird der AKTUELLE Parser-Zustand festgeschrieben (keine Warnung; nat null) – sowie ein Box-Mon ohne hasSpecies-Bit (Warnung).",
+ "unverifiedAssumptions": [
+  "Platzhalter/Species-0-Verhalten ist nur Charakterisierung des Ist-Zustands, keine Spezifikation"
+ ],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": true,
+   "saveIndex": 101,
+   "problemsContain": []
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 100,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 0,
+ "checksumsOk": true,
+ "trainer": {
+  "name": "Unbek",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 12,
+   "minutes": 34,
+   "seconds": 56,
+   "frames": 7
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [
+  {
+   "where": "party",
+   "slot": 0,
+   "speciesId": 1500,
+   "nat": null,
+   "formIndex": null,
+   "name": null,
+   "nickname": "PartyBad",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 33,
+   "levelSource": "stored",
+   "exp": 0,
+   "nature": "Mild",
+   "personality": 3640786441,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 35696,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 33,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": [
+    "nicht in Tabelle"
+   ]
+  }
+ ],
+ "boxMons": [
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 0,
+   "tag": "erste ungültige ID",
+   "speciesId": 1294,
+   "nat": null,
+   "formIndex": null,
+   "name": null,
+   "nickname": "Id1294",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": null,
+   "levelSource": "unknown",
+   "exp": 0,
+   "nature": "Lax",
+   "personality": 3925355309,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 28333,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 20,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": [
+    "nicht in Tabelle"
+   ]
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 1,
+   "speciesId": 2000,
+   "nat": null,
+   "formIndex": null,
+   "name": null,
+   "nickname": "Id2000",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": null,
+   "levelSource": "unknown",
+   "exp": 0,
+   "nature": "Calm",
+   "personality": 1842507995,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 45425,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 20,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": [
+    "nicht in Tabelle"
+   ]
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 2,
+   "tag": "u16-Maximum",
+   "speciesId": 65535,
+   "nat": null,
+   "formIndex": null,
+   "name": null,
+   "nickname": "IdFFFF",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": null,
+   "levelSource": "unknown",
+   "exp": 0,
+   "nature": "Lonely",
+   "personality": 1831369826,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 48434,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 20,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": [
+    "nicht in Tabelle"
+   ]
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 3,
+   "tag": "Platzhalter-ID (Tabelle: nat 0) – Parser: nat null, KEINE Warnung (Ist-Verhalten)",
+   "speciesId": 252,
+   "nat": null,
+   "formIndex": null,
+   "name": null,
+   "nickname": "Id252",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 20,
+   "levelSource": "exp-derived",
+   "exp": 8000,
+   "nature": "Gentle",
+   "personality": 2674011271,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 8093,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 20,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 4,
+   "tag": "Platzhalter-ID",
+   "speciesId": 276,
+   "nat": null,
+   "formIndex": null,
+   "name": null,
+   "nickname": "Id276",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 20,
+   "levelSource": "exp-derived",
+   "exp": 8000,
+   "nature": "Quiet",
+   "personality": 1498688942,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 55426,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 20,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 5,
+   "tag": "Species 0 mit PID≠0 (Müll) – Parser liefert den Mon mit nat null (Ist-Verhalten)",
+   "speciesId": 0,
+   "nat": null,
+   "formIndex": null,
+   "name": null,
+   "nickname": "Id0Pid",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 20,
+   "levelSource": "exp-derived",
+   "exp": 8000,
+   "nature": "Timid",
+   "personality": 16909060,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 44670,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 20,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 6,
+   "tag": "hasSpecies-Bit fehlt → Warnung",
+   "speciesId": 1,
+   "nat": 1,
+   "formIndex": 0,
+   "name": "Bulbasaur",
+   "nickname": "NoSanity",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 20,
+   "levelSource": "exp-derived",
+   "exp": 5460,
+   "nature": "Hardy",
+   "personality": 1010675600,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 16341,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 20,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": [
+    "Sanity-Bit"
+   ]
+  }
+ ],
+ "dex": {
+  "seenNat": [
+   1
+  ],
+  "caughtNat": [
+   1
+  ]
+ },
+ "ownedSpeciesNat": [
+  1
+ ],
+ "progress": {
+  "badges": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 0,
+  "gameClearFlag": false,
+  "hallOfFameEntries": 0
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}

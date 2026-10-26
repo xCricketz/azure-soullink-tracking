@@ -1,0 +1,157 @@
+{
+ "fixture": "flashcart-header",
+ "file": "flashcart-header.sav",
+ "description": "Save mit 16 Byte Flashcart-Header vorneweg (0x20010 Byte). Parser schneidet den Header ab; fileSize = 0x20010.",
+ "unverifiedAssumptions": [
+  "Header-Inhalt/-Existenz bei echten Cart-Dumps nur Vermutung (SPEC §2) – hier 0xA5-Füllung"
+ ],
+ "fileSize": 131088,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": true,
+   "saveIndex": 5,
+   "problemsContain": []
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 4,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 0,
+ "checksumsOk": true,
+ "trainer": {
+  "name": "Flash16",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 12,
+   "minutes": 34,
+   "seconds": 56,
+   "frames": 7
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [],
+ "boxMons": [
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 0,
+   "speciesId": 25,
+   "nat": 25,
+   "formIndex": 0,
+   "name": "Pikachu",
+   "nickname": "Flash",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 8,
+   "levelSource": "exp-derived",
+   "exp": 512,
+   "nature": "Brave",
+   "personality": 665631302,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 12690,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 105,
+    "level": 8,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-5",
+   "mapsecName": "Route 5",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  }
+ ],
+ "dex": {
+  "seenNat": [
+   25
+  ],
+  "caughtNat": [
+   25
+  ]
+ },
+ "ownedSpeciesNat": [
+  25
+ ],
+ "progress": {
+  "badges": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 0,
+  "gameClearFlag": false,
+  "hallOfFameEntries": 0
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}

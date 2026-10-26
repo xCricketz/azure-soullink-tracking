@@ -1,0 +1,348 @@
+{
+ "fixture": "event-fateful",
+ "file": "event-fateful.sav",
+ "description": "Event/Geschenk-Mons: Fundort 255 (fateful encounter), fremde OT, Cherish Ball (ID 15); Randfälle mit eigener OT bzw. anderem Ball. Kategorie fateful-event.",
+ "unverifiedAssumptions": [
+  "Fundort 255 = Fateful/Event ist Vanilla-Konstante [G]; Cherish=15 [G]"
+ ],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": true,
+   "saveIndex": 101,
+   "problemsContain": []
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 100,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 0,
+ "checksumsOk": true,
+ "trainer": {
+  "name": "Eventi",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 12,
+   "minutes": 34,
+   "seconds": 56,
+   "frames": 7
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [],
+ "boxMons": [
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 0,
+   "speciesId": 151,
+   "nat": 151,
+   "formIndex": 0,
+   "name": "Mew",
+   "nickname": "EventA",
+   "ot": "Event",
+   "isEgg": false,
+   "level": 50,
+   "levelSource": "exp-derived",
+   "exp": 117360,
+   "nature": "Naughty",
+   "personality": 4277125579,
+   "tid": 51111,
+   "sid": 2222,
+   "ownOT": false,
+   "shinyXor": 61485,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 255,
+    "level": 50,
+    "originGame": 4,
+    "ball": 15,
+    "ballName": "Cherish",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "fateful-event"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 1,
+   "speciesId": 409,
+   "nat": 385,
+   "formIndex": 0,
+   "name": "Jirachi",
+   "nickname": "EventB",
+   "ot": "Gift",
+   "isEgg": false,
+   "level": 70,
+   "levelSource": "exp-derived",
+   "exp": 428750,
+   "nature": "Rash",
+   "personality": 3988530819,
+   "tid": 40,
+   "sid": 50,
+   "ownOT": false,
+   "shinyXor": 52005,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 255,
+    "level": 5,
+    "originGame": 4,
+    "ball": 15,
+    "ballName": "Cherish",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "fateful-event"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 2,
+   "tag": "Randfall: eigene OT",
+   "speciesId": 547,
+   "nat": 494,
+   "formIndex": 0,
+   "name": "Victini",
+   "nickname": "EventOwn",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 100,
+   "levelSource": "exp-derived",
+   "exp": 1250000,
+   "nature": "Docile",
+   "personality": 563295931,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 47952,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 255,
+    "level": 100,
+    "originGame": 4,
+    "ball": 15,
+    "ballName": "Cherish",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "fateful-event"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 3,
+   "tag": "Randfall: fateful, aber Poké Ball",
+   "speciesId": 150,
+   "nat": 150,
+   "formIndex": 0,
+   "name": "Mewtwo",
+   "nickname": "EventPoke",
+   "ot": "Zeit",
+   "isEgg": false,
+   "level": 1,
+   "levelSource": "exp-derived",
+   "exp": 1,
+   "nature": "Naughty",
+   "personality": 3746993829,
+   "tid": 7,
+   "sid": 7,
+   "ownOT": false,
+   "shinyXor": 18931,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 255,
+    "level": 1,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "fateful-event"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  }
+ ],
+ "dex": {
+  "seenNat": [
+   150,
+   151,
+   385,
+   494
+  ],
+  "caughtNat": [
+   150,
+   151,
+   385,
+   494
+  ]
+ },
+ "ownedSpeciesNat": [
+  150,
+  151,
+  385,
+  494
+ ],
+ "progress": {
+  "badges": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 0,
+  "gameClearFlag": false,
+  "hallOfFameEntries": 0
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}

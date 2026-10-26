@@ -4,7 +4,7 @@ import { ROUTES } from '../data/routes'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
 import { formatPlaytime } from '../lib/save/explain'
-import { readImportedNats, writeImportedNats } from '../lib/save/memory'
+import { readImportedIds, readImportedNats, writeImportedIds, writeImportedNats } from '../lib/save/memory'
 import { confirmAllIds, liveDecisions, planSave, routeClash, type AreaHint, type PlannedMon, type RouteDecision } from '../lib/save/plan'
 import type { ParsedSave } from '../lib/save/unbound-save'
 import { pushToast } from '../lib/toast'
@@ -62,6 +62,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const settledRoutes = useRef<Map<string, string>>(new Map())
   const options = optionsOf(app.run)
   const previous = useMemo(() => (open ? readImportedNats(app.run?.id) : []), [open, app.run?.id, save, importRev])
+  const previousIds = useMemo(() => (open ? readImportedIds(app.run?.id) : []), [open, app.run?.id, save, importRev])
 
   const plan = useMemo(() => {
     if (!save) return null
@@ -69,11 +70,12 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
       me: app.me,
       catches: app.catches,
       previousNats: previous,
+      previousIds,
       randomizerSpecies: options.randomizerSpecies,
       routes: ROUTES.map((route) => ({ name: route.name, en: route.en, order: route.order, group: route.group })),
       areas,
     })
-  }, [save, app.me, app.catches, previous, options.randomizerSpecies, areas])
+  }, [save, app.me, app.catches, previous, previousIds, options.randomizerSpecies, areas])
 
   useEffect(() => {
     if (!open) return
@@ -194,10 +196,11 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     return liveDecisions(plan.mons, routes, app.catches, app.me, done)
   }, [plan, routes, app.catches, app.me, done])
 
-  function remember(nats: number[], ids: string[]) {
-    if (ids.length) setDone((current) => [...current, ...ids.filter((id) => !current.includes(id))])
-    if (!app.run || !nats.length) return
-    writeImportedNats(app.run.id, [...readImportedNats(app.run.id), ...nats])
+  function remember(nats: number[], rowIds: string[], identities: string[]) {
+    if (rowIds.length) setDone((current) => [...current, ...rowIds.filter((id) => !current.includes(id))])
+    if (!app.run || (!nats.length && !identities.length)) return
+    if (nats.length) writeImportedNats(app.run.id, [...readImportedNats(app.run.id), ...nats])
+    if (identities.length) writeImportedIds(app.run.id, [...readImportedIds(app.run.id), ...identities])
     setImportRev((rev) => rev + 1)
   }
 
@@ -225,17 +228,18 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     setDenied(false)
     const written: number[] = []
     const finished: string[] = []
+    const identities: string[] = []
     for (const id of adding) {
       const mon = byId.get(id)
       const route = routes[id]
-      if (!mon || !route) continue
+      if (!mon || !route || mon.unknown || mon.nat == null) continue
       if (taken(route)) {
         pushToast('That route already has your catch.')
         break
       }
       const result = await app.saveCatch(draftFor(mon))
       if (result === 'invalid') {
-        remember(written, finished)
+        remember(written, finished, identities)
         setBusy(false)
         setDenied(true)
         return
@@ -243,8 +247,9 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
       settledRoutes.current.set(route, mon.name)
       written.push(mon.nat)
       finished.push(id)
+      identities.push(mon.identity)
     }
-    remember(written, finished)
+    remember(written, finished, identities)
     setBusy(false)
     if (closeAfter && written.length > 0 && written.length === adding.length) onClose()
   }
@@ -258,7 +263,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const fromSave = plan?.mons.filter((mon) => mon.place === 'route') ?? []
   const needsDecision = plan?.mons.filter((mon) => mon.place === 'needs-decision') ?? []
   const ready = plan ? confirmAllIds(plan.mons, routes, decisions, done) : []
-  const highlightNew = previous.length > 0
+  const highlightNew = previousIds.length > 0 || previous.length > 0
 
   function rowProps(mon: PlannedMon) {
     const decision = decisions.get(mon.id) ?? { duplicate: false, duplicateOf: null }
@@ -297,7 +302,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
             <div className="import-help">
               <p>Pick a Pokémon Unbound v2.1.1.1 <strong>.sav</strong> file (128 KB, FireRed-based). It is read on this phone. Nothing is uploaded.</p>
               <p>Save inside the game first. A save state is not a .sav file.</p>
-              <p>The shiny mark is a guess. Box levels are worked out from experience points. Nature comes from the personality value, so a mint would not show.</p>
+              <p>Shiny is an unverified guess, not a confirmed mark. Box levels are worked out from experience points. Nature comes from the personality value, so a mint would not show.</p>
               <p><strong>Android.</strong> Open the emulator’s save folder (often under the game’s name, or in Android/data) and choose the .sav. Copy it to Downloads if the picker cannot see that folder.</p>
               <p><strong>iPhone.</strong> Open the Files app, then On My iPhone, and look in the emulator’s folder for a file ending in .sav. If it is not there, use the emulator’s export or share button and choose Save to Files, then pick that file here. This works in Safari and in the home-screen app. Every file is listed, because iOS hides .sav when a page asks only for known types.</p>
             </div>
@@ -334,10 +339,10 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
               A route holds one catch. Evolution keeps the first place. A soft reset leaves no trace, so the save cannot tell a first catch from a later one.
               A Cherish Ball is usually a gift, fossil, or event. The save cannot tell those apart from a wild catch otherwise. Gyms have no map section of their own.
               Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
-              Shiny is a guess. Box levels are worked out from EXP. A mint would not show.
+              Shiny is an unverified guess (xor under 16). It is not confirmed. Box levels are worked out from EXP. A mint would not show.
               {!save.checksumsOk && ' One save slot failed its checksum, so this is the other slot.'}
             </p>
-            {previous.length === 0 && <p className="import-help">No earlier import is stored on this phone, so every species counts as new.</p>}
+            {previous.length === 0 && previousIds.length === 0 && <p className="import-help">No earlier import is stored on this phone, so nothing is marked new yet.</p>}
             {options.randomizerSpecies && <p className="import-help">Species randomizer is on, so encounter lists are not used to guess a route.</p>}
             <ImportGroup title="From the save" empty="No route was read from the save yet." group="route">
               {fromSave.map((mon) => (
@@ -349,8 +354,8 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
                 <MonRow key={mon.id} {...rowProps(mon)} />
               ))}
             </ImportGroup>
-            {(plan.skippedEggs > 0 || plan.skippedUnknown > 0) && (
-              <p className="import-help">{plan.skippedEggs + plan.skippedUnknown} Pokémon skipped (eggs or unknown species).</p>
+            {plan.skippedEggs > 0 && (
+              <p className="import-help">{plan.skippedEggs} egg{plan.skippedEggs === 1 ? '' : 's'} skipped. Eggs are not catches.</p>
             )}
           </>
         )}
@@ -408,6 +413,7 @@ function placeCopy(mon: PlannedMon, live: RouteDecision): string {
       : 'This route already has a catch. Pick another route, or leave it.'
   }
   const where = metWhere(mon)
+  if (mon.unknown) return `Species ${mon.speciesId} is not in the table, so this row is unknown Pokémon. It is not logged.`
   if (mon.decision === 'trade') return `Caught by another trainer (${where}). Confirm all skips this. Confirm it only if this route should count.`
   if (mon.decision === 'event') return 'Event Pokémon. Confirm all skips this. Pick a route only if it should count.'
   if (mon.decision === 'hatched') return `Hatched at ${mon.placeName ?? 'this place'}. The save stores the hatch place, not a catch route. Confirm all skips this.`
@@ -452,7 +458,7 @@ function MonRow({
   onConfirm: () => void
 }) {
   const partner = route ? catches.find((row) => row.player !== me && row.route === route && row.pokemon && row.status !== 'missed') : undefined
-  const clauseHit = clause === 'off' || !route ? undefined : catches.find((row) => {
+  const clauseHit = clause === 'off' || !route || mon.nat == null ? undefined : catches.find((row) => {
     if (row.dex_id !== mon.nat || row.status === 'missed' || row.status === 'dead') return false
     if (row.player === me && row.route === route) return false
     if (clause === 'player') return row.player === me
@@ -467,6 +473,8 @@ function MonRow({
     <article
       className={cx('import-mon', highlightNew && 'is-new')}
       data-mon={mon.name}
+      data-nick={mon.nickname}
+      data-unknown={mon.unknown ? 'true' : 'false'}
       data-place={mon.place}
       data-duplicate={decision.duplicate ? 'true' : 'false'}
       data-met={mon.mapSectionId}
@@ -491,11 +499,12 @@ function MonRow({
         {mon.decision === 'event' && <span className="import-pill">Event</span>}
         {mon.decision === 'hatched' && <span className="import-pill">Hatched</span>}
         {mon.decision === 'gift' && <span className="import-pill">Gift</span>}
-        {mon.decision === 'unmapped' && <span className="import-pill">Unmapped</span>}
+        {mon.unknown && <span className="import-pill">Unknown species</span>}
+        {!mon.unknown && mon.decision === 'unmapped' && <span className="import-pill">Unmapped</span>}
         {decision.duplicate && <span className="import-pill">Duplicate</span>}
         {mon.alreadyLogged && <span className="import-pill">On this run</span>}
         {highlightNew && <span className="import-pill new">New since last import</span>}
-        {mon.shiny && <span className="import-pill">Maybe shiny (guess, xor {mon.shinyXor})</span>}
+        {mon.shiny && <span className="import-pill">Shiny? Unverified guess (xor {mon.shinyXor})</span>}
       </div>
       <p className="import-meta">Nature is from personality. A mint would not show.</p>
       {mon.formNote && <p className="import-meta">{mon.formNote}</p>}
@@ -513,7 +522,7 @@ function MonRow({
       <p className="import-meta">{confirmed ? 'Confirmed. This catch is logged.' : placeCopy(mon, decision)}</p>
       {partner && !decision.duplicate && !confirmed && <p className="import-meta">{PLAYERS[otherPlayer(me)].name} already has a catch here. Confirming yours links the pair.</p>}
       {clauseHit && <p className="import-meta">Species clause: {PLAYERS[clauseHit.player].name} already logged this species. You can still confirm it.</p>}
-      {!confirmed && !decision.duplicate && (
+      {!confirmed && !decision.duplicate && !mon.unknown && (
         <button className="btn btn-sm" type="button" data-confirm="row" disabled={busy || !route} onClick={onConfirm}>
           Confirm
         </button>

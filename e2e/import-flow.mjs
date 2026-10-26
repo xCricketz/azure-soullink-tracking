@@ -5,7 +5,7 @@
  * Start `npm run preview` first (port 4173).
  */
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 
 const { chromium, webkit } = createRequire('/tmp/e2e/package.json')('playwright')
@@ -13,9 +13,12 @@ const base = process.env.APP_URL ?? 'http://127.0.0.1:4173/azure-soullink-tracki
 const shots = '/opt/cursor/artifacts'
 mkdirSync(shots, { recursive: true })
 
+const fixtureDir = '/workspace/save-import/fixtures-synthetic'
 const files = execFileSync('npx', ['tsx', '-e', `
-  import { writeFileSync } from 'node:fs'
+  import { readFileSync, writeFileSync } from 'node:fs'
   import { buildSave, sampleSave } from './src/lib/save/synthetic.ts'
+  import { parseSave } from './src/lib/save/unbound-save.ts'
+  import { allMons, identityOf } from './src/lib/save/save-diff.ts'
   writeFileSync('/tmp/sample-unbound.sav', sampleSave())
   writeFileSync('/tmp/tiny.sav', new Uint8Array(1000))
   const broken = buildSave({ indexA: 4, indexB: 3 })
@@ -28,6 +31,10 @@ const files = execFileSync('npx', ['tsx', '-e', `
     for (let sector = 0; sector < 14; sector++) view.setUint32(slot * 0xe000 + sector * 0x1000 + 0xff8, 0x08012025, true)
   }
   writeFileSync('/tmp/firered-sig.sav', foreign)
+  const table = JSON.parse(readFileSync('./src/data/unbound/species-table.json', 'utf8'))
+  const dex = JSON.parse(readFileSync('./src/data/unbound/dex.json', 'utf8'))
+  const before = parseSave(new Uint8Array(readFileSync('./save-import/fixtures-synthetic/diff-a.sav')), { table, dexNames: dex })
+  writeFileSync('/tmp/diff-a-ids.json', JSON.stringify(allMons(before).map((mon) => identityOf(mon))))
 `], { cwd: '/workspace', encoding: 'utf8' })
 if (files) process.stdout.write(files)
 
@@ -156,6 +163,77 @@ async function checkImport(page, engine) {
   await openImport(page, '/tmp/firered-sig.sav')
   await page.getByText('does not look like a Pokémon Unbound (FireRed) save').waitFor()
   await page.screenshot({ path: `${shots}/phase8-${engine}-import-firered.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/slots-both-damaged.sav`)
+  await page.getByText('Both save slots are broken').waitFor()
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/signature-vanilla.sav`)
+  await page.getByText('does not look like a Pokémon Unbound (FireRed) save').waitFor()
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/empty-save.sav`)
+  await page.locator('[data-import="review"]').waitFor()
+  const empty = await page.locator('.import-summary').innerText()
+  if (!empty.includes('Leer') || !empty.includes('0:00:03') || !empty.includes('party 0')) {
+    failures.push(`${engine} empty save summary: ${empty}`)
+  }
+  await page.screenshot({ path: `${shots}/phase8-${engine}-import-empty.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/ingame-trade.sav`)
+  await page.locator('[data-decision="trade"]').first().waitFor()
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/event-fateful.sav`)
+  await page.locator('[data-decision="event"]').first().waitFor()
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/hatched.sav`)
+  await page.locator('[data-decision="hatched"]').first().waitFor()
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/cherish-fossil.sav`)
+  await page.locator('[data-decision="gift"]').first().waitFor()
+  await page.screenshot({ path: `${shots}/phase8-${engine}-import-gift.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/duplicates-same-route.sav`)
+  await page.locator('[data-import="review"]').waitFor()
+  const duplicates = await page.locator('[data-duplicate="true"]').count()
+  if (duplicates < 7) failures.push(`${engine} expected duplicate rows, saw ${duplicates}`)
+  await page.screenshot({ path: `${shots}/phase8-${engine}-import-duplicates.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/unknown-species.sav`)
+  await page.locator('[data-unknown="true"]').first().waitFor()
+  const unknown = await page.locator('[data-mon="unknown Pokémon"]').count()
+  if (unknown !== 7) failures.push(`${engine} expected 7 unknown Pokémon rows, saw ${unknown}`)
+  if (await page.locator('[data-unknown="true"] [data-confirm="row"]').count()) {
+    failures.push(`${engine} unknown species offered Confirm`)
+  }
+  await page.screenshot({ path: `${shots}/phase8-${engine}-import-unknown.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  const ids = JSON.parse(readFileSync('/tmp/diff-a-ids.json', 'utf8'))
+  await page.evaluate((list) => {
+    localStorage.setItem('sl-import-ids:demo-run', JSON.stringify(list))
+  }, ids)
+  await openImport(page, `${fixtureDir}/diff-b.sav`)
+  await page.locator('[data-import="review"]').waitFor()
+  for (const nick of ['NewR8', 'DupB', 'NewR7', 'NewR17', 'NewTrade', 'NewHatch', 'NewPreset']) {
+    await page.locator(`[data-nick="${nick}"][data-new="true"]`).waitFor()
+  }
+  if (await page.locator('[data-nick="Bleibt"]').getAttribute('data-new') !== 'false') {
+    failures.push(`${engine} Bleibt was marked new`)
+  }
+  if (await page.locator('[data-nick="DupB"]').getAttribute('data-new') !== 'true') {
+    failures.push(`${engine} second Rattata was not new`)
+  }
+  const stored = await page.evaluate(() => localStorage.getItem('sl-import-ids:demo-run'))
+  if (stored !== JSON.stringify(ids)) failures.push(`${engine} diff preview wrote identities`)
+  await page.screenshot({ path: `${shots}/phase8-${engine}-import-diff.png` })
 }
 
 for (const [engine, browserType] of [['chromium', chromium], ['webkit', webkit]]) {

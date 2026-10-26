@@ -1,0 +1,10 @@
+{
+ "fixture": "blank-zero",
+ "file": "blank-zero.sav",
+ "description": "Datei nur aus Nullen: kein gültiger Slot (Sektor-IDs doppelt, Signatur 0) → Fehler.",
+ "unverifiedAssumptions": [],
+ "fileSize": 131072,
+ "error": {
+  "messageIncludes": "kein gültiger Slot"
+ }
+}

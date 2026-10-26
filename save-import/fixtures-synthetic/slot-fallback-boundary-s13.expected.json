@@ -1,0 +1,220 @@
+{
+ "fixture": "slot-fallback-boundary-s13",
+ "file": "slot-fallback-boundary-s13.sav",
+ "description": "Grenzfall Prüfsummenlänge: das LETZTE geschützte Byte von Sektor 13 (Offset 0x44f) im neueren Slot 0 ist gekippt → Slot ungültig → Fallback auf Slot 1. (Gegenstück: slot-damage-outside-checksum am ersten ungeschützten Byte.)",
+ "unverifiedAssumptions": [],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": false,
+   "saveIndex": 201,
+   "problemsContain": [
+    "Checksumme"
+   ]
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 200,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 1,
+ "checksumsOk": false,
+ "trainer": {
+  "name": "Slots",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 12,
+   "minutes": 34,
+   "seconds": 56,
+   "frames": 7
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [],
+ "boxMons": [
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 0,
+   "speciesId": 19,
+   "nat": 19,
+   "formIndex": 0,
+   "name": "Rattata",
+   "nickname": "Alt1",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 5,
+   "levelSource": "exp-derived",
+   "exp": 125,
+   "nature": "Quirky",
+   "personality": 2874889674,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 21225,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 102,
+    "level": 4,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-2",
+   "mapsecName": "Route 2",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 1,
+   "speciesId": 21,
+   "nat": 21,
+   "formIndex": 0,
+   "name": "Spearow",
+   "nickname": "Alt2",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 6,
+   "levelSource": "exp-derived",
+   "exp": 216,
+   "nature": "Naughty",
+   "personality": 1683580304,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 44465,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 103,
+    "level": 5,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-3",
+   "mapsecName": "Route 3",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  }
+ ],
+ "dex": {
+  "seenNat": [
+   19,
+   21
+  ],
+  "caughtNat": [
+   19,
+   21
+  ]
+ },
+ "ownedSpeciesNat": [
+  19,
+  21
+ ],
+ "progress": {
+  "badges": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 0,
+  "gameClearFlag": false,
+  "hallOfFameEntries": 0
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}
