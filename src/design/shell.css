@@ -314,6 +314,9 @@ textarea, .field input, .picker input, .search {
 input, textarea, select { font-size: 16px; }
 .import-error { margin: 0; color: var(--dead-ink, #9b2c2c); font-size: 14px; line-height: 18px; }
 .import-summary { margin: 0; font-size: 14px; line-height: 18px; }
+.story-suggest { margin: 0 0 12px; padding: 12px; border-radius: 16px; background: var(--fill); }
+.story-suggest p { margin: 0 0 8px; }
+.story-suggest .conf { margin-left: 8px; }
 .import-block + .import-block { margin-top: 14px; }
 .import-block h3 { margin: 4px 0 0; font: 700 13px/16px var(--font-body); letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
 .import-box { border-top: 1px solid var(--line); padding-top: 8px; }

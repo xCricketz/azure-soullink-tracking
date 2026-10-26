@@ -170,7 +170,9 @@ for (const node of routes) {
 }
 const spine = []
 for (const step of guide) {
-  if (step.route_key && !spine.includes(step.route_key)) spine.push(step.route_key)
+  // Guide notes such as Distortion World are not map nodes. Skipping them
+  // keeps the story path between the real neighbours.
+  if (step.route_key && byKey.has(step.route_key) && !spine.includes(step.route_key)) spine.push(step.route_key)
 }
 const storyPairs = new Set()
 for (let i = 0; i < spine.length - 1; i++) storyPairs.add([spine[i], spine[i + 1]].sort().join('|'))

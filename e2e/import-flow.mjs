@@ -17,6 +17,7 @@ const fixtureDir = '/workspace/save-import/fixtures-synthetic'
 const files = execFileSync('npx', ['tsx', '-e', `
   import { readFileSync, writeFileSync } from 'node:fs'
   import { buildSave, sampleSave } from './src/lib/save/synthetic.ts'
+  import { VAR_STORY_ACT1, VAR_STORY_MAIN } from './src/lib/save/missions.ts'
   import { parseSave } from './src/lib/save/unbound-save.ts'
   import { allMons, identityOf } from './src/lib/save/save-diff.ts'
   writeFileSync('/tmp/sample-unbound.sav', sampleSave())
@@ -35,6 +36,26 @@ const files = execFileSync('npx', ['tsx', '-e', `
   const dex = JSON.parse(readFileSync('./src/data/unbound/dex.json', 'utf8'))
   const before = parseSave(new Uint8Array(readFileSync('./save-import/fixtures-synthetic/diff-a.sav')), { table, dexNames: dex })
   writeFileSync('/tmp/diff-a-ids.json', JSON.stringify(allMons(before).map((mon) => identityOf(mon))))
+  function setExtVar(sectors, id, value) {
+    const mem = 0x200 + 2 * (id - 0x5000)
+    const regions = [[0, 0xf24, 0xff0 - 0xf24], [4, 0xd98, 0xff0 - 0xd98], [13, 0x450, 0xff0 - 0x450]]
+    for (const byte of [0, 1]) {
+      let offset = mem + byte
+      const val = (value >> (8 * byte)) & 0xff
+      for (const [sector, from, len] of regions) {
+        if (offset < len) { sectors[sector][from + offset] = val; break }
+        offset -= len
+      }
+    }
+  }
+  writeFileSync('/tmp/story-mid.sav', buildSave({
+    indexA: 9,
+    indexB: 1,
+    mutate: (sectors) => {
+      setExtVar(sectors, VAR_STORY_ACT1, 42)
+      setExtVar(sectors, VAR_STORY_MAIN, 67)
+    },
+  }))
 `], { cwd: '/workspace', encoding: 'utf8' })
 if (files) process.stdout.write(files)
 
@@ -234,6 +255,38 @@ async function checkImport(page, engine) {
   const storedIds = await page.evaluate(() => localStorage.getItem('sl-import-ids:demo-run'))
   if (storedIds !== JSON.stringify(ids)) failures.push(`${engine} diff preview wrote identities`)
   await page.screenshot({ path: `${shots}/phase8-${engine}-import-diff.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await page.evaluate(() => localStorage.removeItem('sl-story-hint:demo-run'))
+  await openImport(page, '/tmp/story-mid.sav')
+  await page.locator('[data-story="suggestion"]').waitFor()
+  const story = await page.locator('[data-story="suggestion"]').innerText()
+  if (!story.includes('Missions completed') || !story.includes('of 84')) failures.push(`${engine} story card missing mission count: ${story}`)
+  if (!story.includes('Distortion World') || !story.includes('Rift Cave')) failures.push(`${engine} story suggestion: ${story}`)
+  if (!story.includes('Guess')) failures.push(`${engine} story suggestion missing guess badge`)
+  const hinted = await page.evaluate(() => localStorage.getItem('sl-story-hint:demo-run'))
+  if (hinted) failures.push(`${engine} story hint was stored before confirm`)
+  const hereBefore = await page.evaluate(() => localStorage.getItem('sl-import-nats:demo-run'))
+  await page.locator('[data-story="suggestion"]').scrollIntoViewIfNeeded()
+  await page.screenshot({ path: `${shots}/phase9-${engine}-story-suggest.png` })
+  await page.locator('[data-story-confirm]').click()
+  await page.getByText('Shown on the guide. Here on the map stays your furthest catch.').waitFor()
+  const hintedAfter = await page.evaluate(() => localStorage.getItem('sl-story-hint:demo-run'))
+  if (!hintedAfter || !hintedAfter.includes('Distortion World')) failures.push(`${engine} confirm did not store the suggestion`)
+  if (await page.evaluate(() => localStorage.getItem('sl-import-nats:demo-run')) !== hereBefore) {
+    failures.push(`${engine} story confirm changed imported catches`)
+  }
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+  await page.getByRole('button', { name: 'Map', exact: true }).click()
+  await page.locator('[data-story-suggest]').waitFor()
+  const onMap = await page.locator('[data-story-suggest]').innerText()
+  if (!onMap.includes('Distortion World') || !onMap.includes('Rift Cave') || !onMap.includes('Guess')) {
+    failures.push(`${engine} map suggestion: ${onMap}`)
+  }
+  const hereNode = await page.locator('[data-here="true"]').getAttribute('data-map-node')
+  if (hereNode !== 'route-6') failures.push(`${engine} story confirm moved Here to ${hereNode}`)
+  await page.locator('[data-story-suggest]').scrollIntoViewIfNeeded()
+  await page.screenshot({ path: `${shots}/phase9-${engine}-story-map.png` })
 }
 
 for (const [engine, browserType] of [['chromium', chromium], ['webkit', webkit]]) {

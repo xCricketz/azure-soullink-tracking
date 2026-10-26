@@ -4,6 +4,7 @@ import { BottomSheet, cx } from '../components/ui'
 import guideData from '../data/unbound/guide.json'
 import layout from '../data/unbound/layout.json'
 import { placeByKey, ROUTES, routeTitleByKey } from '../data/routes'
+import { readStoryHint, storyHintEvent, type StoredStoryHint } from '../lib/save/story-hint'
 import { capLadder, optionsOf } from '../lib/options'
 import { monName } from '../lib/text'
 import { PLAYERS, type Catch } from '../lib/types'
@@ -68,6 +69,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const [open, setOpen] = useState<string | null>(null)
   const [expanded, setExpanded] = useState(false)
   const [areas, setAreas] = useState<Map<string, EncounterArea> | null>(null)
+  const [storyHint, setStoryHint] = useState<StoredStoryHint | null>(null)
   const moved = useRef(0)
   const tapNode = useRef<string | null>(null)
   const ptrs = useRef(new Map<number, { x: number; y: number }>())
@@ -114,6 +116,13 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   useEffect(() => {
     void loadAreas().then(setAreas)
   }, [])
+
+  useEffect(() => {
+    const load = () => setStoryHint(readStoryHint(app.run?.id))
+    load()
+    window.addEventListener(storyHintEvent(), load)
+    return () => window.removeEventListener(storyHintEvent(), load)
+  }, [app.run?.id])
 
   function commit(next: { x: number; y: number; scale: number }) {
     const stage = stageRef.current
@@ -404,14 +413,36 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       </section>
       <section className="next-steps" aria-label="Next steps">
         <h2>Next steps</h2>
+        {storyHint && (
+          <div className="story-suggest" data-story-suggest data-story-current={storyHint.currentLabel} data-story-next={storyHint.nextLabel ?? ''}>
+            <p>
+              <b>You are here</b>
+              <span className="conf u">Guess</span>
+            </p>
+            <p>
+              Save suggests {storyHint.currentLabel}
+              {storyHint.nextLabel ? `. Next: ${storyHint.nextLabel}` : ''}.
+            </p>
+            <p className="hint">Here on the map stays your furthest catch. This suggestion does not move it.</p>
+            {storyHint.finished && <p className="hint">This save is at the end of the story, so it is not a mid-run position.</p>}
+          </div>
+        )}
         {shown.length === 0 ? <p className="hint">That’s the end of the guide.</p> : (
           <ol>
             {shown.map((step) => (
-              <li key={step.step} data-next-step={step.step} className={stepPassed(step, progress?.order ?? 0) ? 'passed' : ''}>
+              <li
+                key={step.step}
+                data-next-step={step.step}
+                data-story-step={storyHint?.currentKey === step.route_key ? 'true' : 'false'}
+                className={stepPassed(step, progress?.order ?? 0) ? 'passed' : ''}
+              >
                 <button type="button" onClick={() => setOpen(step.route_key)}>
-                  <b>{routeTitleByKey(step.route_key)}</b>
+                  <b>{guideTitle(step)}</b>
+                  {step.confidence === 'likely' && <span className="conf l">Likely</span>}
+                  {step.confidence === 'uncertain' && <span className="conf u">Uncertain</span>}
                   <span>{step.objective}</span>
                   {(step.boss || step.unlock) && <small>{[step.unlock, step.boss].filter(Boolean).join(' · ')}</small>}
+                  {step.note && (step.confidence === 'likely' || step.confidence === 'uncertain' || /optional|unverified/i.test(step.note)) && <small>{step.note}</small>}
                 </button>
               </li>
             ))}
@@ -421,15 +452,19 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
           {expanded ? 'Show the next steps' : `Show all ${GUIDE.length} steps`}
         </button>
       </section>
-      <BottomSheet peek open={open !== null} title={place?.name ?? 'Area'} onClose={() => setOpen(null)}>
-        {place && (
+      <BottomSheet peek open={open !== null} title={place?.name ?? (guideHere[0] ? guideTitle(guideHere[0]) : 'Area')} onClose={() => setOpen(null)}>
+        {(place || guideHere.length > 0) && (
           <div className="map-sheet">
-            <p className="hint">{place.kind}{place.boss ? ` · ${place.boss}` : ''}</p>
+            {place && <p className="hint">{place.kind}{place.boss ? ` · ${place.boss}` : ''}</p>}
             {guideHere.length > 0 && (
               <>
                 <h3 className="wiki-sec">From the guide</h3>
                 {guideHere.map((step) => (
-                  <p key={step.step} className="hint">{step.objective}{step.note ? ` ${step.note}` : ''}</p>
+                  <p key={step.step} className="hint">
+                    {step.confidence === 'likely' && <span className="conf l">Likely</span>}
+                    {step.confidence === 'uncertain' && <span className="conf u">Uncertain</span>}
+                    {' '}{step.objective}{step.note ? ` ${step.note}` : ''}
+                  </p>
                 ))}
               </>
             )}
@@ -456,10 +491,12 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
                 ))}
               </ul>
             )}
-            <p className="hint">
-              <a className="map-wiki" href={`https://unboundwiki.com/locations/${place.key}/`} target="_blank" rel="noreferrer">Area page on the wiki</a>
-            </p>
-            {place.soullink_route && (
+            {place && (
+              <p className="hint">
+                <a className="map-wiki" href={`https://unboundwiki.com/locations/${place.key}/`} target="_blank" rel="noreferrer">Area page on the wiki</a>
+              </p>
+            )}
+            {place?.soullink_route && (
               <button className="btn btn-primary" type="button" onClick={() => { onLog(place.key); setOpen(null) }}>
                 Log a catch
               </button>
@@ -577,6 +614,11 @@ function edgePath(a: MapNode, b: MapNode, role: string): string {
   }
   const mid = a.x + dx * 0.55
   return `M ${a.x} ${a.y} C ${mid} ${a.y}, ${mid} ${b.y}, ${b.x} ${b.y}`
+}
+
+function guideTitle(step: GuideStep): string {
+  if (step.route_key === 'distortion-world') return 'Distortion World'
+  return routeTitleByKey(step.route_key)
 }
 
 function catchLabel(row: Catch): string {

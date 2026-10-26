@@ -176,7 +176,8 @@
   "route_key": "epidimy-town",
   "objective": "Visit the west-most house in Epidimy Town for Strength.",
   "unlock": "HM04 Strength (usable after the Fall Badge)",
-  "confidence": "https://unboundwiki.com/tms-hms/"
+  "confidence": "uncertain",
+  "note": "Story counter 0x500C lists Tehl Town and Route 9 (5–6), then Fallshore (8), before the first Epidimy value (9). Another Epidimy value (15) sits between Thundercap and Tarmigan. That order is uncertain, so this step stays where the wiki puts it."
  },
  {
   "step": 28,
@@ -231,14 +232,16 @@
   "step": 35,
   "route_key": "dehara-city",
   "objective": "Dehara City: heal; the Shadow quest line starts at the Ruins of Void.",
-  "confidence": "wiki walkthrough order + nuzlocke.data order"
+  "confidence": "wiki walkthrough order + nuzlocke.data order",
+  "note": "Game Corner (story counter 0x500C = 22) is optional and unverified. It is not a required stop."
  },
  {
   "step": 36,
   "route_key": "ruins-of-void",
   "objective": "Clear Ruins of Void, then the Shadow base under Cinder Volcano, before the gym.",
   "boss": "Ruin Agent Vega; later Shadow Boss Zeph",
-  "confidence": "wiki walkthrough order, boss names low-medium confidence"
+  "confidence": "wiki walkthrough order, boss names low-medium confidence",
+  "note": "Cube Space (story counter 0x500C 36–37) is optional and unverified. A map section points at Cube Corp. only as a guess."
  },
  {
   "step": 37,
@@ -322,12 +325,19 @@
  },
  {
   "step": 49,
+  "route_key": "distortion-world",
+  "objective": "Pass through Distortion World (story counter 0x500C 58–68, ending at Rift Cave) on the way to Seaport.",
+  "note": "Likely gap between Vivill Warehouse and Seaport. Antisis does not appear in that counter, so those steps stay in the wiki order and this step is only placed before Seaport.",
+  "confidence": "likely"
+ },
+ {
+  "step": 50,
   "route_key": "seaport-city",
   "objective": "Seaport City, then Polder Town by ferry/route.",
   "confidence": "wiki walkthrough order + nuzlocke.data order"
  },
  {
-  "step": 50,
+  "step": 51,
   "route_key": "polder-gym",
   "objective": "Beat the seventh gym; Tessy gives Waterfall.",
   "boss": "Tessy (Water)",
@@ -335,20 +345,20 @@
   "confidence": "https://unboundwiki.com/tms-hms/"
  },
  {
-  "step": 51,
+  "step": 52,
   "route_key": "magnolia-town",
   "objective": "Cootes Bog then Magnolia Town (rival fights again).",
   "boss": "Rival (fifth fight)",
   "confidence": "wiki walkthrough order + nuzlocke.data order"
  },
  {
-  "step": 52,
+  "step": 53,
   "route_key": "crystal-peak",
   "objective": "Crystal Peak story fights, then Magnolia Fields to Redwood Village.",
   "confidence": "wiki walkthrough, boss list low confidence"
  },
  {
-  "step": 53,
+  "step": 54,
   "route_key": "redwood-gym",
   "objective": "Beat the eighth gym.",
   "boss": "Benjamin (Bug)",
@@ -356,13 +366,13 @@
   "confidence": "gym list"
  },
  {
-  "step": 54,
+  "step": 55,
   "route_key": "victory-road",
   "objective": "Route 18 and Victory Road to the Pokemon League.",
   "confidence": "wiki walkthrough order + nuzlocke.data order"
  },
  {
-  "step": 55,
+  "step": 56,
   "route_key": "pokemon-league",
   "objective": "Elite Four, then Champion Jax. After that the level caps are removed and Dive can be bought.",
   "boss": "Elite Four + Champion Jax",

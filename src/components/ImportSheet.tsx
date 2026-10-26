@@ -5,6 +5,7 @@ import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
 import { formatPlaytime } from '../lib/save/explain'
 import { readImportedIds, readImportedNats, writeImportedIds, writeImportedNats } from '../lib/save/memory'
+import { confirmStoryHint, readStoryHint, storyFromSave, type StorySuggestion } from '../lib/save/story-hint'
 import { confirmAllIds, liveDecisions, planSave, routeClash, type AreaHint, type PlannedMon, type RouteDecision } from '../lib/save/plan'
 import type { ParsedSave } from '../lib/save/unbound-save'
 import { pushToast } from '../lib/toast'
@@ -58,6 +59,8 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const [done, setDone] = useState<string[]>([])
   const [importRev, setImportRev] = useState(0)
   const [areasReady, setAreasReady] = useState(false)
+  const [story, setStory] = useState<StorySuggestion | null>(null)
+  const [storyShown, setStoryShown] = useState(false)
   const seededFor = useRef<ParsedSave | null>(null)
   const settledRoutes = useRef<Map<string, string>>(new Map())
   const options = optionsOf(app.run)
@@ -87,6 +90,8 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     setRoutes({})
     setDone([])
     setImportRev(0)
+    setStory(null)
+    setStoryShown(false)
     seededFor.current = null
     settledRoutes.current = new Map()
     setAreasReady(false)
@@ -122,6 +127,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
           return
         }
         setSave(result.save)
+        await attachStory(bytes)
       } catch {
         if (cancel) return
         setBusy(false)
@@ -151,6 +157,22 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
       return
     }
     setSave(result.save)
+    await attachStory(bytes)
+  }
+
+  async function attachStory(bytes: Uint8Array) {
+    const card = await storyFromSave(bytes)
+    setStory(card)
+    const saved = readStoryHint(app.run?.id)
+    setStoryShown(Boolean(card?.hasProgress && saved && saved.ordinal === card.ordinal && saved.currentLabel === card.currentLabel))
+  }
+
+  function showOnGuide() {
+    if (!story) return
+    const saved = confirmStoryHint(app.run?.id, story)
+    if (!saved) return
+    setStoryShown(true)
+    pushToast('Shown on the guide. Here on the map stays your furthest catch.')
   }
 
   async function onFile(file: File | undefined) {
@@ -322,7 +344,8 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
         {error && <p className="import-error" role="alert">{error}</p>}
         {plan && save && (
           <>
-            <button className="text-btn" type="button" onClick={() => { setSave(null); setError(''); setDone([]); settledRoutes.current = new Map() }}>Choose another file</button>
+            <button className="text-btn" type="button" onClick={() => { setSave(null); setStory(null); setStoryShown(false); setError(''); setDone([]); settledRoutes.current = new Map() }}>Choose another file</button>
+            {story && <StoryCard story={story} shown={storyShown} onShow={showOnGuide} />}
             <p className="import-summary" data-playtime={formatPlaytime(save.trainer.playtime) ?? ''}>
               <strong>{save.trainer.name || 'Trainer'}</strong>
               {formatPlaytime(save.trainer.playtime) ? ` · played ${formatPlaytime(save.trainer.playtime)}` : ''}
@@ -389,6 +412,36 @@ function groupRoutes() {
     groups.set(route.group, list)
   }
   return [...groups.entries()]
+}
+
+function StoryCard({ story, shown, onShow }: { story: StorySuggestion; shown: boolean; onShow: () => void }) {
+  return (
+    <section className="story-suggest" data-story="suggestion" aria-label="You are here">
+      <p>
+        <b>Missions completed</b> {story.completed} of {story.total}
+      </p>
+      {story.hasProgress && story.currentLabel ? (
+        <>
+          <p data-story-current={story.currentLabel} data-story-next={story.nextLabel ?? ''}>
+            You are here: <b>{story.currentLabel}</b>
+            {story.nextLabel ? <> · next <b>{story.nextLabel}</b></> : null}
+            <span className="conf u">Guess</span>
+          </p>
+          <p className="import-help">
+            Locations are a guess from the story counter. Showing this on the guide does not move Here. Here stays the furthest catch until you log one.
+          </p>
+          {story.finished && (
+            <p className="import-help">This save is at the end of the story, so it is not a mid-run position.</p>
+          )}
+          <button className="btn btn-sm" type="button" data-story-confirm disabled={shown} onClick={onShow}>
+            {shown ? 'Shown on the guide' : 'Show on the guide'}
+          </button>
+        </>
+      ) : (
+        <p className="import-help">This save has no story progress yet.</p>
+      )}
+    </section>
+  )
 }
 
 function ImportGroup({ title, empty, group, children }: { title: string; empty: string; group: string; children: ReactNode }) {
