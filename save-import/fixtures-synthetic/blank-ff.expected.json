@@ -1,0 +1,10 @@
+{
+ "fixture": "blank-ff",
+ "file": "blank-ff.sav",
+ "description": "Komplett gelöschter Flash (alles 0xFF): kein gültiger Slot → Parser muss einen Fehler werfen.",
+ "unverifiedAssumptions": [],
+ "fileSize": 131072,
+ "error": {
+  "messageIncludes": "kein gültiger Slot"
+ }
+}

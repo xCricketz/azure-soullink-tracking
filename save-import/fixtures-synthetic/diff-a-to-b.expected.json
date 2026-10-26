@@ -1,0 +1,176 @@
+{
+ "fixtureA": "diff-a",
+ "fixtureB": "diff-b",
+ "description": "Erwartete Differenz von Stand A (diff-a.sav) nach Stand B (diff-b.sav). Identität eines Mons = PID + OT-ID (bleibt bei Entwicklung, Verschiebung, Tausch zwischen Boxen gleich). `added` = „neu seit letztem Import\". Sortierung: Team zuerst, dann Box/Slot (bei removed nach Stand A).",
+ "identityDefinition": "personality(hex8):otid(hex8), otid = (sid<<16)|tid",
+ "added": [
+  {
+   "identity": "d302b237:30399c41",
+   "where": "box",
+   "box": 0,
+   "slot": 3,
+   "speciesId": 74,
+   "nat": 74,
+   "nickname": "NewR8",
+   "level": 17,
+   "metLocation": 108,
+   "routeId": "route-8",
+   "category": "area"
+  },
+  {
+   "identity": "2c06639f:30399c41",
+   "where": "box",
+   "box": 1,
+   "slot": 1,
+   "speciesId": 19,
+   "nat": 19,
+   "nickname": "DupB",
+   "level": 6,
+   "metLocation": 102,
+   "routeId": "route-2",
+   "category": "area"
+  },
+  {
+   "identity": "2bc8ee6b:30399c41",
+   "where": "box",
+   "box": 1,
+   "slot": 2,
+   "speciesId": 27,
+   "nat": 27,
+   "nickname": "NewR7",
+   "level": 15,
+   "metLocation": 107,
+   "routeId": "route-7",
+   "category": "area"
+  },
+  {
+   "identity": "1c59985a:30399c41",
+   "where": "box",
+   "box": 1,
+   "slot": 3,
+   "speciesId": 111,
+   "nat": 111,
+   "nickname": "NewR17",
+   "level": 27,
+   "metLocation": 117,
+   "routeId": "route-17",
+   "category": "area"
+  },
+  {
+   "identity": "8f5dea9a:08aec7a7",
+   "where": "box",
+   "box": 5,
+   "slot": 29,
+   "speciesId": 122,
+   "nat": 122,
+   "nickname": "NewTrade",
+   "level": 50,
+   "metLocation": 254,
+   "routeId": null,
+   "category": "in-game-trade"
+  },
+  {
+   "identity": "d82ddfed:30399c41",
+   "where": "box",
+   "box": 21,
+   "slot": 5,
+   "speciesId": 175,
+   "nat": 175,
+   "nickname": "NewHatch",
+   "level": 3,
+   "metLocation": 146,
+   "routeId": "redwood-village",
+   "category": "hatched"
+  },
+  {
+   "identity": "3e8aa597:30399c41",
+   "where": "box",
+   "box": 24,
+   "slot": 0,
+   "speciesId": 25,
+   "nat": 25,
+   "nickname": "NewPreset",
+   "level": 9,
+   "metLocation": 105,
+   "routeId": "route-5",
+   "category": "area"
+  }
+ ],
+ "removed": [
+  {
+   "identity": "3f887c49:30399c41",
+   "where": "box",
+   "box": 0,
+   "slot": 3,
+   "speciesId": 43,
+   "nat": 43,
+   "nickname": "Frei"
+  }
+ ],
+ "moved": [
+  {
+   "identity": "84978030:30399c41",
+   "speciesId": 21,
+   "from": {
+    "where": "box",
+    "box": 0,
+    "slot": 1
+   },
+   "to": {
+    "where": "party",
+    "slot": 1
+   }
+  }
+ ],
+ "changed": [
+  {
+   "identity": "b66eba67:30399c41",
+   "nickname": "Evo1",
+   "changes": {
+    "speciesId": [
+     19,
+     20
+    ],
+    "level": [
+     18,
+     24
+    ]
+   }
+  },
+  {
+   "identity": "151809e6:30399c41",
+   "nickname": "Leveler",
+   "changes": {
+    "level": [
+     15,
+     22
+    ]
+   }
+  }
+ ],
+ "unchangedCount": 3,
+ "dex": {
+  "newlySeenNat": [
+   20,
+   25,
+   27,
+   74,
+   111,
+   122,
+   175,
+   200,
+   201,
+   202
+  ],
+  "newlyCaughtNat": [
+   20,
+   25,
+   27,
+   74,
+   111,
+   122,
+   175,
+   202
+  ]
+ }
+}

@@ -1,0 +1,88 @@
+{
+ "fixture": "empty-save",
+ "file": "empty-save.sav",
+ "description": "Frischer Save ohne Pokémon: Team leer, 25 Boxen leer, Dex leer, keine Orden. Beide Slots gültig (Index 3/2).",
+ "unverifiedAssumptions": [],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": true,
+   "saveIndex": 3,
+   "problemsContain": []
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 2,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 0,
+ "checksumsOk": true,
+ "trainer": {
+  "name": "Leer",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 0,
+   "minutes": 0,
+   "seconds": 3,
+   "frames": 0
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [],
+ "boxMons": [],
+ "dex": {
+  "seenNat": [],
+  "caughtNat": []
+ },
+ "ownedSpeciesNat": [],
+ "progress": {
+  "badges": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 0,
+  "gameClearFlag": false,
+  "hallOfFameEntries": 0
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}

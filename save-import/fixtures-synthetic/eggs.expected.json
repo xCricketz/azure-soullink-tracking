@@ -1,0 +1,583 @@
+{
+ "fixture": "eggs",
+ "file": "eggs.sav",
+ "description": "Eier in Team und Box: Erkennung über IV-Wort-Bit 30 und/oder Flag-Byte-Bit 2 (0x13). Eier: isEgg=true, Spitzname leer (Platzhalter „Egg\" wird ausgeblendet), Fundort 253 (special-egg), nicht im Dex/ownedSpeciesNat.",
+ "unverifiedAssumptions": [
+  "Ei-Erkennung: im echten Save gab es kein Ei (SPEC §5.3); Bit-Lagen (IV-Bit 30, Flag-Bit 2) und Fundort 253 sind [G]"
+ ],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": true,
+   "saveIndex": 101,
+   "problemsContain": []
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 100,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 0,
+ "checksumsOk": true,
+ "trainer": {
+  "name": "Eier",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 12,
+   "minutes": 34,
+   "seconds": 56,
+   "frames": 7
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [
+  {
+   "where": "party",
+   "slot": 0,
+   "tag": "Team-Ei: Flag-Byte-Bit2 + IV-Bit30",
+   "speciesId": 175,
+   "nat": 175,
+   "formIndex": 0,
+   "name": "Togepi",
+   "nickname": "",
+   "ot": "Synth",
+   "isEgg": true,
+   "level": 1,
+   "levelSource": "stored",
+   "exp": 0,
+   "nature": "Timid",
+   "personality": 1213837385,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 21608,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 253,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "special-egg"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "party",
+   "slot": 1,
+   "tag": "Team-Ei nur IV-Bit30",
+   "speciesId": 175,
+   "nat": 175,
+   "formIndex": 0,
+   "name": "Togepi",
+   "nickname": "",
+   "ot": "Synth",
+   "isEgg": true,
+   "level": 1,
+   "levelSource": "stored",
+   "exp": 0,
+   "nature": "Bashful",
+   "personality": 1968574518,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 51480,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 253,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "special-egg"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "party",
+   "slot": 2,
+   "tag": "Team-Ei nur Flag-Byte-Bit2",
+   "speciesId": 175,
+   "nat": 175,
+   "formIndex": 0,
+   "name": "Togepi",
+   "nickname": "",
+   "ot": "Synth",
+   "isEgg": true,
+   "level": 1,
+   "levelSource": "stored",
+   "exp": 0,
+   "nature": "Calm",
+   "personality": 2060247245,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 13945,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 253,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "special-egg"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  }
+ ],
+ "boxMons": [
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 0,
+   "speciesId": 129,
+   "nat": 129,
+   "formIndex": 0,
+   "name": "Magikarp",
+   "nickname": "",
+   "ot": "Synth",
+   "isEgg": true,
+   "level": 1,
+   "levelSource": "exp-derived",
+   "exp": 1,
+   "nature": "Quiet",
+   "personality": 2693763542,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 40225,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 253,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "special-egg"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 1,
+   "speciesId": 133,
+   "nat": 133,
+   "formIndex": 0,
+   "name": "Eevee",
+   "nickname": "",
+   "ot": "Synth",
+   "isEgg": true,
+   "level": 1,
+   "levelSource": "exp-derived",
+   "exp": 1,
+   "nature": "Adamant",
+   "personality": 1048412903,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 4322,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 253,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "special-egg"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 2,
+   "speciesId": 172,
+   "nat": 172,
+   "formIndex": 0,
+   "name": "Pichu",
+   "nickname": "",
+   "ot": "Synth",
+   "isEgg": true,
+   "level": 1,
+   "levelSource": "exp-derived",
+   "exp": 1,
+   "nature": "Hardy",
+   "personality": 2897687500,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 13059,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 253,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "special-egg"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 3,
+   "tag": "geschlüpft, Ei-Flags aus",
+   "speciesId": 129,
+   "nat": 129,
+   "formIndex": 0,
+   "name": "Magikarp",
+   "nickname": "Hatched",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 1,
+   "levelSource": "exp-derived",
+   "exp": 1,
+   "nature": "Mild",
+   "personality": 3995283541,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 29198,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 146,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "hatched"
+   },
+   "routeId": "redwood-village",
+   "mapsecName": "Redwood Village",
+   "routeConfidence": "likely",
+   "warningsContain": []
+  },
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 4,
+   "tag": "normaler Mon zum Vergleich",
+   "speciesId": 133,
+   "nat": 133,
+   "formIndex": 0,
+   "name": "Eevee",
+   "nickname": "NoEgg",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 5,
+   "levelSource": "exp-derived",
+   "exp": 125,
+   "nature": "Hardy",
+   "personality": 4134590625,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 33449,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 102,
+    "level": 4,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-2",
+   "mapsecName": "Route 2",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  }
+ ],
+ "dex": {
+  "seenNat": [
+   129,
+   133
+  ],
+  "caughtNat": [
+   129,
+   133
+  ]
+ },
+ "ownedSpeciesNat": [
+  129,
+  133
+ ],
+ "progress": {
+  "badges": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 0,
+  "gameClearFlag": false,
+  "hallOfFameEntries": 0
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}

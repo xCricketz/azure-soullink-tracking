@@ -1,0 +1,466 @@
+{
+ "fixture": "party-six",
+ "file": "party-six.sav",
+ "description": "Volles Team (6 × 100-Byte-Party-Mons): stored Level, Fundort/Origins @0x45/0x46, Ball @0x2A, Hidden-Ability, Ei, Tausch, Event, geschlüpft+shiny. Boxen leer.",
+ "unverifiedAssumptions": [
+  "Party-Ball @0x2A [G]",
+  "Ei in Party: Flag-Byte-Bit 2 [G]"
+ ],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": true,
+   "saveIndex": 101,
+   "problemsContain": []
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 100,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 0,
+ "checksumsOk": true,
+ "trainer": {
+  "name": "Team6",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 12,
+   "minutes": 34,
+   "seconds": 56,
+   "frames": 7
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [
+  {
+   "where": "party",
+   "slot": 0,
+   "tag": "Hidden-Ability-Bit",
+   "speciesId": 6,
+   "nat": 6,
+   "formIndex": 0,
+   "name": "Charizard",
+   "nickname": "Team1",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 100,
+   "levelSource": "stored",
+   "exp": 1059860,
+   "nature": "Naughty",
+   "personality": 256622679,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 25444,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": true,
+   "met": {
+    "location": 88,
+    "level": 10,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "frozen-heights",
+   "mapsecName": "Frozen Heights",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  },
+  {
+   "where": "party",
+   "slot": 1,
+   "speciesId": 1078,
+   "nat": 807,
+   "formIndex": 0,
+   "name": "Zeraora",
+   "nickname": "Team2",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 80,
+   "levelSource": "stored",
+   "exp": 640000,
+   "nature": "Docile",
+   "personality": 811299981,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 59566,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 138,
+    "level": 80,
+    "originGame": 4,
+    "ball": 1,
+    "ballName": "Ultra",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "thundercap-mountain",
+   "mapsecName": "Thundercap Mt.",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  },
+  {
+   "where": "party",
+   "slot": 2,
+   "speciesId": 122,
+   "nat": 122,
+   "formIndex": 0,
+   "name": "Mr. Mime",
+   "nickname": "Team3",
+   "ot": "Tausch",
+   "isEgg": false,
+   "level": 50,
+   "levelSource": "stored",
+   "exp": 125000,
+   "nature": "Lax",
+   "personality": 2748811534,
+   "tid": 51111,
+   "sid": 2222,
+   "ownOT": false,
+   "shinyXor": 58832,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 254,
+    "level": 50,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "in-game-trade"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "party",
+   "slot": 3,
+   "speciesId": 151,
+   "nat": 151,
+   "formIndex": 0,
+   "name": "Mew",
+   "nickname": "Team4",
+   "ot": "Event",
+   "isEgg": false,
+   "level": 5,
+   "levelSource": "stored",
+   "exp": 135,
+   "nature": "Rash",
+   "personality": 1411539394,
+   "tid": 9,
+   "sid": 9,
+   "ownOT": false,
+   "shinyXor": 13792,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 255,
+    "level": 5,
+    "originGame": 4,
+    "ball": 15,
+    "ballName": "Cherish",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "fateful-event"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "party",
+   "slot": 4,
+   "speciesId": 175,
+   "nat": 175,
+   "formIndex": 0,
+   "name": "Togepi",
+   "nickname": "",
+   "ot": "Synth",
+   "isEgg": true,
+   "level": 1,
+   "levelSource": "stored",
+   "exp": 0,
+   "nature": "Quiet",
+   "personality": 422047717,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 23226,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 253,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "special-egg"
+   },
+   "routeId": null,
+   "mapsecName": null,
+   "routeConfidence": null,
+   "warningsContain": []
+  },
+  {
+   "where": "party",
+   "slot": 5,
+   "tag": "geschlüpft + shiny-xor 3",
+   "speciesId": 1258,
+   "nat": 905,
+   "formIndex": 0,
+   "name": "Enamorus",
+   "nickname": "Team6",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 3,
+   "levelSource": "stored",
+   "exp": 33,
+   "nature": "Relaxed",
+   "personality": 1663946582,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 3,
+   "shiny": true,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 158,
+    "level": 0,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "hatched"
+   },
+   "routeId": "crystal-peak",
+   "mapsecName": "Crystal Peak",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  }
+ ],
+ "boxMons": [],
+ "dex": {
+  "seenNat": [
+   6,
+   122,
+   151,
+   807,
+   905
+  ],
+  "caughtNat": [
+   6,
+   122,
+   151,
+   807,
+   905
+  ]
+ },
+ "ownedSpeciesNat": [
+  6,
+  122,
+  151,
+  807,
+  905
+ ],
+ "progress": {
+  "badges": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 0,
+  "gameClearFlag": false,
+  "hallOfFameEntries": 0
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}

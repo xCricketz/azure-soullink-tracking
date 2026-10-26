@@ -3,11 +3,11 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { describe, test } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { explainSaveError } from '../src/lib/save/explain.ts'
+import { explainSaveError, formatPlaytime, versionProblem } from '../src/lib/save/explain.ts'
 import { readImportedNats, writeImportedNats, type NatStore } from '../src/lib/save/memory.ts'
 import { confirmAllIds, detectedImportIds, furthestRoute, liveDecisions, planSave, routeClash, suggestRoute, type RouteOption } from '../src/lib/save/plan.ts'
 import { buildMetInfo, parseSave, type SpeciesTable } from '../src/lib/save/unbound-save.ts'
-import { sampleSave } from '../src/lib/save/synthetic.ts'
+import { boxMon, buildSave, sampleSave } from '../src/lib/save/synthetic.ts'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const table: SpeciesTable = JSON.parse(readFileSync(join(here, '../src/data/unbound/species-table.json'), 'utf8'))
@@ -25,6 +25,7 @@ describe('Import planning', () => {
   test('sample save is the demo file and stays synthetic', () => {
     const parsed = parseSave(sampleSave(), { table, dexNames: dex })
     assert.equal(parsed.trainer.name, 'Test')
+    assert.equal(formatPlaytime(parsed.trainer.playtime), '12:34:56')
     assert.equal(parsed.party[0]?.nat, 807)
     assert.equal(parsed.party[0]?.levelSource, 'stored')
     assert.equal(parsed.party[0]?.shiny, true)
@@ -232,13 +233,75 @@ describe('Import planning', () => {
     assert.equal(routeClash(['a', 'b'], { a: 'route-1', b: 'route-6' }), false)
   })
 
-  test('english errors for size and checksum', () => {
-    assert.equal(explainSaveError(new Error('unerwartete Dateigröße 1000')), 'That file is the wrong size. Unbound saves are 128 KB.')
+  test('english errors for size, both slots, and a non-Unbound signature', () => {
+    assert.equal(
+      explainSaveError(new Error('unerwartete Dateigröße 1000')),
+      'That file is the wrong size. A Pokémon Unbound save is 128 KB (a 16-byte flashcart header is ok).',
+    )
     assert.equal(
       explainSaveError(new Error('kein gültiger Slot: Sektor-ID 0: Checksumme')),
-      'The save failed its checksum. Save in the game, then export the .sav again. A save state is not enough.',
+      'Both save slots are broken. Save in the game, then export the .sav again. A save state is not enough.',
     )
     assert.throws(() => parseSave(new Uint8Array(1000), { table }))
+    const broken = buildSave({ indexA: 4, indexB: 3 })
+    broken[0x100] ^= 0xff
+    broken[0xe000 + 0x100] ^= 0xff
+    assert.throws(() => parseSave(broken, { table }), /kein gültiger Slot/)
+
+    const foreign = buildSave({ indexA: 4, indexB: 2 })
+    const view = new DataView(foreign.buffer)
+    for (let slot = 0; slot < 2; slot++) {
+      for (let sector = 0; sector < 14; sector++) view.setUint32(slot * 0xe000 + sector * 0x1000 + 0xff8, 0x08012025, true)
+    }
+    const parsed = parseSave(foreign, { table })
+    assert.equal(parsed.activeSlot, 0)
+    assert.equal(versionProblem(parsed), 'This does not look like a Pokémon Unbound (FireRed) save.')
+    assert.equal(formatPlaytime({ hours: 0, minutes: 0, seconds: 0, frames: 0 }), null)
+  })
+
+  test('a form is the base species, and the second one on a route is a duplicate', () => {
+    const sav = buildSave({
+      indexA: 6,
+      indexB: 1,
+      mutate: (sectors) => {
+        boxMon(sectors, { id: 5, o: 4 }, null, 0, 3, 1000, 11, { location: 109, level: 20 })
+        boxMon(sectors, { id: 5, o: 4 + 58 }, null, 0, 869, 1000, 12, { location: 109, level: 20 })
+        boxMon(sectors, { id: 5, o: 4 + 116 }, null, 0, 6, 1000, 13, { location: 101, level: 8 })
+      },
+    })
+    const parsed = parseSave(sav, { table, dexNames: dex })
+    assert.equal(parsed.activeSlot, 0)
+    const plan = planSave(parsed, {
+      me: 'fisi',
+      catches: [],
+      previousNats: [],
+      randomizerSpecies: true,
+      routes,
+      areas: [],
+    })
+    const venusaur = plan.mons.filter((mon) => mon.nat === 3)
+    assert.equal(venusaur.length, 2)
+    assert.equal(venusaur[0].formIndex, 0)
+    assert.equal(venusaur[0].formNote, null)
+    assert.equal(venusaur[0].duplicate, false)
+    assert.equal(venusaur[0].suggestedRoute, 'route-9')
+    assert.equal(venusaur[1].formIndex, 1)
+    assert.match(venusaur[1].formNote ?? '', /base species/)
+    assert.equal(venusaur[1].duplicate, true)
+    assert.equal(venusaur[1].duplicateOf, venusaur[0].name)
+    const other = plan.mons.find((mon) => mon.nat === 6)
+    assert.equal(other?.duplicate, false)
+    assert.equal(other?.suggestedRoute, 'route-1')
+    assert.equal(other?.newSinceImport, true)
+    const again = planSave(parsed, {
+      me: 'fisi',
+      catches: [],
+      previousNats: [3, 6],
+      randomizerSpecies: true,
+      routes,
+      areas: [],
+    })
+    assert.equal(again.mons.every((mon) => mon.newSinceImport === false), true)
   })
 
   test('last-import set is per run on the given store', () => {

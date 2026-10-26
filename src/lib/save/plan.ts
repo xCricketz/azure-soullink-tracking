@@ -1,6 +1,9 @@
 import type { PlayerId } from '../types'
 import { MAP_SECTIONS, readLocation, type DecisionKind, type LocationReading, type MapConfidence, type MapsecTable } from './locations'
+import { identityOf } from './save-diff'
 import type { Mon, ParsedSave } from './unbound-save'
+
+export const UNKNOWN_SPECIES = 'unknown Pokémon'
 
 export interface RouteOption {
   name: string
@@ -28,8 +31,12 @@ export interface PlannedMon {
   boxIndex: number | null
   boxName: string | null
   slot: number
-  nat: number
+  speciesId: number
+  nat: number | null
   name: string
+  /** Species id is missing from the table, or the national number is a placeholder. Shown, never logged. */
+  unknown: boolean
+  identity: string
   nickname: string
   level: number | null
   levelSource: Mon['levelSource']
@@ -115,32 +122,40 @@ function planOne(
     me: PlayerId
     catches: CatchHint[]
     previous: Set<number>
+    previousIds: Set<string>
     progress: string
     randomizerSpecies: boolean
     routes: RouteOption[]
     areas: AreaHint[]
     sections: MapsecTable
   },
-): PlannedMon | 'egg' | 'unknown' {
+): PlannedMon | 'egg' {
   if (mon.isEgg) return 'egg'
-  if (!mon.nat || !mon.name) return 'unknown'
+  const unknown = !mon.nat || !mon.name
   const known = new Set(opts.routes.map((route) => route.name))
   const located = readLocation(mon.met, mon.ownOT, opts.sections, known)
-  const area = located.decision === 'unmapped' && !located.route
-    ? suggestRoute(mon.name, opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
+  const area = !unknown && located.decision === 'unmapped' && !located.route
+    ? suggestRoute(mon.name ?? '', opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
     : null
-  const formNote = mon.formIndex && mon.formIndex > 0
-    ? `Form index ${mon.formIndex}. Stored as the base species. The save does not name the form.`
+  const formNote = !unknown && mon.formIndex && mon.formIndex > 0
+    ? `Form ${mon.formIndex} of this species. Soul-Link counts it as the base species. The first catch on a route is the one that stays.`
     : null
   const route = located.route ?? (area?.suggestion === 'area' ? area.route : null)
+  const identity = identityOf(mon)
+  const seenBefore = opts.previousIds.size > 0
+    ? opts.previousIds.has(identity)
+    : mon.nat != null && opts.previous.has(mon.nat)
   return {
     id: mon.where === 'party' ? `party-${mon.slot}` : `box-${mon.box ?? 0}-${mon.slot}`,
     where: mon.where,
     boxIndex: mon.where === 'box' ? mon.box ?? 0 : null,
     boxName,
     slot: mon.slot,
-    nat: mon.nat,
-    name: mon.name,
+    speciesId: mon.speciesId,
+    nat: unknown ? null : mon.nat,
+    name: unknown ? UNKNOWN_SPECIES : mon.name ?? UNKNOWN_SPECIES,
+    unknown,
+    identity,
     nickname: nicknameOf(mon),
     level: mon.level,
     levelSource: mon.levelSource,
@@ -149,15 +164,15 @@ function planOne(
     shinyXor: mon.shinyXor,
     formIndex: mon.formIndex,
     formNote,
-    alreadyLogged: opts.catches.some((row) => row.player === opts.me && row.dex_id === mon.nat && row.status !== 'missed'),
-    newSinceImport: !opts.previous.has(mon.nat),
+    alreadyLogged: !unknown && opts.catches.some((row) => row.player === opts.me && row.dex_id === mon.nat && row.status !== 'missed'),
+    newSinceImport: !seenBefore,
     mapSectionId: mon.met.mapSectionId,
     catchLevel: mon.met.catchLevel,
     ballName: mon.met.ballName,
     suggestedRoute: route,
     suggestion: located.place === 'route' ? 'met' : area?.suggestion === 'area' ? 'area' : located.route ? 'met' : 'none',
-    place: located.place,
-    decision: located.decision,
+    place: unknown ? 'needs-decision' : located.place,
+    decision: unknown ? 'unmapped' : located.decision,
     confidence: located.confidence,
     placeName: located.placeName,
     duplicate: false,
@@ -169,6 +184,7 @@ export function planSave(save: ParsedSave, opts: {
   me: PlayerId
   catches: CatchHint[]
   previousNats: number[]
+  previousIds?: string[]
   randomizerSpecies: boolean
   routes: RouteOption[]
   areas: AreaHint[]
@@ -176,14 +192,14 @@ export function planSave(save: ParsedSave, opts: {
 }): ImportPlan {
   const progress = furthestRoute(opts.routes, opts.catches)
   const previous = new Set(opts.previousNats)
-  const shared = { ...opts, previous, progress, sections: opts.sections ?? MAP_SECTIONS }
+  const previousIds = new Set(opts.previousIds ?? [])
+  const shared = { ...opts, previous, previousIds, progress, sections: opts.sections ?? MAP_SECTIONS }
   const mons: PlannedMon[] = []
   let skippedEggs = 0
-  let skippedUnknown = 0
+  const skippedUnknown = 0
   const take = (mon: Mon, boxName: string | null) => {
     const planned = planOne(mon, boxName, shared)
     if (planned === 'egg') skippedEggs += 1
-    else if (planned === 'unknown') skippedUnknown += 1
     else mons.push(planned)
   }
   for (const mon of save.party) take(mon, null)
@@ -197,7 +213,7 @@ export function planSave(save: ParsedSave, opts: {
 function markDuplicates(mons: PlannedMon[], me: PlayerId, catches: CatchHint[]) {
   const claimed = new Map<string, string>()
   for (const mon of mons) {
-    if (mon.place !== 'route' || !mon.suggestedRoute) continue
+    if (mon.unknown || mon.place !== 'route' || !mon.suggestedRoute) continue
     const route = mon.suggestedRoute
     const logged = catches.find((row) => row.player === me && row.route === route && row.pokemon && row.status !== 'missed')
     const earlier = claimed.get(route)
@@ -242,7 +258,7 @@ export function liveDecisions(
   for (const mon of mons) {
     if (done.has(mon.id)) continue
     const route = chosen[mon.id] ?? ''
-    if (!route) {
+    if (!route || mon.unknown || mon.nat == null) {
       out.set(mon.id, { duplicate: false, duplicateOf: null })
       continue
     }
@@ -267,7 +283,7 @@ export function confirmAllIds(
 ): string[] {
   const done = new Set(doneIds)
   return mons.filter((mon) => {
-    if (mon.place !== 'route' || done.has(mon.id) || !chosen[mon.id]) return false
+    if (mon.unknown || mon.nat == null || mon.place !== 'route' || done.has(mon.id) || !chosen[mon.id]) return false
     return !decisions.get(mon.id)?.duplicate
   }).map((mon) => mon.id)
 }

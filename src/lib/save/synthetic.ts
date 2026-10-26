@@ -26,8 +26,12 @@ export function buildSave(opts: {
     for (let id = 0; id < 14; id++) sectors[id] = new Uint8Array(SECTOR_DATA)
     sectors[0].set(encodeGen3('Test'), 0)
     sectors[0].fill(0xff, 4, 8)
-    new DataView(sectors[0].buffer).setUint16(0xa, 1234, true)
-    new DataView(sectors[0].buffer).setUint16(0xc, 4321, true)
+    const trainer = new DataView(sectors[0].buffer)
+    trainer.setUint16(0xa, 1234, true)
+    trainer.setUint16(0xc, 4321, true)
+    trainer.setUint16(0xe, 12, true)
+    sectors[0][0x10] = 34
+    sectors[0][0x11] = 56
     opts.mutate?.(sectors, slot)
     const index = slot === 0 ? opts.indexA : opts.indexB
     for (let sector = 0; sector < 14; sector++) {

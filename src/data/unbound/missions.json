@@ -1,0 +1,3837 @@
+{
+ "_meta": {
+  "description": "Mission-/Story-Fortschritt aus ROM v2.1.1.1: gMissions (84 Missionen) + Story-Vars. Nur kurze Namen/Bezeichner, keine Beschreibungstexte.",
+  "rom_tables": {
+   "gMissions": "0x1fb41b4",
+   "mapsec_names": "0x3f1cac"
+  },
+  "completion_rule": "Mission ≠ 0 erledigt <=> GetVar(var) >= done (Status 3 in ROM-Funktion @0x9EC0344); Mission 0 <=> Var 0x500C > 0x55 (certain)",
+  "status_values": {
+   "0": "nicht begonnen (var < start) [certain]",
+   "1": "aktiv [certain]",
+   "2": "abgabebereit (var == turnin, turnin≠0, plus Sonderfälle) [likely]",
+   "3": "erledigt [certain]"
+  },
+  "shared_vars": "Mehrere Missionen teilen sich eine Var (Tier-Ketten, z.B. 0x507E: Sweet/Juicy/Ultimate Pie); jede hat eigenes start/done.",
+  "story_vars": {
+   "0x5011": "Akt-1-Zähler 0..42 (certain: Wertebereich der setvar im ROM; Save: 42)",
+   "0x500C": "Story-Zähler 2..86 (certain: Wertebereich; Save: 86 = Ende)"
+  },
+  "story_location_caveat": "Orte der Story-Schritte sind per Heuristik (nächster Skript-Einstiegspunkt im ROM) bestimmt -> guess."
+ },
+ "missions": [
+  {
+   "id": 0,
+   "name": "A Hero's Journey",
+   "var": 20497,
+   "start": 1,
+   "turnin": 0,
+   "done": 255,
+   "category_byte": 5,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   },
+   "special": "Haupt-Mission 'A Hero's Journey': Struct-Var 0x5011 zählt Akt 1 (0..42); der Missionslog wertet sie als 'erledigt', sobald Var 0x500c > 0x55 (certain, Disassembly @0x9EC0804)"
+  },
+  {
+   "id": 1,
+   "name": "The West Borrius Pokédex",
+   "var": 20562,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 2,
+   "name": "The National Pokédex",
+   "var": 20563,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 3,
+   "name": "Portal Purge",
+   "var": 20647,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 4,
+   "name": "Neighbourly Assistance",
+   "var": 20564,
+   "start": 1,
+   "turnin": 2,
+   "done": 3,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 5,
+   "name": "The Food Thief",
+   "var": 20505,
+   "start": 1,
+   "turnin": 0,
+   "done": 6,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 6,
+   "name": "Am I Blind?",
+   "var": 20551,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 7,
+   "name": "The Powerhouse of the Cell",
+   "var": 20511,
+   "start": 2,
+   "turnin": 0,
+   "done": 4,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 8,
+   "name": "Don't Turn Off the Power",
+   "var": 20749,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 9,
+   "name": "Basic Literacy",
+   "var": 20750,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 10,
+   "name": "Honey Gather",
+   "var": 20508,
+   "start": 1,
+   "turnin": 2,
+   "done": 3,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 11,
+   "name": "Weed Whacker",
+   "var": 20751,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 12,
+   "name": "Leg Day",
+   "var": 20552,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 13,
+   "name": "Extreme Hyperosmia",
+   "var": 20603,
+   "start": 1,
+   "turnin": 10,
+   "done": 11,
+   "category_byte": 1,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 14,
+   "name": "The Black Emboar",
+   "var": 20486,
+   "start": 1,
+   "turnin": 0,
+   "done": 4,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 15,
+   "name": "Major Miner",
+   "var": 20554,
+   "start": 1,
+   "turnin": 4,
+   "done": 5,
+   "category_byte": 3,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 16,
+   "name": "No Fall Damage",
+   "var": 20553,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 17,
+   "name": "Nine Tails of Snow",
+   "var": 20604,
+   "start": 1,
+   "turnin": 3,
+   "done": 4,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 18,
+   "name": "Bad Babysitter",
+   "var": 20605,
+   "start": 1,
+   "turnin": 2,
+   "done": 3,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 19,
+   "name": "Sweet Pie",
+   "var": 20606,
+   "start": 1,
+   "turnin": 2,
+   "done": 3,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 20,
+   "name": "Juicy Pie",
+   "var": 20606,
+   "start": 4,
+   "turnin": 5,
+   "done": 6,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 21,
+   "name": "Ultimate Pie",
+   "var": 20606,
+   "start": 7,
+   "turnin": 8,
+   "done": 9,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 22,
+   "name": "If We Were Meant to Fly",
+   "var": 20650,
+   "start": 1,
+   "turnin": 2,
+   "done": 3,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 23,
+   "name": "Seasonal Research",
+   "var": 20609,
+   "start": 1,
+   "turnin": 5,
+   "done": 6,
+   "category_byte": 1,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 24,
+   "name": "Statue of Regi",
+   "var": 20565,
+   "start": 1,
+   "turnin": 2,
+   "done": 3,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 25,
+   "name": "Dowsing Wizard",
+   "var": 20556,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 26,
+   "name": "Island Saviour",
+   "var": 20639,
+   "start": 1,
+   "turnin": 0,
+   "done": 7,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 27,
+   "name": "The Terror Granbull",
+   "var": 20617,
+   "start": 1,
+   "turnin": 0,
+   "done": 8,
+   "category_byte": 1,
+   "stage_count": 7,
+   "stage_mapsecs": [
+    100,
+    100,
+    142,
+    142,
+    142,
+    142,
+    100
+   ],
+   "stage_locations": [
+    "Route 10",
+    "Route 10",
+    "Auburn Waterway",
+    "Auburn Waterway",
+    "Auburn Waterway",
+    "Auburn Waterway",
+    "Route 10"
+   ],
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 28,
+   "name": "No Survivors",
+   "var": 20550,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 29,
+   "name": "Wingin' It",
+   "var": 20633,
+   "start": 1,
+   "turnin": 5,
+   "done": 6,
+   "category_byte": 1,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 30,
+   "name": "Abandonment Issues",
+   "var": 20637,
+   "start": 1,
+   "turnin": 0,
+   "done": 6,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 31,
+   "name": "Bye-Bye, Butterfree",
+   "var": 20557,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 32,
+   "name": "Darwin Was Right",
+   "var": 20634,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 33,
+   "name": "Population Control",
+   "var": 20612,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 34,
+   "name": "Exp. Millionaire",
+   "var": 20635,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 35,
+   "name": "The Trash-Man",
+   "var": 20613,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 36,
+   "name": "The Capitalist Revolution",
+   "var": 20608,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 37,
+   "name": "The Communist Revolution",
+   "var": 20607,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 38,
+   "name": "Guardians of the Lake",
+   "var": 20558,
+   "start": 1,
+   "turnin": 6,
+   "done": 7,
+   "category_byte": 1,
+   "stage_count": 6,
+   "stage_mapsecs": [
+    94,
+    154,
+    154,
+    154,
+    154,
+    154
+   ],
+   "stage_locations": [
+    "Fallshore City",
+    "Cave of Being",
+    "Cave of Being",
+    "Cave of Being",
+    "Cave of Being",
+    "Cave of Being"
+   ],
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 39,
+   "name": "Swords of Justice",
+   "var": 20559,
+   "start": 1,
+   "turnin": 3,
+   "done": 4,
+   "category_byte": 1,
+   "stage_count": 3,
+   "stage_mapsecs": [
+    94,
+    132,
+    117
+   ],
+   "stage_locations": [
+    "Fallshore City",
+    "Victory Road",
+    "Route 17"
+   ],
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 40,
+   "name": "Home for a Hobo",
+   "var": 20610,
+   "start": 1,
+   "turnin": 8,
+   "done": 9,
+   "category_byte": 1,
+   "stage_count": 9,
+   "stage_mapsecs": [
+    95,
+    95,
+    119,
+    119,
+    119,
+    119,
+    119,
+    95,
+    119
+   ],
+   "stage_locations": [
+    "Epidimy Town",
+    "Epidimy Town",
+    "Seaport City",
+    "Seaport City",
+    "Seaport City",
+    "Seaport City",
+    "Seaport City",
+    "Epidimy Town",
+    "Seaport City"
+   ],
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 41,
+   "name": "The Rogue Electivire",
+   "var": 20630,
+   "start": 1,
+   "turnin": 6,
+   "done": 8,
+   "category_byte": 1,
+   "stage_count": 7,
+   "stage_mapsecs": [
+    138,
+    138,
+    95,
+    119,
+    119,
+    119,
+    95
+   ],
+   "stage_locations": [
+    "Thundercap Mt.",
+    "Thundercap Mt.",
+    "Epidimy Town",
+    "Seaport City",
+    "Seaport City",
+    "Seaport City",
+    "Epidimy Town"
+   ],
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 42,
+   "name": "The Wayward Kid",
+   "var": 20629,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 43,
+   "name": "The Endless Nightmare",
+   "var": 20499,
+   "start": 1,
+   "turnin": 0,
+   "done": 8,
+   "category_byte": 1,
+   "stage_count": 8,
+   "stage_mapsecs": [
+    96,
+    96,
+    96,
+    96,
+    94,
+    163,
+    96,
+    96
+   ],
+   "stage_locations": [
+    "Tarmigan Town",
+    "Tarmigan Town",
+    "Tarmigan Town",
+    "Tarmigan Town",
+    "Fallshore City",
+    "Fullmoon Island",
+    "Tarmigan Town",
+    "Tarmigan Town"
+   ],
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 44,
+   "name": "Pyukumuku Chucker",
+   "var": 20611,
+   "start": 1,
+   "turnin": 7,
+   "done": 8,
+   "category_byte": 3,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 45,
+   "name": "A Life of No Regrets",
+   "var": 20560,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 3,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 46,
+   "name": "The Strongest There Is",
+   "var": 20601,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 47,
+   "name": "A Rift in Space",
+   "var": 20561,
+   "start": 1,
+   "turnin": 5,
+   "done": 6,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 48,
+   "name": "Warmonger",
+   "var": 20600,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 49,
+   "name": "Tomb Raider",
+   "var": 20632,
+   "start": 1,
+   "turnin": 6,
+   "done": 7,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 50,
+   "name": "As Hard as They Come",
+   "var": 20512,
+   "start": 1,
+   "turnin": 2,
+   "done": 3,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 51,
+   "name": "Treasure Hunter",
+   "var": 20641,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 52,
+   "name": "Trader Traitor",
+   "var": 20642,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 53,
+   "name": "Flushed Away",
+   "var": 20518,
+   "start": 1,
+   "turnin": 2,
+   "done": 3,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 54,
+   "name": "A Minor Scrap",
+   "var": 20519,
+   "start": 1,
+   "turnin": 2,
+   "done": 4,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 55,
+   "name": "Odd Odd Docks",
+   "var": 20640,
+   "start": 1,
+   "turnin": 3,
+   "done": 4,
+   "category_byte": 1,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 56,
+   "name": "Supply and Demand",
+   "var": 20520,
+   "start": 1,
+   "turnin": 4,
+   "done": 5,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 57,
+   "name": "The Battle of Antisis",
+   "var": 20486,
+   "start": 6,
+   "turnin": 0,
+   "done": 12,
+   "category_byte": 1,
+   "stage_count": 7,
+   "stage_mapsecs": [
+    191,
+    143,
+    191,
+    191,
+    191,
+    191,
+    191
+   ],
+   "stage_locations": [
+    "Ferrothorn Turf",
+    "Antisis Sewers",
+    "Ferrothorn Turf",
+    "Ferrothorn Turf",
+    "Ferrothorn Turf",
+    "Ferrothorn Turf",
+    "Ferrothorn Turf"
+   ],
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 58,
+   "name": "Pangs of Hunger",
+   "var": 20718,
+   "start": 1,
+   "turnin": 3,
+   "done": 4,
+   "category_byte": 1,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 59,
+   "name": "Flaming Body",
+   "var": 20717,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 60,
+   "name": "Armoured Magma",
+   "var": 20717,
+   "start": 3,
+   "turnin": 0,
+   "done": 4,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 61,
+   "name": "Master Incubator",
+   "var": 20717,
+   "start": 5,
+   "turnin": 0,
+   "done": 6,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 62,
+   "name": "Shark Bait",
+   "var": 20643,
+   "start": 1,
+   "turnin": 22,
+   "done": 23,
+   "category_byte": 3,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 63,
+   "name": "Gimme a V",
+   "var": 20730,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 64,
+   "name": "More Than A Game",
+   "var": 20719,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 65,
+   "name": "Average Angler",
+   "var": 20731,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 66,
+   "name": "Great Piscator",
+   "var": 20731,
+   "start": 3,
+   "turnin": 0,
+   "done": 4,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 67,
+   "name": "Fisher Master",
+   "var": 20731,
+   "start": 5,
+   "turnin": 0,
+   "done": 6,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 68,
+   "name": "All the Right Moves",
+   "var": 20648,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 69,
+   "name": "Too Much TV",
+   "var": 20732,
+   "start": 1,
+   "turnin": 7,
+   "done": 8,
+   "category_byte": 1,
+   "stage_count": 7,
+   "stage_mapsecs": [
+    144,
+    144,
+    96,
+    96,
+    96,
+    96,
+    96
+   ],
+   "stage_locations": [
+    "Polder Town",
+    "Polder Town",
+    "Tarmigan Town",
+    "Tarmigan Town",
+    "Tarmigan Town",
+    "Tarmigan Town",
+    "Tarmigan Town"
+   ],
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 70,
+   "name": "Hunter of the Swamp",
+   "var": 20735,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 71,
+   "name": "Protector of the Swamp",
+   "var": 20617,
+   "start": 9,
+   "turnin": 0,
+   "done": 10,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 72,
+   "name": "One Purple Balloon",
+   "var": 20637,
+   "start": 7,
+   "turnin": 0,
+   "done": 12,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 73,
+   "name": "Blazing Emeralds",
+   "var": 20644,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 74,
+   "name": "Butterfly Effect",
+   "var": 20738,
+   "start": 1,
+   "turnin": 20,
+   "done": 21,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 75,
+   "name": "Lost Hanky",
+   "var": 20739,
+   "start": 1,
+   "turnin": 1,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 76,
+   "name": "Herd But Not Seen",
+   "var": 20617,
+   "start": 11,
+   "turnin": 0,
+   "done": 13,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 77,
+   "name": "The Most Dangerous Game",
+   "var": 20645,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 3,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 78,
+   "name": "Splishy Splash",
+   "var": 20740,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 79,
+   "name": "Hero of the Hall",
+   "var": 20745,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 80,
+   "name": "You Are My Only",
+   "var": 20646,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 0,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 81,
+   "name": "Numbskull",
+   "var": 20649,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 2,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 82,
+   "name": "And Den There Were None",
+   "var": 20768,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  },
+  {
+   "id": 83,
+   "name": "The Daily Grind",
+   "var": 20769,
+   "start": 1,
+   "turnin": 0,
+   "done": 2,
+   "category_byte": 4,
+   "stage_count": null,
+   "stage_mapsecs": null,
+   "stage_locations": null,
+   "order": null,
+   "confidence": {
+    "name": "certain",
+    "var": "certain",
+    "start_done": "certain",
+    "turnin": "likely",
+    "category_byte": "guess",
+    "stage_mapsecs": "guess"
+   }
+  }
+ ],
+ "story_steps": [
+  {
+   "var": 20497,
+   "value": 0,
+   "setvar_sites": 8,
+   "locations": [
+    "Dresco Town",
+    "Frozen Heights",
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    90,
+    88,
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 1,
+   "setvar_sites": 5,
+   "locations": [
+    "Frozen Heights",
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    88,
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 2,
+   "setvar_sites": 2,
+   "locations": [
+    "Route 14"
+   ],
+   "mapsecs": [
+    114
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 3,
+   "setvar_sites": 4,
+   "locations": [
+    "Shadow Base",
+    "Battle Tower"
+   ],
+   "mapsecs": [
+    133,
+    179
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 4,
+   "setvar_sites": 2,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 5,
+   "setvar_sites": 2,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 6,
+   "setvar_sites": 2,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 7,
+   "setvar_sites": 2,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 8,
+   "setvar_sites": 2,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 9,
+   "setvar_sites": 4,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 10,
+   "setvar_sites": 2,
+   "locations": [
+    "Frozen Heights"
+   ],
+   "mapsecs": [
+    88
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 11,
+   "setvar_sites": 3,
+   "locations": [
+    "Frozen Heights"
+   ],
+   "mapsecs": [
+    88
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 12,
+   "setvar_sites": 2,
+   "locations": [
+    "Frozen Heights"
+   ],
+   "mapsecs": [
+    88
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 13,
+   "setvar_sites": 1,
+   "locations": [
+    "Bellin Town"
+   ],
+   "mapsecs": [
+    89
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 14,
+   "setvar_sites": 2,
+   "locations": [
+    "Frozen Heights",
+    "Route 1"
+   ],
+   "mapsecs": [
+    88,
+    101
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 15,
+   "setvar_sites": 1,
+   "locations": [
+    "Frozen Heights"
+   ],
+   "mapsecs": [
+    88
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 16,
+   "setvar_sites": 1,
+   "locations": [
+    "Frozen Heights"
+   ],
+   "mapsecs": [
+    88
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 18,
+   "setvar_sites": 1,
+   "locations": [
+    "Frozen Heights"
+   ],
+   "mapsecs": [
+    88
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 19,
+   "setvar_sites": 3,
+   "locations": [
+    "Icicle Cave",
+    "Frozen Heights",
+    "Route 2"
+   ],
+   "mapsecs": [
+    141,
+    88,
+    102
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 20,
+   "setvar_sites": 1,
+   "locations": [
+    "Route 2"
+   ],
+   "mapsecs": [
+    102
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 21,
+   "setvar_sites": 1,
+   "locations": [
+    "Dresco Town"
+   ],
+   "mapsecs": [
+    90
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 22,
+   "setvar_sites": 1,
+   "locations": [
+    "Dresco Town"
+   ],
+   "mapsecs": [
+    90
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 23,
+   "setvar_sites": 1,
+   "locations": [
+    "Dresco Town"
+   ],
+   "mapsecs": [
+    90
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 24,
+   "setvar_sites": 1,
+   "locations": [
+    "Route 4"
+   ],
+   "mapsecs": [
+    99
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 25,
+   "setvar_sites": 3,
+   "locations": [
+    "Cinder Volcano",
+    "Route 4"
+   ],
+   "mapsecs": [
+    127,
+    99
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 26,
+   "setvar_sites": 1,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 27,
+   "setvar_sites": 1,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 28,
+   "setvar_sites": 3,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 29,
+   "setvar_sites": 1,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 30,
+   "setvar_sites": 1,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 31,
+   "setvar_sites": 2,
+   "locations": [
+    "Dresco Town"
+   ],
+   "mapsecs": [
+    90
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 32,
+   "setvar_sites": 1,
+   "locations": [
+    "Crater Town"
+   ],
+   "mapsecs": [
+    91
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 33,
+   "setvar_sites": 2,
+   "locations": [
+    "Cinder Volcano",
+    "Crater Town"
+   ],
+   "mapsecs": [
+    127,
+    91
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 34,
+   "setvar_sites": 1,
+   "locations": [
+    "Crater Town"
+   ],
+   "mapsecs": [
+    91
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 35,
+   "setvar_sites": 1,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 36,
+   "setvar_sites": 2,
+   "locations": [
+    "KBT Expressway",
+    "Route 7"
+   ],
+   "mapsecs": [
+    134,
+    107
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 37,
+   "setvar_sites": 1,
+   "locations": [
+    "Route 7"
+   ],
+   "mapsecs": [
+    107
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 38,
+   "setvar_sites": 1,
+   "locations": [
+    "Frost Mountain"
+   ],
+   "mapsecs": [
+    130
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 39,
+   "setvar_sites": 1,
+   "locations": [
+    "Frost Mountain"
+   ],
+   "mapsecs": [
+    130
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 40,
+   "setvar_sites": 1,
+   "locations": [
+    "Blizzard City"
+   ],
+   "mapsecs": [
+    92
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 41,
+   "setvar_sites": 1,
+   "locations": [
+    "Blizzard City"
+   ],
+   "mapsecs": [
+    92
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20497,
+   "value": 42,
+   "setvar_sites": 1,
+   "locations": [
+    "Blizzard City"
+   ],
+   "mapsecs": [
+    92
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 0,
+   "setvar_sites": 1,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 1,
+   "setvar_sites": 1,
+   "locations": [],
+   "mapsecs": [],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 2,
+   "setvar_sites": 2,
+   "locations": [
+    "Blizzard City"
+   ],
+   "mapsecs": [
+    92
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 3,
+   "setvar_sites": 2,
+   "locations": [
+    "Fallshore City"
+   ],
+   "mapsecs": [
+    94
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 4,
+   "setvar_sites": 2,
+   "locations": [
+    "Fallshore City"
+   ],
+   "mapsecs": [
+    94
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 5,
+   "setvar_sites": 4,
+   "locations": [
+    "Route 9",
+    "Tehl Town"
+   ],
+   "mapsecs": [
+    109,
+    93
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 6,
+   "setvar_sites": 6,
+   "locations": [
+    "Route 9"
+   ],
+   "mapsecs": [
+    109
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 7,
+   "setvar_sites": 3,
+   "locations": [],
+   "mapsecs": [],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 8,
+   "setvar_sites": 2,
+   "locations": [
+    "Fallshore City"
+   ],
+   "mapsecs": [
+    94
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 9,
+   "setvar_sites": 2,
+   "locations": [
+    "Epidimy Town"
+   ],
+   "mapsecs": [
+    95
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 10,
+   "setvar_sites": 2,
+   "locations": [
+    "Thundercap Mt."
+   ],
+   "mapsecs": [
+    138
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 11,
+   "setvar_sites": 2,
+   "locations": [
+    "Thundercap Mt."
+   ],
+   "mapsecs": [
+    138
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 12,
+   "setvar_sites": 2,
+   "locations": [
+    "Thundercap Mt."
+   ],
+   "mapsecs": [
+    138
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 13,
+   "setvar_sites": 2,
+   "locations": [
+    "Thundercap Mt."
+   ],
+   "mapsecs": [
+    138
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 14,
+   "setvar_sites": 2,
+   "locations": [
+    "Thundercap Mt."
+   ],
+   "mapsecs": [
+    138
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 15,
+   "setvar_sites": 2,
+   "locations": [
+    "Epidimy Town"
+   ],
+   "mapsecs": [
+    95
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 16,
+   "setvar_sites": 1,
+   "locations": [
+    "Tarmigan Mansion"
+   ],
+   "mapsecs": [
+    135
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 17,
+   "setvar_sites": 2,
+   "locations": [
+    "Route 12"
+   ],
+   "mapsecs": [
+    112
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 18,
+   "setvar_sites": 3,
+   "locations": [
+    "Route 12"
+   ],
+   "mapsecs": [
+    112
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 19,
+   "setvar_sites": 2,
+   "locations": [
+    "Route 12"
+   ],
+   "mapsecs": [
+    112
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 20,
+   "setvar_sites": 1,
+   "locations": [],
+   "mapsecs": [],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 21,
+   "setvar_sites": 3,
+   "locations": [
+    "Dehara City",
+    "Route 12"
+   ],
+   "mapsecs": [
+    98,
+    112
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 22,
+   "setvar_sites": 2,
+   "locations": [
+    "Game Corner"
+   ],
+   "mapsecs": [
+    160
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 23,
+   "setvar_sites": 2,
+   "locations": [
+    "Dehara City"
+   ],
+   "mapsecs": [
+    98
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 24,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 25,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 26,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 27,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 28,
+   "setvar_sites": 3,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 29,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 30,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 31,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 32,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 33,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 34,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 35,
+   "setvar_sites": 2,
+   "locations": [],
+   "mapsecs": [],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 36,
+   "setvar_sites": 2,
+   "locations": [
+    "Cube Space"
+   ],
+   "mapsecs": [
+    125
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 37,
+   "setvar_sites": 2,
+   "locations": [
+    "Cube Space",
+    "Route 4"
+   ],
+   "mapsecs": [
+    125,
+    99
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 38,
+   "setvar_sites": 2,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 39,
+   "setvar_sites": 2,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 40,
+   "setvar_sites": 2,
+   "locations": [
+    "Cinder Volcano"
+   ],
+   "mapsecs": [
+    127
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 41,
+   "setvar_sites": 2,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 42,
+   "setvar_sites": 2,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 43,
+   "setvar_sites": 3,
+   "locations": [
+    "Shadow Base"
+   ],
+   "mapsecs": [
+    133
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 44,
+   "setvar_sites": 3,
+   "locations": [],
+   "mapsecs": [],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 45,
+   "setvar_sites": 1,
+   "locations": [
+    "Dehara City"
+   ],
+   "mapsecs": [
+    98
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 46,
+   "setvar_sites": 2,
+   "locations": [
+    "Dehara City"
+   ],
+   "mapsecs": [
+    98
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 47,
+   "setvar_sites": 3,
+   "locations": [
+    "Dehara City"
+   ],
+   "mapsecs": [
+    98
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 48,
+   "setvar_sites": 2,
+   "locations": [
+    "Vivill Town"
+   ],
+   "mapsecs": [
+    121
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 49,
+   "setvar_sites": 2,
+   "locations": [
+    "Vivill Town"
+   ],
+   "mapsecs": [
+    121
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 50,
+   "setvar_sites": 3,
+   "locations": [
+    "Vivill Town"
+   ],
+   "mapsecs": [
+    121
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 51,
+   "setvar_sites": 2,
+   "locations": [
+    "Vivill Warehouse"
+   ],
+   "mapsecs": [
+    124
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 52,
+   "setvar_sites": 2,
+   "locations": [
+    "Vivill Warehouse"
+   ],
+   "mapsecs": [
+    124
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 53,
+   "setvar_sites": 3,
+   "locations": [
+    "Vivill Warehouse"
+   ],
+   "mapsecs": [
+    124
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 54,
+   "setvar_sites": 2,
+   "locations": [
+    "Vivill Warehouse"
+   ],
+   "mapsecs": [
+    124
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 55,
+   "setvar_sites": 2,
+   "locations": [
+    "Vivill Warehouse"
+   ],
+   "mapsecs": [
+    124
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 56,
+   "setvar_sites": 3,
+   "locations": [],
+   "mapsecs": [],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 57,
+   "setvar_sites": 2,
+   "locations": [
+    "Vivill Warehouse"
+   ],
+   "mapsecs": [
+    124
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 58,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 59,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 60,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 61,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 62,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 63,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 64,
+   "setvar_sites": 1,
+   "locations": [],
+   "mapsecs": [],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 65,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 66,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 67,
+   "setvar_sites": 2,
+   "locations": [
+    "Distortion World"
+   ],
+   "mapsecs": [
+    151
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 68,
+   "setvar_sites": 2,
+   "locations": [
+    "Rift Cave"
+   ],
+   "mapsecs": [
+    139
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 69,
+   "setvar_sites": 2,
+   "locations": [
+    "Seaport City",
+    "Vivill Town"
+   ],
+   "mapsecs": [
+    119,
+    121
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 70,
+   "setvar_sites": 1,
+   "locations": [
+    "Seaport City"
+   ],
+   "mapsecs": [
+    119
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 71,
+   "setvar_sites": 1,
+   "locations": [
+    "Seaport City"
+   ],
+   "mapsecs": [
+    119
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 72,
+   "setvar_sites": 1,
+   "locations": [
+    "Polder Town"
+   ],
+   "mapsecs": [
+    144
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 74,
+   "setvar_sites": 1,
+   "locations": [
+    "Cootes Bog"
+   ],
+   "mapsecs": [
+    181
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 75,
+   "setvar_sites": 1,
+   "locations": [
+    "Crystal Peak"
+   ],
+   "mapsecs": [
+    158
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 76,
+   "setvar_sites": 1,
+   "locations": [
+    "Crystal Peak"
+   ],
+   "mapsecs": [
+    158
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 77,
+   "setvar_sites": 1,
+   "locations": [
+    "Crystal Peak"
+   ],
+   "mapsecs": [
+    158
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 78,
+   "setvar_sites": 1,
+   "locations": [
+    "Crystal Peak"
+   ],
+   "mapsecs": [
+    158
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 79,
+   "setvar_sites": 1,
+   "locations": [
+    "Crystal Peak"
+   ],
+   "mapsecs": [
+    158
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 80,
+   "setvar_sites": 2,
+   "locations": [
+    "Crystal Peak"
+   ],
+   "mapsecs": [
+    158
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 81,
+   "setvar_sites": 1,
+   "locations": [
+    "Crystal Peak"
+   ],
+   "mapsecs": [
+    158
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 82,
+   "setvar_sites": 1,
+   "locations": [
+    "Pokémon League"
+   ],
+   "mapsecs": [
+    137
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 83,
+   "setvar_sites": 1,
+   "locations": [
+    "Pokémon League"
+   ],
+   "mapsecs": [
+    137
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 84,
+   "setvar_sites": 1,
+   "locations": [
+    "Frozen Heights"
+   ],
+   "mapsecs": [
+    88
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 85,
+   "setvar_sites": 1,
+   "locations": [
+    "Ruins of Void"
+   ],
+   "mapsecs": [
+    104
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  },
+  {
+   "var": 20492,
+   "value": 86,
+   "setvar_sites": 2,
+   "locations": [
+    "Ruins of Void",
+    "Battle Frontier"
+   ],
+   "mapsecs": [
+    104,
+    167
+   ],
+   "confidence": {
+    "value_exists": "certain",
+    "location": "guess"
+   }
+  }
+ ]
+}

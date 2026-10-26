@@ -1,0 +1,112 @@
+{
+ "fixture": "progress-dex",
+ "file": "progress-dex.sav",
+ "description": "Fortschritt/Dex ohne Mons: Dex-Bitfelder an den Rändern (National-Nr. 1, 8, 9, 255, 256, 905, 1000 = letztes Bit des 125-Byte-Felds), gefangen-ohne-Mon, 5 Orden (Flags 0x820–0x824), Game-Clear (0x82C), 4 zählbare Hall-of-Fame-Einträge (+3 nicht zählbare), Spielzeit-Randwerte (999:59:59, Frames 59).",
+ "unverifiedAssumptions": [
+  "Hall-of-Fame-Eintragslayout [G] (SPEC §7)",
+  "Orden-/Game-Clear-Flag-Nummern sind Vanilla-FRLG und am echten Save [V] nur für „alle 8 gesetzt\""
+ ],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": true,
+   "saveIndex": 101,
+   "problemsContain": []
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 100,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 0,
+ "checksumsOk": true,
+ "trainer": {
+  "name": "Fortsch",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 999,
+   "minutes": 59,
+   "seconds": 59,
+   "frames": 59
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [],
+ "boxMons": [],
+ "dex": {
+  "seenNat": [
+   1,
+   2,
+   7,
+   8,
+   9,
+   15,
+   16,
+   255,
+   256,
+   809,
+   905,
+   999,
+   1000
+  ],
+  "caughtNat": [
+   2,
+   7,
+   15,
+   16,
+   809,
+   999
+  ]
+ },
+ "ownedSpeciesNat": [],
+ "progress": {
+  "badges": [
+   true,
+   true,
+   true,
+   true,
+   true,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 5,
+  "gameClearFlag": true,
+  "hallOfFameEntries": 4
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}

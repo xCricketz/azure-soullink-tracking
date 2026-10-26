@@ -179,7 +179,8 @@ textarea, .field input, .picker input, .search {
   box-shadow: var(--e-1), 0 0 0 1px var(--line);
 }
 .map-svg { position: absolute; top: 0; left: 0; transform-origin: 0 0; overflow: visible; }
-.map-blob { opacity: 0.9; pointer-events: none; }
+.map-water { fill: var(--map-sea-a); }
+.map-blob { opacity: 0.92; pointer-events: none; }
 .map-blob.snow { fill: var(--blob-snow); }
 .map-blob.grass { fill: var(--blob-grass); }
 .map-blob.sea { fill: var(--blob-sea); }
@@ -187,6 +188,18 @@ textarea, .field input, .picker input, .search {
 .map-blob.desert { fill: var(--blob-desert); }
 .map-blob.volcano { fill: var(--blob-volcano); }
 .map-blob.city { fill: var(--blob-city); }
+.map-blob.island { fill: var(--blob-desert); opacity: 0.95; }
+.map-shore { fill: var(--blob-grass); stroke: var(--map-coast); stroke-width: 8; pointer-events: none; }
+.map-isle, .map-tag {
+  fill: var(--map-lbl);
+  stroke: var(--map-lbl-halo);
+  stroke-width: 4px;
+  paint-order: stroke;
+  font-family: var(--font-body);
+  font-weight: 800;
+  pointer-events: none;
+}
+.map-tag { fill: var(--ember); }
 .map-edge { fill: none; stroke: var(--map-road); stroke-width: 5; stroke-linecap: round; opacity: 0.55; }
 .map-edge.story { stroke-width: 10; opacity: 0.95; }
 .map-edge.side { stroke-width: 4; opacity: 0.38; }
@@ -226,6 +239,8 @@ textarea, .field input, .picker input, .search {
 .map-node.current .core { fill: var(--ember); stroke: #fff; stroke-width: 3; }
 .map-node.visited .ico, .map-node.caught .ico, .map-node.current .ico { fill: #fff; }
 .map-node.gym .core { stroke: #E8A400; stroke-width: 3; }
+.map-node.here .core, .map-node.current .core { fill: var(--ember); stroke: #fff; stroke-width: 3; }
+.map-node.next .core { stroke: var(--ember); stroke-width: 4; }
 .map-node .badge-num { fill: var(--map-node-ink); font: 800 12px var(--font-body); pointer-events: none; }
 .map-node.caught .badge-num, .map-node.current .badge-num, .map-node.visited .badge-num { fill: #fff; }
 .map-node .town-badge circle { fill: #E8A400; stroke: #fff; stroke-width: 1.5; }
@@ -299,6 +314,9 @@ textarea, .field input, .picker input, .search {
 input, textarea, select { font-size: 16px; }
 .import-error { margin: 0; color: var(--dead-ink, #9b2c2c); font-size: 14px; line-height: 18px; }
 .import-summary { margin: 0; font-size: 14px; line-height: 18px; }
+.story-suggest { margin: 0 0 12px; padding: 12px; border-radius: 16px; background: var(--fill); }
+.story-suggest p { margin: 0 0 8px; }
+.story-suggest .conf { margin-left: 8px; }
 .import-block + .import-block { margin-top: 14px; }
 .import-block h3 { margin: 4px 0 0; font: 700 13px/16px var(--font-body); letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
 .import-box { border-top: 1px solid var(--line); padding-top: 8px; }

@@ -1,0 +1,157 @@
+{
+ "fixture": "slot-damage-outside-checksum",
+ "file": "slot-damage-outside-checksum.sav",
+ "description": "Bytes jenseits der Prüfsummenlänge – jeweils direkt am ersten ungeschützten Byte (0xD98 / 0x450 / 0xF24) und weiter hinten – (Sektor 4 ab 0xD98, Sektor 13 ab 0x450, Sektor 0 ab 0xF24 = CFRU-Erweiterungsbereiche) werden verändert: die Prüfsumme bemerkt es nicht, Slot bleibt gültig und aktiv (SPEC §2 / §9).",
+ "unverifiedAssumptions": [
+  "Dass diese Bereiche tatsächlich nicht von der Prüfsumme erfasst werden, ist [V] durch die gemessene Länge; ob das Spiel selbst sie schützt, ist unbekannt"
+ ],
+ "fileSize": 131072,
+ "slots": [
+  {
+   "slot": 0,
+   "valid": true,
+   "saveIndex": 501,
+   "problemsContain": []
+  },
+  {
+   "slot": 1,
+   "valid": true,
+   "saveIndex": 500,
+   "problemsContain": []
+  }
+ ],
+ "activeSlot": 0,
+ "checksumsOk": true,
+ "trainer": {
+  "name": "Ausser",
+  "tid": 40001,
+  "sid": 12345,
+  "playtime": {
+   "hours": 12,
+   "minutes": 34,
+   "seconds": 56,
+   "frames": 7
+  }
+ },
+ "currentBox": 0,
+ "boxNames": [
+  "Box 1",
+  "Box 2",
+  "Box 3",
+  "Box 4",
+  "Box 5",
+  "Box 6",
+  "Box 7",
+  "Box 8",
+  "Box 9",
+  "Box 10",
+  "Box 11",
+  "Box 12",
+  "Box 13",
+  "Box 14",
+  "Box 15",
+  "Box 16",
+  "Box 17",
+  "Box 18",
+  "Box 19",
+  "Box 20",
+  "Box 21",
+  "Box 22",
+  "Box 23",
+  "Box 24",
+  "Box 25"
+ ],
+ "party": [],
+ "boxMons": [
+  {
+   "where": "box",
+   "box": 0,
+   "slot": 0,
+   "speciesId": 19,
+   "nat": 19,
+   "formIndex": 0,
+   "name": "Rattata",
+   "nickname": "Ok",
+   "ot": "Synth",
+   "isEgg": false,
+   "level": 5,
+   "levelSource": "exp-derived",
+   "exp": 125,
+   "nature": "Quiet",
+   "personality": 244067792,
+   "tid": 40001,
+   "sid": 12345,
+   "ownOT": true,
+   "shinyXor": 36644,
+   "shiny": false,
+   "item": 0,
+   "moves": [
+    33,
+    45,
+    0,
+    0
+   ],
+   "ivs": [
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "evs": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "hiddenAbility": false,
+   "met": {
+    "location": 102,
+    "level": 4,
+    "originGame": 4,
+    "ball": 3,
+    "ballName": "Poké",
+    "otFemale": false,
+    "originsBit11": false,
+    "category": "area"
+   },
+   "routeId": "route-2",
+   "mapsecName": "Route 2",
+   "routeConfidence": "verified",
+   "warningsContain": []
+  }
+ ],
+ "dex": {
+  "seenNat": [
+   19
+  ],
+  "caughtNat": [
+   19
+  ]
+ },
+ "ownedSpeciesNat": [
+  19
+ ],
+ "progress": {
+  "badges": [
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false,
+   false
+  ],
+  "badgeFlagsSet": 0,
+  "gameClearFlag": false,
+  "hallOfFameEntries": 0
+ },
+ "warnings": {
+  "count": 0,
+  "contain": []
+ }
+}
