@@ -57,6 +57,7 @@ export interface PlannedMon {
   decision: DecisionKind | null
   confidence: MapConfidence | null
   placeName: string | null
+  ownOT: boolean
   /** A later Pokémon on a route that already has a catch, using the suggested route. The sheet recomputes this from the route the player actually picks. */
   duplicate: boolean
   duplicateOf: string | null
@@ -175,6 +176,7 @@ function planOne(
     decision: unknown ? 'unmapped' : located.decision,
     confidence: located.confidence,
     placeName: located.placeName,
+    ownOT: mon.ownOT,
     duplicate: false,
     duplicateOf: null,
   }

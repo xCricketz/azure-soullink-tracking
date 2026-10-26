@@ -76,6 +76,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const drag = useRef<{ id: number; x: number; y: number; ox: number; oy: number } | null>(null)
   const pinch = useRef<{ dist: number; scale: number } | null>(null)
   const focused = useRef(false)
+  const lastTap = useRef({ t: 0, x: 0, y: 0 })
 
   const caught = useMemo(() => {
     const keys = new Set<string>()
@@ -229,6 +230,19 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
     if (drag.current?.id === event.pointerId) drag.current = null
     const key = tapNode.current
     tapNode.current = null
+    const now = Date.now()
+    const gap = now - lastTap.current.t
+    const tapDx = event.clientX - lastTap.current.x
+    const tapDy = event.clientY - lastTap.current.y
+    const double = gap < 320 && Math.hypot(tapDx, tapDy) < 28 && moved.current <= 8 && ptrs.current.size === 0
+    lastTap.current = { t: now, x: event.clientX, y: event.clientY }
+    if (double) {
+      const stage = stageRef.current
+      const fit = stage ? Math.min(stage.clientWidth / WORLD_W, stage.clientHeight / WORLD_H) * 0.96 : 0.3
+      const next = viewRef.current.scale < Math.max(0.55, fit * 1.8) ? Math.max(0.9, viewRef.current.scale * 1.7) : fit
+      zoomAt(event.clientX, event.clientY, next)
+      return
+    }
     if (key && moved.current <= 8 && ptrs.current.size === 0) setOpen(key)
   }
 
@@ -253,8 +267,8 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   return (
     <div className="screen map-screen" data-screen="map">
       <div className="map-toolbar" onPointerDown={(event) => event.stopPropagation()}>
-        <button type="button" aria-label="Zoom in" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale * 1.25)}><Plus size={18} /></button>
-        <button type="button" aria-label="Zoom out" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale / 1.25)}><Minus size={18} /></button>
+        <button type="button" aria-label="Zoom in" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale * 1.7)}><Plus size={18} /></button>
+        <button type="button" aria-label="Zoom out" onClick={() => zoomAt(midX(stageRef.current), midY(stageRef.current), view.scale / 1.7)}><Minus size={18} /></button>
         <button type="button" aria-label="Show the current route" onClick={() => focusProgress(1)}><LocateFixed size={18} /></button>
         <button type="button" aria-label="Entire map" onClick={fitAll}>Entire map</button>
       </div>
@@ -347,7 +361,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
                     <text textAnchor="middle" y="3">{townBadge}</text>
                   </g>
                 ) : null}
-                {(here || next) && (
+                {(here || next) && view.scale >= 0.55 && (
                   <text className="map-tag" textAnchor="middle" y={-(r + 10)} fontSize={tagSize}>
                     {here ? 'Here' : 'Next'}
                   </text>
@@ -368,7 +382,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
               </g>
             )
           })}
-          {pins.map((pin) => {
+          {view.scale >= 0.5 && pins.map((pin) => {
             const shift = pin.player === 'seri' ? 20 : -20
             return (
               <g key={pin.player} className={cx('map-pin', pin.player)} transform={`translate(${pin.x + shift} ${pin.y - 42})`}>
@@ -537,12 +551,12 @@ function avoidLabelCollisions(
 ): Map<string, { x: number; y: number }> {
   const out = new Map<string, { x: number; y: number }>()
   const placed: { l: number; t: number; r: number; b: number }[] = []
-  const step = 18 / view.scale
+  const step = Math.min(14, 12 / view.scale)
   const ordered = [...nodes].sort((a, b) => a.y - b.y || a.x - b.x)
   for (const node of ordered) {
     const lines = labelLines((node as MapNode & { labelName?: string }).labelName ?? placeByKey(node.key)?.name ?? node.key)
     const tries = [{ x: 0, y: 0 }]
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= 3; i++) {
       tries.push({ x: -step * i, y: 0 }, { x: step * i, y: 0 }, { x: 0, y: step * i }, { x: 0, y: -step * i })
     }
     let best = tries[0]
@@ -603,17 +617,14 @@ function labelLines(name: string): string[] {
 function edgePath(a: MapNode, b: MapNode, role: string): string {
   const dx = b.x - a.x
   const dy = b.y - a.y
-  if (Math.abs(dx) < 12) return `M ${a.x} ${a.y} V ${b.y}`
-  if (Math.abs(dy) < 12) return `M ${a.x} ${a.y} H ${b.x}`
-  if (role === 'story' && Math.hypot(dx, dy) < 320) {
-    const len = Math.hypot(dx, dy) || 1
-    const bend = 16 * ((a.key.charCodeAt(0) + b.key.charCodeAt(0)) % 2 === 0 ? 1 : -1)
-    const cx = (a.x + b.x) / 2 + (-dy / len) * bend
-    const cy = (a.y + b.y) / 2 + (dx / len) * bend
-    return `M ${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}`
+  if (Math.abs(dx) < 14) return `M ${a.x} ${a.y} V ${b.y}`
+  if (Math.abs(dy) < 14) return `M ${a.x} ${a.y} H ${b.x}`
+  if (role === 'link') {
+    const mid = a.x + dx * 0.5
+    return `M ${a.x} ${a.y} H ${mid} V ${b.y} H ${b.x}`
   }
-  const mid = a.x + dx * 0.55
-  return `M ${a.x} ${a.y} C ${mid} ${a.y}, ${mid} ${b.y}, ${b.x} ${b.y}`
+  if (Math.abs(dx) >= Math.abs(dy)) return `M ${a.x} ${a.y} H ${b.x} V ${b.y}`
+  return `M ${a.x} ${a.y} V ${b.y} H ${b.x}`
 }
 
 function guideTitle(step: GuideStep): string {

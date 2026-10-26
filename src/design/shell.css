@@ -71,7 +71,7 @@ body { overflow: hidden; }
 }
 .sheet-align { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; }
 .sheet { width: 100%; height: auto; max-height: none; top: max(52px, var(--sat)); bottom: 0; }
-.overlay-peek { bottom: var(--dock-total); }
+.overlay-peek { bottom: calc(var(--dock-h) + var(--dock-bottom)); }
 .sheet-align-peek { align-items: flex-end; }
 .sheet.sheet-peek {
   top: auto;
@@ -337,7 +337,18 @@ input, textarea, select { font-size: 16px; }
 .import-pill.new { background: var(--fisi-tint); color: var(--fisi-ink); }
 .import-meta { margin: 0; color: var(--text-muted); font-size: 12px; line-height: 16px; }
 .import-route { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 650; }
-.import-route select { width: 100%; min-height: 44px; }
+.import-route select {
+  width: 100%;
+  min-height: 44px;
+  appearance: none;
+  border: 0;
+  border-radius: 14px;
+  padding: 0 36px 0 12px;
+  background: var(--fill) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b6258' stroke-width='2.4' stroke-linecap='round'><path d='M6 9l6 6 6-6'/></svg>") no-repeat right 12px center;
+  color: var(--text);
+  box-shadow: 0 0 0 1px var(--line);
+  font: 600 16px/20px var(--font-body);
+}
 .import-jump { margin-bottom: 8px; }
 .text-btn { align-self: flex-start; border: 0; background: transparent; color: var(--me-ink, var(--fisi-ink)); font: 650 14px/20px var(--font-body); padding: 0; min-height: 44px; }
 
