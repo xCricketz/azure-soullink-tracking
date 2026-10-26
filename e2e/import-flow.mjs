@@ -231,8 +231,8 @@ async function checkImport(page, engine) {
   if (await page.locator('[data-nick="DupB"]').getAttribute('data-new') !== 'true') {
     failures.push(`${engine} second Rattata was not new`)
   }
-  const stored = await page.evaluate(() => localStorage.getItem('sl-import-ids:demo-run'))
-  if (stored !== JSON.stringify(ids)) failures.push(`${engine} diff preview wrote identities`)
+  const storedIds = await page.evaluate(() => localStorage.getItem('sl-import-ids:demo-run'))
+  if (storedIds !== JSON.stringify(ids)) failures.push(`${engine} diff preview wrote identities`)
   await page.screenshot({ path: `${shots}/phase8-${engine}-import-diff.png` })
 }
 

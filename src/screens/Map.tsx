@@ -231,7 +231,10 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const labelShift = showAllLabels
     ? new Map<string, { x: number; y: number }>()
     : avoidLabelCollisions(
-      NODES.filter((node) => showNodeLabel(node, view.scale)),
+      NODES.filter((node) => showNodeLabel(node, view.scale)).map((node) => ({
+        ...node,
+        labelName: displayName(placeByKey(node.key)?.name ?? node.key, node, view.scale),
+      })),
       labelSize,
       view,
       stageBox?.width ?? 320,
@@ -302,7 +305,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
           {NODES.map((node) => {
             const info = placeByKey(node.key)
             const state = node.key === progress?.key ? 'current' : caught.has(node.key) ? 'caught' : (info?.order ?? 99) <= (progress?.order ?? 0) ? 'visited' : 'ahead'
-            const name = info?.name ?? node.key
+            const name = displayName(info?.name ?? node.key, node, view.scale)
             const lines = labelLines(name)
             const r = RADIUS[node.kind] ?? 11
             const labelled = showNodeLabel(node, view.scale)
@@ -476,6 +479,13 @@ function NodeMark({ kind }: { kind: string }) {
   return <path className="ico" d="M0 -6 L1.6 -1.8 L6 -1.4 L2.6 1.4 L3.6 6 L0 3.6 L-3.6 6 L-2.6 1.4 L-6 -1.4 L-1.6 -1.8 Z" />
 }
 
+function displayName(name: string, node: MapNode, scale: number): string {
+  if (scale >= 0.34) return name
+  if (node.kind !== 'town' && node.key !== 'pokemon-league') return name
+  if (node.key === 'pokemon-league') return 'League'
+  return name.replace(/\s+(Town|City|Village|Heights|Corp\.?)$/u, '')
+}
+
 function showNodeLabel(node: MapNode, scale: number): boolean {
   if (node.kind === 'town' || node.key === 'pokemon-league') return true
   return scale >= 0.34
@@ -493,10 +503,9 @@ function avoidLabelCollisions(
   const step = 18 / view.scale
   const ordered = [...nodes].sort((a, b) => a.y - b.y || a.x - b.x)
   for (const node of ordered) {
-    const info = placeByKey(node.key)
-    const lines = labelLines(info?.name ?? node.key)
+    const lines = labelLines((node as MapNode & { labelName?: string }).labelName ?? placeByKey(node.key)?.name ?? node.key)
     const tries = [{ x: 0, y: 0 }]
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= 8; i++) {
       tries.push({ x: -step * i, y: 0 }, { x: step * i, y: 0 }, { x: 0, y: step * i }, { x: 0, y: -step * i })
     }
     let best = tries[0]
