@@ -1,6 +1,7 @@
 import { Check, Upload } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react'
 import { ROUTES } from '../data/routes'
+import { decisionCopy } from '../lib/save/locations'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
 import { formatPlaytime } from '../lib/save/explain'
@@ -467,8 +468,14 @@ function placeCopy(mon: PlannedMon, live: RouteDecision): string {
   }
   const where = metWhere(mon)
   if (mon.unknown) return `Species ${mon.speciesId} is not in the table, so this row is unknown Pokémon. It is not logged.`
-  if (mon.decision === 'trade') return `Caught by another trainer (${where}). Confirm all skips this. Confirm it only if this route should count.`
-  if (mon.decision === 'event') return 'Event Pokémon. Confirm all skips this. Pick a route only if it should count.'
+  const ruled = decisionCopy({
+    decision: mon.decision,
+    mapSectionId: mon.mapSectionId,
+    ownOT: mon.ownOT,
+    placeName: mon.placeName,
+    where,
+  })
+  if (ruled) return ruled
   if (mon.decision === 'hatched') return `Hatched at ${mon.placeName ?? 'this place'}. The save stores the hatch place, not a catch route. Confirm all skips this.`
   if (mon.decision === 'gift') return `Cherish Ball (${where}). Often a gift, fossil, or event. Confirm all skips this.`
   if (mon.place === 'route' && mon.confidence === 'likely') return `Likely match from the save (${where}). Confirm it, or pick another.`
@@ -478,6 +485,7 @@ function placeCopy(mon: PlannedMon, live: RouteDecision): string {
     const named = mon.placeName ? `${mon.placeName} is not a soul-link route. ` : ''
     return `${named}An encounter list names a route. That is a hint, not the save. Confirm it only if the route is right.`
   }
+  if (mon.placeName === 'Frozen Heights' || mon.mapSectionId === 88) return 'Frozen Heights (starter town, no Soul-Link route)'
   if (mon.placeName) return `${mon.placeName} is not a soul-link route. Choose the route, then confirm.`
   if (!mon.mapSectionId) return 'No met location was stored. Choose the route, then confirm.'
   return `Map section ${mon.mapSectionId} is not in the route table yet. Choose the route, then confirm.`

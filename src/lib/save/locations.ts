@@ -40,11 +40,15 @@ export function readLocation(
   const placeName = entry?.name ?? null
   const base = { confidence, placeName, source: entry ? 'met' as const : 'none' as const }
 
-  if (!ownOT || met.category === 'in-game-trade' || met.category === 'foreign-origin') {
+  // Met location wins over the trainer ID. 255 is an event, 254 is an in-game trade.
+  if (met.mapSectionId === 255 || met.category === 'fateful-event') {
+    return { ...base, place: 'needs-decision', decision: 'event', route: null, placeName: placeName ?? 'Event', confidence: null }
+  }
+  if (met.mapSectionId === 254 || met.category === 'in-game-trade') {
     return { ...base, place: 'needs-decision', decision: 'trade', route: named }
   }
-  if (met.category === 'fateful-event') {
-    return { ...base, place: 'needs-decision', decision: 'event', route: null, placeName: null, confidence: null }
+  if (!ownOT || met.category === 'foreign-origin') {
+    return { ...base, place: 'needs-decision', decision: 'trade', route: named }
   }
   if (met.category === 'hatched' || met.category === 'special-egg') {
     return { ...base, place: 'needs-decision', decision: 'hatched', route: named }
@@ -56,6 +60,34 @@ export function readLocation(
     return { ...base, place: 'route', decision: null, route: named }
   }
   return { ...base, place: 'needs-decision', decision: 'unmapped', route: null }
+}
+
+/** Sentence under an import row. Met location decides the kind; the trainer ID only changes the trade wording. */
+export function decisionCopy(input: {
+  decision: DecisionKind | null
+  mapSectionId: number
+  ownOT: boolean
+  placeName: string | null
+  where: string
+}): string | null {
+  if (input.mapSectionId === 88 || input.placeName === 'Frozen Heights') {
+    if (input.decision === 'unmapped' || input.decision == null) {
+      return 'Frozen Heights (starter town, no Soul-Link route)'
+    }
+  }
+  if (input.decision === 'event') {
+    return 'Event Pokémon (met location 255). Confirm all skips this. Pick a route only if it should count.'
+  }
+  if (input.decision === 'trade' && input.mapSectionId === 254 && input.ownOT) {
+    return `In-game trade (${input.where}). This trainer ID matches yours. Confirm all skips this. Confirm it only if this route should count.`
+  }
+  if (input.decision === 'trade' && input.mapSectionId === 254) {
+    return `In-game trade. Caught by another trainer (${input.where}). Confirm all skips this. Confirm it only if this route should count.`
+  }
+  if (input.decision === 'trade') {
+    return `Caught by another trainer (${input.where}). Confirm all skips this. Confirm it only if this route should count.`
+  }
+  return null
 }
 
 function isTable(value: unknown): value is MapsecTable {

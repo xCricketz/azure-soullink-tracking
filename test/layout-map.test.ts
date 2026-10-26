@@ -37,26 +37,60 @@ test('region layout covers the route graph and matches Borrius', () => {
       min = Math.min(min, Math.hypot(a.x - b.x, a.y - b.y))
     }
   }
-  assert.ok(min >= 120, `nodes closer than 120 (${min})`)
+  assert.ok(min >= 14, `nodes closer than 14 (${min})`)
+
+  const imgW = 1148
+  const imgH = 862
+  const tolX = imgW * 0.05
+  const tolY = imgH * 0.05
+  // Label centres read off the reference image. Layout stores them with a 36px pad.
+  const ref: Record<string, [number, number]> = {
+    'blizzard-city': [84, 216],
+    'frozen-heights': [554, 112],
+    'dehara-city': [470, 362],
+    'rift-cave': [450, 400],
+    'route-12': [453, 550],
+    'tarmigan-town': [447, 626],
+    'epidimy-town': [520, 720],
+    'vivill-town': [672, 309],
+    'gurun-town': [644, 420],
+    'dresco-town': [458, 301],
+    'tehl-town': [158, 728],
+    'fallshore-city': [356, 740],
+    'route-10': [263, 718],
+    'seaport-city': [820, 530],
+    'antisis-city': [653, 712],
+    'magnolia-town': [924, 218],
+    'redwood-village': [1083, 209],
+    'cube-corp': [1073, 360],
+    'pokemon-league': [787, 307],
+    'route-15': [606, 322],
+    'route-11': [418, 750],
+  }
+  for (const [key, [x, y]] of Object.entries(ref)) {
+    const node = at(key)
+    assert.ok(Math.abs(node.x - 36 - x) <= tolX, `${key} x off by ${node.x - 36 - x}`)
+    assert.ok(Math.abs(node.y - 36 - y) <= tolY, `${key} y off by ${node.y - 36 - y}`)
+  }
 
   assert.ok(at('blizzard-city').x < at('frozen-heights').x)
-  assert.ok(at('frozen-heights').y <= at('blizzard-city').y + 8)
-  assert.ok(at('pokemon-league').x > at('frozen-heights').x)
-  assert.ok(at('pokemon-league').y < at('dehara-city').y)
-  const midX = (at('blizzard-city').x + at('pokemon-league').x) / 2
-  assert.ok(Math.abs(at('frozen-heights').x - midX) < Math.abs(at('blizzard-city').x - midX))
-  assert.ok(at('epidimy-town').y < at('tarmigan-town').y)
-  assert.ok(at('tarmigan-town').y < at('route-12').y)
-  assert.ok(at('route-12').y < at('dehara-city').y)
-  assert.ok(Math.abs(at('epidimy-town').x - at('dehara-city').x) < 8)
+  assert.ok(at('frozen-heights').y < at('blizzard-city').y)
+  assert.ok(at('magnolia-town').y < at('dehara-city').y)
+  assert.ok(at('redwood-village').x > at('magnolia-town').x)
+  assert.ok(at('redwood-village').y <= at('magnolia-town').y + tolY)
+  assert.ok(at('cube-corp').y > at('redwood-village').y)
+  assert.ok(at('dehara-city').y < at('route-12').y)
+  assert.ok(at('route-12').y < at('tarmigan-town').y)
+  assert.ok(at('tarmigan-town').y < at('epidimy-town').y)
+  assert.ok(at('vivill-town').x > at('dresco-town').x)
+  assert.ok(at('vivill-town').y < at('gurun-town').y)
+  assert.ok(at('tehl-town').x < at('dehara-city').x && at('tehl-town').y > at('dehara-city').y)
+  assert.ok(at('fallshore-city').y > at('dehara-city').y)
+  assert.ok(at('seaport-city').x > at('dehara-city').x)
   assert.ok(at('antisis-city').x > at('dehara-city').x && at('antisis-city').y > at('dehara-city').y)
-  assert.ok(at('seaport-city').x > at('antisis-city').x)
-  assert.ok(at('magnolia-town').x > at('dehara-city').x)
-  assert.ok(at('redwood-village').x > at('dehara-city').x)
-  assert.ok(at('cube-corp').x >= at('redwood-village').x)
   assert.equal(layout.islands.length, 3)
   for (const isle of layout.islands as { x: number; y: number }[]) {
-    assert.ok(isle.x > at('cube-corp').x)
-    assert.ok(isle.y > at('seaport-city').y)
+    assert.ok(isle.x > at('antisis-city').x - 40)
+    assert.ok(isle.y > at('dehara-city').y)
   }
 })

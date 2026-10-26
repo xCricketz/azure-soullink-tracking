@@ -1,12 +1,8 @@
 /**
- * Hand-tuned Borrius layout. Coordinates follow the region: north is up,
- * Frozen Heights top centre, Blizzard City far top-left, the League top-right,
- * a vertical trunk through Epidimy, Tarmigan, Route 12 and Dehara, Antisis
- * south-east, Seaport and the Magnolia / Redwood / Cube Corp. side to the east.
- * Island shapes sit in the sea bottom-right. This is original geometry, not a
- * trace of any picture.
+ * Borrius positions traced from the region map's labels.
+ * Each pair is the label centre on the 1148×862 reference, in pixels.
+ * North is up. This is placement only: the drawing stays original art.
  * Re-run: node scripts/layout-world.mjs
- * Output: src/data/unbound/layout.json
  */
 import { readFileSync, writeFileSync } from 'node:fs'
 
@@ -14,119 +10,110 @@ const routes = JSON.parse(readFileSync(new URL('../src/data/unbound/routes.json'
 const guide = JSON.parse(readFileSync(new URL('../src/data/unbound/guide.json', import.meta.url), 'utf8'))
 const byKey = new Map(routes.map((node) => [node.key, node]))
 
-/** Column / row. Spacing is applied below. North is row 0, east is a higher column. */
-const GRID = {
-  'blizzard-city': [1, 0],
-  'blizzard-gym': [1, 1],
-  'frozen-forest': [2, 1],
-  'route-8': [2, 2],
-  'frost-mountain': [3, 2],
-
-  'frozen-heights': [6, 0],
-  'route-1': [6, 1],
-  'bellin-town': [7, 1],
-  'icy-hole': [8, 0],
-  'icicle-cave': [6, 2],
-  'route-2': [6, 3],
-  'route-7': [4, 3],
-
-  'dresco-town': [6, 4],
-  'dresco-gym': [5, 4],
-  'route-3': [7, 4],
-  'flower-paradise': [7, 3],
-  'grim-woods': [6, 5],
-  'route-6': [7, 6],
-  'route-4': [5, 6],
-  'cinder-volcano': [4, 6],
-  'cinder-volcano-depths': [3, 7],
-  'route-5': [5, 7],
-  'crater-town': [6, 7],
-  'crater-gym': [5, 8],
-  'valley-cave': [7, 7],
-  'route-13': [6, 9],
-  'route-15': [4, 9],
-
-  'epidimy-town': [8, 5],
-  'tarmigan-town': [8, 6],
-  'tarmigan-mansion': [9, 6],
-  'route-12': [8, 7],
-  'route-14': [9, 7],
-  'dehara-city': [8, 8],
-  'dehara-gym': [9, 9],
-  'rift-cave': [7, 8],
-  'ruins-of-void': [10, 7],
-  'kbt-expressway': [9, 8],
-
-  'tehl-town': [9, 2],
-  'route-9': [8, 3],
-  'route-10': [9, 4],
-  'fallshore-city': [10, 4],
-  'fallshore-gym': [11, 4],
-  'cliff-cave': [11, 3],
-  'route-11': [9, 5],
-  'auburn-waterway': [10, 5],
-  'lost-tunnel': [10, 6],
-  'thundercap-mountain': [10, 8],
-
-  'great-desert': [8, 10],
-  'tomb-of-borrius': [7, 10],
-  'gurun-town': [8, 11],
-  'vivill-woods': [7, 11],
-  'vivill-town': [6, 12],
-  'vivill-warehouse': [5, 12],
-  'route-16': [9, 11],
-
-  'antisis-city': [10, 11],
-  'antisis-gym': [10, 12],
-  'antisis-sewers': [11, 12],
-  'route-17': [11, 11],
-  'seaport-city': [12, 10],
-  'polder-town': [12, 11],
-  'polder-gym': [13, 11],
-  'safari-zone': [13, 10],
-  'cootes-bog': [12, 12],
-  'magnolia-town': [13, 12],
-  'magnolia-fields': [14, 12],
-  'redwood-village': [13, 13],
-  'redwood-gym': [12, 13],
-  'redwood-forest': [13, 14],
-  'crystal-peak': [14, 13],
-  'cube-corp': [14, 14],
-
-  'route-18': [12, 2],
-  'victory-road': [13, 1],
-  'pokemon-league': [14, 0],
+/** Label centres on the reference image. Gyms sit beside their town. */
+const REF = {
+  'blizzard-city': [84, 216],
+  'blizzard-gym': [36, 188],
+  'frozen-forest': [72, 255],
+  'route-8': [77, 344],
+  'frost-mountain': [66, 385],
+  'route-7': [79, 460],
+  'frozen-heights': [554, 112],
+  'route-1': [565, 157],
+  'icicle-cave': [553, 182],
+  'icy-hole': [554, 237],
+  'bellin-town': [557, 210],
+  'route-3': [461, 188],
+  'flower-paradise': [451, 225],
+  'route-4': [325, 228],
+  'cinder-volcano': [314, 267],
+  'cinder-volcano-depths': [262, 318],
+  'grim-woods': [366, 325],
+  'dresco-town': [458, 301],
+  'dresco-gym': [418, 336],
+  'route-2': [544, 303],
+  'route-5': [227, 347],
+  'crater-town': [224, 454],
+  'crater-gym': [280, 470],
+  'valley-cave': [157, 510],
+  'route-6': [165, 480],
+  'route-15': [606, 322],
+  'kbt-expressway': [600, 470],
+  'dehara-city': [470, 362],
+  'dehara-gym': [400, 340],
+  'rift-cave': [450, 400],
+  'route-13': [363, 410],
+  'great-desert': [581, 399],
+  'tomb-of-borrius': [550, 423],
+  'gurun-town': [644, 420],
+  'vivill-town': [672, 309],
+  'vivill-warehouse': [700, 268],
+  'vivill-woods': [651, 360],
+  'ruins-of-void': [265, 506],
+  'route-14': [321, 552],
+  'route-12': [453, 550],
+  'lost-tunnel': [270, 590],
+  'tarmigan-town': [447, 626],
+  'tarmigan-mansion': [438, 660],
+  'epidimy-town': [520, 720],
+  'route-11': [418, 750],
+  'thundercap-mountain': [505, 752],
+  'route-10': [263, 718],
+  'fallshore-city': [356, 740],
+  'fallshore-gym': [400, 788],
+  'auburn-waterway': [220, 648],
+  'tehl-town': [158, 728],
+  'route-9': [83, 612],
+  'cliff-cave': [160, 755],
+  'route-16': [658, 622],
+  'antisis-city': [653, 712],
+  'antisis-gym': [710, 690],
+  'antisis-sewers': [653, 764],
+  'seaport-city': [820, 530],
+  'route-17': [730, 553],
+  'polder-town': [931, 404],
+  'polder-gym': [980, 444],
+  'safari-zone': [997, 409],
+  'cootes-bog': [962, 283],
+  'magnolia-town': [924, 218],
+  'magnolia-fields': [1005, 216],
+  'crystal-peak': [954, 322],
+  'redwood-village': [1083, 209],
+  'redwood-gym': [1083, 252],
+  'redwood-forest': [1082, 295],
+  'cube-corp': [1073, 360],
+  'route-18': [783, 370],
+  'victory-road': [790, 396],
+  'pokemon-league': [787, 307],
 }
 
+const ISLANDS = [
+  { id: 'glimmer', name: 'Glimmer Isle', x: 990, y: 572, rx: 72, ry: 46 },
+  { id: 'fullmoon', name: 'Fullmoon Island', x: 799, y: 736, rx: 64, ry: 42 },
+  { id: 'newmoon', name: 'Newmoon Island', x: 945, y: 739, rx: 58, ry: 40 },
+]
+
 const BLOBS = [
-  { id: 'snowfields', kind: 'snow', keys: ['frozen-heights', 'route-1', 'bellin-town', 'icicle-cave', 'icy-hole', 'route-2'] },
-  { id: 'meadows', kind: 'grass', keys: ['dresco-town', 'dresco-gym', 'route-3', 'flower-paradise', 'grim-woods'] },
-  { id: 'volcano', kind: 'volcano', keys: ['route-4', 'cinder-volcano', 'cinder-volcano-depths', 'route-5', 'crater-town', 'crater-gym'] },
-  { id: 'frost', kind: 'mountain', keys: ['frost-mountain', 'route-7', 'route-8', 'blizzard-city', 'blizzard-gym', 'frozen-forest'] },
-  { id: 'coast', kind: 'sea', keys: ['fallshore-city', 'fallshore-gym', 'route-10', 'route-11', 'route-9', 'tehl-town', 'cliff-cave', 'auburn-waterway'] },
-  { id: 'thundercap', kind: 'mountain', keys: ['thundercap-mountain', 'epidimy-town', 'tarmigan-town'] },
-  { id: 'desert', kind: 'desert', keys: ['great-desert', 'gurun-town', 'tomb-of-borrius', 'route-16'] },
-  { id: 'vivill', kind: 'grass', keys: ['vivill-woods', 'vivill-town', 'vivill-warehouse'] },
-  { id: 'harbour', kind: 'sea', keys: ['seaport-city', 'route-17', 'polder-town', 'polder-gym', 'cootes-bog', 'safari-zone', 'antisis-city'] },
-  { id: 'eastwood', kind: 'grass', keys: ['magnolia-town', 'magnolia-fields', 'redwood-village', 'redwood-forest', 'redwood-gym', 'cube-corp'] },
-  { id: 'crystal', kind: 'mountain', keys: ['crystal-peak'] },
-  { id: 'hub', kind: 'city', keys: ['dehara-city', 'dehara-gym', 'kbt-expressway'] },
-  { id: 'league', kind: 'mountain', keys: ['victory-road', 'pokemon-league', 'route-18'] },
+  { id: 'west-frost', kind: 'snow', keys: ['blizzard-city', 'blizzard-gym', 'frozen-forest', 'route-8', 'frost-mountain', 'route-7'] },
+  { id: 'heights', kind: 'snow', keys: ['frozen-heights', 'route-1', 'icicle-cave', 'icy-hole', 'bellin-town', 'route-3', 'flower-paradise'] },
+  { id: 'meadow', kind: 'grass', keys: ['dresco-town', 'dresco-gym', 'route-2', 'grim-woods', 'route-4'] },
+  { id: 'volcano', kind: 'volcano', keys: ['cinder-volcano', 'cinder-volcano-depths', 'route-5', 'crater-town', 'crater-gym', 'route-6', 'valley-cave'] },
+  { id: 'trunk', kind: 'city', keys: ['dehara-city', 'dehara-gym', 'rift-cave', 'route-12', 'tarmigan-town', 'tarmigan-mansion', 'epidimy-town', 'kbt-expressway'] },
+  { id: 'vivill', kind: 'grass', keys: ['vivill-town', 'vivill-woods', 'vivill-warehouse', 'gurun-town', 'great-desert', 'tomb-of-borrius'] },
+  { id: 'southwest', kind: 'sea', keys: ['tehl-town', 'fallshore-city', 'fallshore-gym', 'route-9', 'route-10', 'route-11', 'auburn-waterway', 'cliff-cave', 'thundercap-mountain', 'route-14', 'lost-tunnel', 'ruins-of-void'] },
+  { id: 'harbour', kind: 'sea', keys: ['seaport-city', 'route-17', 'route-16', 'antisis-city', 'antisis-gym', 'antisis-sewers'] },
+  { id: 'northeast', kind: 'grass', keys: ['magnolia-town', 'magnolia-fields', 'redwood-village', 'redwood-gym', 'redwood-forest', 'cube-corp', 'cootes-bog', 'crystal-peak', 'polder-town', 'polder-gym', 'safari-zone', 'pokemon-league', 'victory-road', 'route-18'] },
 ]
 
-/** Decorative sea islands. Not routes, and not copied from a picture. */
-const ISLAND_GRID = [
-  { id: 'glimmer', name: 'Glimmer Isle', col: 16, row: 15, rx: 78, ry: 52 },
-  { id: 'fullmoon', name: 'Fullmoon Island', col: 18, row: 17, rx: 64, ry: 46 },
-  { id: 'newmoon', name: 'Newmoon Island', col: 15, row: 18, rx: 56, ry: 40 },
-]
+const RADIUS = { town: 16, gym: 13, route: 8, cave: 11, dungeon: 12, other: 11 }
+const PAD = 36
 
-const RADIUS = { town: 18, gym: 15, route: 9, cave: 12, dungeon: 13, other: 12 }
-const STEP_X = 176
-const STEP_Y = 168
-const ORIGIN_X = 160
-const ORIGIN_Y = 140
-const LINK_DISTANCE = 560
+for (const node of routes) {
+  if (!REF[node.key]) throw new Error(`missing reference position for ${node.key}`)
+}
+for (const key of Object.keys(REF)) {
+  if (!byKey.has(key)) throw new Error(`unknown reference key ${key}`)
+}
 
 const gyms = routes.filter((node) => node.kind === 'gym').sort((a, b) => a.order - b.order)
 const badgeOfGym = new Map(gyms.map((gym, index) => [gym.key, index + 1]))
@@ -136,27 +123,19 @@ for (const gym of gyms) {
   if (town) badgeOfTown.set(town, badgeOfGym.get(gym.key))
 }
 
-const seen = new Set()
-for (const [key, cell] of Object.entries(GRID)) {
-  const id = cell.join(',')
-  if (seen.has(id)) throw new Error(`cell clash ${id} at ${key}`)
-  seen.add(id)
-  if (!byKey.has(key)) throw new Error(`unknown key ${key}`)
-}
-for (const node of routes) {
-  if (!GRID[node.key]) throw new Error(`missing cell for ${node.key}`)
-}
-
 const nodes = routes.map((node) => {
-  const [col, row] = GRID[node.key]
+  const [x, y] = REF[node.key]
   return {
     key: node.key,
     name: node.name,
     kind: node.kind,
-    x: ORIGIN_X + col * STEP_X,
-    y: ORIGIN_Y + row * STEP_Y,
+    x: x + PAD,
+    y: y + PAD,
     r: RADIUS[node.kind] ?? 11,
     badge: badgeOfGym.get(node.key) ?? badgeOfTown.get(node.key) ?? null,
+    labelX: 0,
+    labelY: (RADIUS[node.kind] ?? 11) + 16,
+    labelAnchor: 'middle',
   }
 })
 
@@ -164,14 +143,11 @@ const edgeSet = new Set()
 for (const node of routes) {
   for (const next of node.neighbours) {
     if (!byKey.has(next)) continue
-    const pair = [node.key, next].sort()
-    edgeSet.add(pair.join('|'))
+    edgeSet.add([node.key, next].sort().join('|'))
   }
 }
 const spine = []
 for (const step of guide) {
-  // Guide notes such as Distortion World are not map nodes. Skipping them
-  // keeps the story path between the real neighbours.
   if (step.route_key && byKey.has(step.route_key) && !spine.includes(step.route_key)) spine.push(step.route_key)
 }
 const storyPairs = new Set()
@@ -184,7 +160,7 @@ function edgeRole(a, b) {
   if (a === 'kbt-expressway' || b === 'kbt-expressway') return 'link'
   const left = pos.get(a)
   const right = pos.get(b)
-  if (Math.hypot(left.x - right.x, left.y - right.y) >= LINK_DISTANCE) return 'link'
+  if (Math.hypot(left.x - right.x, left.y - right.y) >= 340) return 'link'
   return 'side'
 }
 
@@ -193,143 +169,47 @@ const edges = [...edgeSet].map((pair) => {
   return [a, b, edgeRole(a, b)]
 })
 
-function labelLines(name) {
-  if (name.length <= 14 || !name.includes(' ')) return [name]
-  let splitAt = name.lastIndexOf(' ', 18)
-  if (splitAt < 4) splitAt = name.indexOf(' ')
-  if (splitAt < 1) return [name]
-  return [name.slice(0, splitAt), name.slice(splitAt + 1)]
-}
-
-function boxOf(node, opt, w, h) {
-  let left = node.x + opt.dx
-  if (opt.anchor === 'middle') left -= w / 2
-  else if (opt.anchor === 'end') left -= w
-  const top = node.y + opt.dy - 12
-  return { left, top, right: left + w, bottom: top + h }
-}
-
-function overlapArea(a, b) {
-  const w = Math.min(a.right, b.right) - Math.max(a.left, b.left)
-  const h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top)
-  if (w <= 0 || h <= 0) return 0
-  return w * h
-}
-
-function coversCircle(box, node) {
-  const cx = Math.min(Math.max(node.x, box.left), box.right)
-  const cy = Math.min(Math.max(node.y, box.top), box.bottom)
-  const dx = cx - node.x
-  const dy = cy - node.y
-  return dx * dx + dy * dy < (node.r + 4) ** 2 ? 80 : 0
-}
-
-const placed = []
-for (const node of nodes) {
-  const lines = labelLines(node.name)
-  const w = Math.ceil(Math.max(...lines.map((line) => line.length)) * 6.8) + 10
-  const h = lines.length * 16 + 4
-  const options = [
-    { dx: 0, dy: node.r + 18, anchor: 'middle' },
-    { dx: 0, dy: -(node.r + 8), anchor: 'middle' },
-    { dx: node.r + 10, dy: 4, anchor: 'start' },
-    { dx: -(node.r + 10), dy: 4, anchor: 'end' },
-    { dx: node.r + 8, dy: node.r + 8, anchor: 'start' },
-    { dx: -(node.r + 8), dy: node.r + 8, anchor: 'end' },
-    { dx: 0, dy: node.r + 34, anchor: 'middle' },
-  ]
-  let best = null
-  let bestScore = Infinity
-  for (const opt of options) {
-    const box = boxOf(node, opt, w, h)
-    let score = 0
-    for (const other of placed) score += overlapArea(box, other)
-    for (const other of nodes) score += coversCircle(box, other)
-    if (score < bestScore) {
-      bestScore = score
-      best = { ...opt, box }
-    }
-    if (score === 0) break
-  }
-  node.labelX = best.dx
-  node.labelY = best.dy
-  node.labelAnchor = best.anchor
-  placed.push(best.box)
-}
-
-let labelOverlaps = 0
-for (let i = 0; i < placed.length; i++) {
-  for (let j = i + 1; j < placed.length; j++) {
-    if (overlapArea(placed[i], placed[j]) > 0) labelOverlaps += 1
-  }
-}
-
 const regions = BLOBS.map((blob) => {
   const pts = blob.keys.map((key) => pos.get(key))
   const cx = pts.reduce((sum, node) => sum + node.x, 0) / pts.length
   const cy = pts.reduce((sum, node) => sum + node.y, 0) / pts.length
-  const rx = Math.max(120, Math.max(...pts.map((node) => Math.abs(node.x - cx))) + 120)
-  const ry = Math.max(96, Math.max(...pts.map((node) => Math.abs(node.y - cy))) + 100)
+  const rx = Math.max(70, Math.max(...pts.map((node) => Math.abs(node.x - cx))) + 56)
+  const ry = Math.max(56, Math.max(...pts.map((node) => Math.abs(node.y - cy))) + 48)
   return { id: blob.id, kind: blob.kind, x: Math.round(cx), y: Math.round(cy), rx: Math.round(rx), ry: Math.round(ry) }
 })
 
-const islands = ISLAND_GRID.map((isle) => ({
-  id: isle.id,
-  name: isle.name,
-  x: ORIGIN_X + isle.col * STEP_X,
-  y: ORIGIN_Y + isle.row * STEP_Y,
-  rx: isle.rx,
-  ry: isle.ry,
-}))
-
-const pad = 90
-const minX = Math.min(...nodes.map((node) => node.x), ...islands.map((isle) => isle.x - isle.rx)) - pad
-const minY = Math.min(...nodes.map((node) => node.y), ...islands.map((isle) => isle.y - isle.ry)) - pad
-const maxX = Math.max(...nodes.map((node) => node.x), ...islands.map((isle) => isle.x + isle.rx)) + pad
-const maxY = Math.max(...nodes.map((node) => node.y), ...islands.map((isle) => isle.y + isle.ry)) + pad
-for (const node of nodes) {
-  node.x -= minX
-  node.y -= minY
-}
-for (const region of regions) {
-  region.x -= minX
-  region.y -= minY
-}
-for (const isle of islands) {
-  isle.x -= minX
-  isle.y -= minY
-}
+const islands = ISLANDS.map((isle) => ({ ...isle, x: isle.x + PAD, y: isle.y + PAD }))
 
 let minDist = Infinity
 for (let i = 0; i < nodes.length; i++) {
   for (let j = i + 1; j < nodes.length; j++) {
-    const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y)
-    if (d < minDist) minDist = d
+    minDist = Math.min(minDist, Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y))
   }
 }
-
 const ys = nodes.map((node) => node.y)
 const xs = nodes.map((node) => node.x)
-const ySpread = Math.max(...ys) - Math.min(...ys)
-const xSpread = Math.max(...xs) - Math.min(...xs)
-if (ySpread < 600) throw new Error(`layout is too flat (${ySpread})`)
-if (xSpread < 600) throw new Error(`layout is too narrow (${xSpread})`)
-if (minDist < 120) throw new Error(`nodes too close (${minDist})`)
+if (Math.max(...ys) - Math.min(...ys) < 600) throw new Error('layout is too flat')
+if (Math.max(...xs) - Math.min(...xs) < 600) throw new Error('layout is too narrow')
+if (minDist < 14) throw new Error(`nodes too close (${minDist})`)
 if (edges.length !== 93) throw new Error(`expected 93 edges, got ${edges.length}`)
 if (!edges.some((edge) => edge[2] === 'story')) throw new Error('story path missing')
 if (!edges.some((edge) => edge[2] === 'link')) throw new Error('long links missing')
 if (!edges.some((edge) => edge[2] === 'side')) throw new Error('side paths missing')
-if (labelOverlaps > 16) throw new Error(`${labelOverlaps} label overlaps`)
 
-const trunk = ['epidimy-town', 'tarmigan-town', 'route-12', 'dehara-city'].map((key) => pos.get(key))
-for (let i = 1; i < trunk.length; i++) {
-  if (trunk[i].y <= trunk[i - 1].y) throw new Error('central trunk is not north-to-south')
-  if (Math.abs(trunk[i].x - trunk[0].x) > 8) throw new Error('central trunk is not vertical')
+const dehara = pos.get('dehara-city')
+const route12 = pos.get('route-12')
+const tarmigan = pos.get('tarmigan-town')
+const epidimy = pos.get('epidimy-town')
+if (!(dehara.y < route12.y && route12.y < tarmigan.y && tarmigan.y < epidimy.y)) {
+  throw new Error('central trunk should run Dehara, Route 12, Tarmigan, Epidimy from north to south')
 }
 
+const maxX = Math.max(...nodes.map((node) => node.x), ...islands.map((isle) => isle.x + isle.rx)) + PAD
+const maxY = Math.max(...nodes.map((node) => node.y), ...islands.map((isle) => isle.y + isle.ry)) + PAD
+
 const layout = {
-  width: Math.round(maxX - minX),
-  height: Math.round(maxY - minY),
+  width: Math.round(maxX),
+  height: Math.round(maxY),
   caption: 'Borrius, with towns and routes in their places. Drag to pan, pinch or use the buttons to zoom.',
   nodes: nodes.map((node) => ({
     key: node.key,
@@ -354,4 +234,4 @@ const layout = {
 }
 
 writeFileSync(new URL('../src/data/unbound/layout.json', import.meta.url), `${JSON.stringify(layout)}\n`)
-console.log(`nodes ${layout.nodes.length} edges ${layout.edges.length} size ${layout.width}x${layout.height} minDist ${minDist.toFixed(1)} ySpread ${ySpread} xSpread ${xSpread} labelOverlaps ${labelOverlaps} links ${edges.filter((edge) => edge[2] === 'link').length}`)
+console.log(`nodes ${layout.nodes.length} edges ${layout.edges.length} size ${layout.width}x${layout.height} minDist ${minDist.toFixed(1)}`)
