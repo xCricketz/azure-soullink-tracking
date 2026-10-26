@@ -230,10 +230,11 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   async function confirm(ids: string[], closeAfter: boolean) {
     if (!save || !plan || busy) return
     const byId = new Map(plan.mons.map((mon) => [mon.id, mon]))
+    const known = new Set(previousIds)
     const adding = ids.filter((id) => {
       const mon = byId.get(id)
       const decision = decisions.get(id)
-      return Boolean(mon) && !done.includes(id) && Boolean(routes[id]) && !decision?.duplicate
+      return Boolean(mon) && mon?.newSinceImport && !known.has(mon.identity) && !done.includes(id) && Boolean(routes[id]) && !decision?.duplicate
     })
     if (!adding.length) {
       pushToast('Nothing to confirm. Suggested routes are already taken or still missing.')
@@ -282,10 +283,14 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   }
 
   const groups = groupRoutes()
-  const partyCount = plan?.mons.filter((mon) => mon.where === 'party').length ?? 0
-  const fromSave = plan?.mons.filter((mon) => mon.place === 'route') ?? []
-  const needsDecision = plan?.mons.filter((mon) => mon.place === 'needs-decision') ?? []
-  const ready = plan ? confirmAllIds(plan.mons, routes, decisions, done) : []
+  const partyCount = save ? save.party.filter((mon) => !mon.isEgg).length : 0
+  const boxCount = save ? save.boxes.reduce((sum, box) => sum + box.mons.filter((mon) => !mon.isEgg).length, 0) : 0
+  const released = save?.releasedRemnants.length ?? 0
+  const suggestions = plan?.suggestions ?? []
+  const fromSave = suggestions.filter((mon) => mon.place === 'route')
+  const needsDecision = suggestions.filter((mon) => mon.place === 'needs-decision')
+  const ready = plan ? confirmAllIds(suggestions, routes, decisions, done) : []
+  const knownCount = plan && previousIds.length > 0 ? plan.mons.length - suggestions.length : 0
   const highlightNew = previousIds.length > 0 || previous.length > 0
 
   function rowProps(mon: PlannedMon) {
@@ -347,15 +352,14 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
           <>
             <button className="text-btn" type="button" onClick={() => { setSave(null); setStory(null); setStoryShown(false); setError(''); setDone([]); settledRoutes.current = new Map() }}>Choose another file</button>
             {story && <StoryCard story={story} shown={storyShown} onShow={showOnGuide} />}
-            <p className="import-summary" data-playtime={formatPlaytime(save.trainer.playtime) ?? ''}>
+            <p className="import-summary" data-playtime={formatPlaytime(save.trainer.playtime) ?? ''} data-party={partyCount} data-boxes={boxCount} data-released={released}>
               <strong>{save.trainer.name || 'Trainer'}</strong>
               {formatPlaytime(save.trainer.playtime) ? ` · played ${formatPlaytime(save.trainer.playtime)}` : ''}
-              {' · '}Pokédex caught {save.dex.caughtCount}
-              {' · '}party {partyCount}
-              {' · '}boxed {plan.mons.length - partyCount}
-              {' · '}{fromSave.length} with a route
-              {' · '}{needsDecision.length} need a decision
+              {` · party ${partyCount}, boxes ${boxCount}`}
             </p>
+            {released > 0 && (
+              <p className="import-help" data-released-note="true">{released} released slot{released === 1 ? '' : 's'} ignored.</p>
+            )}
             <p className="import-help">
               Reading this file does not change the run. Each route is a suggestion from the met location. Confirm a row to log that catch, or use Confirm all for every suggested route that is still the first catch.
               Likely and Guess are weaker matches. Change them before Confirm all if they look wrong.
@@ -367,7 +371,26 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
               {!save.checksumsOk && ' One save slot failed its checksum, so this is the other slot.'}
             </p>
             {previous.length === 0 && previousIds.length === 0 && <p className="import-help">No earlier import is stored on this phone, so nothing is marked new yet.</p>}
+            {options.ngPlus && <p className="import-help">New Game Plus keeps the Pokédex, so the dex count is not used to decide this is a new run.</p>}
             {options.randomizerSpecies && <p className="import-help">Species randomizer is on, so encounter lists are not used to guess a route.</p>}
+            {knownCount > 0 && (
+              <p className="import-help" data-known={knownCount}>
+                {knownCount} already imported. Left as logged. Moving a Pokémon between boxes is not a new catch.
+              </p>
+            )}
+            {plan.missing.length > 0 && (
+              <section className="import-block" data-import-group="missing">
+                <h3>Not in this save</h3>
+                <p className="import-help">
+                  {plan.missing.length === 1 ? 'One previously imported Pokémon is' : `${plan.missing.length} previously imported Pokémon are`} not in this file. Dead/gone? Nothing is written. The logged catch stays until you mark it on the route.
+                </p>
+                <ul className="enc-list">
+                  {plan.missing.map((row) => (
+                    <li key={row.identity} data-missing={row.identity} data-prompt="Dead/gone?">Dead/gone?</li>
+                  ))}
+                </ul>
+              </section>
+            )}
             <ImportGroup title="From the save" empty="No route was read from the save yet." group="route">
               {fromSave.map((mon) => (
                 <MonRow key={mon.id} {...rowProps(mon)} />
@@ -565,7 +588,7 @@ function MonRow({
         {decision.duplicate && <span className="import-pill">Duplicate</span>}
         {mon.alreadyLogged && <span className="import-pill">On this run</span>}
         {highlightNew && <span className="import-pill new">New since last import</span>}
-        {mon.shiny && <span className="import-pill">Shiny? Unverified guess (xor {mon.shinyXor})</span>}
+        {mon.shiny && !mon.unknown && <span className="import-pill">Shiny? Unverified guess (xor {mon.shinyXor})</span>}
       </div>
       <p className="import-meta">Nature is from personality. A mint would not show.</p>
       {mon.formNote && <p className="import-meta">{mon.formNote}</p>}

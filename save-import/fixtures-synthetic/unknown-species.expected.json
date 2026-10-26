@@ -1,9 +1,9 @@
 {
  "fixture": "unknown-species",
  "file": "unknown-species.sav",
- "description": "Species-IDs außerhalb der ROM-Tabelle (1294, 2000, 0xFFFF; Team und Box): nat=null, Warnung „nicht in Tabelle\", Box-Level unbekannt (levelSource unknown, level null), Team-Level bleibt stored. Dazu Platzhalter-IDs der Tabelle (252, 276: nat 0) und Species 0 mit PID≠0 – hier wird der AKTUELLE Parser-Zustand festgeschrieben (keine Warnung; nat null) – sowie ein Box-Mon ohne hasSpecies-Bit (Warnung).",
+ "description": "Species-IDs außerhalb der ROM-Tabelle (1294, 2000, 0xFFFF; Team und Box): nat=null, Warnung „nicht in Tabelle\", Box-Level unbekannt (levelSource unknown, level null), Team-Level bleibt stored. Dazu Platzhalter-IDs der Tabelle (252, 276: nat 0 – hier wird der AKTUELLE Parser-Zustand festgeschrieben: keine Warnung; nat null) sowie ein Box-Mon ohne hasSpecies-Bit (Warnung). Species 0 mit PID≠0 ist seit 2026-10-26 KEIN Mon mehr, siehe Fixture `released-slots`.",
  "unverifiedAssumptions": [
-  "Platzhalter/Species-0-Verhalten ist nur Charakterisierung des Ist-Zustands, keine Spezifikation"
+  "Platzhalter-ID-Verhalten ist nur Charakterisierung des Ist-Zustands, keine Spezifikation"
  ],
  "fileSize": 131072,
  "slots": [
@@ -439,67 +439,6 @@
    "where": "box",
    "box": 0,
    "slot": 5,
-   "tag": "Species 0 mit PID≠0 (Müll) – Parser liefert den Mon mit nat null (Ist-Verhalten)",
-   "speciesId": 0,
-   "nat": null,
-   "formIndex": null,
-   "name": null,
-   "nickname": "Id0Pid",
-   "ot": "Synth",
-   "isEgg": false,
-   "level": 20,
-   "levelSource": "exp-derived",
-   "exp": 8000,
-   "nature": "Timid",
-   "personality": 16909060,
-   "tid": 40001,
-   "sid": 12345,
-   "ownOT": true,
-   "shinyXor": 44670,
-   "shiny": false,
-   "item": 0,
-   "moves": [
-    33,
-    45,
-    0,
-    0
-   ],
-   "ivs": [
-    10,
-    11,
-    12,
-    13,
-    14,
-    15
-   ],
-   "evs": [
-    0,
-    0,
-    0,
-    0,
-    0,
-    0
-   ],
-   "hiddenAbility": false,
-   "met": {
-    "location": 105,
-    "level": 20,
-    "originGame": 4,
-    "ball": 3,
-    "ballName": "Poké",
-    "otFemale": false,
-    "originsBit11": false,
-    "category": "area"
-   },
-   "routeId": "route-5",
-   "mapsecName": "Route 5",
-   "routeConfidence": "verified",
-   "warningsContain": []
-  },
-  {
-   "where": "box",
-   "box": 0,
-   "slot": 6,
    "tag": "hasSpecies-Bit fehlt → Warnung",
    "speciesId": 1,
    "nat": 1,

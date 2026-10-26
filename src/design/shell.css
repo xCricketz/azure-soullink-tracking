@@ -195,7 +195,7 @@ textarea, .field input, .picker input, .search {
 .map-isle, .map-tag {
   fill: var(--map-lbl);
   stroke: var(--map-lbl-halo);
-  stroke-width: 4px;
+  stroke-width: 0.28em;
   paint-order: stroke;
   font-family: var(--font-body);
   font-weight: 800;
@@ -230,7 +230,7 @@ textarea, .field input, .picker input, .search {
 .map-node .lbl {
   fill: var(--map-lbl);
   stroke: var(--map-lbl-halo);
-  stroke-width: 4px;
+  stroke-width: 0.28em;
   paint-order: stroke;
   font-family: var(--font-body);
   font-weight: 700;

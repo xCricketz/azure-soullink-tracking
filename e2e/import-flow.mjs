@@ -36,6 +36,9 @@ const files = execFileSync('npx', ['tsx', '-e', `
   const dex = JSON.parse(readFileSync('./src/data/unbound/dex.json', 'utf8'))
   const before = parseSave(new Uint8Array(readFileSync('./save-import/fixtures-synthetic/diff-a.sav')), { table, dexNames: dex })
   writeFileSync('/tmp/diff-a-ids.json', JSON.stringify(allMons(before).map((mon) => identityOf(mon))))
+  const sample = parseSave(sampleSave(), { table, dexNames: dex })
+  const bulb = allMons(sample).find((mon) => mon.nat === 1)
+  writeFileSync('/tmp/sample-bulb-id.txt', identityOf(bulb))
   function setExtVar(sectors, id, value) {
     const mem = 0x200 + 2 * (id - 0x5000)
     const regions = [[0, 0xf24, 0xff0 - 0xf24], [4, 0xd98, 0xff0 - 0xd98], [13, 0x450, 0xff0 - 0x450]]
@@ -140,10 +143,44 @@ async function checkMap(page, engine) {
   if (wide.routes !== 0) failures.push(`${engine} entire map still shows ${wide.routes} route labels`)
   if (wide.islands !== 3) failures.push(`${engine} expected 3 islands, saw ${wide.islands}`)
   await page.screenshot({ path: `${shots}/phase8-${engine}-map-all.png` })
+
+  for (const scale of [0.3, 0.5, 0.9, 1.5]) {
+    await page.evaluate((value) => window.dispatchEvent(new CustomEvent('soullink-map-scale', { detail: value })), scale)
+    await page.waitForFunction((value) => {
+      const got = Number(document.querySelector('.map-svg')?.getAttribute('data-scale'))
+      return Math.abs(got - value) < 0.02
+    }, scale)
+    const labels = await page.evaluate(() => {
+      const zoom = Number(document.querySelector('.map-svg')?.getAttribute('data-scale'))
+      const nodes = [...document.querySelectorAll('.map-node .lbl')]
+      const screens = nodes.map((node) => Number(node.getAttribute('font-size')) * zoom)
+      return {
+        zoom,
+        towns: document.querySelectorAll('.map-node.town .lbl').length,
+        routes: document.querySelectorAll('.map-node.route .lbl').length,
+        min: screens.length ? Math.min(...screens) : 0,
+        max: screens.length ? Math.max(...screens) : 0,
+      }
+    })
+    if (labels.towns < 1) failures.push(`${engine} zoom ${scale} has no town labels`)
+    if (scale < 0.34 && labels.routes !== 0) failures.push(`${engine} zoom ${scale} shows ${labels.routes} route labels`)
+    if (scale >= 0.5 && labels.routes < 1) failures.push(`${engine} zoom ${scale} hides route labels`)
+    if (labels.min < 8.9 || labels.max > 14.1) failures.push(`${engine} zoom ${scale} label screen px ${labels.min}–${labels.max}`)
+    await page.screenshot({ path: `${shots}/phase11-${engine}-map-${String(scale).replace('.', '')}.png` })
+  }
 }
 
 async function checkImport(page, engine) {
-  await page.evaluate(() => localStorage.setItem('sl-import-nats:demo-run', JSON.stringify([1])))
+  await page.getByRole('button', { name: 'More', exact: true }).click()
+  await page.getByText('Nuzlocke').waitFor()
+  await page.locator('[data-cap-ladder="ngplus"]').waitFor()
+  if (await page.getByText('Coming soon').count()) failures.push(`${engine} More still says Coming soon`)
+  await page.screenshot({ path: `${shots}/phase11-${engine}-more-settings.png` })
+  const bulbId = readFileSync('/tmp/sample-bulb-id.txt', 'utf8').trim()
+  await page.evaluate((id) => {
+    localStorage.setItem('sl-import-nats:demo-run', JSON.stringify([1]))
+    localStorage.setItem('sl-import-ids:demo-run', JSON.stringify([id]))
+  }, bulbId)
   const before = await page.locator('body').innerText()
   if (before.includes('Zeraora')) failures.push(`${engine} Zeraora was on screen before import`)
 
@@ -152,10 +189,13 @@ async function checkImport(page, engine) {
   const summary = await page.locator('.import-summary').innerText()
   if (!summary.includes('Test')) failures.push(`${engine} summary missing trainer: ${summary}`)
   if (!summary.includes('12:34:56')) failures.push(`${engine} summary missing play time: ${summary}`)
-  if (!summary.includes('Pokédex caught')) failures.push(`${engine} summary missing counts: ${summary}`)
+  if (!/party \d+, boxes \d+/.test(summary)) failures.push(`${engine} summary missing party and boxes: ${summary}`)
+  if (summary.includes('Pokédex caught')) failures.push(`${engine} summary still uses the dex as a run count: ${summary}`)
   await page.locator('[data-mon="Zeraora"][data-new="true"]').waitFor()
   await page.locator('[data-mon="Goldeen"][data-new="true"]').waitFor()
-  await page.locator('[data-mon="Bulbasaur"][data-new="false"]').waitFor()
+  if (await page.locator('[data-mon="Bulbasaur"]').count() !== 0) failures.push(`${engine} already imported Bulbasaur was suggested again`)
+  const known = await page.locator('[data-known]').getAttribute('data-known')
+  if (known !== '1') failures.push(`${engine} known count ${known}`)
   const denied = await page.locator('[data-import-denied]').getAttribute('data-import-denied')
   if (denied !== 'false') failures.push(`${engine} import already denied before confirm`)
   const stored = await page.evaluate(() => localStorage.getItem('sl-import-nats:demo-run'))
@@ -197,7 +237,7 @@ async function checkImport(page, engine) {
   await openImport(page, `${fixtureDir}/empty-save.sav`)
   await page.locator('[data-import="review"]').waitFor()
   const empty = await page.locator('.import-summary').innerText()
-  if (!empty.includes('Leer') || !empty.includes('0:00:03') || !empty.includes('party 0')) {
+  if (!empty.includes('Leer') || !empty.includes('0:00:03') || !empty.includes('party 0, boxes 0')) {
     failures.push(`${engine} empty save summary: ${empty}`)
   }
   await page.screenshot({ path: `${shots}/phase8-${engine}-import-empty.png` })
@@ -230,11 +270,27 @@ async function checkImport(page, engine) {
   await openImport(page, `${fixtureDir}/unknown-species.sav`)
   await page.locator('[data-unknown="true"]').first().waitFor()
   const unknown = await page.locator('[data-mon="unknown Pokémon"]').count()
-  if (unknown !== 7) failures.push(`${engine} expected 7 unknown Pokémon rows, saw ${unknown}`)
+  if (unknown !== 6) failures.push(`${engine} expected 6 unknown Pokémon rows, saw ${unknown}`)
   if (await page.locator('[data-unknown="true"] [data-confirm="row"]').count()) {
     failures.push(`${engine} unknown species offered Confirm`)
   }
+  if (await page.locator('[data-unknown="true"]').filter({ hasText: 'Shiny?' }).count()) {
+    failures.push(`${engine} unknown row shows a shiny guess`)
+  }
   await page.screenshot({ path: `${shots}/phase8-${engine}-import-unknown.png` })
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+
+  await openImport(page, `${fixtureDir}/released-slots.sav`)
+  await page.locator('[data-import="review"]').waitFor()
+  const releasedSummary = await page.locator('.import-summary').innerText()
+  const releasedCount = await page.locator('.import-summary').getAttribute('data-released')
+  if (releasedCount !== '8') failures.push(`${engine} released remnants ${releasedCount}: ${releasedSummary}`)
+  if (!releasedSummary.includes('party') || !releasedSummary.includes('boxes')) failures.push(`${engine} released summary: ${releasedSummary}`)
+  if (await page.getByText(/Species 0|unknown Pokémon/).count()) failures.push(`${engine} released slot was shown as a Pokémon`)
+  if (await page.locator('[data-released-note="true"]').innerText() !== '8 released slots ignored.') {
+    failures.push(`${engine} missing released-slot note`)
+  }
+  await page.screenshot({ path: `${shots}/phase11-${engine}-import-released.png` })
   await page.getByRole('button', { name: 'Close', exact: true }).click()
 
   const ids = JSON.parse(readFileSync('/tmp/diff-a-ids.json', 'utf8'))
@@ -246,8 +302,13 @@ async function checkImport(page, engine) {
   for (const nick of ['NewR8', 'DupB', 'NewR7', 'NewR17', 'NewTrade', 'NewHatch', 'NewPreset']) {
     await page.locator(`[data-nick="${nick}"][data-new="true"]`).waitFor()
   }
-  if (await page.locator('[data-nick="Bleibt"]').getAttribute('data-new') !== 'false') {
-    failures.push(`${engine} Bleibt was marked new`)
+  if (await page.locator('[data-nick="Bleibt"]').count() !== 0) {
+    failures.push(`${engine} already imported Bleibt was suggested again`)
+  }
+  const gone = await page.locator('[data-prompt="Dead/gone?"]').count()
+  if (gone < 1) failures.push(`${engine} missing Pokémon was not left as Dead/gone`)
+  if (await page.locator('[data-import-group="missing"] [data-confirm="row"]').count()) {
+    failures.push(`${engine} Dead/gone offered a write`)
   }
   if (await page.locator('[data-nick="DupB"]').getAttribute('data-new') !== 'true') {
     failures.push(`${engine} second Rattata was not new`)

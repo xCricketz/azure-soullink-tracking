@@ -6,7 +6,7 @@ import { Photo } from '../components/Photo'
 import { BottomSheet, Dialog } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
 import { findMon, useDex } from '../lib/unbound'
-import { difficultyLabel, optionsOf } from '../lib/options'
+import { capLadder, difficultyLabel, optionsOf } from '../lib/options'
 import { useApp } from '../state/context'
 import { DEFAULT_RULES, otherPlayer, PLAYERS, type SpeciesClause, type ThemeChoice } from '../lib/types'
 import { pushToast } from '../lib/toast'
@@ -60,7 +60,7 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="ic rand"><Shuffle aria-hidden="true" /></span>
           <div>
             <b>Species randomizer: {options.randomizerSpecies ? 'on' : 'off'}</b>
-            <span className="s">{options.randomizerSpecies ? 'Route lists will not guess a species' : 'Encounter lists can suggest a species'}</span>
+            <span className="s">{options.randomizerSpecies ? 'Starters and wild encounters are any species. Route guesses use the met location, not the vanilla list. The Randomized badge shows on the run.' : 'Encounter lists can suggest a species.'}</span>
           </div>
           <span className="v"><span className={options.randomizerSpecies ? 'sw on' : 'sw'} /></span>
           <input type="checkbox" className="sr-only" checked={options.randomizerSpecies} onChange={(event) => void app.saveOptions({ randomizerSpecies: event.target.checked })} />
@@ -69,7 +69,7 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="ic rand"><Shuffle aria-hidden="true" /></span>
           <div>
             <b>Move randomizer: {options.randomizerMoves ? 'on' : 'off'}</b>
-            <span className="s">Recorded for the run. This tracker does not predict moves.</span>
+            <span className="s">Recorded for the run. Moves are not read from the save, and this tracker does not predict them.</span>
           </div>
           <span className="v"><span className={options.randomizerMoves ? 'sw on' : 'sw'} /></span>
           <input type="checkbox" className="sr-only" checked={options.randomizerMoves} onChange={(event) => void app.saveOptions({ randomizerMoves: event.target.checked })} />
@@ -78,7 +78,7 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="ic rand"><Shuffle aria-hidden="true" /></span>
           <div>
             <b>Ability randomizer: {options.randomizerAbilities ? 'on' : 'off'}</b>
-            <span className="s">Recorded for the run. Ability text stays a main-series note.</span>
+            <span className="s">Recorded for the run. Ability text stays a main-series note. It is not verified from the save.</span>
           </div>
           <span className="v"><span className={options.randomizerAbilities ? 'sw on' : 'sw'} /></span>
           <input type="checkbox" className="sr-only" checked={options.randomizerAbilities} onChange={(event) => void app.saveOptions({ randomizerAbilities: event.target.checked })} />
@@ -103,7 +103,7 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="ic ngp"><Sparkles aria-hidden="true" /></span>
           <div>
             <b>New Game Plus</b>
-            <span className="s">NG+ itself adds no randomness. The gold badge is only a flag.</span>
+            <span className="s">NG+ itself adds no randomness. The dex carries over, so a full Pokédex is not a new run. The in-game flag is not read from the save.</span>
           </div>
           <span className="v"><span className={options.ngPlus ? 'sw on' : 'sw'} /></span>
           <input type="checkbox" className="sr-only" checked={options.ngPlus} onChange={(event) => void app.saveOptions({ ngPlus: event.target.checked })} />
@@ -140,21 +140,36 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span>Sandbox ignores fainting in the game and conflicts with a soul link. Leave it off for this run. Deaths here still link.</span>
         </div>
       )}
+      <div className="grp">
+        <div className="row">
+          <span className="ic" style={{ ['--c' as string]: 'var(--dead)' }}><FlaskConical aria-hidden="true" /></span>
+          <div>
+            <b>Nuzlocke</b>
+            <span className="s">On in this tracker. The first catch on a route stays, and a death is logged here. The in-game Nuzlocke switch is not read from the save.</span>
+          </div>
+        </div>
+      </div>
       {options.ngPlus && (
         <>
-          <div className="ngp-ph" aria-disabled="true">
-            <span className="ic"><FlaskConical aria-hidden="true" /></span>
-            <div>
-              <b>NG+ extras <span className="tbd">Coming soon</span></b>
-              <p>New Game Plus does not randomize the save. Extra NG+ tools are not built yet.</p>
-              <div className="sk"><s style={{ ['--w' as string]: '38%' }} /><s style={{ ['--w' as string]: '24%' }} /><s style={{ ['--w' as string]: '18%' }} /></div>
-            </div>
-          </div>
           <div className="grp">
             <div className="row col">
               <div>
+                <b>Level cap</b>
+                <span className="s">The ladder follows the badges on this run. NG+ does not change the numbers. The in-game cap switch is not read from the save.</span>
+              </div>
+              <div className="ladder" data-cap-ladder="ngplus">
+                {capLadder(app.run?.badges ?? 0, options.difficulty, options.mansionDone).map((step) => (
+                  <div key={step.label} className={step.now ? 'st1 now' : 'st1'}>
+                    <small>{step.label}</small>
+                    <b>{step.level}</b>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="row col">
+              <div>
                 <b>Carried team</b>
-                <span className="s">Up to six names from the previous save. Level 10 in the game. Not route encounters.</span>
+                <span className="s">Up to six names from the previous save. Level 10 in the game. Not route encounters. Not read from the save.</span>
               </div>
               <div className="carried">
                 {Array.from({ length: 6 }, (_, index) => (
