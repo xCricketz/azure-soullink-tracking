@@ -1,5 +1,6 @@
 import { Archive, Ban, Heart, Minus, Plus, Search, Skull, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { DifficultyPicker } from '../components/DifficultyPicker'
 import { InstallHint } from '../components/InstallHint'
 import { LinkCard } from '../components/LinkCard'
 import { BottomSheet, cx, SpritePlate, StatusChip } from '../components/ui'
@@ -7,7 +8,7 @@ import { marksFor } from '../data/marks'
 import { groupTitle, routeTitle } from '../data/routes'
 import { suggestedCap } from '../lib/caps'
 import { nextLeader } from '../lib/gym'
-import { activeCap, capColumn, optionsOf } from '../lib/options'
+import { activeCap, capColumn, EXPERT_CAP_NOTE, optionsOf } from '../lib/options'
 import { countPairs, graveRows, isLinked, matchesFilter, matchesQuery, pairRows } from '../lib/pairs'
 import { useApp } from '../state/context'
 import { PLAYERS, type RouteFilter, type Status } from '../lib/types'
@@ -82,17 +83,8 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
               </span>
             ))}
           </div>
-          <div className="seg" role="group" aria-label="Level cap rules">
-            <button type="button" className={options.difficulty === 'vanilla' ? 'on' : ''} aria-pressed={options.difficulty === 'vanilla'} onClick={() => void app.saveOptions({ difficulty: 'vanilla' })}>Vanilla</button>
-            <button
-              type="button"
-              className={options.difficulty !== 'vanilla' ? 'on' : ''}
-              aria-pressed={options.difficulty !== 'vanilla'}
-              onClick={() => { if (options.difficulty === 'vanilla') void app.saveOptions({ difficulty: 'difficult' }) }}
-            >
-              {options.difficulty === 'expert' || options.difficulty === 'insane' ? (options.difficulty === 'expert' ? 'Expert' : 'Insane') : 'Difficult+'}
-            </button>
-          </div>
+          <DifficultyPicker value={options.difficulty} onChange={(difficulty) => void app.saveOptions({ difficulty })} />
+          {(options.difficulty === 'expert' || options.difficulty === 'insane') && <p className="hint">{EXPERT_CAP_NOTE}</p>}
           {suggestion && (
             <button className="btn btn-sm" type="button" style={{ marginTop: 8, width: 'auto' }} onClick={() => void app.saveProgress({ level_cap: suggestion.level })}>
               Suggest Lv {suggestion.level}

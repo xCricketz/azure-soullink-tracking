@@ -6,7 +6,17 @@ import layout from '../data/unbound/layout.json'
 import { placeByKey, ROUTES, routeTitleByKey } from '../data/routes'
 import { readStoryHint, storyHintEvent, type StoredStoryHint } from '../lib/save/story-hint'
 import { labelWorldSize } from '../lib/map-label'
-import { capLadder, optionsOf } from '../lib/options'
+import {
+  hereScreenPx,
+  layoutMarkers,
+  markerRank,
+  markerScreenDiameter,
+  markerStrokeWorld,
+  markerWorldRadius,
+  PIN_MIN_SCALE,
+  pinPlacement,
+} from '../lib/map-marker'
+import { capLadder, difficultyLabel, EXPERT_CAP_NOTE, optionsOf } from '../lib/options'
 import { monName } from '../lib/text'
 import { PLAYERS, type Catch } from '../lib/types'
 import { loadAreas, monLabel, type EncounterArea } from '../lib/unbound'
@@ -60,8 +70,6 @@ const WORLD_W = layout.width
 const WORLD_H = layout.height
 const SHOW = 4
 
-const RADIUS: Record<string, number> = { town: 20, gym: 16, route: 9, cave: 12, dungeon: 13, other: 12 }
-
 export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const app = useApp()
   const stageRef = useRef<HTMLDivElement>(null)
@@ -104,10 +112,15 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       .filter((item) => item.player === player && item.status !== 'missed')
       .sort((a, b) => (b.route_order ?? 0) - (a.route_order ?? 0))[0]
     const node = row ? NODES.find((item) => item.key === row.route) : undefined
-    return node ? [{ player, x: node.x, y: node.y }] : []
+    return node ? [{ player, key: node.key, x: node.x, y: node.y, kind: node.kind }] : []
   })
   const upcoming = useMemo(() => stepsAfter(progress?.key ?? '', progress?.order ?? 0), [progress])
   const nextKey = upcoming[0]?.route_key && upcoming[0].route_key !== progress?.key ? upcoming[0].route_key : null
+  const markerPriority = [progress?.key, nextKey].filter((key): key is string => Boolean(key))
+  const markers = layoutMarkers(NODES, view.scale, markerPriority)
+  const drawNodes = NODES
+    .filter((node) => markers.visible.has(node.key))
+    .sort((a, b) => markerRank(a.kind, a.key, markerPriority) - markerRank(b.kind, b.key, markerPriority) || a.key.localeCompare(b.key))
   const shown = expanded ? GUIDE : upcoming.slice(0, SHOW)
   const place = open ? placeByKey(open) : undefined
   const area = open && areas ? areas.get(open) : undefined
@@ -258,7 +271,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   const tagSize = labelWorldSize(view.scale, 11)
   const stageBox = stageRef.current?.getBoundingClientRect()
   const labelShift = avoidLabelCollisions(
-    NODES.filter((node) => showNodeLabel(node, view.scale)).map((node) => ({
+    NODES.filter((node) => markers.visible.has(node.key) && showNodeLabel(node, view.scale)).map((node) => ({
       ...node,
       labelName: displayName(placeByKey(node.key)?.name ?? node.key, node, view.scale),
     })),
@@ -331,16 +344,19 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
               />
             )
           })}
-          {NODES.map((node) => {
+          {drawNodes.map((node) => {
             const info = placeByKey(node.key)
             const state = node.key === progress?.key ? 'current' : caught.has(node.key) ? 'caught' : (info?.order ?? 99) <= (progress?.order ?? 0) ? 'visited' : 'ahead'
             const name = displayName(info?.name ?? node.key, node, view.scale)
             const lines = labelLines(name)
-            const r = RADIUS[node.kind] ?? 11
+            const screenPx = markerScreenDiameter(view.scale, node.kind)
+            const r = markerWorldRadius(view.scale, node.kind)
             const labelled = showNodeLabel(node, view.scale)
             const townBadge = node.kind === 'town' ? node.badge : null
             const here = node.key === progress?.key
             const next = node.key === nextKey
+            const showTag = (here || next) && view.scale >= PIN_MIN_SCALE
+            const tagWorld = showTag ? hereScreenPx(screenPx) / view.scale : 0
             const shift = labelShift.get(node.key) ?? { x: 0, y: 0 }
             const labelX = node.labelX + shift.x
             const labelY = node.labelY + shift.y
@@ -353,22 +369,25 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
                 data-state={state}
                 data-here={here ? 'true' : 'false'}
                 data-next={next ? 'true' : 'false'}
+                data-screen-px={screenPx.toFixed(1)}
               >
-                <circle className="hit" r={Math.max(22, r + 8)} />
-                <circle className="core" r={r} />
+                <circle className="hit" r={markers.hitRadius.get(node.key) ?? r} />
+                <circle className="core" r={r} style={{ strokeWidth: markerStrokeWorld(view.scale, r) * (here || next ? 1.35 : 1) }} />
                 {node.kind === 'gym' && node.badge ? (
-                  <text className="badge-num" textAnchor="middle" y="4">{node.badge}</text>
+                  <text className="badge-num" textAnchor="middle" dominantBaseline="central" style={{ fontSize: r * 0.72 }}>{node.badge}</text>
                 ) : (
-                  <NodeMark kind={node.kind} />
+                  <g transform={`scale(${r / 8})`}>
+                    <NodeMark kind={node.kind} />
+                  </g>
                 )}
                 {townBadge ? (
-                  <g className="town-badge" transform="translate(12 -14)">
+                  <g className="town-badge" transform={`translate(${r * 0.62} ${-r * 0.62}) scale(${r / 18})`}>
                     <circle r="8" />
                     <text textAnchor="middle" y="3">{townBadge}</text>
                   </g>
                 ) : null}
-                {(here || next) && view.scale >= 0.55 && (
-                  <text className="map-tag" textAnchor="middle" y={-(r + 10)} fontSize={tagSize}>
+                {showTag && (
+                  <text className="map-tag" textAnchor="middle" y={-(r + 2 / view.scale)} fontSize={tagWorld}>
                     {here ? 'Here' : 'Next'}
                   </text>
                 )}
@@ -388,10 +407,22 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
               </g>
             )
           })}
-          {view.scale >= 0.5 && pins.map((pin) => {
-            const shift = pin.player === 'seri' ? 20 : -20
+          {view.scale >= PIN_MIN_SCALE && pins.filter((pin) => markers.visible.has(pin.key)).map((pin) => {
+            const mates = pins.filter((other) => other.key === pin.key && markers.visible.has(other.key))
+            const index = mates.findIndex((other) => other.player === pin.player)
+            const side = mates.length < 2 ? 0 : index === 0 ? -1 : 1
+            const radius = markerWorldRadius(view.scale, pin.kind)
+            const tagged = (pin.key === progress?.key || pin.key === nextKey) && view.scale >= PIN_MIN_SCALE
+            const hereWorld = tagged ? hereScreenPx(markerScreenDiameter(view.scale, pin.kind)) / view.scale : 0
+            const place = pinPlacement(view.scale, radius, hereWorld, side)
             return (
-              <g key={pin.player} className={cx('map-pin', pin.player)} transform={`translate(${pin.x + shift} ${pin.y - 42})`}>
+              <g
+                key={pin.player}
+                className={cx('map-pin', pin.player)}
+                data-pin={pin.player}
+                data-pin-node={pin.key}
+                transform={`translate(${pin.x + place.x} ${pin.y + place.y}) scale(${place.art})`}
+              >
                 <path d="M-5 12 L0 20 L5 12Z" />
                 <circle className="ring" r="15" />
                 <circle className="face" r="12" />
@@ -419,8 +450,11 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       </div>
       <p className="hint map-caption">{layout.caption} Pins mark the latest log for each player. Here is the furthest catch, and Next is the following guide step.</p>
       <section className="gcard ladder-card" aria-label="Level cap ladder">
-        <h3>Level cap ladder</h3>
-        <p>{options.levelCapOn ? 'The highlighted step is the cap for the badges you have now.' : 'The level cap is off, so these numbers are only the table.'}</p>
+        <h3>Level cap ladder · {difficultyLabel(options.difficulty)}</h3>
+        <p>
+          {options.levelCapOn ? 'The highlighted step is the cap for the badges you have now.' : 'The level cap is off, so these numbers are only the table.'}
+          {(options.difficulty === 'expert' || options.difficulty === 'insane') ? ` ${EXPERT_CAP_NOTE}` : ''}
+        </p>
         <div className="ladder">
           {ladder.map((step) => (
             <div key={`${step.label}-${step.level}`} className={step.now ? 'st1 now' : 'st1'}>

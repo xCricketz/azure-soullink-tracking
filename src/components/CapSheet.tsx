@@ -1,12 +1,10 @@
 import { Minus, Plus } from 'lucide-react'
 import { BottomSheet } from './ui'
 import { nextLeader } from '../lib/gym'
-import { activeCap, capColumn, difficultyLabel, optionsOf } from '../lib/options'
+import { DifficultyPicker } from './DifficultyPicker'
+import { activeCap, capColumn, difficultyLabel, EXPERT_CAP_NOTE, optionsOf } from '../lib/options'
 import { suggestedCap } from '../lib/caps'
 import { useApp } from '../state/context'
-import type { Difficulty } from '../lib/types'
-
-const DIFFICULTIES: Difficulty[] = ['vanilla', 'difficult', 'expert', 'insane']
 
 export function CapSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const app = useApp()
@@ -30,14 +28,8 @@ export function CapSheet({ open, onClose }: { open: boolean; onClose: () => void
         </button>
       </div>
       <p className="hint center">{leader ? `Next: ${leader.leader} in ${leader.city}. ${leader.boss}` : 'All eight badges are here.'}</p>
-      <div className="seg diff" role="group" aria-label="Difficulty">
-        {DIFFICULTIES.map((mode) => (
-          <button key={mode} type="button" className={options.difficulty === mode ? 'on' : ''} aria-pressed={options.difficulty === mode} onClick={() => void app.saveOptions({ difficulty: mode })}>
-            {difficultyLabel(mode)}
-          </button>
-        ))}
-      </div>
-      <p className="hint">Expert and Insane use the same caps as Difficult+. Boss lists in the game stay vanilla on those two.</p>
+      <DifficultyPicker value={options.difficulty} onChange={(difficulty) => void app.saveOptions({ difficulty })} />
+      <p className="hint">{EXPERT_CAP_NOTE} Boss lists in the game stay vanilla on those two.</p>
       <label className="switch">
         <input type="checkbox" checked={options.levelCapOn} onChange={(event) => void app.saveOptions({ levelCapOn: event.target.checked })} />
         <span>Capped Exp. Share {options.levelCapOn ? 'on' : 'off'}</span>

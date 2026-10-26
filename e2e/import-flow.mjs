@@ -168,7 +168,8 @@ async function checkMap(page, engine) {
   if (wide.islands !== 3) failures.push(`${engine} expected 3 islands, saw ${wide.islands}`)
   await page.screenshot({ path: `${shots}/phase8-${engine}-map-all.png` })
 
-  for (const scale of [0.3, 0.5, 0.9, 1.5]) {
+  let previousTown = 0
+  for (const scale of [0.3, 0.5, 0.9, 1.5, 2.5]) {
     await page.evaluate((value) => window.dispatchEvent(new CustomEvent('soullink-map-scale', { detail: value })), scale)
     await page.waitForFunction((value) => {
       const got = Number(document.querySelector('.map-svg')?.getAttribute('data-scale'))
@@ -178,19 +179,55 @@ async function checkMap(page, engine) {
       const zoom = Number(document.querySelector('.map-svg')?.getAttribute('data-scale'))
       const nodes = [...document.querySelectorAll('.map-node .lbl')]
       const screens = nodes.map((node) => Number(node.getAttribute('font-size')) * zoom)
+      const cores = [...document.querySelectorAll('.map-node .core')].map((node) => {
+        const box = node.getBoundingClientRect()
+        return {
+          key: node.parentElement?.getAttribute('data-map-node'),
+          px: Number(node.parentElement?.getAttribute('data-screen-px')),
+          kind: node.parentElement?.classList.contains('town') ? 'town' : 'other',
+          cx: box.left + box.width / 2,
+          cy: box.top + box.height / 2,
+          r: box.width / 2,
+        }
+      })
+      let overlap = 0
+      for (let i = 0; i < cores.length; i += 1) {
+        for (let j = i + 1; j < cores.length; j += 1) {
+          const a = cores[i]
+          const b = cores[j]
+          if (Math.hypot(a.cx - b.cx, a.cy - b.cy) + 0.75 < a.r + b.r) overlap += 1
+        }
+      }
+      const towns = cores.filter((core) => core.kind === 'town')
+      const here = document.querySelector('.map-node.here .core')?.getBoundingClientRect()
+      const pins = [...document.querySelectorAll('.map-pin')].map((pin) => pin.getBoundingClientRect())
+      const pinCovers = Boolean(here && pins.some((pin) => pin.bottom > here.top + 1 && pin.top < here.bottom && pin.right > here.left && pin.left < here.right))
       return {
         zoom,
         towns: document.querySelectorAll('.map-node.town .lbl').length,
         routes: document.querySelectorAll('.map-node.route .lbl').length,
         min: screens.length ? Math.min(...screens) : 0,
         max: screens.length ? Math.max(...screens) : 0,
+        overlap,
+        townPx: towns.length ? towns[0].px : 0,
+        minPx: cores.length ? Math.min(...cores.map((core) => core.px)) : 0,
+        pinCount: pins.length,
+        pinCovers,
       }
     })
     if (labels.towns < 1) failures.push(`${engine} zoom ${scale} has no town labels`)
     if (scale < 0.34 && labels.routes !== 0) failures.push(`${engine} zoom ${scale} shows ${labels.routes} route labels`)
     if (scale >= 0.5 && labels.routes < 1) failures.push(`${engine} zoom ${scale} hides route labels`)
     if (labels.min < 8.9 || labels.max > 14.1) failures.push(`${engine} zoom ${scale} label screen px ${labels.min}–${labels.max}`)
-    await page.screenshot({ path: `${shots}/phase11-${engine}-map-${String(scale).replace('.', '')}.png` })
+    if (labels.overlap !== 0) failures.push(`${engine} zoom ${scale} has ${labels.overlap} overlapping markers`)
+    if (labels.minPx < 9.5 || labels.townPx > 34.5) failures.push(`${engine} zoom ${scale} marker px ${labels.minPx}–${labels.townPx}`)
+    if (scale === 0.3 && (labels.townPx < 10.5 || labels.townPx > 12)) failures.push(`${engine} whole-map town marker is ${labels.townPx}px`)
+    if (labels.townPx <= previousTown) failures.push(`${engine} zoom ${scale} town marker did not grow (${labels.townPx} <= ${previousTown})`)
+    previousTown = labels.townPx
+    if (scale <= 0.3 && labels.pinCount !== 0) failures.push(`${engine} zoom ${scale} still shows ${labels.pinCount} pins`)
+    if (scale >= 1.5 && labels.pinCount < 1) failures.push(`${engine} zoom ${scale} hid the player pin`)
+    if (labels.pinCovers) failures.push(`${engine} zoom ${scale} player pin covers the place`)
+    await page.screenshot({ path: `${shots}/phase12-${engine}-map-${String(scale).replace('.', '')}.png` })
   }
 }
 
@@ -213,6 +250,43 @@ async function rowFacts(page, name) {
   }
 }
 
+async function clickDock(page, name) {
+  const toast = page.getByText("Demo mode – changes aren't saved")
+  if (await toast.count()) await toast.waitFor({ state: 'detached', timeout: 7000 }).catch(() => {})
+  await page.getByRole('button', { name, exact: true }).click()
+}
+
+async function checkDifficultySync(page, engine) {
+  await page.getByRole('button', { name: 'Expert', exact: true }).click()
+  await clickDock(page, 'Routes')
+  if ((await page.getByRole('button', { name: 'Expert', exact: true }).getAttribute('aria-pressed')) !== 'true') {
+    failures.push(`${engine} Expert did not stay selected on Routes`)
+  }
+  const expertCap = (await page.locator('.cap-ring .num b').innerText()).trim()
+  if (expertCap !== '32') failures.push(`${engine} Expert cap showed ${expertCap}`)
+  if (!(await page.getByText('No separate ladder is published.').count())) failures.push(`${engine} Routes hid the Expert cap note`)
+  await page.screenshot({ path: `${shots}/phase12-${engine}-difficulty-routes.png` })
+  await page.getByRole('button', { name: 'Insane', exact: true }).click()
+  const insaneCap = (await page.locator('.cap-ring .num b').innerText()).trim()
+  if (insaneCap !== '32') failures.push(`${engine} Insane cap showed ${insaneCap}`)
+  await page.getByRole('button', { name: 'Difficult', exact: true }).click()
+  const hardCap = (await page.locator('.cap-ring .num b').innerText()).trim()
+  if (hardCap !== '32') failures.push(`${engine} Difficult cap showed ${hardCap}`)
+  await page.getByRole('button', { name: 'Vanilla', exact: true }).click()
+  const vanillaCap = (await page.locator('.cap-ring .num b').innerText()).trim()
+  if (vanillaCap !== '29') failures.push(`${engine} Vanilla cap showed ${vanillaCap}`)
+  await page.getByRole('button', { name: 'Open the level cap' }).click()
+  await page.getByRole('dialog').getByText('No separate ladder is published.').waitFor()
+  const sheetModes = await page.getByRole('dialog').getByRole('button').evaluateAll((buttons) => buttons.map((button) => button.textContent?.trim()).filter((label) => ['Difficult', 'Vanilla', 'Expert', 'Insane'].includes(label ?? '')))
+  if (sheetModes.join(',') !== 'Difficult,Vanilla,Expert,Insane') failures.push(`${engine} cap sheet order ${sheetModes.join(',')}`)
+  await page.getByRole('button', { name: 'Close', exact: true }).click()
+  await clickDock(page, 'More')
+  if ((await page.getByRole('button', { name: 'Vanilla', exact: true }).getAttribute('aria-pressed')) !== 'true') {
+    failures.push(`${engine} Vanilla did not stay selected on More`)
+  }
+  await page.screenshot({ path: `${shots}/phase12-${engine}-difficulty-more.png` })
+}
+
 async function checkStarterAndOptions(page, engine) {
   const species = page.getByRole('checkbox', { name: /Species randomizer/ })
   const ngPlus = page.getByRole('checkbox', { name: /New Game Plus/ })
@@ -220,7 +294,7 @@ async function checkStarterAndOptions(page, engine) {
   if (!(await ngPlus.isChecked())) failures.push(`${engine} demo NG+ started off`)
   await page.getByText(/^Species randomizer:/).click()
   await page.getByText('New Game Plus', { exact: true }).click()
-  await page.getByRole('button', { name: 'Difficult+', exact: true }).click()
+  await page.getByRole('button', { name: 'Difficult', exact: true }).click()
   if (await species.isChecked()) failures.push(`${engine} species randomizer stayed on`)
   if (await ngPlus.isChecked()) failures.push(`${engine} NG+ stayed on`)
 
@@ -297,7 +371,7 @@ async function checkStarterAndOptions(page, engine) {
   await page.screenshot({ path: `${shots}/phase11-${engine}-detect.png` })
   await page.getByRole('button', { name: 'Close', exact: true }).click()
   if (await species.isChecked() || await ngPlus.isChecked()) failures.push(`${engine} closing detect wrote options`)
-  if ((await page.getByRole('button', { name: 'Difficult+', exact: true }).getAttribute('aria-pressed')) !== 'true') {
+  if ((await page.getByRole('button', { name: 'Difficult', exact: true }).getAttribute('aria-pressed')) !== 'true') {
     failures.push(`${engine} closing detect changed difficulty`)
   }
 
@@ -327,6 +401,7 @@ async function checkImport(page, engine) {
   await page.locator('[data-cap-ladder="ngplus"]').waitFor()
   if (await page.getByText('Coming soon').count()) failures.push(`${engine} More still says Coming soon`)
   await page.screenshot({ path: `${shots}/phase11-${engine}-more-settings.png` })
+  await checkDifficultySync(page, engine)
   await checkStarterAndOptions(page, engine)
   const bulbId = readFileSync('/tmp/sample-bulb-id.txt', 'utf8').trim()
   await page.evaluate((id) => {
