@@ -260,6 +260,8 @@ textarea, .field input, .picker input, .search {
 }
 .ladder-card { margin: 0 var(--page-x) 16px; }
 .seg.diff { display: grid; grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
+.hero .seg.diff > button { height: 32px; font-size: 12px; padding: 0 4px; }
+.map-pin { pointer-events: none; }
 .seg > button {
   height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;
   font: 600 14px/16px var(--font-body); color: var(--text-muted);

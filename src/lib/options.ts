@@ -14,7 +14,10 @@ export const DEFAULT_OPTIONS: RunOptions = {
   speciesClause: 'off',
 }
 
-const DIFFICULTIES: Difficulty[] = ['vanilla', 'difficult', 'expert', 'insane']
+/** Save order: 0 Difficult, 1 Vanilla, 2 Expert, 3 Insane. */
+export const DIFFICULTY_CHOICES = ['difficult', 'vanilla', 'expert', 'insane'] as const
+const DIFFICULTIES: Difficulty[] = [...DIFFICULTY_CHOICES]
+export const EXPERT_CAP_NOTE = 'Expert and Insane use the Difficult cap table. No separate ladder is published.'
 const CLAUSES: SpeciesClause[] = ['off', 'player', 'both']
 
 export function parseOptions(value: unknown): RunOptions {
@@ -49,7 +52,7 @@ export function capColumn(difficulty: Difficulty): CapMode {
 
 export function difficultyLabel(difficulty: Difficulty): string {
   if (difficulty === 'vanilla') return 'Vanilla'
-  if (difficulty === 'difficult') return 'Difficult+'
+  if (difficulty === 'difficult') return 'Difficult'
   if (difficulty === 'expert') return 'Expert'
   return 'Insane'
 }
