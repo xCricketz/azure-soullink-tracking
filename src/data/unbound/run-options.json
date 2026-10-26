@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "description": "Lauf-Optionen (Randomizer, Schwierigkeit, Level-Cap, Sandbox, NG+ ...) als CFRU-Erweiterungs-Flags/-Vars in Pokémon Unbound v2.1.1.1. Nur IDs/Bezeichner, keine ROM-Texte. Reproduzierbar: tools/run-options-research.py. Details: SPEC.md §14.",
+    "layout": "Erweiterungsspeicher ext = Sektor0[0xF24..0xFF0) ++ Sektor4[0xD98..0xFF0) ++ Sektor13[0x450..0xFF0) (3780 B). Flag f (0x900..0x18FF): Byte (f-0x900)>>3, Bit (f-0x900)&7 von ext. Var v (0x5000..0x51FF): u16 LE bei ext+0x200+2*(v-0x5000).",
+    "confidence_levels": {
+      "certain": "ROM-Skript/Code verknüpft die ID eindeutig mit der Option (Setz-Stelle direkt hinter der Ja/Nein-Frage der Option bzw. Anzeigecode) UND Save-Werte widersprechen nicht",
+      "likely": "ROM-Code/Skript spricht klar für die Bedeutung, aber Save-Evidenz fehlt, ist nur teilweise oder Randfälle sind ungeklärt",
+      "guess": "nur indirekte Hinweise",
+      "unknown": "nicht gefunden / nicht im Save ablesbar"
+    },
+    "saves": {"old": "fisi-save.sav (alter Run, ~100 %)", "new": "fisi-new-run-ngplus.sav (neuer Run: NG+, Randomizer; lt. Fisnik auch Nuzlocke)"}
+  },
+  "options": [
+    {"key": "randomizer.species", "type": "flag", "id": "0x09FD", "id_dec": 2557, "meaning": "Spezies-Randomizer an", "how_to_read": "readExtFlag(0x9FD)", "confidence": "certain",
+     "evidence": "ROM: Neues-Spiel-Dialog setzt Flag 0x9FD direkt nach Ja auf die Frage 'enable the species randomizer?' (Skript @0x1E700xx/0x1E6FFxx); HoF-Anzeigefunktion @0x0A1314A zeigt 'Species' wenn Flag gesetzt. Save: alt 0, neu 1 (passt zu 'Randomizer ON').", "old": 0, "new": 1},
+    {"key": "randomizer.moveset", "type": "flag", "id": "0x09FE", "id_dec": 2558, "meaning": "Level-Up-Moveset-Randomizer an", "how_to_read": "readExtFlag(0x9FE)", "confidence": "certain",
+     "evidence": "ROM: setflag 0x9FE direkt nach Ja auf 'level-up moveset randomizer?'; HoF-Anzeige 'Moveset'. Save: alt 0, neu 0 (nur Spezies-Randomizer aktiv).", "old": 0, "new": 0},
+    {"key": "randomizer.ability", "type": "flag", "id": "0x1522", "id_dec": 5410, "meaning": "Fähigkeiten-Randomizer an", "how_to_read": "readExtFlag(0x1522)", "confidence": "certain",
+     "evidence": "ROM: setflag 0x1522 direkt nach Ja auf 'Ability randomizer?'; HoF-Anzeige 'Ability'. Save: alt 0, neu 0.", "old": 0, "new": 0},
+    {"key": "scalemons", "type": "flag", "id": "0x16E2", "id_dec": 5858, "meaning": "'Rebalanced variant' (Scalemons: Basiswerte-Summe ~600) an", "how_to_read": "readExtFlag(0x16E2)", "confidence": "certain",
+     "evidence": "ROM: setflag 0x16E2 direkt nach Ja auf 'variant with stat rebalancing?'; HoF-Anzeige 'Scalemons'. Save: alt 1, neu 0.", "old": 1, "new": 0},
+    {"key": "difficulty", "type": "var", "id": "0x50DF", "id_dec": 20703, "meaning": "Schwierigkeitsgrad", "how_to_read": "readVar(0x50DF)", "values": {"0": "Difficult (Standard)", "1": "Vanilla", "2": "Expert", "3": "Insane"}, "confidence": "likely",
+     "evidence": "ROM: 108 Skript-Referenzen, nur Vergleichswerte 0..3 (3: 48x, 2: 30x, 1: 23x, 0: 2x); HoF-Anzeigecode @0x0A1314A: 1->'Vanilla', 2->'Expert', 3->'Insane', sonst 'Difficult'. Zuordnung 0=Difficult abgeleitet (Fallback + Standard); Werte >3 nie beobachtet. Save: alt 1 (Vanilla), neu 0 (Difficult).", "old": 1, "new": 0},
+    {"key": "levelcap.enabled_at_start", "type": "flag", "id": "0x16E0", "id_dec": 5856, "meaning": "optionaler harter Level-Cap beim Spielstart (Frozen Heights) mit Ja bestätigt", "how_to_read": "readExtFlag(0x16E0)", "confidence": "likely",
+     "evidence": "ROM: Frozen-Heights-Skript setzt 0x16E0 und 0x16EC zusammen nach Ja auf 'optional hard level cap?' (nur wenn Difficulty-Var == 0 = Difficult). Save: alt 0, neu 1. Nicht klar, ob das Flag später (Optionsmenü) zurückgesetzt wird.", "old": 0, "new": 1},
+    {"key": "levelcap.active", "type": "flag", "id": "0x16EC", "id_dec": 5868, "meaning": "Level-Cap/'Capped Exp. Share' derzeit aktiv (zusammen mit 0x16E0 vom Startdialog gesetzt)", "how_to_read": "readExtFlag(0x16EC)", "confidence": "guess",
+     "evidence": "ROM: nur gemeinsam mit 0x16E0 gesetzt; HoF-Anzeige 'Capped' nur bei 0x16E0 && 0x16EC && !0x16DC. Save: alt 0, neu 0 – obwohl 0x16E0 im neuen Save 1 ist (Optionsmenü 'Exp. Gain' hat vermutlich eine eigene, nicht gefundene Speicherstelle). Bedeutung unsicher.", "old": 0, "new": 0},
+    {"key": "sandbox", "type": "flag", "id": "0x16E4", "id_dec": 5860, "meaning": "Sandbox-Modus", "how_to_read": "readExtFlag(0x16E4)", "confidence": "likely",
+     "evidence": "ROM: HoF-Anzeige 'Sandbox' wenn Flag gesetzt; setflag im Frozen-Heights-Auswahlskript (@0x1E6FFC4, zusammen mit 0x1503/0x170E); ~70 Skript-Abfragen. Save: alt 0, neu 0.", "old": 0, "new": 0},
+    {"key": "ngplus.active", "type": "flag", "id": "0x16DB", "id_dec": 5851, "meaning": "New Game+ aktiviert", "how_to_read": "readExtFlag(0x16DB)", "confidence": "guess",
+     "evidence": "ROM: einzige Skript-Setzstelle @0x1E70246 ist das 'New Game+ aktivieren'-Skript (zusammen mit 0x98B, 0x1684, 0x922, 0x924/5, 0x1622..5, 0x158D, 0x15E1..6); Skripttext 'Since New Game+ is activated ...' hängt an diesem Flag. ABER: im ALTEN Save (laut Fisnik kein NG+) ebenfalls 1, ebenso alle Begleitflags. Also nicht trennscharf (entweder war der alte Run doch NG+, oder das Flag wird auch beim Freischalten/Durchspielen gesetzt). Nicht als alleiniger NG+-Indikator verwenden.", "old": 1, "new": 1},
+    {"key": "ngplus.aux", "type": "flag", "id": "0x16DC", "id_dec": 5852, "meaning": "NG+-Begleitflag (HoF-Anzeige 'New Game +' nur bei 0x16DB && 0x16DC)", "how_to_read": "readExtFlag(0x16DC)", "confidence": "guess",
+     "evidence": "ROM: nur nativer Code (@0x00F5FD6, @0x0A1314A) liest es; keine Skript-Setzstelle. Save: alt 1, neu 1.", "old": 1, "new": 1},
+    {"key": "cutscenes_skipped", "type": "flag", "id": "0x16E3", "id_dec": 5859, "meaning": "Eröffnungs-Cutscenes beim Neustart übersprungen ('skip the opening cutscenes?' mit Ja)", "how_to_read": "readExtFlag(0x16E3)", "confidence": "likely",
+     "evidence": "ROM: setflag 0x16E3 im Skip-Zweig (@0x1E70199, Aufruf aus @0x1E70170 mit Var 0x5011=1); ~40 Abfragen in Spielskripten. Save: alt 1, neu 1.", "old": 1, "new": 1}
+  ],
+  "not_detectable": [
+    {"key": "nuzlocke", "confidence": "unknown", "note": "In der ROM existiert KEIN Nuzlocke-Text, keine Option und keine Regel-Flag (Gen-3-Textsuche Nuzlocke/Hardcore/Permadeath/Ironman/Dupes: 0 Treffer; Optionsmenü und Neues-Spiel-Dialoge enthalten keine solche Einstellung). Nuzlocke-ON ist daher keine Spielfunktion in v2.1.1.1, sondern eine Selbstauferlegte Regel (oder Hack-/Tracker-Einstellung) und aus dem Save nicht ablesbar. Muss der Tracker selbst speichern (Run-Konfiguration)."},
+    {"key": "optionsmenu.exp_gain / item_restrictions / battle_style / ...", "confidence": "unknown", "note": "Optionsmenü-Einträge (Exp. Gain, Item Restrictions, Battle Difficulty, Quick Run, ...) existieren in der ROM (Menütexte @0x1F4DA6C..), ihre Speicherstelle (nativer Code, evtl. Bitfeld in SaveBlock2/Ext) wurde nicht gefunden. SaveBlock2-Optionswort @0x14 ist Vanilla (Textgeschwindigkeit/Fensterrahmen/Ton/Kampfstil) und unterscheidet sich zwischen den Saves nur im Fensterrahmen-Bits."}
+  ],
+  "starter_rule": {
+    "description": "Starter-Erkennung für den Soullink-Tracker. Eingabe: Mon aus parseSave (met.*, ownOT).",
+    "rules": [
+      {"id": "S1", "when": "ownOT && met.category=='area' && met.location==133 && met.level==10 && met.ballName=='Poké'", "result": "starter", "confidence": "guess", "why": "ROM: Starter-Raum (Header @0x731B24, Mapsec 133) vergibt per 'givemon <Var> Lv10' (Skripte @0x1E9059C und @0x1E90CC5) das Geschenk-Mon; Level 10 ist im Skript fest, der Ball (Poké=3) wird nicht im Skript gesetzt sondern vom Spiel (Save: Steenee Ball 3). Bei aktivem Randomizer wird nur die Spezies getauscht, der Fundort bleibt 133. Mapsec 133 wird noch geprüft, deshalb zeigt der Import nur 'Starter?' mit Guess und schlägt den Frozen-Heights-Startplatz vor. Späte Mons mit Fundort 133 (Dungeon/Geschenke, z.B. Level 65, Master-Ball) haben anderes Level/Ball."},
+      {"id": "S2", "when": "ownOT && met.category=='area' && met.location==88 && met.level==10 && met.ballName=='Poké'", "result": "starter (alter Run)", "confidence": "guess", "why": "Alter Save: Venusaur/Charizard/Greninja Lv10 Poké an Mapsec 88. In der ROM v2.1.1.1 wurde KEIN Lv10-Geschenkskript für Frozen Heights gefunden – Herkunft ungeklärt (ältere Spielversion oder anderer Mechanismus)."}
+    ],
+    "extra_checks": "Zusätzlich plausibilisieren: Party-Slot 1 (bzw. frühester Fang), Story-Var 0x5011 <= 12 im Frühspiel. Rückfall: genau 1 Mon mit Fundlevel 10 + Poké-Ball an 133 -> Starter. Soft-Reset/Re-Catch sind nicht erkennbar.",
+    "route_effect": "Starter nicht als Route zählen (kein Soullink-Fang): Fundort 133 + Regel S1 -> Kategorie 'starter'; routes.json: frozen-heights und cinder-volcano-depths sind soullink_route=false."
+  },
+  "mapsec_133": {
+    "name": "Shadow Base",
+    "findings": "Mapsec 133 = Prolog-Basis (Intro-Cutscene-Map 31/6, Starter-Raum mit drei Bällen) UND später das echte Shadow-Base-Dungeon (Gruppe-1-Maps 42..45). Kein NG+/Randomizer-spezifischer Startort.",
+    "mapping_decision": "data/mapsec-to-route.json unverändert lassen (Fixtures/Tests koppeln daran). Starter-Regel S1 VOR dem Routen-Mapping anwenden; Rest-Mons mit Fundort 133 (Level != 10 / spät) -> cinder-volcano-depths (guess, nicht soullink).",
+    "confidence": "likely"
+  }
+}

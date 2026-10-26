@@ -5,6 +5,7 @@ import guideData from '../data/unbound/guide.json'
 import layout from '../data/unbound/layout.json'
 import { placeByKey, ROUTES, routeTitleByKey } from '../data/routes'
 import { readStoryHint, storyHintEvent, type StoredStoryHint } from '../lib/save/story-hint'
+import { labelWorldSize } from '../lib/map-label'
 import { capLadder, optionsOf } from '../lib/options'
 import { monName } from '../lib/text'
 import { PLAYERS, type Catch } from '../lib/types'
@@ -183,9 +184,15 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       zoomAt(event.clientX, event.clientY, viewRef.current.scale * (event.deltaY > 0 ? 0.9 : 1.1))
     }
     stage.addEventListener('wheel', wheel, { passive: false })
+    const onZoom = (event: Event) => {
+      const scale = Number((event as CustomEvent<number>).detail)
+      if (scale > 0) focusProgress(scale)
+    }
+    window.addEventListener('soullink-map-scale', onZoom)
     return () => {
       obs.disconnect()
       stage.removeEventListener('wheel', wheel)
+      window.removeEventListener('soullink-map-scale', onZoom)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress?.key])
@@ -247,22 +254,19 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
   }
 
   const byPos = new Map(NODES.map((node) => [node.key, node]))
-  const showAllLabels = view.scale >= 0.82
-  const labelSize = showAllLabels ? 13 : Math.max(13, 12 / view.scale)
-  const tagSize = Math.max(12, 11 / view.scale)
+  const labelSize = labelWorldSize(view.scale)
+  const tagSize = labelWorldSize(view.scale, 11)
   const stageBox = stageRef.current?.getBoundingClientRect()
-  const labelShift = showAllLabels
-    ? new Map<string, { x: number; y: number }>()
-    : avoidLabelCollisions(
-      NODES.filter((node) => showNodeLabel(node, view.scale)).map((node) => ({
-        ...node,
-        labelName: displayName(placeByKey(node.key)?.name ?? node.key, node, view.scale),
-      })),
-      labelSize,
-      view,
-      stageBox?.width ?? 320,
-      stageBox?.height ?? 360,
-    )
+  const labelShift = avoidLabelCollisions(
+    NODES.filter((node) => showNodeLabel(node, view.scale)).map((node) => ({
+      ...node,
+      labelName: displayName(placeByKey(node.key)?.name ?? node.key, node, view.scale),
+    })),
+    labelSize,
+    view,
+    stageBox?.width ?? 320,
+    stageBox?.height ?? 360,
+  )
 
   return (
     <div className="screen map-screen" data-screen="map">
@@ -283,6 +287,7 @@ export function MapScreen({ onLog }: { onLog: (route: string) => void }) {
       >
         <svg
           className="map-svg"
+          data-scale={view.scale.toFixed(3)}
           width={WORLD_W}
           height={WORLD_H}
           style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.scale})` }}
@@ -656,7 +661,8 @@ function stepPassed(step: GuideStep, progressOrder: number): boolean {
 
 function clampScale(scale: number, stage: HTMLElement): number {
   const fit = Math.min(stage.clientWidth / WORLD_W, stage.clientHeight / WORLD_H)
-  return Math.min(2.6, Math.max(Math.min(0.85, fit), scale))
+  const min = Math.min(0.3, fit)
+  return Math.min(2.6, Math.max(min, scale))
 }
 
 function clampView(next: { x: number; y: number; scale: number }, stage: HTMLElement) {

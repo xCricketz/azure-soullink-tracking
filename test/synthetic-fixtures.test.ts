@@ -59,7 +59,7 @@ function checkMon(mon: Mon, row: Record<string, any>, label: string) {
 
 test('synthetic fixtures cover the import cases and match the parser', () => {
   assert.ok(names.length >= 30)
-  for (const name of ['wild-routes', 'evolutions-forms-gen8', 'ingame-trade', 'event-fateful', 'hatched', 'cherish-fossil', 'duplicates-same-route', 'shiny-edges', 'empty-save', 'slot-fallback-checksum', 'slots-both-damaged', 'unknown-species', 'diff-a', 'diff-b']) {
+  for (const name of ['wild-routes', 'evolutions-forms-gen8', 'ingame-trade', 'event-fateful', 'hatched', 'cherish-fossil', 'duplicates-same-route', 'shiny-edges', 'empty-save', 'slot-fallback-checksum', 'slots-both-damaged', 'unknown-species', 'released-slots', 'diff-a', 'diff-b']) {
     assert.equal(names.includes(name), true, name)
   }
   for (const name of names) {
@@ -102,13 +102,19 @@ test('synthetic fixtures cover the import cases and match the parser', () => {
     assert.equal(got.progress.hallOfFameEntries, want.progress.hallOfFameEntries, name)
     assert.equal(got.warnings.length, want.warnings.count, `${name} warnings ${got.warnings.join(' | ')}`)
     for (const warning of want.warnings.contain) assert.equal(got.warnings.some((item) => item.includes(warning)), true, name)
+    assert.deepEqual(got.releasedRemnants, want.releasedRemnants ?? [], `${name} remnants`)
+    for (const mon of [...got.party, ...got.boxes.flatMap((box) => box.mons)]) {
+      assert.notEqual(mon.speciesId, 0, `${name} species 0 counted as a Pokémon`)
+    }
   }
 })
 
 test('unknown species stay as rows, and shiny is only a xor flag', () => {
   const save = parse('unknown-species')
   const unknown = allMons(save).filter((mon) => mon.nat == null)
-  assert.equal(unknown.length, 7)
+  assert.equal(unknown.length, 6)
+  assert.equal(unknown.some((mon) => mon.speciesId === 0), false)
+  assert.equal(save.releasedRemnants.length, 0)
   assert.equal(unknown.some((mon) => mon.speciesId === 252), true)
   assert.equal(unknown.some((mon) => mon.speciesId === 276), true)
   const routes: RouteOption[] = [
@@ -124,7 +130,7 @@ test('unknown species stay as rows, and shiny is only a xor flag', () => {
   })
   assert.equal(plan.skippedUnknown, 0)
   const rows = plan.mons.filter((mon) => mon.unknown)
-  assert.equal(rows.length, 7)
+  assert.equal(rows.length, 6)
   assert.equal(rows.every((mon) => mon.name === UNKNOWN_SPECIES && mon.nat == null && mon.place === 'needs-decision'), true)
   assert.equal(plan.mons.some((mon) => mon.name === 'Bulbasaur' && !mon.unknown), true)
 

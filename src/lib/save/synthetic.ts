@@ -49,6 +49,36 @@ export function buildSave(opts: {
   return buf
 }
 
+/** Where a box slot sits in sector data. Box 1 is index 0. Box 14 (graveyard) is index 13. */
+export function boxSlot(box: number, slot: number): { id: number; o: number } {
+  const linear = (box * 30 + slot) * 58
+  const first = SECTOR_DATA - 4
+  if (linear < first) return { id: 5, o: 4 + linear }
+  let rest = linear - first
+  let id = 6
+  while (rest >= SECTOR_DATA) {
+    rest -= SECTOR_DATA
+    id += 1
+  }
+  return { id, o: rest }
+}
+
+/** Species 0 with leftover PID and OT bytes. The parser must not turn this into a Pokémon. */
+export function boxRemnant(
+  sectors: Sectors,
+  off: { id: number; o: number },
+  pid: number,
+  otId = 1234 | (4321 << 16),
+): void {
+  const row = new Uint8Array(58)
+  const view = new DataView(row.buffer)
+  view.setUint32(0, pid, true)
+  view.setUint32(4, otId, true)
+  row.set(encodeGen3('Test'), 20)
+  row[0x33] = 88
+  sectors[off.id].set(row, off.o)
+}
+
 export function boxMon(
   sectors: Sectors,
   off: { id: number; o: number } | null,

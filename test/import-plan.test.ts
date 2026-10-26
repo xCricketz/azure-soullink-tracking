@@ -44,7 +44,7 @@ describe('Import planning', () => {
     assert.equal(parsed.dex.caughtCount, 3)
   })
 
-  test('matches by national number and does not use encounter lists when the randomizer is on', () => {
+  test('a national number is not an identity, and the randomizer does not use encounter lists', () => {
     const parsed = parseSave(sampleSave(), { table, dexNames: dex })
     parsed.party[0].met = buildMetInfo(128, 12 | (4 << 7), 3)
     parsed.boxes[0].mons[0].met = buildMetInfo(128, 8 | (4 << 7), 3)
@@ -60,8 +60,19 @@ describe('Import planning', () => {
     assert.equal(byNat.get(118)?.alreadyLogged, true)
     assert.equal(byNat.get(118)?.newSinceImport, true)
     assert.equal(byNat.get(807)?.alreadyLogged, false)
-    assert.equal(byNat.get(807)?.newSinceImport, false)
+    assert.equal(byNat.get(807)?.newSinceImport, true)
     assert.equal(byNat.get(1)?.newSinceImport, true)
+    const samePokemon = planSave(parsed, {
+      me: 'fisi',
+      catches: [{ player: 'fisi', dex_id: 118, status: 'alive', pokemon: 'Goldeen', route: 'route-6' }],
+      previousNats: [807],
+      previousIds: [byNat.get(807)?.identity ?? ''],
+      randomizerSpecies: true,
+      routes,
+      areas: [{ key: 'route-1', species: ['Zeraora', 'Bulbasaur', 'Goldeen'] }],
+    })
+    assert.equal(samePokemon.mons.find((mon) => mon.nat === 807)?.newSinceImport, false)
+    assert.equal(samePokemon.suggestions.some((mon) => mon.nat === 807), false)
     assert.equal(byNat.get(807)?.nickname, '')
     assert.equal(byNat.get(118)?.nickname, 'Nick')
     assert.equal(byNat.get(807)?.place, 'needs-decision')
@@ -297,11 +308,14 @@ describe('Import planning', () => {
       me: 'fisi',
       catches: [],
       previousNats: [3, 6],
+      previousIds: plan.mons.map((mon) => mon.identity),
       randomizerSpecies: true,
       routes,
       areas: [],
     })
     assert.equal(again.mons.every((mon) => mon.newSinceImport === false), true)
+    assert.equal(again.suggestions.length, 0)
+    assert.equal(again.missing.length, 0)
   })
 
   test('last-import set is per run on the given store', () => {

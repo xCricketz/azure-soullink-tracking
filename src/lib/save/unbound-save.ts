@@ -192,6 +192,8 @@ export interface ParsedSave {
   trainer: { name: string; tid: number; sid: number; playtime: { hours: number; minutes: number; seconds: number; frames: number } };
   party: Mon[];
   boxes: { index: number; name: string; mons: Mon[] }[];
+  /** Box slots with species id 0 and leftover bytes. Not Pokémon, and not counted anywhere else. */
+  releasedRemnants: { box: number; slot: number }[];
   currentBox: number;
   dex: { seenNat: number[]; caughtNat: number[]; seenCount: number; caughtCount: number };
   ownedSpeciesNat: number[]; // distinkte National-Nrn. in Team+Boxen
@@ -288,14 +290,20 @@ function finish(m: Partial<Mon>, ctx: DecodeCtx, ownerWarn: string[]): Mon {
   return mon;
 }
 
-/** Komprimierter Box-Mon (58 Byte, CFRU). Gibt null für leeren Slot zurück. */
+/** A slot is empty exactly when its species id is 0, whatever PID, OT, nickname, or met data is left behind. */
+export const isEmptySpecies = (species: number): boolean => species === 0;
+
+/** Box slot with species 0 and any leftover byte. It is not a Pokémon. */
+export const isReleasedRemnant = (r: Uint8Array): boolean => u16(r, 28) === 0 && r.some((value) => value !== 0);
+
+/** Komprimierter Box-Mon (58 Byte, CFRU). Gibt null für leeren Slot zurück (Species 0, auch mit Resten). */
 export function decodeBoxMon(r: Uint8Array, box: number, slot: number, ctx: DecodeCtx): Mon | null {
   const species = u16(r, 28);
   const pid = u32(r, 0);
-  if (species === 0 && pid === 0) return null;
+  if (isEmptySpecies(species)) return null;
   const w: string[] = [];
   const sanity = r[19];
-  if (species !== 0 && (sanity & 2) === 0) w.push('Sanity-Bit hasSpecies nicht gesetzt');
+  if ((sanity & 2) === 0) w.push('Sanity-Bit hasSpecies nicht gesetzt');
   const movesPacked = r.subarray(39, 44); // 40 Bit = 4 x 10 Bit
   let packed = 0n;
   for (let i = 4; i >= 0; i--) packed = (packed << 8n) | BigInt(movesPacked[i]);
@@ -322,7 +330,7 @@ export function decodeBoxMon(r: Uint8Array, box: number, slot: number, ctx: Deco
 export function decodePartyMon(r: Uint8Array, slot: number, ctx: DecodeCtx): Mon | null {
   const species = u16(r, 0x20);
   const pid = u32(r, 0);
-  if (species === 0 && pid === 0) return null;
+  if (isEmptySpecies(species)) return null;
   const w: string[] = [];
   const dv = new DataView(r.buffer, r.byteOffset, r.byteLength);
   const { ivs, egg, ha } = ivsFrom(dv.getUint32(0x48, true));
@@ -426,11 +434,14 @@ export function parseSave(buf: Uint8Array, opts: ParseOptions = {}): ParsedSave 
   const mem = assembleBoxMemory(S, buf);
   const titles = readBoxNames(S[13]);
   const boxes: ParsedSave['boxes'] = [];
+  const releasedRemnants: { box: number; slot: number }[] = [];
   for (let bx = 0; bx < BOX_COUNT; bx++) {
     const mons: Mon[] = [];
     for (let sl = 0; sl < MONS_PER_BOX; sl++) {
       const o = (bx * MONS_PER_BOX + sl) * MON_STRIDE_BOX;
-      const m = decodeBoxMon(mem.subarray(o, o + MON_STRIDE_BOX), bx, sl, ctx);
+      const raw = mem.subarray(o, o + MON_STRIDE_BOX);
+      if (isReleasedRemnant(raw)) releasedRemnants.push({ box: bx, slot: sl });
+      const m = decodeBoxMon(raw, bx, sl, ctx);
       if (m) mons.push(m);
     }
     boxes.push({ index: bx, name: titles[bx], mons });
@@ -451,7 +462,7 @@ export function parseSave(buf: Uint8Array, opts: ParseOptions = {}): ParsedSave 
   return {
     fileSize: buf.length + off, activeSlot: act.slot,
     slots: [a, b].map((s) => ({ slot: s.slot, valid: s.valid, saveIndex: s.saveIndex, problems: s.problems })),
-    checksumsOk: a.valid && b.valid, trainer, party, boxes, currentBox,
+    checksumsOk: a.valid && b.valid, trainer, party, boxes, releasedRemnants, currentBox,
     dex: { seenNat, caughtNat, seenCount: seenNat.length, caughtCount: caughtNat.length },
     ownedSpeciesNat: [...owned].sort((x, y) => x - y),
     progress: { badgeFlagsSet: badges.filter(Boolean).length, badges, gameClearFlag: readVanillaFlag(S, 0x82c), hallOfFameEntries: hof },

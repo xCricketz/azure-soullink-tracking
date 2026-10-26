@@ -16,7 +16,7 @@ export type MapsecTable = Record<string, MapsecEntry>
 
 export const MAP_SECTIONS: MapsecTable = isTable(mapsec) ? mapsec : {}
 
-export type DecisionKind = 'unmapped' | 'trade' | 'event' | 'hatched' | 'gift'
+export type DecisionKind = 'unmapped' | 'trade' | 'event' | 'hatched' | 'gift' | 'starter'
 
 export interface LocationReading {
   /** A wild catch on a soul-link route. Everything else waits for a decision. */
@@ -69,7 +69,13 @@ export function decisionCopy(input: {
   ownOT: boolean
   placeName: string | null
   where: string
+  catchLevel?: number
 }): string | null {
+  if (input.decision === 'starter') {
+    const place = input.placeName ?? (input.mapSectionId ? `map section ${input.mapSectionId}` : 'this place')
+    const level = input.catchLevel && input.catchLevel > 0 ? `, Lv${input.catchLevel}` : ''
+    return `Starter? (met at ${place}${level})`
+  }
   if (input.mapSectionId === 88 || input.placeName === 'Frozen Heights') {
     if (input.decision === 'unmapped' || input.decision == null) {
       return 'Frozen Heights (starter town, no Soul-Link route)'

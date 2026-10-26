@@ -1,5 +1,6 @@
 import type { PlayerId } from '../types'
 import { MAP_SECTIONS, readLocation, type DecisionKind, type LocationReading, type MapConfidence, type MapsecTable } from './locations'
+import { STARTER_SLOT, classifyStarter } from './run-options'
 import { identityOf } from './save-diff'
 import type { Mon, ParsedSave } from './unbound-save'
 
@@ -57,14 +58,25 @@ export interface PlannedMon {
   decision: DecisionKind | null
   confidence: MapConfidence | null
   placeName: string | null
+  /** S1 is the Shadow Base starter room. S2 is the older Frozen Heights guess. Both wait for a route. */
+  starterRule: 'S1' | 'S2' | null
   ownOT: boolean
   /** A later Pokémon on a route that already has a catch, using the suggested route. The sheet recomputes this from the route the player actually picks. */
   duplicate: boolean
   duplicateOf: string | null
 }
 
+export interface MissingImport {
+  identity: string
+  prompt: 'Dead/gone?'
+}
+
 export interface ImportPlan {
   mons: PlannedMon[]
+  /** Rows offered for confirmation. Once a previous import stored identities, known Pokémon are left out. */
+  suggestions: PlannedMon[]
+  /** Previously imported identities missing from this save. Display only. Nothing is written. */
+  missing: MissingImport[]
   skippedEggs: number
   skippedUnknown: number
   progress: string
@@ -122,7 +134,6 @@ function planOne(
   opts: {
     me: PlayerId
     catches: CatchHint[]
-    previous: Set<number>
     previousIds: Set<string>
     progress: string
     randomizerSpecies: boolean
@@ -133,8 +144,27 @@ function planOne(
 ): PlannedMon | 'egg' {
   if (mon.isEgg) return 'egg'
   const unknown = !mon.nat || !mon.name
+  const starter = unknown ? { isStarter: false, confidence: null, rule: null } : classifyStarter({
+    ownOT: mon.ownOT,
+    isEgg: mon.isEgg,
+    met: {
+      category: mon.met.category,
+      location: mon.met.mapSectionId,
+      level: mon.met.catchLevel,
+      ballName: mon.met.ballName,
+    },
+  })
   const known = new Set(opts.routes.map((route) => route.name))
-  const located = readLocation(mon.met, mon.ownOT, opts.sections, known)
+  const located = starter.isStarter
+    ? {
+      place: 'needs-decision' as const,
+      decision: 'starter' as const,
+      route: STARTER_SLOT,
+      confidence: 'guess' as const,
+      placeName: opts.sections[String(mon.met.mapSectionId)]?.name ?? null,
+      source: 'met' as const,
+    }
+    : readLocation(mon.met, mon.ownOT, opts.sections, known)
   const area = !unknown && located.decision === 'unmapped' && !located.route
     ? suggestRoute(mon.name ?? '', opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
     : null
@@ -143,9 +173,7 @@ function planOne(
     : null
   const route = located.route ?? (area?.suggestion === 'area' ? area.route : null)
   const identity = identityOf(mon)
-  const seenBefore = opts.previousIds.size > 0
-    ? opts.previousIds.has(identity)
-    : mon.nat != null && opts.previous.has(mon.nat)
+  const seenBefore = opts.previousIds.has(identity)
   return {
     id: mon.where === 'party' ? `party-${mon.slot}` : `box-${mon.box ?? 0}-${mon.slot}`,
     where: mon.where,
@@ -176,6 +204,7 @@ function planOne(
     decision: unknown ? 'unmapped' : located.decision,
     confidence: located.confidence,
     placeName: located.placeName,
+    starterRule: starter.isStarter ? starter.rule : null,
     ownOT: mon.ownOT,
     duplicate: false,
     duplicateOf: null,
@@ -192,10 +221,11 @@ export function planSave(save: ParsedSave, opts: {
   areas: AreaHint[]
   sections?: MapsecTable
 }): ImportPlan {
+  // previousNats is older storage. A Pokémon's identity is personality plus OT id, not its national number.
+  void opts.previousNats
   const progress = furthestRoute(opts.routes, opts.catches)
-  const previous = new Set(opts.previousNats)
   const previousIds = new Set(opts.previousIds ?? [])
-  const shared = { ...opts, previous, previousIds, progress, sections: opts.sections ?? MAP_SECTIONS }
+  const shared = { ...opts, previousIds, progress, sections: opts.sections ?? MAP_SECTIONS }
   const mons: PlannedMon[] = []
   let skippedEggs = 0
   const skippedUnknown = 0
@@ -209,7 +239,12 @@ export function planSave(save: ParsedSave, opts: {
     for (const mon of box.mons) take(mon, box.name)
   }
   markDuplicates(mons, opts.me, opts.catches)
-  return { mons, skippedEggs, skippedUnknown, progress }
+  const present = new Set(mons.map((mon) => mon.identity))
+  const known = [...previousIds]
+  const suggestions = known.length ? mons.filter((mon) => mon.newSinceImport) : mons
+  const missing: MissingImport[] = known.filter((identity, index) => known.indexOf(identity) === index && !present.has(identity))
+    .map((identity) => ({ identity, prompt: 'Dead/gone?' }))
+  return { mons, suggestions, missing, skippedEggs, skippedUnknown, progress }
 }
 
 function markDuplicates(mons: PlannedMon[], me: PlayerId, catches: CatchHint[]) {
@@ -285,7 +320,7 @@ export function confirmAllIds(
 ): string[] {
   const done = new Set(doneIds)
   return mons.filter((mon) => {
-    if (mon.unknown || mon.nat == null || mon.place !== 'route' || done.has(mon.id) || !chosen[mon.id]) return false
+    if (!mon.newSinceImport || mon.unknown || mon.nat == null || mon.place !== 'route' || done.has(mon.id) || !chosen[mon.id]) return false
     return !decisions.get(mon.id)?.duplicate
   }).map((mon) => mon.id)
 }
