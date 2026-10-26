@@ -199,6 +199,7 @@ async function rowFacts(page, name) {
   await row.waitFor()
   const route = await row.locator('select').inputValue()
   const routeLabel = route ? await row.locator('select option:checked').innerText() : ''
+  const confirm = row.locator('[data-confirm="row"]')
   return {
     row,
     starter: await row.getAttribute('data-starter'),
@@ -208,7 +209,7 @@ async function rowFacts(page, name) {
     text: await row.innerText(),
     route,
     routeLabel,
-    confirmEnabled: await row.locator('[data-confirm="row"]').isEnabled(),
+    confirmEnabled: (await confirm.count()) > 0 && await confirm.isEnabled(),
   }
 }
 
@@ -217,8 +218,8 @@ async function checkStarterAndOptions(page, engine) {
   const ngPlus = page.getByRole('checkbox', { name: /New Game Plus/ })
   if (!(await species.isChecked())) failures.push(`${engine} demo species randomizer started off`)
   if (!(await ngPlus.isChecked())) failures.push(`${engine} demo NG+ started off`)
-  await species.click()
-  await ngPlus.click()
+  await page.getByText(/^Species randomizer:/).click()
+  await page.getByText('New Game Plus', { exact: true }).click()
   await page.getByRole('button', { name: 'Difficult+', exact: true }).click()
   if (await species.isChecked()) failures.push(`${engine} species randomizer stayed on`)
   if (await ngPlus.isChecked()) failures.push(`${engine} NG+ stayed on`)
@@ -318,7 +319,7 @@ async function checkStarterAndOptions(page, engine) {
 
 async function checkImport(page, engine) {
   await page.getByRole('button', { name: 'More', exact: true }).click()
-  await page.getByText('Nuzlocke').waitFor()
+  await page.getByText('Nuzlocke', { exact: true }).waitFor()
   await page.locator('[data-cap-ladder="ngplus"]').waitFor()
   if (await page.getByText('Coming soon').count()) failures.push(`${engine} More still says Coming soon`)
   await page.screenshot({ path: `${shots}/phase11-${engine}-more-settings.png` })

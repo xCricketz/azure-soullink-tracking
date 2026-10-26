@@ -7,7 +7,7 @@ import { BottomSheet, Dialog } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
 import { findMon, useDex } from '../lib/unbound'
 import { capLadder, difficultyLabel, optionsOf } from '../lib/options'
-import { detectionChoices, patchFromDetection, type DetectionChoice, type SaveRunOptions } from '../lib/save/run-options'
+import { detectionChoices, patchFromDetection, readRunOptionsFromSave, type DetectionChoice, type SaveRunOptions } from '../lib/save/run-options'
 import { useApp } from '../state/context'
 import { DEFAULT_RULES, otherPlayer, PLAYERS, type SpeciesClause, type ThemeChoice } from '../lib/types'
 import { pushToast } from '../lib/toast'
@@ -41,7 +41,6 @@ export function More({ onDex }: { onDex?: () => void }) {
     setDetected(null)
     try {
       const bytes = new Uint8Array(await file.arrayBuffer())
-      const { readRunOptionsFromSave } = await import('../lib/save/run-options')
       setDetected(readRunOptionsFromSave(bytes))
     } catch {
       setDetectError('That file could not be read as a Pokémon Unbound save.')
