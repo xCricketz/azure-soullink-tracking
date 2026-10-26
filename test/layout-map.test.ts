@@ -64,6 +64,8 @@ test('region layout covers the route graph and matches Borrius', () => {
     'redwood-village': [1083, 209],
     'cube-corp': [1073, 360],
     'pokemon-league': [787, 307],
+    'route-15': [606, 322],
+    'route-11': [418, 750],
   }
   for (const [key, [x, y]] of Object.entries(ref)) {
     const node = at(key)
