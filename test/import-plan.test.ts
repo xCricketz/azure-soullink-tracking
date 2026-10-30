@@ -247,7 +247,7 @@ describe('Import planning', () => {
   test('english errors for size, both slots, and a non-Unbound signature', () => {
     assert.equal(
       explainSaveError(new Error('unerwartete Dateigröße 1000')),
-      'That file is the wrong size. A Pokémon Unbound save is 128 KB (a 16-byte flashcart header is ok).',
+      'That file is the wrong size. A Pokémon Unbound save is 128 KB. Sixteen extra bytes at the start or the end are ok.',
     )
     assert.equal(
       explainSaveError(new Error('kein gültiger Slot: Sektor-ID 0: Checksumme')),

@@ -205,11 +205,25 @@ describe('Synthetischer Save', () => {
     expect(() => parseSave(sav, { table })).toThrow()
   })
 
-  test('Flashcart-Header (+16 Byte) und falsche Größe', () => {
-    const sav = buildSave({ indexA: 2, indexB: 1 })
-    const big = new Uint8Array(0x20010)
-    big.set(sav, 16)
-    expect(parseSave(big, { table }).activeSlot).toBe(0)
+  test('16 Extra-Bytes vorne oder hinten, und eine falsche Größe', () => {
+    const sav = buildSave({ indexA: 4, indexB: 1 })
+    const plain = parseSave(sav, { table })
+    const header = new Uint8Array(sav.length + 16)
+    header.set([0x01, 0x02, 0x03, 0x04], 0)
+    header.set(sav, 16)
+    const trailer = new Uint8Array(sav.length + 16)
+    trailer.set(sav, 0)
+    trailer.set([0x26, 0x10, 0x25, 0x00, 0x23, 0x06, 0x18, 0x40, 0x5a, 0x7d, 0xde, 0x6a, 0x00, 0x00, 0x00, 0x00], sav.length)
+    for (const bytes of [header, trailer]) {
+      const parsed = parseSave(bytes, { table })
+      expect(parsed.fileSize).toBe(0x20010)
+      expect(parsed.activeSlot).toBe(plain.activeSlot)
+      expect(parsed.checksumsOk).toBe(true)
+      expect(parsed.trainer).toEqual(plain.trainer)
+      expect(parsed.slots.map((slot) => slot.valid)).toEqual([true, true])
+    }
+    const shifted = header.subarray(0, sav.length)
+    expect(() => parseSave(shifted, { table })).toThrow()
     expect(() => parseSave(new Uint8Array(1000), { table })).toThrow()
   })
 })

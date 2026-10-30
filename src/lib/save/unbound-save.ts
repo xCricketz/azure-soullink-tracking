@@ -397,12 +397,36 @@ export interface ParseOptions {
   dexNames?: { nat: number; name: string; form: string | null }[]; // dex.json (optional)
 }
 
+/**
+ * 128 KB save body.
+ * A flashcart may put 16 bytes in front. An emulator may append 16 bytes (often RTC).
+ * Both alignments are checked, and the one with valid slots is kept.
+ */
+export function saveBody(buf: Uint8Array): Uint8Array {
+  if (buf.length === SAVE_SIZE) return buf;
+  if (buf.length !== SAVE_SIZE + 16) throw new Error(`unerwartete Dateigröße ${buf.length}`);
+  const header = buf.subarray(16);
+  const trailer = buf.subarray(0, SAVE_SIZE);
+  const front = alignmentScore(header);
+  const back = alignmentScore(trailer);
+  if (back.valid !== front.valid) return back.valid > front.valid ? trailer : header;
+  if (back.problems !== front.problems) return back.problems < front.problems ? trailer : header;
+  return header;
+}
+
+function alignmentScore(buf: Uint8Array): { valid: number; problems: number } {
+  const slots = [readSlot(buf, 0), readSlot(buf, 1)];
+  return {
+    valid: slots.reduce((count, slot) => count + (slot.valid ? 1 : 0), 0),
+    problems: slots.reduce((count, slot) => count + slot.problems.length, 0),
+  };
+}
+
 export function parseSave(buf: Uint8Array, opts: ParseOptions = {}): ParsedSave {
   const warnings: string[] = [];
-  if (buf.length !== SAVE_SIZE && buf.length !== SAVE_SIZE + 16) throw new Error(`unerwartete Dateigröße ${buf.length}`);
-  const off = buf.length - SAVE_SIZE; // Flashcart-Header (16 Byte) falls vorhanden
-  if (off) buf = buf.subarray(off);
-  const a = readSlot(buf, 0), b = readSlot(buf, 1);
+  const fileSize = buf.length;
+  const body = saveBody(buf);
+  const a = readSlot(body, 0), b = readSlot(body, 1);
   const act = pickActiveSlot(a, b);
   if (!act.valid) throw new Error('kein gültiger Slot: ' + act.problems.slice(0, 3).join('; '));
   if (act.signature !== SIGNATURE_UNBOUND) warnings.push(`Signatur ${act.signature.toString(16)} != Unbound 0x01121999 (Layout evtl. anders!)`);
@@ -431,7 +455,7 @@ export function parseSave(buf: Uint8Array, opts: ParseOptions = {}): ParsedSave 
     if (m) party.push(m);
   }
 
-  const mem = assembleBoxMemory(S, buf);
+  const mem = assembleBoxMemory(S, body);
   const titles = readBoxNames(S[13]);
   const boxes: ParsedSave['boxes'] = [];
   const releasedRemnants: { box: number; slot: number }[] = [];
@@ -457,10 +481,10 @@ export function parseSave(buf: Uint8Array, opts: ParseOptions = {}): ParsedSave 
   for (const n of owned) if (!cs.has(n)) warnings.push(`National-Nr. ${n} in Team/Box, aber nicht im Caught-Flag`);
 
   const badges = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => readVanillaFlag(S, 0x820 + i));
-  const hof = countHallOfFame(buf, tid, sid);
+  const hof = countHallOfFame(body, tid, sid);
 
   return {
-    fileSize: buf.length + off, activeSlot: act.slot,
+    fileSize, activeSlot: act.slot,
     slots: [a, b].map((s) => ({ slot: s.slot, valid: s.valid, saveIndex: s.saveIndex, problems: s.problems })),
     checksumsOk: a.valid && b.valid, trainer, party, boxes, releasedRemnants, currentBox,
     dex: { seenNat, caughtNat, seenCount: seenNat.length, caughtCount: caughtNat.length },

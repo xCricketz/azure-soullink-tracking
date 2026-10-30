@@ -3,7 +3,7 @@ import type { ParsedSave } from './unbound-save'
 export function explainSaveError(error: unknown): string {
   const message = error instanceof Error ? error.message : ''
   if (message.startsWith('unerwartete Dateigröße')) {
-    return 'That file is the wrong size. A Pokémon Unbound save is 128 KB (a 16-byte flashcart header is ok).'
+    return 'That file is the wrong size. A Pokémon Unbound save is 128 KB. Sixteen extra bytes at the start or the end are ok.'
   }
   if (message.startsWith('kein gültiger Slot')) {
     return 'Both save slots are broken. Save in the game, then export the .sav again. A save state is not enough.'
