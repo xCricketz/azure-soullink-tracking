@@ -142,6 +142,12 @@ test('a synthetic mid-story save suggests Distortion World and does not look fin
     },
   })
   const read = readMissionsFromSave(buf, defs)
+  const trailer = new Uint8Array(buf.length + 16)
+  trailer.set(buf, 0)
+  trailer.set([0x26, 0x10, 0x25, 0, 0x23, 0x06, 0x18, 0x40, 0x5a, 0x7d, 0xde, 0x6a, 0, 0, 0, 0], buf.length)
+  const fromTrailer = readMissionsFromSave(trailer, defs)
+  assert.equal(fromTrailer.story.act1, 42)
+  assert.equal(fromTrailer.story.main, 60)
   assert.equal(read.story.act1, 42)
   assert.equal(read.story.main, 60)
   assert.equal(read.story.finished, false)

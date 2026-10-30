@@ -3,7 +3,7 @@
  * Read-only. Variable layout matches the in-game mission log (vars 0x5000..0x51FF).
  * Locations on story steps are heuristics.
  */
-import { SAVE_SIZE, pickActiveSlot, readSlot, SECTOR_DATA } from './unbound-save'
+import { pickActiveSlot, readSlot, saveBody, SECTOR_DATA } from './unbound-save'
 
 type Sectors = Record<number, Uint8Array>
 
@@ -179,7 +179,7 @@ export function readStoryProgress(sectors: Sectors, steps: StoryStepDef[] = []):
 }
 
 export function activeSectors(buf: Uint8Array): Sectors {
-  const body = buf.length === SAVE_SIZE + 16 ? buf.subarray(16) : buf
+  const body = saveBody(buf)
   const slot = pickActiveSlot(readSlot(body, 0), readSlot(body, 1))
   if (!slot.valid) throw new Error('no valid save slot')
   return slot.sectors
