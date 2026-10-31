@@ -104,5 +104,9 @@ export const STARTER_ROUTE: RouteDef = {
 
 /** Soul-link routes plus the starter slot and one slot per gift source. */
 export function trackerRoutes(): RouteDef[] {
-  return [STARTER_ROUTE, ...ROUTES, ...giftRouteDefs()].sort((a, b) => a.order - b.order || a.en.localeCompare(b.en, 'en'))
+  const heights = placeByKey('frozen-heights')
+  const frozen = heights
+    ? [{ name: heights.key, en: heights.name, order: heights.order, group: 'Opening', kind: heights.kind }]
+    : []
+  return [STARTER_ROUTE, ...frozen, ...ROUTES, ...giftRouteDefs()].sort((a, b) => a.order - b.order || a.en.localeCompare(b.en, 'en'))
 }

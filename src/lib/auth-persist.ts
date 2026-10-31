@@ -113,8 +113,16 @@ export function durableAuthStorage(local: KeyValueStore, jar: CookieJar): KeyVal
   }
 }
 
-export function browserCookieJar(): CookieJar {
+/** Cookie path for this app only, so other sites on the same host do not receive the session. */
+export function appCookiePath(base: string | undefined): string {
+  const value = (base ?? '/').trim() || '/'
+  if (value === '/') return '/'
+  return value.endsWith('/') ? value : `${value}/`
+}
+
+export function browserCookieJar(base: string | undefined = import.meta.env.BASE_URL): CookieJar {
   const secure = typeof location !== 'undefined' && location.protocol === 'https:' ? '; Secure' : ''
+  const path = appCookiePath(base)
   return {
     read(name) {
       const parts = document.cookie ? document.cookie.split('; ') : []
@@ -128,10 +136,10 @@ export function browserCookieJar(): CookieJar {
       }
     },
     write(name, value) {
-      document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${MAX_AGE}; SameSite=Lax${secure}`
+      document.cookie = `${name}=${encodeURIComponent(value)}; Path=${path}; Max-Age=${MAX_AGE}; SameSite=Lax${secure}`
     },
     remove(name) {
-      document.cookie = `${name}=; Path=/; Max-Age=0; SameSite=Lax${secure}`
+      document.cookie = `${name}=; Path=${path}; Max-Age=0; SameSite=Lax${secure}`
     },
   }
 }

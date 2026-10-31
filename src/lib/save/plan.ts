@@ -59,8 +59,8 @@ export interface PlannedMon {
   decision: DecisionKind | null
   confidence: MapConfidence | null
   placeName: string | null
-  /** S1 is the Shadow Base starter room. S2 is the older Frozen Heights guess. Both wait for a route. */
-  starterRule: 'S1' | 'S2' | null
+  /** Only the earliest Shadow Base level-10 starter. Map section 88 is not a starter. */
+  starterRule: 'S1' | null
   ownOT: boolean
   /** A later Pokémon on a route that already has a catch, using the suggested route. The sheet recomputes this from the route the player actually picks. */
   duplicate: boolean
@@ -157,9 +157,9 @@ function planOne(
       ballName: mon.met.ballName,
     },
   })
-  const starter = classified.isStarter && classified.rule === 'S1' && id !== opts.keepStarterId
-    ? { isStarter: false, confidence: null, rule: null }
-    : classified
+  const starter = classified.isStarter && classified.rule === 'S1' && id === opts.keepStarterId
+    ? classified
+    : { isStarter: false, confidence: null, rule: null }
   const gift = starter.isStarter || unknown ? null : matchGiftSlot({
     ownOT: mon.ownOT,
     isEgg: mon.isEgg,

@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { entryChoice, durableAuthStorage, memoryCookieJar, memoryStore } from '../src/lib/auth-persist.ts'
+import { appCookiePath, entryChoice, durableAuthStorage, memoryCookieJar, memoryStore } from '../src/lib/auth-persist.ts'
 import { matchGiftSlot, trackerRoutes } from '../src/lib/gift-slots.ts'
 import { planSave, type RouteOption } from '../src/lib/save/plan.ts'
 import { boxMon, boxSlot, buildSave } from '../src/lib/save/synthetic.ts'
@@ -26,6 +26,10 @@ test('a stored session opens the app and survives a localStorage wipe', () => {
   assert.equal(entryChoice('fisi@soullink.app'), 'app')
   assert.equal(entryChoice(null), 'login')
   assert.equal(entryChoice('someone@example.com'), 'login')
+  assert.equal(appCookiePath('/azure-soullink-tracking/'), '/azure-soullink-tracking/')
+  assert.equal(appCookiePath('/azure-soullink-tracking'), '/azure-soullink-tracking/')
+  assert.equal(appCookiePath('/'), '/')
+  assert.equal(appCookiePath(undefined), '/')
   const local = memoryStore()
   const jar = memoryCookieJar()
   const storage = durableAuthStorage(local, jar)
@@ -35,6 +39,38 @@ test('a stored session opens the app and survives a localStorage wipe', () => {
   assert.equal(storage.getItem('sb-test-auth-token'), session)
   storage.removeItem('sb-test-auth-token')
   assert.equal(storage.getItem('sb-test-auth-token'), null)
+})
+
+test('map section 88 is Frozen Heights and only the S1 mon is the starter', () => {
+  const sav = buildSave({
+    indexA: 8,
+    indexB: 1,
+    mutate: (sectors) => {
+      boxMon(sectors, boxSlot(0, 0), null, 0, 1, 1000, 3001, { location: 133, level: 10, ball: 3 })
+      boxMon(sectors, boxSlot(0, 1), null, 0, 4, 1000, 3002, { location: 88, level: 10, ball: 3 })
+      boxMon(sectors, boxSlot(0, 2), null, 0, 7, 1000, 3003, { location: 88, level: 10, ball: 3 })
+    },
+  })
+  const plan = planSave(parseSave(sav, { table, dexNames: dex }), {
+    me: 'fisi',
+    catches: [],
+    previousNats: [],
+    randomizerSpecies: true,
+    routes: [...routes, { name: 'frozen-heights', en: 'Frozen Heights', order: 1, group: 'Opening' }],
+    areas: [],
+  })
+  const starters = plan.mons.filter((mon) => mon.suggestedRoute === 'starter' || mon.decision === 'starter')
+  assert.equal(starters.length, 1)
+  assert.equal(starters[0]?.starterRule, 'S1')
+  assert.equal(starters[0]?.slot, 0)
+  const heights = plan.mons.filter((mon) => mon.mapSectionId === 88)
+  assert.equal(heights.length, 2)
+  for (const mon of heights) {
+    assert.equal(mon.starterRule, null)
+    assert.equal(mon.suggestedRoute, 'frozen-heights')
+    assert.equal(mon.placeName, 'Frozen Heights')
+    assert.notEqual(mon.decision, 'starter')
+  }
 })
 
 test('the starter slot is first and only the earliest Shadow Base level 10 is the starter', () => {

@@ -215,8 +215,8 @@ describe('starter recognition', () => {
     assert.deepEqual(classifyStarter(mon(133)), { isStarter: true, confidence: 'guess', rule: 'S1' })
   })
 
-  test('S2: map section 88 is only a guess', () => {
-    assert.deepEqual(classifyStarter(mon(88)), { isStarter: true, confidence: 'guess', rule: 'S2' })
+  test('map section 88 is Frozen Heights, not a starter', () => {
+    assert.deepEqual(classifyStarter(mon(88)), { isStarter: false, confidence: null, rule: null })
   })
 
   test('another level, ball, place, trainer, egg, or event is not a starter', () => {
@@ -272,15 +272,18 @@ describe('starter classification runs before the route map', () => {
     assert.equal(patrat?.place, 'route')
     assert.equal(patrat?.suggestedRoute, 'route-1')
     assert.equal(patrat?.confidence, 'likely')
-    assert.equal(legacy?.starterRule, 'S2')
-    assert.equal(legacy?.confidence, 'guess')
-    assert.equal(legacy?.suggestedRoute, 'starter')
+    assert.equal(legacy?.starterRule, null)
+    assert.equal(legacy?.decision, null)
+    assert.equal(legacy?.place, 'route')
+    assert.equal(legacy?.confidence, 'verified')
+    assert.equal(legacy?.suggestedRoute, 'frozen-heights')
+    assert.equal(legacy?.placeName, 'Frozen Heights')
     assert.equal(late?.starterRule, null)
     assert.equal(late?.suggestedRoute, 'cinder-volcano-depths')
     assert.equal(late?.confidence, 'guess')
     const chosen = Object.fromEntries(plan.mons.map((mon) => [mon.id, mon.suggestedRoute ?? '']))
     const ready = confirmAllIds(plan.suggestions, chosen, new Map(plan.mons.map((mon) => [mon.id, { duplicate: false, duplicateOf: null }])))
-    assert.deepEqual(ready, [patrat?.id, late?.id])
+    assert.deepEqual(ready, [patrat?.id, legacy?.id, late?.id])
   })
 })
 

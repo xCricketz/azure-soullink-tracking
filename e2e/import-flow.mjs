@@ -314,12 +314,12 @@ async function checkStarterAndOptions(page, engine) {
   }
   if (patrat.routeLabel.trim() !== 'Route 1') failures.push(`${engine} Patrat route label: ${patrat.routeLabel}`)
   const legacy = await rowFacts(page, 'Charmander')
-  if (legacy.starter !== 'S2' || legacy.decision !== 'starter' || legacy.confidence !== 'guess' || legacy.met !== '88') {
-    failures.push(`${engine} S2 starter ${JSON.stringify({ starter: legacy.starter, decision: legacy.decision, confidence: legacy.confidence, met: legacy.met })}`)
+  if (legacy.starter || legacy.decision === 'starter' || legacy.met !== '88') {
+    failures.push(`${engine} mapsec 88 was a starter ${JSON.stringify({ starter: legacy.starter, decision: legacy.decision, met: legacy.met })}`)
   }
-  if (!legacy.text.includes('Guess') || !legacy.text.includes('Starter')) failures.push(`${engine} S2 copy: ${legacy.text}`)
-  if (legacy.route !== 'starter' || legacy.routeLabel.trim() !== 'Starter') {
-    failures.push(`${engine} S2 starter slot ${legacy.route} ${legacy.routeLabel}`)
+  if (legacy.text.includes('Starter')) failures.push(`${engine} mapsec 88 copy: ${legacy.text}`)
+  if (legacy.route !== 'frozen-heights' || legacy.routeLabel.trim() !== 'Frozen Heights') {
+    failures.push(`${engine} mapsec 88 slot ${legacy.route} ${legacy.routeLabel}`)
   }
   const late = await rowFacts(page, 'Charizard')
   if (late.starter !== '' || late.decision === 'starter' || late.met !== '133') {
@@ -327,7 +327,7 @@ async function checkStarterAndOptions(page, engine) {
   }
   if (late.text.includes('Starter?') || late.text.includes('Starter (')) failures.push(`${engine} late mon copy: ${late.text}`)
   const ready = await page.locator('[data-confirm="all"]').innerText()
-  if (ready.includes('Bulbasaur') || ready.includes('Charmander')) failures.push(`${engine} confirm all named a starter`)
+  if (ready.includes('Bulbasaur')) failures.push(`${engine} confirm all named the starter`)
   await page.locator('[data-mon="Bulbasaur"]').getByText('Starter?').scrollIntoViewIfNeeded()
   await page.screenshot({ path: `${shots}/phase11-${engine}-starter.png` })
   await page.getByRole('button', { name: 'Close', exact: true }).click()

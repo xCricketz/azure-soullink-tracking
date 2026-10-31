@@ -92,18 +92,17 @@ export function readRunOptionsFromSave(buf: Uint8Array): SaveRunOptions {
 }
 
 export const MAPSEC_STARTER_ROOM = 133
-export const MAPSEC_STARTER_LEGACY = 88
 /**
  * Dedicated first Routes entry. Map section 133 is both the prologue starter
- * room and the later Shadow Base dungeon. The earliest own-OT level-10 Poké
- * Ball there is this slot. A later one at the same level is treated as Shadow
- * Base, not a second starter. S2 (map section 88) is only the older guess.
+ * room and the later Shadow Base dungeon. Only the earliest own-OT level-10
+ * Poké Ball there is this slot. Map section 88 is Frozen Heights (verified)
+ * and is never a starter.
  */
 export const STARTER_SLOT = 'starter'
 export const STARTER_LEVEL = 10
 const BALL_POKE = 'Poké'
 
-export interface StarterVerdict { isStarter: boolean; confidence: Confidence | null; rule: 'S1' | 'S2' | null }
+export interface StarterVerdict { isStarter: boolean; confidence: Confidence | null; rule: 'S1' | null }
 
 export interface StarterCandidate {
   ownOT: boolean
@@ -115,7 +114,6 @@ export function classifyStarter(mon: StarterCandidate): StarterVerdict {
   const no: StarterVerdict = { isStarter: false, confidence: null, rule: null }
   if (!mon.ownOT || mon.isEgg || mon.met.category !== 'area' || mon.met.level !== STARTER_LEVEL || mon.met.ballName !== BALL_POKE) return no
   if (mon.met.location === MAPSEC_STARTER_ROOM) return { isStarter: true, confidence: 'guess', rule: 'S1' }
-  if (mon.met.location === MAPSEC_STARTER_LEGACY) return { isStarter: true, confidence: 'guess', rule: 'S2' }
   return no
 }
 
