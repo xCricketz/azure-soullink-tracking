@@ -145,6 +145,18 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
                 onOpen={() => setDetail(row.route.name)}
                 onAdd={() => onLog(row.route.name)}
                 onQuick={() => row[app.me] && setQuick(row.route.name)}
+                onTeam={() => {
+                  const mine = row[app.me]
+                  if (mine) void app.place(mine.id, 'team')
+                }}
+                onBox={() => {
+                  const mine = row[app.me]
+                  if (mine) void app.place(mine.id, 'box')
+                }}
+                onDead={() => {
+                  const mine = row[app.me]
+                  if (mine) void app.setStatus(mine.id, 'dead')
+                }}
                 onWiki={(id) => { setDetail(null); setQuick(null); onWiki(id) }}
                 randomized={options.randomizerSpecies}
               />

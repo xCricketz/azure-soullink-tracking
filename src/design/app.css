@@ -92,6 +92,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .lcard::before{left:0;background:var(--fisi);box-shadow:0 0 12px var(--fisi-glow)}
 .lcard::after{right:0;background:var(--seri);box-shadow:0 0 12px var(--seri-glow)}
 .lcard .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:0 2px}
+.catch-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.catch-actions button{min-height:44px;border:0;border-radius:12px;background:var(--fill);color:var(--text);font:700 15px/18px var(--font-body)}
+.catch-actions button[aria-pressed="true"]{background:var(--seg-on);box-shadow:0 0 0 1.5px var(--line)}
+.catch-actions button[data-status="dead"][aria-pressed="true"]{background:var(--danger-tint);color:var(--dead-ink)}
+.half .where{display:inline-flex;margin-left:6px;font:700 12px/16px var(--font-body);color:var(--text-muted)}
 .route{display:flex;align-items:center;gap:8px;font:600 16px/20px var(--font-display);letter-spacing:-.01em}
 .route .no{font:600 12px/16px var(--font-body);color:var(--text-faint);min-width:22px}
 .route .kind{width:18px;height:18px;color:var(--text-faint)}

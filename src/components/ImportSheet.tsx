@@ -1,6 +1,6 @@
 import { Check, Upload } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react'
-import { placeByKey } from '../data/routes'
+import { placeByKey, routeTitleByKey } from '../data/routes'
 import { trackerRoutes } from '../lib/gift-slots'
 import { decisionCopy } from '../lib/save/locations'
 import { loadAreas } from '../lib/unbound'
@@ -265,10 +265,13 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
         break
       }
       const result = await app.saveCatch(draftFor(mon))
-      if (result === 'invalid') {
+      if (result !== 'saved') {
+        if (result === 'death') {
+          pushToast(`${mon.nickname || mon.name} on ${routeTitleByKey(route)} needs the faint confirmed. It is not in Routes until you do.`)
+        }
         remember(written, finished, identities)
         setBusy(false)
-        setDenied(true)
+        if (result === 'invalid') setDenied(true)
         return
       }
       settledRoutes.current.set(route, mon.name)

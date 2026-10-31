@@ -140,7 +140,7 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
       deny()
     },
     signOut: async () => deny(),
-    saveCatch: async () => {
+    saveCatch: async (): Promise<'saved' | 'death' | 'invalid' | 'error'> => {
       deny()
       return 'invalid'
     },

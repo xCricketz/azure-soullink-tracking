@@ -5,7 +5,7 @@ import { test } from 'node:test'
 import { fileURLToPath } from 'node:url'
 import { appCookiePath, entryChoice, durableAuthStorage, memoryCookieJar, memoryStore } from '../src/lib/auth-persist.ts'
 import { matchGiftSlot, trackerRoutes } from '../src/lib/gift-slots.ts'
-import { planSave, type RouteOption } from '../src/lib/save/plan.ts'
+import { confirmFailureText, planSave, type RouteOption } from '../src/lib/save/plan.ts'
 import { boxMon, boxSlot, buildSave } from '../src/lib/save/synthetic.ts'
 import { parseSave, type SpeciesTable } from '../src/lib/save/unbound-save.ts'
 
@@ -20,6 +20,13 @@ const routes: RouteOption[] = [
   { name: 'route-5', en: 'Route 5', order: 13, group: 'Badge 1' },
   { name: 'cinder-volcano-depths', en: 'Cinder Volcano Depths', order: 38, group: 'Side' },
 ]
+
+test('a failed confirm names the Pokémon and the route', () => {
+  assert.equal(
+    confirmFailureText('Hydreigon', 'Orochi', 'Bellin Town', 'This route already has your catch.'),
+    'Hydreigon ‘Orochi’ on Bellin Town was not saved. This route already has your catch.',
+  )
+})
 
 test('a stored session opens the app and survives a localStorage wipe', () => {
   assert.equal(entryChoice('seri@soullink.app'), 'app')

@@ -354,7 +354,10 @@ export function liveDecisions(
   return out
 }
 
-/** Suggested routes that are still the first catch. Rows that need a route, and trades, gifts, and events, are confirmed one at a time. */
+/**
+ * Every new Pokémon with a chosen route, including the Starter slot and gifts.
+ * Duplicates, unknown species, and rows with no route stay out.
+ */
 export function confirmAllIds(
   mons: PlannedMon[],
   chosen: Record<string, string>,
@@ -363,9 +366,14 @@ export function confirmAllIds(
 ): string[] {
   const done = new Set(doneIds)
   return mons.filter((mon) => {
-    if (!mon.newSinceImport || mon.unknown || mon.nat == null || mon.place !== 'route' || done.has(mon.id) || !chosen[mon.id]) return false
+    if (!mon.newSinceImport || mon.unknown || mon.nat == null || done.has(mon.id) || !chosen[mon.id]) return false
     return !decisions.get(mon.id)?.duplicate
   }).map((mon) => mon.id)
+}
+
+export function confirmFailureText(name: string, nickname: string, routeLabel: string, reason: string): string {
+  const who = nickname.trim() ? `${name} ‘${nickname.trim()}’` : name
+  return `${who} on ${routeLabel} was not saved. ${reason}`
 }
 
 export function routeClash(ids: string[], chosen: Record<string, string>): boolean {

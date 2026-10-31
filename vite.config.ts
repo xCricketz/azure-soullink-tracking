@@ -37,7 +37,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        cacheId: 'unbound-v9-sprites',
+        cacheId: 'unbound-v10-import',
+        skipWaiting: true,
+        clientsClaim: true,
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff,woff2,ttf,ico,webmanifest}'],
         navigateFallback: 'index.html',
