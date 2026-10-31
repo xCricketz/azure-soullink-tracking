@@ -31,6 +31,7 @@ import {
 } from '../lib/types'
 import { optionsOf } from '../lib/options'
 import { confirmFailureText } from '../lib/save/plan'
+import { KEEP_LIFECYCLE, lifecycleFromDraft, mergeSameCatch, routeTakenReason, takenCatchLabel, type LifecycleIntent, type LoggedCatch } from '../lib/catch-clash'
 
 interface OutOp {
   kind: 'upsert' | 'delete' | 'rpc'
@@ -206,7 +207,11 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     window.setTimeout(() => silentIds.current.delete(id), 4000)
   }, [])
 
-  const sendUpsert = useCallback(async (row: Catch, subject?: { name: string; nickname: string }): Promise<'ok' | 'offline' | 'error'> => {
+  const sendUpsert = useCallback(async (
+    row: Catch,
+    subject?: { name: string; nickname: string },
+    intent: LifecycleIntent = KEEP_LIFECYCLE,
+  ): Promise<'ok' | 'offline' | 'error'> => {
     if (!navigator.onLine) {
       enqueue({ kind: 'upsert', row })
       return 'offline'
@@ -215,9 +220,19 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     let saved = row
     let { error } = await supabase.from('catches').upsert(saved)
     if (error && isUniqueCatch(error)) {
-      const { data } = await supabase.from('catches').select('id').eq('run_id', row.run_id).eq('player', row.player).eq('route', row.route).maybeSingle()
-      if (data?.id) {
-        saved = { ...row, id: data.id }
+      const { data } = await supabase.from('catches').select('id, pokemon, dex_id, nickname, status, in_team, team_order, death_cause, epitaph, died_at, created_at').eq('run_id', row.run_id).eq('player', row.player).eq('route', row.route).maybeSingle()
+      const existing = data as LoggedCatch | null
+      if (existing) {
+        const merged = mergeSameCatch(existing, row, intent)
+        if (!merged) {
+          const reason = routeTakenReason(takenCatchLabel(existing))
+          const name = subject?.name ?? row.pokemon ?? 'This catch'
+          const nickname = subject?.nickname ?? row.nickname ?? ''
+          pushToast(confirmFailureText(name, nickname, routeTitleByKey(row.route), reason))
+          publishSync()
+          return 'error'
+        }
+        saved = merged
         const retry = await supabase.from('catches').upsert(saved)
         error = retry.error
       }
@@ -321,11 +336,12 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     previous: Catch | null,
     toastText: string,
     subject?: { name: string; nickname: string },
+    intent: LifecycleIntent = KEEP_LIFECYCLE,
   ): Promise<'ok' | 'offline' | 'error'> => {
     const before = catchesRef.current
     hush(next.id)
     writeCatches(upsertLocal(before, next))
-    const result = await sendUpsert(next, subject)
+    const result = await sendUpsert(next, subject, intent)
     if (result === 'error') {
       writeCatches(previous ? upsertLocal(catchesRef.current, previous) : catchesRef.current.filter((row) => row.id !== next.id))
       return 'error'
@@ -618,7 +634,13 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const text = !existing
       ? draft.status === 'missed' ? 'Route saved as missed' : 'Catch saved'
       : 'Catch updated'
-    const wrote = await commit(next, existing, text, { name: draft.pokemon || 'This catch', nickname: draft.nickname })
+    const wrote = await commit(
+      next,
+      existing,
+      text,
+      { name: draft.pokemon || 'This catch', nickname: draft.nickname },
+      lifecycleFromDraft(draft),
+    )
     if (wrote === 'error') return 'error'
     vibrate(20)
     return 'saved'
@@ -635,7 +657,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         return
       }
     }
-    await commit(next, row, 'Status changed')
+    await commit(next, row, 'Status changed', { name: row.pokemon ?? 'This catch', nickname: row.nickname ?? '' }, { status: true, team: true, death: true })
     if (status === 'dead') vibrate(200)
   }, [commit, me])
 
@@ -664,7 +686,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       pushToast('Only six Pokémon in the team.')
       return
     }
-    await commit(next, row, where === 'team' ? 'On the team' : 'In the box')
+    await commit(next, row, where === 'team' ? 'On the team' : 'In the box', { name: row.pokemon ?? 'This catch', nickname: row.nickname ?? '' }, { status: true, team: true, death: true })
   }, [commit, me])
 
   const moveTeam = useCallback(async (id: string, dir: -1 | 1) => {
@@ -810,7 +832,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const trimmed = clip(cause, 160)
     const next = asDead({ ...prompt.next, death_cause: trimmed || prompt.next.death_cause }, trimmed)
     if (choice === 'mine') {
-      await commit(next, prompt.previous, 'Sent to the graveyard')
+      await commit(next, prompt.previous, 'Sent to the graveyard', { name: next.pokemon ?? 'This catch', nickname: next.nickname ?? '' }, { status: true, team: true, death: true })
       vibrate(200)
       return
     }
