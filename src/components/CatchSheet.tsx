@@ -132,7 +132,7 @@ export function CatchSheet({
     setBusy(true)
     const result = await app.saveCatch(draft)
     setBusy(false)
-    if (result !== 'invalid') onClose()
+    if (result === 'saved' || result === 'death') onClose()
   }
 
   return (

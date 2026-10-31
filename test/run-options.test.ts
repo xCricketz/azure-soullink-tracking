@@ -283,7 +283,7 @@ describe('starter classification runs before the route map', () => {
     assert.equal(late?.confidence, 'guess')
     const chosen = Object.fromEntries(plan.mons.map((mon) => [mon.id, mon.suggestedRoute ?? '']))
     const ready = confirmAllIds(plan.suggestions, chosen, new Map(plan.mons.map((mon) => [mon.id, { duplicate: false, duplicateOf: null }])))
-    assert.deepEqual(ready, [patrat?.id, legacy?.id, late?.id])
+    assert.deepEqual(ready, [starter?.id, patrat?.id, legacy?.id, late?.id])
   })
 })
 

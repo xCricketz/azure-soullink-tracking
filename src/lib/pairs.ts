@@ -1,5 +1,5 @@
 import { CUSTOM_ORDER_START, groupTitle, placeByKey, type RouteDef } from '../data/routes'
-import { trackerRoutes } from './gift-slots'
+import { genericGiftFromId, trackerRoutes } from './gift-slots'
 import type { Catch, CustomRoute, PlayerId, RouteFilter, Status } from './types'
 import { norm } from './text'
 
@@ -19,8 +19,9 @@ export function buildRouteList(catches: Catch[], custom: CustomRoute[]): RouteDe
   }
   for (const catchRow of catches) {
     if (!map.has(catchRow.route)) {
-      const place = placeByKey(catchRow.route)
-      map.set(catchRow.route, {
+      const generic = genericGiftFromId(catchRow.route)
+      const place = generic ? null : placeByKey(catchRow.route)
+      map.set(catchRow.route, generic ?? {
         name: catchRow.route,
         en: place?.name ?? catchRow.route,
         order: place?.order ?? catchRow.route_order ?? CUSTOM_ORDER_START,
@@ -80,6 +81,8 @@ export function nextOpenRoute(rows: RouteRow[], me: PlayerId): RouteDef | null {
 export function findRoute(name: string, custom: CustomRoute[]): RouteDef | null {
   const official = trackerRoutes().find((route) => norm(route.name) === norm(name) || norm(route.en) === norm(name))
   if (official) return official
+  const generic = genericGiftFromId(name)
+  if (generic) return generic
   const extra = custom.find((route) => norm(route.name) === norm(name))
   if (extra) return { name: extra.name, en: extra.name, order: extra.order, group: 'Custom', kind: 'other' }
   return null

@@ -1,7 +1,7 @@
 import { Check, Upload } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react'
-import { placeByKey } from '../data/routes'
-import { trackerRoutes } from '../lib/gift-slots'
+import { placeByKey, routeTitleByKey } from '../data/routes'
+import { genericGiftFromId, listedRoute, trackerRoutes } from '../lib/gift-slots'
 import { decisionCopy } from '../lib/save/locations'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
@@ -200,7 +200,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
 
   function draftFor(mon: PlannedMon): CatchDraft {
     const key = routes[mon.id] ?? ''
-    const listed = trackerRoutes().find((item) => item.name === key)
+    const listed = listedRoute(key)
     const place = listed ? null : placeByKey(key)
     return {
       route: listed?.name ?? place?.key ?? '',
@@ -265,10 +265,13 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
         break
       }
       const result = await app.saveCatch(draftFor(mon))
-      if (result === 'invalid') {
+      if (result !== 'saved') {
+        if (result === 'death') {
+          pushToast(`${mon.nickname || mon.name} on ${routeTitleByKey(route)} needs the faint confirmed. It is not in Routes until you do.`)
+        }
         remember(written, finished, identities)
         setBusy(false)
-        setDenied(true)
+        if (result === 'invalid') setDenied(true)
         return
       }
       settledRoutes.current.set(route, mon.name)
@@ -285,7 +288,10 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
     return settledRoutes.current.has(route) || occupies(app.catches, app.me, route)
   }
 
-  const groups = groupRoutes()
+  const groups = groupRoutes(plan?.mons.flatMap((mon) => {
+    const route = mon.suggestedRoute ? genericGiftFromId(mon.suggestedRoute) : null
+    return route ? [route] : []
+  }) ?? [])
   const partyCount = save ? save.party.filter((mon) => !mon.isEgg).length : 0
   const boxCount = save ? save.boxes.reduce((sum, box) => sum + box.mons.filter((mon) => !mon.isEgg).length, 0) : 0
   const released = save?.releasedRemnants.length ?? 0
@@ -366,9 +372,9 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
             <p className="import-help">
               Reading this file does not change the run. Each route is a suggestion from the met location. Confirm a row to log that catch, or use Confirm all for every suggested route that is still the first catch.
               Likely and Guess are weaker matches. Change them before Confirm all if they look wrong.
-              Unmapped places, trades, events, hatched Pokémon, and Cherish Ball gifts stay under Needs your decision until you confirm them one at a time.
+              Unmapped places, trades, events, and hatched Pokémon stay under Needs your decision until you confirm them one at a time.
               A route holds one catch. Evolution keeps the first place. A soft reset leaves no trace, so the save cannot tell a first catch from a later one.
-              A Cherish Ball is usually a gift, fossil, or event. The save cannot tell those apart from a wild catch otherwise. Gyms have no map section of their own.
+              A Cherish Ball is a gift. It uses the listed gift at that place, or a guessed Gift slot when none is listed, so the wild encounter stays open. Gyms have no map section of their own.
               Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
               Shiny is an unverified guess (xor under 16). It is not confirmed. Box levels are worked out from EXP. A mint would not show.
               {!save.checksumsOk && ' One save slot failed its checksum, so this is the other slot.'}
@@ -431,9 +437,12 @@ function occupies(catches: { player: string; route: string; pokemon: string | nu
   return catches.some((row) => row.player === me && row.route === route && row.pokemon && row.status !== 'missed')
 }
 
-function groupRoutes() {
+function groupRoutes(extra: { name: string; en: string; order: number; group: string }[] = []) {
+  const byName = new Map<string, { name: string; en: string; order: number; group: string }>()
+  for (const route of [...trackerRoutes(), ...extra]) byName.set(route.name, route)
   const groups = new Map<string, { name: string; en: string }[]>()
-  for (const route of trackerRoutes()) {
+  const ordered = [...byName.values()].sort((a, b) => a.order - b.order || a.en.localeCompare(b.en, 'en'))
+  for (const route of ordered) {
     const list = groups.get(route.group) ?? []
     list.push({ name: route.name, en: route.en })
     groups.set(route.group, list)
@@ -493,6 +502,9 @@ function placeCopy(mon: PlannedMon, live: RouteDecision): string {
       : 'This route already has a catch. Pick another route, or leave it.'
   }
   const where = metWhere(mon)
+  if (mon.decision === 'gift' && mon.suggestedRoute && genericGiftFromId(mon.suggestedRoute)) {
+    return `${mon.placeName ?? 'Gift'}. Cherish Ball, and this place has no listed gift. This is a guess, so the wild encounter stays open.`
+  }
   if (mon.unknown) return `Species ${mon.speciesId} is not in the table, so this row is unknown Pokémon. It is not logged.`
   const ruled = decisionCopy({
     decision: mon.decision,

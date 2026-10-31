@@ -15,6 +15,17 @@ applyTheme(loadSettings().theme)
 
 installHistory()
 
+let hadServiceWorker = Boolean(navigator.serviceWorker?.controller)
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadServiceWorker) {
+      hadServiceWorker = true
+      return
+    }
+    window.location.reload()
+  })
+}
+
 registerSW({
   immediate: true,
   onRegisteredSW(_url, registration) {
@@ -22,7 +33,10 @@ registerSW({
     const check = () => {
       if (document.visibilityState === 'visible') void registration.update()
     }
+    check()
     document.addEventListener('visibilitychange', check)
+    window.setInterval(check, 60 * 60 * 1000)
+    registration.waiting?.postMessage({ type: 'SKIP_WAITING' })
   },
 })
 

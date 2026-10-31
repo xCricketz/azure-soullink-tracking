@@ -20,6 +20,9 @@ export function LinkCard({
   onAdd,
   onQuick,
   onWiki,
+  onTeam,
+  onBox,
+  onDead,
   randomized = false,
 }: {
   route: RouteDef
@@ -33,6 +36,9 @@ export function LinkCard({
   onAdd: () => void
   onQuick: () => void
   onWiki?: (id: string) => void
+  onTeam: () => void
+  onBox: () => void
+  onDead: () => void
   randomized?: boolean
 }) {
   const state = pairState(fisi, seri, me)
@@ -106,8 +112,21 @@ export function LinkCard({
       {mine?.status === 'alive' && (me === 'fisi' ? seri : fisi)?.status === 'missed' && (
         <p className="warn-line">unlinked — can’t be in the team</p>
       )}
+      {mine && mine.status !== 'missed' && (
+        <div className="catch-actions" onClick={(event) => event.stopPropagation()} onPointerDown={(event) => event.stopPropagation()}>
+          <button type="button" data-status="team" aria-pressed={mine.status === 'alive' && mine.in_team} onClick={onTeam}>Team</button>
+          <button type="button" data-status="box" aria-pressed={mine.status === 'boxed' || (mine.status === 'alive' && !mine.in_team)} onClick={onBox}>Box</button>
+          <button type="button" data-status="dead" aria-pressed={mine.status === 'dead'} onClick={onDead}>Dead</button>
+        </div>
+      )}
     </article>
   )
+}
+
+function whereLabel(row: Catch): 'Team' | 'Box' | 'Dead' {
+  if (row.status === 'dead') return 'Dead'
+  if (row.status === 'boxed' || !row.in_team) return 'Box'
+  return 'Team'
 }
 
 function pairState(fisi: Catch | undefined, seri: Catch | undefined, me: PlayerId) {
@@ -221,7 +240,8 @@ function Half({
       <div className="meta">
         <div className="nick">{catchRow.nickname || (missed ? 'Missed' : speciesName(catchRow))}</div>
         <div className="species">{missed ? 'No catch' : speciesName(catchRow)}</div>
-        <StatusChip status={catchRow.status} />
+        <StatusChip status={catchRow.status} inTeam={catchRow.in_team} />
+        {mine && catchRow.status !== 'missed' && <span className="where">{whereLabel(catchRow)}</span>}
       </div>
     </div>
   )

@@ -30,6 +30,8 @@ import {
   type SyncState,
 } from '../lib/types'
 import { optionsOf } from '../lib/options'
+import { confirmFailureText } from '../lib/save/plan'
+import { KEEP_LIFECYCLE, lifecycleFromDraft, mergeSameCatch, routeTakenReason, takenCatchLabel, type LifecycleIntent, type LoggedCatch } from '../lib/catch-clash'
 
 interface OutOp {
   kind: 'upsert' | 'delete' | 'rpc'
@@ -52,7 +54,7 @@ export interface AppContextValue {
   saveProgress: (patch: { badges?: number; level_cap?: number | null }) => Promise<void>
   saveOptions: (patch: Partial<RunOptions>) => Promise<void>
   signOut: () => Promise<void>
-  saveCatch: (draft: CatchDraft) => Promise<'saved' | 'death' | 'invalid'>
+  saveCatch: (draft: CatchDraft) => Promise<'saved' | 'death' | 'invalid' | 'error'>
   setStatus: (id: string, status: Status) => Promise<void>
   deleteCatch: (id: string) => Promise<void>
   place: (id: string, where: 'team' | 'box') => Promise<void>
@@ -96,10 +98,15 @@ function isNetwork(error: { message?: string } | null): boolean {
 
 function explain(error: { message?: string; code?: string }): string {
   const message = error.message ?? ''
-  if (error.code === '23505' || /duplicate|unique/i.test(message)) return 'This route is already taken.'
+  if (error.code === '23505' || /duplicate|unique/i.test(message)) return 'This route already has your catch.'
   if (error.code === '42501' || /row-level security/i.test(message)) return 'You can only edit your own catch.'
   if (error.code === 'PGRST202' || /reset_run/i.test(message)) return 'missing-rpc'
-  return 'Couldn’t save.'
+  return message || 'Couldn’t save.'
+}
+
+function isUniqueCatch(error: { message?: string; code?: string } | null): boolean {
+  if (!error) return false
+  return error.code === '23505' || /duplicate|unique/i.test(error.message ?? '')
 }
 
 function vibrate(ms: number) {
@@ -200,14 +207,40 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     window.setTimeout(() => silentIds.current.delete(id), 4000)
   }, [])
 
-  const sendUpsert = useCallback(async (row: Catch): Promise<'ok' | 'offline' | 'error'> => {
+  const sendUpsert = useCallback(async (
+    row: Catch,
+    subject?: { name: string; nickname: string },
+    intent: LifecycleIntent = KEEP_LIFECYCLE,
+  ): Promise<'ok' | 'offline' | 'error'> => {
     if (!navigator.onLine) {
       enqueue({ kind: 'upsert', row })
       return 'offline'
     }
     setSync('syncing')
-    const { error } = await supabase.from('catches').upsert(row)
+    let saved = row
+    let { error } = await supabase.from('catches').upsert(saved)
+    if (error && isUniqueCatch(error)) {
+      const { data } = await supabase.from('catches').select('id, pokemon, dex_id, nickname, status, in_team, team_order, death_cause, epitaph, died_at, created_at').eq('run_id', row.run_id).eq('player', row.player).eq('route', row.route).maybeSingle()
+      const existing = data as LoggedCatch | null
+      if (existing) {
+        const merged = mergeSameCatch(existing, row, intent)
+        if (!merged) {
+          const reason = routeTakenReason(takenCatchLabel(existing))
+          const name = subject?.name ?? row.pokemon ?? 'This catch'
+          const nickname = subject?.nickname ?? row.nickname ?? ''
+          pushToast(confirmFailureText(name, nickname, routeTitleByKey(row.route), reason))
+          publishSync()
+          return 'error'
+        }
+        saved = merged
+        const retry = await supabase.from('catches').upsert(saved)
+        error = retry.error
+      }
+    }
     if (!error) {
+      if (saved.id !== row.id) {
+        writeCatches(catchesRef.current.map((item) => item.id === row.id ? saved : item))
+      }
       publishSync()
       return 'ok'
     }
@@ -215,10 +248,11 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       enqueue({ kind: 'upsert', row })
       return 'offline'
     }
-    pushToast(explain(error))
+    const reason = explain(error)
+    pushToast(subject ? confirmFailureText(subject.name, subject.nickname, routeTitleByKey(row.route), reason) : reason)
     publishSync()
     return 'error'
-  }, [enqueue, publishSync])
+  }, [enqueue, publishSync, writeCatches])
 
   const sendDelete = useCallback(async (id: string): Promise<'ok' | 'offline' | 'error'> => {
     if (!navigator.onLine) {
@@ -297,10 +331,21 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     storeOutbox(rest)
   }, [publishSync, storeOutbox])
 
-  const commit = useCallback(async (next: Catch, previous: Catch | null, toastText: string) => {
+  const commit = useCallback(async (
+    next: Catch,
+    previous: Catch | null,
+    toastText: string,
+    subject?: { name: string; nickname: string },
+    intent: LifecycleIntent = KEEP_LIFECYCLE,
+  ): Promise<'ok' | 'offline' | 'error'> => {
     const before = catchesRef.current
     hush(next.id)
     writeCatches(upsertLocal(before, next))
+    const result = await sendUpsert(next, subject, intent)
+    if (result === 'error') {
+      writeCatches(previous ? upsertLocal(catchesRef.current, previous) : catchesRef.current.filter((row) => row.id !== next.id))
+      return 'error'
+    }
     setPulse(next.route)
     window.setTimeout(() => setPulse((current) => (current === next.route ? null : current)), 650)
     pushToast(toastText, {
@@ -315,8 +360,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         }
       },
     })
-    const result = await sendUpsert(next)
-    if (result === 'error') writeCatches(previous ? upsertLocal(catchesRef.current, previous) : catchesRef.current.filter((row) => row.id !== next.id))
+    return result
   }, [hush, sendDelete, sendUpsert, writeCatches])
 
   const toastRoute = useCallback((route: string, text: string) => {
@@ -564,7 +608,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     })
   }, [])
 
-  const saveCatch = useCallback(async (draft: CatchDraft): Promise<'saved' | 'death' | 'invalid'> => {
+  const saveCatch = useCallback(async (draft: CatchDraft): Promise<'saved' | 'death' | 'invalid' | 'error'> => {
     const active = runRef.current
     if (!active) {
       pushToast('No active run.')
@@ -590,7 +634,14 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const text = !existing
       ? draft.status === 'missed' ? 'Route saved as missed' : 'Catch saved'
       : 'Catch updated'
-    await commit(next, existing, text)
+    const wrote = await commit(
+      next,
+      existing,
+      text,
+      { name: draft.pokemon || 'This catch', nickname: draft.nickname },
+      lifecycleFromDraft(draft),
+    )
+    if (wrote === 'error') return 'error'
     vibrate(20)
     return 'saved'
   }, [commit, me])
@@ -606,7 +657,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         return
       }
     }
-    await commit(next, row, 'Status changed')
+    await commit(next, row, 'Status changed', { name: row.pokemon ?? 'This catch', nickname: row.nickname ?? '' }, { status: true, team: true, death: true })
     if (status === 'dead') vibrate(200)
   }, [commit, me])
 
@@ -635,7 +686,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       pushToast('Only six Pokémon in the team.')
       return
     }
-    await commit(next, row, where === 'team' ? 'On the team' : 'In the box')
+    await commit(next, row, where === 'team' ? 'On the team' : 'In the box', { name: row.pokemon ?? 'This catch', nickname: row.nickname ?? '' }, { status: true, team: true, death: true })
   }, [commit, me])
 
   const moveTeam = useCallback(async (id: string, dir: -1 | 1) => {
@@ -781,7 +832,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const trimmed = clip(cause, 160)
     const next = asDead({ ...prompt.next, death_cause: trimmed || prompt.next.death_cause }, trimmed)
     if (choice === 'mine') {
-      await commit(next, prompt.previous, 'Sent to the graveyard')
+      await commit(next, prompt.previous, 'Sent to the graveyard', { name: next.pokemon ?? 'This catch', nickname: next.nickname ?? '' }, { status: true, team: true, death: true })
       vibrate(200)
       return
     }
