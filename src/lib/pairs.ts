@@ -1,4 +1,5 @@
-import { CUSTOM_ORDER_START, ROUTES, groupTitle, placeByKey, type RouteDef } from '../data/routes'
+import { CUSTOM_ORDER_START, groupTitle, placeByKey, type RouteDef } from '../data/routes'
+import { trackerRoutes } from './gift-slots'
 import type { Catch, CustomRoute, PlayerId, RouteFilter, Status } from './types'
 import { norm } from './text'
 
@@ -10,7 +11,7 @@ export interface RouteRow {
 
 export function buildRouteList(catches: Catch[], custom: CustomRoute[]): RouteDef[] {
   const map = new Map<string, RouteDef>()
-  for (const route of ROUTES) map.set(route.name, route)
+  for (const route of trackerRoutes()) map.set(route.name, route)
   for (const route of custom) {
     if (!map.has(route.name)) {
       map.set(route.name, { name: route.name, en: route.name, order: route.order, group: 'Custom', kind: 'other' })
@@ -77,7 +78,7 @@ export function nextOpenRoute(rows: RouteRow[], me: PlayerId): RouteDef | null {
 }
 
 export function findRoute(name: string, custom: CustomRoute[]): RouteDef | null {
-  const official = ROUTES.find((route) => norm(route.name) === norm(name) || norm(route.en) === norm(name))
+  const official = trackerRoutes().find((route) => norm(route.name) === norm(name) || norm(route.en) === norm(name))
   if (official) return official
   const extra = custom.find((route) => norm(route.name) === norm(name))
   if (extra) return { name: extra.name, en: extra.name, order: extra.order, group: 'Custom', kind: 'other' }

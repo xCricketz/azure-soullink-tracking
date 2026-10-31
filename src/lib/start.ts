@@ -1,6 +1,6 @@
 const HIDDEN_AT = 'sl-hidden-at'
 
-/** Background longer than this brings the title screen back. The session stays. */
+/** Kept for tests. A signed-in visit no longer returns to the code screen after this. */
 export const AWAY_LIMIT_MS = 30 * 60 * 1000
 
 export function clearHidden(): void {

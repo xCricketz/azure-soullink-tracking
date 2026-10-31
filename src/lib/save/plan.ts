@@ -1,5 +1,6 @@
 import type { PlayerId } from '../types'
 import { MAP_SECTIONS, readLocation, type DecisionKind, type LocationReading, type MapConfidence, type MapsecTable } from './locations'
+import { matchGiftSlot } from '../gift-slots'
 import { STARTER_SLOT, classifyStarter } from './run-options'
 import { identityOf } from './save-diff'
 import type { Mon, ParsedSave } from './unbound-save'
@@ -58,8 +59,8 @@ export interface PlannedMon {
   decision: DecisionKind | null
   confidence: MapConfidence | null
   placeName: string | null
-  /** S1 is the Shadow Base starter room. S2 is the older Frozen Heights guess. Both wait for a route. */
-  starterRule: 'S1' | 'S2' | null
+  /** Only the earliest Shadow Base level-10 starter. Map section 88 is not a starter. */
+  starterRule: 'S1' | null
   ownOT: boolean
   /** A later Pokémon on a route that already has a catch, using the suggested route. The sheet recomputes this from the route the player actually picks. */
   duplicate: boolean
@@ -140,11 +141,13 @@ function planOne(
     routes: RouteOption[]
     areas: AreaHint[]
     sections: MapsecTable
+    keepStarterId: string | null
   },
 ): PlannedMon | 'egg' {
   if (mon.isEgg) return 'egg'
+  const id = mon.where === 'party' ? `party-${mon.slot}` : `box-${mon.box ?? 0}-${mon.slot}`
   const unknown = !mon.nat || !mon.name
-  const starter = unknown ? { isStarter: false, confidence: null, rule: null } : classifyStarter({
+  const classified = unknown ? { isStarter: false, confidence: null, rule: null } : classifyStarter({
     ownOT: mon.ownOT,
     isEgg: mon.isEgg,
     met: {
@@ -153,6 +156,15 @@ function planOne(
       level: mon.met.catchLevel,
       ballName: mon.met.ballName,
     },
+  })
+  const starter = classified.isStarter && classified.rule === 'S1' && id === opts.keepStarterId
+    ? classified
+    : { isStarter: false, confidence: null, rule: null }
+  const gift = starter.isStarter || unknown ? null : matchGiftSlot({
+    ownOT: mon.ownOT,
+    isEgg: mon.isEgg,
+    name: mon.name,
+    met: { category: mon.met.category, location: mon.met.mapSectionId, level: mon.met.catchLevel },
   })
   const known = new Set(opts.routes.map((route) => route.name))
   const located = starter.isStarter
@@ -164,7 +176,16 @@ function planOne(
       placeName: opts.sections[String(mon.met.mapSectionId)]?.name ?? null,
       source: 'met' as const,
     }
-    : readLocation(mon.met, mon.ownOT, opts.sections, known)
+    : gift
+      ? {
+        place: 'needs-decision' as const,
+        decision: gift.kind === 'trade' ? 'trade' as const : 'gift' as const,
+        route: gift.id,
+        confidence: gift.confidence,
+        placeName: gift.label,
+        source: 'met' as const,
+      }
+      : readLocation(mon.met, mon.ownOT, opts.sections, known)
   const area = !unknown && located.decision === 'unmapped' && !located.route
     ? suggestRoute(mon.name ?? '', opts.progress, opts.routes, opts.areas, opts.randomizerSpecies)
     : null
@@ -175,7 +196,7 @@ function planOne(
   const identity = identityOf(mon)
   const seenBefore = opts.previousIds.has(identity)
   return {
-    id: mon.where === 'party' ? `party-${mon.slot}` : `box-${mon.box ?? 0}-${mon.slot}`,
+    id,
     where: mon.where,
     boxIndex: mon.where === 'box' ? mon.box ?? 0 : null,
     boxName,
@@ -225,7 +246,7 @@ export function planSave(save: ParsedSave, opts: {
   void opts.previousNats
   const progress = furthestRoute(opts.routes, opts.catches)
   const previousIds = new Set(opts.previousIds ?? [])
-  const shared = { ...opts, previousIds, progress, sections: opts.sections ?? MAP_SECTIONS }
+  const shared = { ...opts, previousIds, progress, sections: opts.sections ?? MAP_SECTIONS, keepStarterId: firstShadowStarterId(save) }
   const mons: PlannedMon[] = []
   let skippedEggs = 0
   const skippedUnknown = 0
@@ -245,6 +266,28 @@ export function planSave(save: ParsedSave, opts: {
   const missing: MissingImport[] = known.filter((identity, index) => known.indexOf(identity) === index && !present.has(identity))
     .map((identity) => ({ identity, prompt: 'Dead/gone?' }))
   return { mons, suggestions, missing, skippedEggs, skippedUnknown, progress }
+}
+
+/** Earliest own-OT level-10 Poké Ball at map section 133. Later copies stay Shadow Base. */
+export function firstShadowStarterId(save: ParsedSave): string | null {
+  const ordered = [...save.party, ...save.boxes.flatMap((box) => box.mons)]
+  for (const mon of ordered) {
+    if (mon.isEgg || !mon.nat || !mon.name) continue
+    const verdict = classifyStarter({
+      ownOT: mon.ownOT,
+      isEgg: mon.isEgg,
+      met: {
+        category: mon.met.category,
+        location: mon.met.mapSectionId,
+        level: mon.met.catchLevel,
+        ballName: mon.met.ballName,
+      },
+    })
+    if (verdict.isStarter && verdict.rule === 'S1') {
+      return mon.where === 'party' ? `party-${mon.slot}` : `box-${mon.box ?? 0}-${mon.slot}`
+    }
+  }
+  return null
 }
 
 function markDuplicates(mons: PlannedMon[], me: PlayerId, catches: CatchHint[]) {

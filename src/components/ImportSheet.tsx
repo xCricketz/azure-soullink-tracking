@@ -1,7 +1,7 @@
 import { Check, Upload } from 'lucide-react'
 import { useEffect, useId, useMemo, useRef, useState, type ReactNode } from 'react'
-import { ROUTES, placeByKey } from '../data/routes'
-import { STARTER_SLOT } from '../lib/save/run-options'
+import { placeByKey } from '../data/routes'
+import { trackerRoutes } from '../lib/gift-slots'
 import { decisionCopy } from '../lib/save/locations'
 import { loadAreas } from '../lib/unbound'
 import { optionsOf } from '../lib/options'
@@ -77,7 +77,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
       previousNats: previous,
       previousIds,
       randomizerSpecies: options.randomizerSpecies,
-      routes: ROUTES.map((route) => ({ name: route.name, en: route.en, order: route.order, group: route.group })),
+      routes: trackerRoutes().map((route) => ({ name: route.name, en: route.en, order: route.order, group: route.group })),
       areas,
     })
   }, [save, app.me, app.catches, previous, previousIds, options.randomizerSpecies, areas])
@@ -200,7 +200,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
 
   function draftFor(mon: PlannedMon): CatchDraft {
     const key = routes[mon.id] ?? ''
-    const listed = ROUTES.find((item) => item.name === key)
+    const listed = trackerRoutes().find((item) => item.name === key)
     const place = listed ? null : placeByKey(key)
     return {
       route: listed?.name ?? place?.key ?? '',
@@ -433,9 +433,7 @@ function occupies(catches: { player: string; route: string; pokemon: string | nu
 
 function groupRoutes() {
   const groups = new Map<string, { name: string; en: string }[]>()
-  const starter = placeByKey(STARTER_SLOT)
-  if (starter) groups.set('Opening', [{ name: starter.key, en: starter.name }])
-  for (const route of ROUTES) {
+  for (const route of trackerRoutes()) {
     const list = groups.get(route.group) ?? []
     list.push({ name: route.name, en: route.en })
     groups.set(route.group, list)
