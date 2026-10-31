@@ -15,6 +15,7 @@ export interface Catch {
   run_id: string
   player: PlayerId
   route: string
+  /** May be fractional so a gift slot can sit between two whole route orders. */
   route_order: number | null
   pokemon: string | null
   dex_id: number | null
