@@ -96,6 +96,10 @@ export function routeTitleByKey(name: string): string {
   if (name === 'starter') return 'Starter'
   const gift = (gifts.sources as { id: string; label: string }[]).find((source) => source.id === name)
   if (gift) return gift.label
+  if (name.startsWith('gift-')) {
+    const place = byKey.get(name.slice('gift-'.length))
+    if (place) return `${place.name} – Gift`
+  }
   return ROUTES.find((route) => route.name === name)?.en || byKey.get(name)?.name || name
 }
 

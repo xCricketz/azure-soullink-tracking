@@ -164,7 +164,8 @@ function planOne(
     ownOT: mon.ownOT,
     isEgg: mon.isEgg,
     name: mon.name,
-    met: { category: mon.met.category, location: mon.met.mapSectionId, level: mon.met.catchLevel },
+    randomizerSpecies: opts.randomizerSpecies,
+    met: { category: mon.met.category, location: mon.met.mapSectionId, level: mon.met.catchLevel, ball: mon.met.ball },
   })
   const known = new Set(opts.routes.map((route) => route.name))
   const located = starter.isStarter
