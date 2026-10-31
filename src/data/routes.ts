@@ -1,3 +1,4 @@
+import gifts from './unbound/gifts.json'
 import raw from './unbound/routes.json'
 
 export interface RouteDef {
@@ -92,6 +93,9 @@ export function routeTitle(route: { name: string; en: string }): string {
 }
 
 export function routeTitleByKey(name: string): string {
+  if (name === 'starter') return 'Starter'
+  const gift = (gifts.sources as { id: string; label: string }[]).find((source) => source.id === name)
+  if (gift) return gift.label
   return ROUTES.find((route) => route.name === name)?.en || byKey.get(name)?.name || name
 }
 

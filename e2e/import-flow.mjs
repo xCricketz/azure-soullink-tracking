@@ -305,7 +305,7 @@ async function checkStarterAndOptions(page, engine) {
     failures.push(`${engine} S1 starter ${JSON.stringify({ starter: starter.starter, decision: starter.decision, confidence: starter.confidence, met: starter.met })}`)
   }
   if (!starter.text.includes('Starter? (met at Shadow Base, Lv10)') || !starter.text.includes('Guess')) failures.push(`${engine} S1 copy: ${starter.text}`)
-  if (starter.route !== 'frozen-heights' || starter.routeLabel.trim() !== 'Frozen Heights' || !starter.confirmEnabled) {
+  if (starter.route !== 'starter' || starter.routeLabel.trim() !== 'Starter' || !starter.confirmEnabled) {
     failures.push(`${engine} S1 starter slot ${starter.route} ${starter.routeLabel} confirm ${starter.confirmEnabled}`)
   }
   const patrat = await rowFacts(page, 'Patrat')
@@ -318,7 +318,7 @@ async function checkStarterAndOptions(page, engine) {
     failures.push(`${engine} S2 starter ${JSON.stringify({ starter: legacy.starter, decision: legacy.decision, confidence: legacy.confidence, met: legacy.met })}`)
   }
   if (!legacy.text.includes('Guess') || !legacy.text.includes('Starter')) failures.push(`${engine} S2 copy: ${legacy.text}`)
-  if (legacy.route !== 'frozen-heights' || legacy.routeLabel.trim() !== 'Frozen Heights') {
+  if (legacy.route !== 'starter' || legacy.routeLabel.trim() !== 'Starter') {
     failures.push(`${engine} S2 starter slot ${legacy.route} ${legacy.routeLabel}`)
   }
   const late = await rowFacts(page, 'Charizard')

@@ -99,7 +99,7 @@ test('every synthetic fixture classifies trades and events from the met location
       if (section === 88 && category === 'area') {
         if (mon.decision === 'starter') {
           assert.equal(mon.starterRule, 'S2', `${name} ${id}`)
-          assert.equal(mon.suggestedRoute, 'frozen-heights', `${name} ${id}`)
+          assert.equal(mon.suggestedRoute, 'starter', `${name} ${id}`)
           assert.match(copy, /Starter\? \(met at Frozen Heights, Lv10\)/)
         } else {
           assert.match(copy, /Frozen Heights \(starter town, no Soul-Link route\)/)

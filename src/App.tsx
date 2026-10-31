@@ -8,7 +8,7 @@ import { teamOf } from './lib/edits'
 import { releaseLayer, upsertLayer } from './lib/history'
 import { activeCap, difficultyLabel, optionsOf } from './lib/options'
 import { applyTheme, loadSettings } from './lib/settings'
-import { clearHidden, markHidden, resumeNeedsStart } from './lib/start'
+import { entryChoice } from './lib/auth-persist'
 import { supabase } from './lib/supabase'
 import { greetingLine, playerFromEmail, PLAYERS, type PlayerId, type TabId } from './lib/types'
 import { parseDexKey } from './lib/unbound'
@@ -58,36 +58,11 @@ export default function App() {
   return <RealApp />
 }
 
-function useAppOpen() {
-  const [entered, setEntered] = useState(false)
-  useEffect(() => {
-    clearHidden()
-    const mark = () => markHidden()
-    const back = () => {
-      if (document.visibilityState === 'hidden') return
-      if (resumeNeedsStart()) setEntered(false)
-    }
-    const onVis = () => {
-      if (document.visibilityState === 'hidden') mark()
-      else back()
-    }
-    document.addEventListener('visibilitychange', onVis)
-    window.addEventListener('pagehide', mark)
-    window.addEventListener('pageshow', back)
-    return () => {
-      document.removeEventListener('visibilitychange', onVis)
-      window.removeEventListener('pagehide', mark)
-      window.removeEventListener('pageshow', back)
-    }
-  }, [])
-  return { entered, enter: () => setEntered(true) }
-}
-
 function RealApp() {
   const [ready, setReady] = useState(false)
   const [email, setEmail] = useState<string | null>(null)
   const [demo, setDemo] = useState(false)
-  const { entered, enter } = useAppOpen()
+  const [entered, setEntered] = useState(false)
 
   useEffect(() => {
     const wake = () => {
@@ -99,23 +74,18 @@ function RealApp() {
   }, [])
 
   useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => {
-      setEmail(data.session?.user.email ?? null)
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      const next = session?.user.email ?? null
+      setEmail(next)
       setReady(true)
-    })
-    const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      setEmail(session?.user.email ?? null)
-      setReady(true)
+      if (event === 'SIGNED_OUT') setEntered(false)
+      else if (entryChoice(next) === 'app') setEntered(true)
     })
     return () => data.subscription.unsubscribe()
   }, [])
 
   function continueIn() {
-    void supabase.auth.getSession().then(({ data }) => {
-      setEmail(data.session?.user.email ?? null)
-      setReady(true)
-      enter()
-    })
+    setEntered(true)
   }
 
   if (demo) return <DemoApp onExit={() => { applyTheme(loadSettings().theme); setDemo(false) }} />

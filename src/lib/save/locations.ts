@@ -71,6 +71,9 @@ export function decisionCopy(input: {
   where: string
   catchLevel?: number
 }): string | null {
+  if (input.decision === 'gift') {
+    return `${input.placeName ?? 'Gift'}. Wiki match, best effort where the note is unclear.`
+  }
   if (input.decision === 'starter') {
     const place = input.placeName ?? (input.mapSectionId ? `map section ${input.mapSectionId}` : 'this place')
     const level = input.catchLevel && input.catchLevel > 0 ? `, Lv${input.catchLevel}` : ''
