@@ -1,4 +1,4 @@
-import { ChevronLeft, Gauge, LayoutGrid, Map as MapIcon, Plus, Shuffle, Signpost, Skull, Sparkles } from 'lucide-react'
+import { ChevronLeft, Gauge, LayoutGrid, Map as MapIcon, Plus, Shuffle, Signpost, Skull, Sparkles, StickyNote } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { CatchSheet } from './components/CatchSheet'
 import { CapSheet } from './components/CapSheet'
@@ -13,8 +13,10 @@ import { supabase } from './lib/supabase'
 import { greetingLine, playerFromEmail, PLAYERS, type PlayerId, type TabId } from './lib/types'
 import { parseDexKey } from './lib/unbound'
 import { DemoApp } from './demo'
+import { AppWaves } from './components/LoginBackdrop'
 import { Login, UnknownAccount } from './screens/Login'
 import { Graveyard } from './screens/Graveyard'
+import { Notes } from './screens/Notes'
 import { MapScreen } from './screens/Map'
 import { More } from './screens/More'
 import { Routes } from './screens/Routes'
@@ -27,18 +29,9 @@ const DOCK: { id: Exclude<TabId, 'wiki'>; label: string }[] = [
   { id: 'map', label: 'Map' },
   { id: 'team', label: 'Team' },
   { id: 'grave', label: 'Graveyard' },
+  { id: 'notes', label: 'Notes' },
   { id: 'more', label: 'More' },
 ]
-
-function Backdrop({ kind }: { kind: 'sky' | 'sunrise' | 'meadow' | 'lilac' }) {
-  return (
-    <div className={`bgt ${kind}`}>
-      {(kind === 'sunrise' || kind === 'lilac') && <i className="sun" />}
-      <i className="cloud c1" />
-      <i className="cloud c2" />
-    </div>
-  )
-}
 
 export function EmberDefs() {
   return (
@@ -109,6 +102,7 @@ export function Shell() {
   const headerRef = useRef<HTMLElement>(null)
   const mainRef = useRef<HTMLElement>(null)
   const [tab, setTab] = useState<TabId>('routes')
+  const [waves, setWaves] = useState(false)
   const [sheet, setSheet] = useState<{ route?: string } | null>(null)
   const [wikiId, setWikiId] = useState<string | null>(null)
   const greet = useMemo(() => greetingLine(), [])
@@ -117,7 +111,6 @@ export function Shell() {
   const options = optionsOf(app.run)
   const cap = activeCap(app.run)
   const showCap = tab === 'routes' || tab === 'team' || tab === 'map'
-  const bg = tab === 'grave' ? 'lilac' : tab === 'more' || tab === 'wiki' || wikiId ? 'meadow' : 'sky'
   const dockTab = tab === 'wiki' ? 'more' : tab
   const dockIndex = Math.max(0, DOCK.findIndex((item) => item.id === dockTab))
 
@@ -229,12 +222,15 @@ export function Shell() {
   } else if (tab === 'map') {
     title = 'Map'
     sub = 'Schematic route graph'
+  } else if (tab === 'notes') {
+    title = 'Notes'
+    sub = 'Shared with your partner'
   }
 
   return (
-    <div className="app" ref={appRef} data-me={app.me} data-tab={wikiId ? 'wiki' : tab} data-demo={app.demo ? '1' : '0'}>
+    <div className="app" ref={appRef} data-me={app.me} data-tab={wikiId ? 'wiki' : tab} data-demo={app.demo ? '1' : '0'} data-waves={waves ? 'on' : 'off'}>
       <EmberDefs />
-      <Backdrop kind={bg} />
+      <AppWaves onLive={setWaves} />
       {app.demo && (
         <div className="demo-bar">
           <span className="demo-pill">DEMO</span>
@@ -281,6 +277,7 @@ export function Shell() {
               {tab === 'routes' && <Routes onLog={(route) => setSheet({ route })} onWiki={openWiki} />}
               {tab === 'team' && <Team onWiki={openWiki} />}
               {tab === 'grave' && <Graveyard />}
+              {tab === 'notes' && <Notes />}
               {tab === 'wiki' && <WikiHome onOpen={openWiki} />}
               {tab === 'map' && <MapScreen onLog={(route) => setSheet({ route })} />}
               {tab === 'more' && <More onDex={() => chooseTab('wiki')} />}
@@ -302,8 +299,9 @@ export function Shell() {
             <span className="ic">
               {item.id === 'routes' && <Signpost aria-hidden="true" />}
               {item.id === 'map' && <MapIcon aria-hidden="true" />}
-              {item.id === 'team' && <PokeballIcon size={23} />}
+              {item.id === 'team' && <PokeballIcon size={20} />}
               {item.id === 'grave' && <Skull aria-hidden="true" />}
+              {item.id === 'notes' && <StickyNote aria-hidden="true" />}
               {item.id === 'more' && <LayoutGrid aria-hidden="true" />}
             </span>
             {item.label}

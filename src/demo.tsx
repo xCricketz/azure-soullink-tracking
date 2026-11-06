@@ -72,10 +72,10 @@ const SEED: Catch[] = [
   side('s-r2', 'seri', 'route-2', 5, 'Krabby', 98, 'Pinch', { in_team: true, team_order: 3, level: 24 }),
   side('f-dresco', 'fisi', 'dresco-town', 6, 'Staryu', 120, 'Star', { in_team: true, team_order: 4, level: 27 }),
   side('s-dresco', 'seri', 'dresco-town', 6, 'Basculin', 550, 'Stripe', { in_team: true, team_order: 4, level: 26 }),
-  side('f-r3', 'fisi', 'route-3', 8, 'Poliwag', 60, 'Puddle', {
+  side('f-r3', 'fisi', 'route-3', 8, 'Kommo-o', 784, 'Crabominable', {
     status: 'dead', level: 18, death_cause: 'a trainer’s Tangela', epitaph: 'The flowers were not friendly.', died_at: '2026-10-16T15:10:00.000Z',
   }),
-  side('s-r3', 'seri', 'route-3', 8, 'Slowpoke', 79, 'Daze', {
+  side('s-r3', 'seri', 'route-3', 8, 'Slowpoke', 79, 'Longnickname', {
     status: 'dead', level: 17, death_cause: 'a trainer’s Tangela', epitaph: 'Too slow for the grass.', died_at: '2026-10-16T15:10:00.000Z',
   }),
   side('f-flower', 'fisi', 'flower-paradise', 9, 'Roselia', 315, 'Thorn', { level: 22 }),
@@ -86,11 +86,11 @@ const SEED: Catch[] = [
   side('s-grim', 'seri', 'grim-woods', 10, 'Seedot', 273, 'Acorn', {
     status: 'dead', level: 19, death_cause: 'a wild Haunter', epitaph: 'One shadow was enough.', died_at: '2026-10-18T21:40:00.000Z',
   }),
-  side('f-r4', 'fisi', 'route-4', 11, 'Ekans', 23, 'Coil', { status: 'boxed', level: 23 }),
-  side('s-r4', 'seri', 'route-4', 11, 'Mankey', 56, 'Fury', { status: 'boxed', level: 22 }),
+  side('f-r4', 'fisi', 'route-4', 11, 'Fletchinder', 661, 'Thunderstone', { status: 'boxed', level: 23 }),
+  side('s-r4', 'seri', 'route-4', 11, 'Corviknight', 823, 'Crabominable', { status: 'boxed', level: 22 }),
   side('f-cinder', 'fisi', 'cinder-volcano', 12, 'Vulpix', 37, 'Ember', { in_team: true, team_order: 5, level: 29 }),
   side('s-cinder', 'seri', 'cinder-volcano', 12, 'Slugma', 218, 'Lava', { in_team: true, team_order: 5, level: 28 }),
-  side('f-r5', 'fisi', 'route-5', 13, 'Growlithe', 58, 'Scout', { in_team: true, team_order: 6, level: 30 }),
+  side('f-r5', 'fisi', 'route-5', 13, 'Crabominable', 740, 'Longnickname', { in_team: true, team_order: 6, level: 30 }),
   side('s-r5', 'seri', 'route-5', 13, 'Venonat', 48, 'Lamp', { in_team: true, team_order: 6, level: 28 }),
   side('f-r6', 'fisi', 'route-6', 18, 'Goldeen', 118, 'Goldie', { level: 27 }),
   side('s-r6', 'seri', 'route-6', 18, 'Ledyba', 165, 'Dot', { level: 26 }),

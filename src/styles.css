@@ -366,8 +366,8 @@ input:focus, textarea:focus, .inp.focus { outline: none; border-color: var(--me)
 .half.fisi { box-shadow: inset 3px 0 0 var(--fisi); }
 .half.seri { box-shadow: inset -3px 0 0 var(--seri); flex-direction: row-reverse; text-align: right; }
 .half .meta { min-width: 0; flex: 1; }
-.nick { font: 600 15px/20px var(--font-head); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.half .species, .tcard .species { font-size: 13px; line-height: 17px; color: var(--text-muted); white-space: nowrap; }
+.nick { font-family: var(--font-body); font-weight: 650; font-size: clamp(11px, 3vw, 15px); line-height: 1.25; white-space: normal; }
+.half .species, .tcard .species { font-family: var(--font-body); font-size: clamp(11px, 2.8vw, 13px); line-height: 1.25; color: var(--text-muted); white-space: normal; }
 .half.empty {
   background: transparent; border: 1.5px dashed var(--border-strong); box-shadow: none;
   justify-content: center; text-align: center; color: var(--text-muted); font-size: 13px; line-height: 17px;
@@ -556,7 +556,7 @@ input:focus, textarea:focus, .inp.focus { outline: none; border-color: var(--me)
   font: 600 13px/16px var(--font-body); min-width: 0;
 }
 .lk svg { width: 14px; height: 14px; color: var(--link); flex: none; }
-.lk span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lk span { min-width: 0; overflow-wrap: anywhere; white-space: normal; }
 .lk.seri { color: var(--seri); }
 .lk.fisi { color: var(--fisi); }
 .lk .w { margin-left: auto; color: var(--boxed); }

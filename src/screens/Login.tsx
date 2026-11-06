@@ -2,7 +2,7 @@ import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ArrowRight, Lock, PlayCircle } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { LoginBackdrop } from '../components/LoginBackdrop'
+import { AppWaves } from '../components/LoginBackdrop'
 import { Cutout, Photo } from '../components/Photo'
 import { BottomSheet, SpritePlate } from '../components/ui'
 import { supabase } from '../lib/supabase'
@@ -26,6 +26,7 @@ export function Login({
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [preview, setPreview] = useState<LoginPreview | null>(previewSeed)
+  const [waves, setWaves] = useState(false)
   const root = useRef<HTMLDivElement>(null)
   useGSAP(() => {
     const motion = gsap.matchMedia()
@@ -68,8 +69,8 @@ export function Login({
   }
 
   return (
-    <div className="login-app" ref={root} data-me={sessionPlayer ?? picked ?? 'fisi'} data-screen="start">
-      <LoginBackdrop />
+    <div className="login-app" ref={root} data-me={sessionPlayer ?? picked ?? 'fisi'} data-screen="start" data-waves={waves ? 'on' : 'off'}>
+      <AppWaves onLive={setWaves} />
       <div className="scroll">
         <div className="login-hero">
           <img className="logo logo-float" src={`${import.meta.env.BASE_URL}design/app-logo.svg`} alt="" width={76} height={76} />
