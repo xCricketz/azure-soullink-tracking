@@ -1,4 +1,4 @@
-import { ChartColumn, ChevronRight, Download, FlaskConical, Gauge, Moon, RotateCcw, ScrollText, Shuffle, Smartphone, Sparkles, Sun, Upload } from 'lucide-react'
+import { ChartColumn, ChevronRight, Download, FileDown, FlaskConical, Gauge, Moon, RotateCcw, ScrollText, Shuffle, Smartphone, Sparkles, Sun, Upload } from 'lucide-react'
 import { useState } from 'react'
 import { DifficultyPicker } from '../components/DifficultyPicker'
 import { ImportSheet, SaveFileControl } from '../components/ImportSheet'
@@ -11,6 +11,7 @@ import { capLadder, difficultyLabel, EXPERT_CAP_NOTE, optionsOf } from '../lib/o
 import { detectionChoices, patchFromDetection, readRunOptionsFromSave, type DetectionChoice, type SaveRunOptions } from '../lib/save/run-options'
 import { useApp } from '../state/context'
 import { DEFAULT_RULES, otherPlayer, PLAYERS, type SpeciesClause, type ThemeChoice } from '../lib/types'
+import { downloadBackup } from '../lib/backup'
 import { pushToast } from '../lib/toast'
 
 export function More({ onDex }: { onDex?: () => void }) {
@@ -302,6 +303,20 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="rt">Import save<small>Read a .sav on this phone · nothing is uploaded</small></span>
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </SaveFileControl>
+        <button className="row" type="button" onClick={() => {
+          if (!app.run) {
+            pushToast('No active run to export.')
+            return
+          }
+          void downloadBackup(app.run, app.catches).then((result) => {
+            if (result === 'saved') pushToast('Backup downloaded.')
+            if (result === 'shared') pushToast('Backup ready to share.')
+          })
+        }}>
+          <span className="ricon alive"><FileDown size={18} aria-hidden="true" /></span>
+          <span className="rt">Export backup (JSON)<small>This run and both players’ catches · stays on this phone</small></span>
+          <ChevronRight className="chev" size={18} aria-hidden="true" />
+        </button>
         <button className="row" type="button" onClick={() => setInstallOpen(true)}>
           <span className="ricon alive"><Download size={18} aria-hidden="true" /></span>
           <span className="rt">Install the app<small>Add to the home screen</small></span>
