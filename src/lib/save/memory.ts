@@ -49,6 +49,33 @@ export function readImportedIds(runId: string | undefined, storage: NatStore | n
   }
 }
 
+function linkKeyFor(runId: string): string {
+  return `sl-import-links:${runId}`
+}
+
+export function readIdentityLinks(runId: string | undefined, storage: NatStore | null = browserStore()): { identity: string; catchId: string }[] {
+  if (!runId || !storage) return []
+  try {
+    const raw = JSON.parse(storage.getItem(linkKeyFor(runId)) || '[]') as unknown
+    if (!Array.isArray(raw)) return []
+    return raw.flatMap((item) => {
+      if (!item || typeof item !== 'object') return []
+      const row = item as { identity?: unknown; catchId?: unknown }
+      if (typeof row.identity !== 'string' || typeof row.catchId !== 'string') return []
+      return [{ identity: row.identity, catchId: row.catchId }]
+    })
+  } catch {
+    return []
+  }
+}
+
+export function writeIdentityLink(runId: string, identity: string, catchId: string, storage: NatStore | null = browserStore()): void {
+  if (!storage || !identity.includes(':') || !catchId) return
+  const next = readIdentityLinks(runId, storage).filter((link) => link.identity !== identity && link.catchId !== catchId)
+  next.push({ identity, catchId })
+  storage.setItem(linkKeyFor(runId), JSON.stringify(next))
+}
+
 export function writeImportedIds(runId: string, ids: string[], storage: NatStore | null = browserStore()): void {
   if (!storage) return
   const unique = [...new Set(ids.filter((id) => typeof id === 'string' && id.includes(':')))].sort()

@@ -90,6 +90,7 @@
 @keyframes sheet-in{from{transform:translate3d(0,100%,0)}to{transform:translate3d(0,0,0)}}
 @keyframes sheet-out{to{transform:translate3d(0,100%,0)}}
 @keyframes scrim-in{from{opacity:0}to{opacity:1}}
+.sheet.is-dragging{animation:none}
 .sheet.is-open{animation:sheet-in 460ms var(--ease-spring-soft) both}
 .sheet.is-closing{animation:sheet-out var(--dur-2) var(--ease-in) both}
 .scrim.is-open{animation:scrim-in var(--dur-2) var(--ease-out) both}
@@ -175,6 +176,16 @@
 .dex-tile.is-new .art{animation:dex-reveal var(--dur-4) var(--ease-spring) both}
 
 /* ---------- 14. Reduced motion ---------- */
+@keyframes dialog-in{from{opacity:0;transform:translate3d(0,16px,0) scale(.96)}to{opacity:1;transform:none}}
+.dialog{animation:dialog-in var(--dur-3) var(--ease-spring-soft) both}
+.skel-list{display:flex;flex-direction:column;gap:10px;margin:0 var(--page-x)}
+.skel-row{height:88px}
+@media (prefers-reduced-motion: no-preference){
+  .btn,.dk,.icon-btn{transition:transform var(--dur-1) var(--ease-out)}
+  .btn:active,.dk:active,.icon-btn:active{transform:scale(.97)}
+  ::view-transition-old(root),::view-transition-new(root){animation:none}
+  ::view-transition-group(*){animation-duration:var(--dur-3);animation-timing-function:var(--ease-spring-soft)}
+}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:1ms!important;animation-iteration-count:1!important;animation-delay:0s!important;transition-duration:1ms!important;scroll-behavior:auto!important}
   .stagger>*,.screen-in,.push-in,.pop-in{animation:fade-only 150ms linear both!important}

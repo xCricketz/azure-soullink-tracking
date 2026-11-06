@@ -179,7 +179,7 @@ export function BottomSheet({
   if (!open) return null
   const host = document.querySelector('.app') ?? document.body
   return createPortal(
-    <div className={cx('overlay', peek && 'overlay-peek')} onClick={onClose}>
+    <div className={cx('overlay', 'scrim', 'is-open', peek && 'overlay-peek')} onClick={onClose}>
       <div
         className={cx('sheet-align', peek && 'sheet-align-peek')}
         onClick={(event) => event.stopPropagation()}
@@ -187,7 +187,7 @@ export function BottomSheet({
         aria-modal="true"
         aria-labelledby={titleId}
       >
-        <div className={cx('sheet', peek && 'sheet-peek', !peek && snap === 'half' && 'snap-half')} style={{ transform: drag ? `translateY(${Math.max(drag, 0)}px)` : undefined }}>
+        <div className={cx('sheet', drag ? 'is-dragging' : 'is-open', peek && 'sheet-peek', !peek && snap === 'half' && 'snap-half')} style={{ transform: drag ? `translate3d(0,${Math.max(drag, 0)}px,0)` : undefined }}>
           <button
             className="handle"
             type="button"
@@ -283,7 +283,7 @@ export function ToastHost() {
   return (
     <div className="toasts" aria-live="polite">
       {toasts.map((toast) => (
-        <div className="toast" key={toast.id} role="status">
+        <div className="toast is-open" key={toast.id} role="status">
           <p>{toast.text}</p>
           {toast.actionLabel && toast.onAction && (
             <button type="button" className="btn btn-tiny" onClick={toast.onAction}>

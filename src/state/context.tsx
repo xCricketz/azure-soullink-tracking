@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { flushSync } from 'react-dom'
 import { CUSTOM_ORDER_START, ROUTES, routeTitleByKey } from '../data/routes'
 import { asAlive, asDead, buildRow, partnerNeedsDeath, placeRow, reorderTeam, upsertLocal, withStatus } from '../lib/edits'
 import { countPairs, findRoute, pairRows } from '../lib/pairs'
@@ -30,6 +31,8 @@ import {
   type SyncState,
 } from '../lib/types'
 import { optionsOf } from '../lib/options'
+import { evolvedSpecies } from '../lib/evolution'
+import { writeIdentityLink } from '../lib/save/memory'
 import { confirmFailureText } from '../lib/save/plan'
 import { KEEP_LIFECYCLE, lifecycleFromDraft, mergeSameCatch, routeTakenReason, takenCatchLabel, type LifecycleIntent, type LoggedCatch } from '../lib/catch-clash'
 
@@ -55,6 +58,8 @@ export interface AppContextValue {
   saveOptions: (patch: Partial<RunOptions>) => Promise<void>
   signOut: () => Promise<void>
   saveCatch: (draft: CatchDraft) => Promise<'saved' | 'death' | 'invalid' | 'error'>
+  linkIdentity: (route: string, identity: string) => void
+  updateSpecies: (id: string, next: { pokemon: string; dexId: number; form: string | null }) => Promise<void>
   setStatus: (id: string, status: Status) => Promise<void>
   deleteCatch: (id: string) => Promise<void>
   place: (id: string, where: 'team' | 'box') => Promise<void>
@@ -166,6 +171,18 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     catchesRef.current = rows
     setCatches(rows)
   }, [])
+
+  const writeCatchesAnimated = useCallback((next: Catch[]) => {
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    const start = document.startViewTransition?.bind(document)
+    if (reduce || !start) {
+      writeCatches(next)
+      return
+    }
+    start(() => {
+      flushSync(() => writeCatches(next))
+    })
+  }, [writeCatches])
 
   const publishSync = useCallback(() => {
     if (!navigator.onLine) {
@@ -340,7 +357,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
   ): Promise<'ok' | 'offline' | 'error'> => {
     const before = catchesRef.current
     hush(next.id)
-    writeCatches(upsertLocal(before, next))
+    writeCatchesAnimated(upsertLocal(before, next))
     const result = await sendUpsert(next, subject, intent)
     if (result === 'error') {
       writeCatches(previous ? upsertLocal(catchesRef.current, previous) : catchesRef.current.filter((row) => row.id !== next.id))
@@ -361,7 +378,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       },
     })
     return result
-  }, [hush, sendDelete, sendUpsert, writeCatches])
+  }, [hush, sendDelete, sendUpsert, writeCatchesAnimated])
 
   const toastRoute = useCallback((route: string, text: string) => {
     const now = Date.now()
@@ -646,6 +663,24 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     return 'saved'
   }, [commit, me])
 
+  const linkIdentity = useCallback((route: string, identity: string) => {
+    const active = runRef.current
+    if (!active) return
+    const row = catchesRef.current.find((item) => item.player === me && item.route === route)
+    if (!row) return
+    writeIdentityLink(active.id, identity, row.id)
+  }, [me])
+
+  const updateSpecies = useCallback(async (id: string, next: { pokemon: string; dexId: number; form: string | null }) => {
+    const row = catchesRef.current.find((item) => item.id === id)
+    if (!row || row.player !== me) return
+    const updated = evolvedSpecies(
+      { ...row, updated_at: new Date().toISOString() },
+      { toName: next.pokemon, toDex: next.dexId, toForm: next.form },
+    )
+    await commit(updated, row, `Evolved: ${row.pokemon ?? 'Pokémon'} → ${next.pokemon}`, { name: next.pokemon, nickname: row.nickname ?? '' })
+  }, [commit, me])
+
   const setStatus = useCallback(async (id: string, status: Status) => {
     const row = catchesRef.current.find((item) => item.id === id)
     if (!row || row.player !== me || row.status === status) return
@@ -693,7 +728,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const previous = catchesRef.current
     const next = reorderTeam(previous, me, id, dir)
     if (!next) return
-    writeCatches(next)
+    writeCatchesAnimated(next)
     const changed = next.filter((row) => {
       const old = previous.find((item) => item.id === row.id)
       return old && row.player === me && old.team_order !== row.team_order
@@ -716,7 +751,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         }
       },
     })
-  }, [hush, me, sendUpsert, writeCatches])
+  }, [hush, me, sendUpsert, writeCatches, writeCatchesAnimated])
 
   const saveEpitaph = useCallback(async (id: string, epitaph: string) => {
     const row = catchesRef.current.find((item) => item.id === id)
@@ -940,6 +975,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     saveOptions,
     signOut,
     saveCatch,
+    linkIdentity,
+    updateSpecies,
     setStatus,
     deleteCatch,
     place,

@@ -119,20 +119,28 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
           autoFocus
         />
       )}
-      {app.catches.length === 0 && <InstallHint />}
-      {app.catches.length === 0 && (
-        <div className="banner">
-          <strong>Let’s go!</strong>
-          <p>Log your first catch.</p>
+      {!app.run && app.sync === 'syncing' ? (
+        <div className="skel-list" aria-busy="true" aria-label="Loading the run">
+          <div className="skel skel-row" />
+          <div className="skel skel-row" />
+          <div className="skel skel-row" />
         </div>
-      )}
+      ) : app.catches.length === 0 ? (
+        <>
+          <InstallHint />
+          <div className="banner">
+            <strong>Let’s go!</strong>
+            <p>Log your first catch.</p>
+          </div>
+        </>
+      ) : null}
       <div className="list stagger">
         {visible.map((row, index) => {
           const previous = visible[index - 1]
           const showGroup = !query && filter === 'all' && row.route.group !== previous?.route.group
           const number = rows.findIndex((item) => item.route.name === row.route.name) + 1
           return (
-            <div key={row.route.name}>
+            <div key={row.route.name} style={{ ['--i' as string]: Math.min(index, 8) }}>
               {showGroup && <h3 className="group-label">{groupTitle(row.route.group)}</h3>}
               <LinkCard
                 route={row.route}

@@ -1,10 +1,13 @@
 import { Archive, ChevronDown, ChevronUp, Link2, TriangleAlert } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { BossCard } from '../components/BossCard'
 import { Photo } from '../components/Photo'
 import { EmptyState, SpritePlate, TypePills, cx } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
+import { nextCap } from '../lib/caps'
 import { teamOf } from '../lib/edits'
-import { activeCap } from '../lib/options'
+import { capWarningText, capWarnings } from '../lib/level-warn'
+import { activeCap, capColumn, optionsOf } from '../lib/options'
 import { dexKey, findMon, useDex, type UMon } from '../lib/unbound'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type Catch, type PlayerId, type TeamView } from '../lib/types'
@@ -18,8 +21,10 @@ export function Team({ onWiki }: { onWiki: (id: string) => void }) {
   const warnings = useMemo(() => teamWarnings(app.me, app.catches, app.settings.dupeClause, app.settings.typeClause, dex), [app, dex])
   const mine = teamOf(app.catches, app.me)
   const theirs = teamOf(app.catches, partner)
+  const options = optionsOf(app.run)
   const cap = activeCap(app.run)
-  const over = cap ? mine.filter((row) => (row.level ?? 0) > cap.level) : []
+  const upcoming = cap ? nextCap(app.run?.badges ?? 0, capColumn(options.difficulty), options.mansionDone) : null
+  const over = capWarnings(mine.map((row) => ({ name: monName(row), level: row.level, onTeam: true })), cap?.level ?? null)
   const aliveCount = (player: PlayerId) => app.catches.filter((row) => row.player === player && row.status === 'alive').length
 
   return (
@@ -35,10 +40,34 @@ export function Team({ onWiki }: { onWiki: (id: string) => void }) {
           <div><b>Seri</b><small>{aliveCount('seri')} alive</small></div>
         </div>
       </div>
-      {over.length > 0 && cap && (
+      <BossCard
+        badges={app.run?.badges ?? 0}
+        capLevel={cap?.level ?? null}
+        nextLevel={upcoming?.level ?? null}
+        team={mine}
+        typesOf={(row) => findMon(dex, row.dex_id, row.form)?.types ?? []}
+      />
+      {cap && (
+        <section className="cap-board" aria-label="Level cap">
+          <div>
+            <small>Level cap</small>
+            <b>{cap.level}</b>
+            <span>{cap.label}</span>
+          </div>
+          <div>
+            <small>Next cap</small>
+            <b>{upcoming ? upcoming.level : '—'}</b>
+            <span>{upcoming ? upcoming.label : 'No further cap'}</span>
+          </div>
+        </section>
+      )}
+      {over.length > 0 && (
         <div className="banner" role="status">
           <TriangleAlert aria-hidden="true" />
-          <span><b>{monName(over[0])}</b> is over the level cap ({over[0].level} / {cap.level}). The cap does not block the team.</span>
+          <span>
+            {over.map((warning) => <span key={warning.name}>{capWarningText(warning)} </span>)}
+            The cap does not remove them from the team.
+          </span>
         </div>
       )}
       <div className="seg" role="group" aria-label="Team view">
@@ -102,7 +131,7 @@ function Party({
   }
   if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} doesn’t have anyone in the team yet.`} trainer={owner} />
   return (
-    <div className="grid2">
+    <div className="grid2 stagger">
       {rows.map((row, index) => {
         const partner = catches.find((item) => item.player !== row.player && item.route === row.route)
         const partnerId = row.player === 'fisi' ? 'seri' : 'fisi'
@@ -111,7 +140,7 @@ function Party({
         const flagged = warned ? [...warned].some((warning) => warning.startsWith(name)) : split && editable
         const overBy = capLevel != null && row.level != null && row.level > capLevel ? row.level - capLevel : 0
         return (
-          <article key={row.id} className={cx('tcard', flagged && 'warn', overBy > 0 && 'over')} style={{ ['--tc' as string]: 'var(--me)' }}>
+          <article key={row.id} className={cx('tcard', flagged && 'warn', overBy > 0 && 'over')} style={{ ['--tc' as string]: 'var(--me)', ['--i' as string]: index, viewTransitionName: `team-${row.id}` }}>
             <div className="art">
               <span className="lv"><small>Lv</small>{row.level ?? '–'}</span>
               {overBy > 0 && <span className="cap"><TriangleAlert aria-hidden="true" />+{overBy}</span>}

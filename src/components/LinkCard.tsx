@@ -1,5 +1,5 @@
 import { Hourglass, Link2, Plus, Shuffle, Skull, Unlink2 } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { marksFor } from '../data/marks'
 import { routeTitle, type RouteDef } from '../data/routes'
 import { speciesName } from '../lib/text'
@@ -44,8 +44,20 @@ export function LinkCard({
   const state = pairState(fisi, seri, me)
   const alive = bothAlive(fisi, seri)
   const [burst, setBurst] = useState(false)
+  const [dying, setDying] = useState(false)
   const taps = useRef<number[]>([])
   const mine = me === 'fisi' ? fisi : seri
+  const wasDead = useRef(mine?.status === 'dead')
+  useEffect(() => {
+    const dead = mine?.status === 'dead'
+    if (!wasDead.current && dead) {
+      setDying(true)
+      const timer = window.setTimeout(() => setDying(false), 1200)
+      wasDead.current = true
+      return () => window.clearTimeout(timer)
+    }
+    wasDead.current = dead
+  }, [mine?.status])
   const glowClass = glow ? (me === 'fisi' ? 'glow-seri' : 'glow-fisi') : false
   const linked = state.chain === 'on'
   const marks = marksFor(route.name)
@@ -63,7 +75,7 @@ export function LinkCard({
   }
 
   return (
-    <article className={cx('lcard', state.tone === 'dead' && 'dead', glowClass)} onClick={onOpen}>
+    <article className={cx('lcard', state.tone === 'dead' && 'dead', dying && 'is-dying', glowClass)} onClick={onOpen}>
       <div className="top">
         <h2 className="route">
           <span className="no">#{index}</span>

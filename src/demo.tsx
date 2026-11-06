@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { placeRow, withStatus } from './lib/edits'
 import { Shell } from './App'
 import { abandonHistory } from './lib/history'
 import { DEFAULT_OPTIONS, optionsOf } from './lib/options'
@@ -110,11 +111,12 @@ export function DemoApp({ onExit }: { onExit: () => void }) {
 function DemoProvider({ onExit, children }: { onExit: () => void; children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>({ ...DEFAULT_SETTINGS, theme: 'light' })
   const [run, setRun] = useState({ ...RUN })
+  const [catches, setCatches] = useState(SEED)
   useEffect(() => { applyTheme(settings.theme) }, [settings.theme])
   const value = useMemo<AppContextValue>(() => ({
     me: 'fisi',
     run,
-    catches: SEED,
+    catches,
     sync: 'live',
     settings,
     customRoutes: [],
@@ -144,9 +146,24 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
       deny()
       return 'invalid'
     },
-    setStatus: async () => deny(),
+    linkIdentity: () => deny(),
+    updateSpecies: async () => deny(),
+    setStatus: async (id, status) => {
+      setCatches((current) => current.map((row) => row.id === id ? withStatus(row, status) : row))
+    },
     deleteCatch: async () => deny(),
-    place: async () => deny(),
+    place: async (id, where) => {
+      setCatches((current) => {
+        const row = current.find((item) => item.id === id)
+        if (!row) return current
+        const next = placeRow(row, where, current)
+        if (next === 'full') {
+          pushToast('Only six Pokémon in the team.')
+          return current
+        }
+        return current.map((item) => item.id === id ? next : item)
+      })
+    },
     moveTeam: async () => deny(),
     saveEpitaph: async () => deny(),
     saveRules: async () => deny(),
@@ -162,7 +179,7 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
       return null
     },
     revivePair: async () => deny(),
-  }), [onExit, run, settings])
+  }), [catches, onExit, run, settings])
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }
