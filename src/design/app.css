@@ -203,6 +203,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .timeline li{display:flex;flex-direction:column;gap:2px;font:500 14px/18px var(--font-body)}
 .timeline time,.timeline small{color:var(--text-faint);font:500 12px/16px var(--font-body)}
 .run-story h3{margin:16px 0 8px;font:700 13px/18px var(--font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)}
+.boss-card{margin:0 var(--page-x) 12px;padding:14px 16px;border-radius:var(--r-card);background:var(--card);box-shadow:var(--e-1)}
+.boss-card small{font:700 10px/12px var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
+.boss-card h2{margin:2px 0 4px;font:800 22px/26px var(--font-display)}
+.boss-card p,.boss-card li{margin:0;font:500 13px/18px var(--font-body);color:var(--text-muted)}
+.boss-card ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:4px}
+.boss-card .boss-types{color:var(--text);font-weight:700}
 .cap-board{margin:0 var(--page-x) 12px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .cap-board div{padding:12px 14px;border-radius:var(--r-inner);background:var(--surface);box-shadow:var(--e-1);display:flex;flex-direction:column;gap:2px}
 .cap-board small{font:700 10px/12px var(--font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}

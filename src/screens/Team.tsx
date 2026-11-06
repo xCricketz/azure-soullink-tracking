@@ -1,5 +1,6 @@
 import { Archive, ChevronDown, ChevronUp, Link2, TriangleAlert } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { BossCard } from '../components/BossCard'
 import { Photo } from '../components/Photo'
 import { EmptyState, SpritePlate, TypePills, cx } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
@@ -39,6 +40,13 @@ export function Team({ onWiki }: { onWiki: (id: string) => void }) {
           <div><b>Seri</b><small>{aliveCount('seri')} alive</small></div>
         </div>
       </div>
+      <BossCard
+        badges={app.run?.badges ?? 0}
+        capLevel={cap?.level ?? null}
+        nextLevel={upcoming?.level ?? null}
+        team={mine}
+        typesOf={(row) => findMon(dex, row.dex_id, row.form)?.types ?? []}
+      />
       {cap && (
         <section className="cap-board" aria-label="Level cap">
           <div>
