@@ -9,8 +9,14 @@ export function vantaFallbackReason(env: {
 }): VantaSkip | null {
   if (env.reducedMotion) return 'reduced-motion'
   if (!env.webgl) return 'no-webgl'
-  if ((env.cores != null && env.cores <= 4) || (env.memoryGb != null && env.memoryGb <= 2)) return 'low-end'
+  if ((env.cores != null && env.cores <= 2) || (env.memoryGb != null && env.memoryGb <= 2)) return 'low-end'
   return null
+}
+
+/** True when a visible sample of about two seconds stayed under 30 fps. */
+export function wavesTooSlow(frames: number, elapsedMs: number): boolean {
+  if (elapsedMs < 1500 || frames < 0) return false
+  return (frames * 1000) / elapsedMs < 30
 }
 
 export function readVantaEnv(): {

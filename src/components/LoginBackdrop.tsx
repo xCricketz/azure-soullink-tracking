@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { readVantaEnv, vantaFallbackReason } from '../lib/vanta-fallback'
+import { readVantaEnv, vantaFallbackReason, wavesTooSlow } from '../lib/vanta-fallback'
 
 /** Sunrise Meadow sky. Soft, slow, and light enough to sit behind white cards. */
 const WAVES = {
@@ -33,6 +33,7 @@ export function LoginBackdrop() {
     if (reason || !host.current) return
     let effect: Effect | null = null
     let gone = false
+    let sampleId = 0
 
     function pause() {
       if (!effect?.req) return
@@ -58,6 +59,30 @@ export function LoginBackdrop() {
         setLive(true)
         document.addEventListener('visibilitychange', onHide)
         if (document.hidden) pause()
+        let frames = 0
+        let sampleStart = performance.now()
+        const sample = (now: number) => {
+          if (gone || !effect) return
+          if (document.hidden) {
+            frames = 0
+            sampleStart = now
+            sampleId = window.requestAnimationFrame(sample)
+            return
+          }
+          frames += 1
+          const elapsed = now - sampleStart
+          if (elapsed >= 2000) {
+            if (wavesTooSlow(frames, elapsed)) {
+              effect.destroy()
+              effect = null
+              setLive(false)
+              document.removeEventListener('visibilitychange', onHide)
+            }
+            return
+          }
+          sampleId = window.requestAnimationFrame(sample)
+        }
+        sampleId = window.requestAnimationFrame(sample)
       } catch {
         setLive(false)
         effect?.destroy()
@@ -67,6 +92,7 @@ export function LoginBackdrop() {
 
     return () => {
       gone = true
+      window.cancelAnimationFrame(sampleId)
       document.removeEventListener('visibilitychange', onHide)
       effect?.destroy()
       effect = null
