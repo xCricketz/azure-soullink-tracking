@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { readVantaEnv, vantaFallbackReason, vantaScale, wavesTooSlow } from '../lib/vanta-fallback'
+import { logWaves, readVantaEnv, vantaFallbackReason, vantaScale, wavesTooSlow } from '../lib/vanta-fallback'
 
-/** Sunrise Meadow sky. Soft, slow, and light enough to sit behind frosted cards. */
+/**
+ * Saturated sky blue from the Fisi token, on a transparent canvas.
+ * The violet/rose gradient behind it is CSS. The mesh has to be this
+ * blue or the motion disappears into a white page.
+ */
 const WAVES = {
   mouseControls: false,
   touchControls: false,
@@ -10,11 +14,12 @@ const WAVES = {
   minWidth: 200,
   scale: 1,
   scaleMobile: 0.65,
-  color: 0xc9f1ff,
-  shininess: 16,
-  waveHeight: 9,
-  waveSpeed: 0.65,
-  zoom: 0.9,
+  color: 0x1e9bff,
+  shininess: 70,
+  waveHeight: 28,
+  waveSpeed: 1.35,
+  zoom: 0.68,
+  backgroundAlpha: 0,
 }
 
 type Effect = {
@@ -39,7 +44,11 @@ export function AppWaves({ onLive }: { onLive?: (live: boolean) => void }) {
 
   useEffect(() => {
     const reason = vantaFallbackReason(readVantaEnv())
-    if (reason || !host.current) return
+    if (reason) {
+      logWaves(`fallback ${reason}`)
+      return
+    }
+    if (!host.current) return
     let effect: Effect | null = null
     let gone = false
     let sampleId = 0
@@ -84,6 +93,7 @@ export function AppWaves({ onLive }: { onLive?: (live: boolean) => void }) {
             scaleMobile: narrow ? scale : WAVES.scaleMobile,
           })
           capPixels()
+          logWaves('started')
           setLive(true)
           document.addEventListener('visibilitychange', onHide)
           if (document.hidden) pause()
@@ -101,6 +111,7 @@ export function AppWaves({ onLive }: { onLive?: (live: boolean) => void }) {
             const elapsed = now - sampleStart
             if (elapsed >= 3000) {
               if (wavesTooSlow(frames, elapsed)) {
+                logWaves('fallback slow-fps')
                 effect.destroy()
                 effect = null
                 setLive(false)
@@ -112,6 +123,7 @@ export function AppWaves({ onLive }: { onLive?: (live: boolean) => void }) {
           }
           sampleId = window.requestAnimationFrame(sample)
         } catch {
+          logWaves('fallback init-failed')
           setLive(false)
           effect?.destroy()
           effect = null

@@ -130,7 +130,7 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
     },
     updateSettings: (patch) => {
       const keys = Object.keys(patch)
-      if (keys.every((key) => key === 'theme' || key === 'reduceMotion')) {
+      if (keys.every((key) => key === 'theme' || key === 'reduceMotion' || key === 'showGen8' || key === 'dexOrder')) {
         setSettings((current) => ({ ...current, ...patch }))
         return
       }

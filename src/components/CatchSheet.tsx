@@ -168,7 +168,7 @@ export function CatchSheet({
             <Photo id={partnerMeta.id} size="sm" alt="" />
             {partner && partner.status !== 'missed' ? (
               <>
-                <SpritePlate id={partner.dex_id} alt={partner.pokemon ?? 'Pokémon'} size="sm" />
+                <SpritePlate id={partner.dex_id} form={partner.form} alt={partner.pokemon ?? 'Pokémon'} size="sm" />
                 <p>
                   <span className="lbl">{partnerMeta.possessive} catch</span>
                   <strong>
@@ -420,7 +420,7 @@ function MonRow({ mon, query, selected, onPick }: { mon: UMon; query: string; se
   const label = monLabel(mon)
   return (
     <button className={cx('r', selected && 'sel')} type="button" role="option" aria-selected={selected} onClick={onPick}>
-      <SpritePlate id={mon.nat} alt={label} size="sm" types={mon.types} />
+      <SpritePlate id={mon.nat} form={mon.form} alt={label} size="sm" types={mon.types} />
       <span className="nm">
         <Marked text={label} query={query} />
         <small>#{String(mon.nat).padStart(3, '0')}{mon.form ? ` · ${mon.form}` : ''}</small>

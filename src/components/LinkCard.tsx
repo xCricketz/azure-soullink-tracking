@@ -244,10 +244,10 @@ function Half({
             if (catchRow.dex_id) onWiki(dexKey(catchRow.dex_id, catchRow.form))
           }}
         >
-          <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} types={types} />
+          <SpritePlate id={catchRow.dex_id} form={catchRow.form} alt={speciesName(catchRow)} types={types} />
         </button>
       ) : !missed ? (
-        <SpritePlate id={catchRow.dex_id} alt={speciesName(catchRow)} types={types} />
+        <SpritePlate id={catchRow.dex_id} form={catchRow.form} alt={speciesName(catchRow)} types={types} />
       ) : null}
       <div className="meta">
         <div className="nick">{catchRow.nickname || (missed ? 'Missed' : speciesName(catchRow))}</div>

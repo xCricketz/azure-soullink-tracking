@@ -2,7 +2,7 @@ import { Archive, Ban, Heart, Loader2, Skull, WifiOff, X, type LucideIcon } from
 import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { gen4TypeNames } from '../data/typechart'
-import { monTypes, spriteSources, typeKey } from '../lib/dex'
+import { formBadge, formSpriteCount, monTypes, spriteSources, typeKey } from '../lib/dex'
 import { useHistoryLayer } from '../lib/history'
 import { useToasts } from '../lib/toast'
 import { shortStatus } from '../lib/text'
@@ -30,6 +30,7 @@ export function PokeballIcon({ size = 24 }: { size?: number }) {
 
 export function SpritePlate({
   id,
+  form,
   alt,
   size = 'md',
   dim = false,
@@ -37,6 +38,7 @@ export function SpritePlate({
   types,
 }: {
   id?: number | null
+  form?: string | null
   alt: string
   size?: 'sm' | 'md' | 'lg'
   dim?: boolean
@@ -46,25 +48,36 @@ export function SpritePlate({
   const type = types?.[0] || (id && id <= 493 ? gen4TypeNames(id)[0] : monTypes(id)[0])
   return (
     <span className={cx('orb', size, dim && 'dim', grave && 'gone')} style={typeStyle(type)}>
-      <PlateImage id={id} alt={alt} size={size} />
+      <PlateImage id={id} form={form} alt={alt} size={size} />
     </span>
   )
 }
 
-function PlateImage({ id, alt, size }: { id?: number | null; alt: string; size: 'sm' | 'md' | 'lg' }) {
-  const sources = id ? spriteSources(id) : []
+function PlateImage({ id, form, alt, size }: { id?: number | null; form?: string | null; alt: string; size: 'sm' | 'md' | 'lg' }) {
+  const sources = id ? spriteSources(id, form) : []
+  const own = id ? formSpriteCount(id, form) : 0
   const [step, setStep] = useState(0)
-  useEffect(() => setStep(0), [id])
+  useEffect(() => setStep(0), [id, form])
+  const badge = formBadge(form)
+  const showBadge = Boolean(badge && (own === 0 || step >= own))
   if (!id || step >= sources.length) {
-    return <PokeballIcon size={size === 'lg' ? 36 : size === 'md' ? 22 : 14} />
+    return (
+      <>
+        <PokeballIcon size={size === 'lg' ? 36 : size === 'md' ? 22 : 14} />
+        {showBadge && <i className="form-badge">{badge}</i>}
+      </>
+    )
   }
   return (
-    <img
-      src={sources[step]}
-      alt={alt}
-      draggable={false}
-      onError={() => setStep((current) => current + 1)}
-    />
+    <>
+      <img
+        src={sources[step]}
+        alt={alt}
+        draggable={false}
+        onError={() => setStep((current) => current + 1)}
+      />
+      {showBadge && <i className="form-badge">{badge}</i>}
+    </>
   )
 }
 

@@ -191,7 +191,7 @@ function DexList({
               onClick={() => onOpen(entry.key)}
             >
               <span className="dex-no">#{String(displayNo(entry, order, dex)).padStart(3, '0')}</span>
-              <SpritePlate id={entry.nat} alt="" size="sm" types={entry.types} />
+              <SpritePlate id={entry.nat} form={entry.form} alt="" size="sm" types={entry.types} />
               <span className="dex-name"><b>{monLabel(entry)}</b></span>
               <TypePills names={entry.types} />
             </button>
@@ -267,7 +267,7 @@ export function WikiDetail({ id, onOpen, onClose }: { id: string; onOpen: (id: s
       ) : (
         <article className="wiki-card">
           <div className="wiki-hero">
-            <SpritePlate id={parsed.nat} alt={name} size="lg" types={local?.types} />
+            <SpritePlate id={parsed.nat} form={local?.form} alt={name} size="lg" types={local?.types} />
             <div>
               <h2>{name}</h2>
               <p className="wiki-no">National #{String(parsed.nat).padStart(3, '0')}{local?.borrius ? ` · Borrius #${String(local.borrius).padStart(3, '0')}` : ''}</p>
