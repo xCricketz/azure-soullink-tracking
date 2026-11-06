@@ -273,6 +273,7 @@ export function Shell() {
           </div>
         </header>
         <main ref={mainRef}>
+          <div key={wikiId ?? tab} className="screen-in">
           {wikiId !== null ? (
             <WikiDetail id={wikiId} onOpen={openWiki} onClose={() => setWikiId(null)} />
           ) : (
@@ -285,6 +286,7 @@ export function Shell() {
               {tab === 'more' && <More onDex={() => chooseTab('wiki')} />}
             </>
           )}
+          </div>
         </main>
       </div>
       {tab === 'routes' && wikiId === null && (

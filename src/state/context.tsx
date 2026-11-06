@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { flushSync } from 'react-dom'
 import { CUSTOM_ORDER_START, ROUTES, routeTitleByKey } from '../data/routes'
 import { asAlive, asDead, buildRow, partnerNeedsDeath, placeRow, reorderTeam, upsertLocal, withStatus } from '../lib/edits'
 import { countPairs, findRoute, pairRows } from '../lib/pairs'
@@ -170,6 +171,18 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     catchesRef.current = rows
     setCatches(rows)
   }, [])
+
+  const writeCatchesAnimated = useCallback((next: Catch[]) => {
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    const start = document.startViewTransition?.bind(document)
+    if (reduce || !start) {
+      writeCatches(next)
+      return
+    }
+    start(() => {
+      flushSync(() => writeCatches(next))
+    })
+  }, [writeCatches])
 
   const publishSync = useCallback(() => {
     if (!navigator.onLine) {
@@ -344,7 +357,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
   ): Promise<'ok' | 'offline' | 'error'> => {
     const before = catchesRef.current
     hush(next.id)
-    writeCatches(upsertLocal(before, next))
+    writeCatchesAnimated(upsertLocal(before, next))
     const result = await sendUpsert(next, subject, intent)
     if (result === 'error') {
       writeCatches(previous ? upsertLocal(catchesRef.current, previous) : catchesRef.current.filter((row) => row.id !== next.id))
@@ -365,7 +378,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
       },
     })
     return result
-  }, [hush, sendDelete, sendUpsert, writeCatches])
+  }, [hush, sendDelete, sendUpsert, writeCatchesAnimated])
 
   const toastRoute = useCallback((route: string, text: string) => {
     const now = Date.now()
@@ -715,7 +728,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     const previous = catchesRef.current
     const next = reorderTeam(previous, me, id, dir)
     if (!next) return
-    writeCatches(next)
+    writeCatchesAnimated(next)
     const changed = next.filter((row) => {
       const old = previous.find((item) => item.id === row.id)
       return old && row.player === me && old.team_order !== row.team_order
@@ -738,7 +751,7 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
         }
       },
     })
-  }, [hush, me, sendUpsert, writeCatches])
+  }, [hush, me, sendUpsert, writeCatches, writeCatchesAnimated])
 
   const saveEpitaph = useCallback(async (id: string, epitaph: string) => {
     const row = catchesRef.current.find((item) => item.id === id)

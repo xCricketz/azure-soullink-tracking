@@ -131,7 +131,7 @@ function Party({
   }
   if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} doesn’t have anyone in the team yet.`} trainer={owner} />
   return (
-    <div className="grid2">
+    <div className="grid2 stagger">
       {rows.map((row, index) => {
         const partner = catches.find((item) => item.player !== row.player && item.route === row.route)
         const partnerId = row.player === 'fisi' ? 'seri' : 'fisi'
@@ -140,7 +140,7 @@ function Party({
         const flagged = warned ? [...warned].some((warning) => warning.startsWith(name)) : split && editable
         const overBy = capLevel != null && row.level != null && row.level > capLevel ? row.level - capLevel : 0
         return (
-          <article key={row.id} className={cx('tcard', flagged && 'warn', overBy > 0 && 'over')} style={{ ['--tc' as string]: 'var(--me)' }}>
+          <article key={row.id} className={cx('tcard', flagged && 'warn', overBy > 0 && 'over')} style={{ ['--tc' as string]: 'var(--me)', ['--i' as string]: index, viewTransitionName: `team-${row.id}` }}>
             <div className="art">
               <span className="lv"><small>Lv</small>{row.level ?? '–'}</span>
               {overBy > 0 && <span className="cap"><TriangleAlert aria-hidden="true" />+{overBy}</span>}
