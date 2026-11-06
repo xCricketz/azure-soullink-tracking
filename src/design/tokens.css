@@ -4,7 +4,13 @@
    "system" = set data-theme from matchMedia in JS.
    Device owner accent: <html data-me="fisi"> | <html data-me="seri">
    ============================================================ */
-@font-face{font-family:"Inter";src:url(fonts/Inter-Variable.ttf) format("truetype");font-weight:100 900;font-display:swap}
+/* Latin-only static faces for the weights the UI actually uses. The full variable TTF was ~875 KB. */
+@font-face{font-family:"Inter";src:url(fonts/inter-latin-400.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter";src:url(fonts/inter-latin-500.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter";src:url(fonts/inter-latin-600.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter";src:url(fonts/inter-latin-650.woff2) format("woff2");font-weight:650;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter";src:url(fonts/inter-latin-700.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter";src:url(fonts/inter-latin-800.woff2) format("woff2");font-weight:800;font-style:normal;font-display:swap}
 @font-face{font-family:"Sora";src:url(fonts/Sora-Variable.ttf) format("truetype");font-weight:100 800;font-display:swap}
 
 :root{
