@@ -1,3 +1,4 @@
+import { CountUp } from './CountUp'
 import { routeTitleByKey } from '../data/routes'
 import { runStory } from '../lib/run-story'
 import { PLAYERS, type Catch } from '../lib/types'
@@ -11,12 +12,12 @@ export function RunStory({ catches }: { catches: Catch[] }) {
       <div className="cap-board">
         <div>
           <small>{PLAYERS.fisi.name}</small>
-          <b>{story.deathsByPlayer.fisi}</b>
+          <CountUp value={story.deathsByPlayer.fisi} />
           <span>fainted</span>
         </div>
         <div>
           <small>{PLAYERS.seri.name}</small>
-          <b>{story.deathsByPlayer.seri}</b>
+          <CountUp value={story.deathsByPlayer.seri} />
           <span>fainted</span>
         </div>
       </div>

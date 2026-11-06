@@ -2,6 +2,7 @@ import { ChartColumn, ChevronRight, Download, FileDown, FlaskConical, Gauge, Moo
 import { useState } from 'react'
 import { DifficultyPicker } from '../components/DifficultyPicker'
 import { ImportSheet, SaveFileControl } from '../components/ImportSheet'
+import { CountUp } from '../components/CountUp'
 import { RunStory } from '../components/RunStory'
 import { InstallHint } from '../components/InstallHint'
 import { Photo } from '../components/Photo'
@@ -236,8 +237,8 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="rt">Stats<small>Catches, death rate, deadliest route</small></span>
         </div>
         <div className="stats">
-          <div><b>{stats.total}</b><span>Catches</span></div>
-          <div><b className="dead-ink">{stats.deathRate} %</b><span>Death rate</span></div>
+          <div><CountUp value={stats.total} /><span>Catches</span></div>
+          <div><b className="dead-ink"><CountUp value={stats.deathRate} /> %</b><span>Death rate</span></div>
           <div><b className="route-stat">{stats.deadliest ?? '—'}</b><span>deadliest</span></div>
         </div>
         <p className="stat-extra">Fisi {stats.fisi} · Seri {stats.seri} · most common type {stats.favorite ?? 'none yet'}</p>

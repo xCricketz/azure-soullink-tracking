@@ -4,6 +4,16 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
   base: '/azure-soullink-tracking/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/three/')) return 'three'
+          if (id.includes('node_modules/vanta/')) return 'vanta'
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     VitePWA({
@@ -43,10 +53,19 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff,woff2,ttf,ico,webmanifest}'],
         // A leftover full Inter variable TTF must not be precached. Sora stays; headings use it offline.
-        globIgnores: ['**/Inter-Variable*.ttf'],
+        globIgnores: ['**/Inter-Variable*.ttf', '**/three-*.js', '**/vanta-*.js'],
         navigateFallback: 'index.html',
         navigateFallbackDenylist: [/^https:\/\/raw\.githubusercontent\.com\//],
         runtimeCaching: [
+          {
+            urlPattern: /\/assets\/(three|vanta)-.+\.js$/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'webgl-extra',
+              expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
           {
             urlPattern: /^https:\/\/raw\.githubusercontent\.com\/PokeAPI\/sprites\/.*/i,
             handler: 'NetworkFirst',

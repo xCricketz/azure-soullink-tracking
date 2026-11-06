@@ -11,7 +11,8 @@
 @font-face{font-family:"Inter";src:url(fonts/inter-latin-650.woff2) format("woff2");font-weight:650;font-style:normal;font-display:swap}
 @font-face{font-family:"Inter";src:url(fonts/inter-latin-700.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
 @font-face{font-family:"Inter";src:url(fonts/inter-latin-800.woff2) format("woff2");font-weight:800;font-style:normal;font-display:swap}
-@font-face{font-family:"Sora";src:url(fonts/Sora-Variable.ttf) format("truetype");font-weight:100 800;font-display:swap}
+@font-face{font-family:"Fredoka";src:url(fonts/fredoka-latin-600.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Fredoka";src:url(fonts/fredoka-latin-700.woff2) format("woff2");font-weight:700;font-style:normal;font-display:swap}
 
 :root{
   /* ---- surfaces (airy daylight) ---- */
@@ -64,7 +65,7 @@
   --map-lbl:#1B2A57; --map-lbl-halo:#FFFFFF; --map-lbl-dim:#3E4C7C; --map-node:#FFFFFF; --map-node-ink:#2C3B6E; --map-node-dim:#8C9BC6;
   --blob-snow:#F4FBFF; --blob-grass:#C8EFA8; --blob-sea:#7ED4FF; --blob-mountain:#DDD0F6; --blob-desert:#FFE3A8; --blob-volcano:#FFC7B4; --blob-city:#D9E4FF;
   /* ---- type scale (px) ---- */
-  --font-display:"Sora","Inter",system-ui,sans-serif;
+  --font-display:"Fredoka","Inter",system-ui,sans-serif;
   --font-body:"Inter",system-ui,-apple-system,"Roboto",sans-serif;
   --fs-hero:34px; --fs-title:26px; --fs-h2:20px; --fs-card:16px; --fs-body:15px; --fs-small:13px; --fs-micro:11px;
   /* ---- spacing (4px grid) ---- */

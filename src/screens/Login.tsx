@@ -1,5 +1,8 @@
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
 import { ArrowRight, Lock, PlayCircle } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { LoginBackdrop } from '../components/LoginBackdrop'
 import { Cutout, Photo } from '../components/Photo'
 import { BottomSheet, SpritePlate } from '../components/ui'
 import { supabase } from '../lib/supabase'
@@ -23,6 +26,15 @@ export function Login({
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [preview, setPreview] = useState<LoginPreview | null>(previewSeed)
+  const root = useRef<HTMLDivElement>(null)
+  useGSAP(() => {
+    const motion = gsap.matchMedia()
+    motion.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.from('.login-hero', { y: 12, autoAlpha: 0, duration: 0.55, ease: 'power2.out', clearProps: 'transform,opacity,visibility' })
+      gsap.from('.pcard, .demo', { y: 16, autoAlpha: 0, duration: 0.45, stagger: 0.07, delay: 0.1, ease: 'power2.out', clearProps: 'transform,opacity,visibility' })
+    })
+    return () => motion.revert()
+  }, { scope: root })
 
   useEffect(() => {
     if (previewSeed) return
@@ -56,8 +68,8 @@ export function Login({
   }
 
   return (
-    <div className="login-app" data-me={sessionPlayer ?? picked ?? 'fisi'} data-screen="start">
-      <div className="bgt sunrise"><i className="sun" /><i className="cloud c1" /><i className="cloud c2" /></div>
+    <div className="login-app" ref={root} data-me={sessionPlayer ?? picked ?? 'fisi'} data-screen="start">
+      <LoginBackdrop />
       <div className="scroll">
         <div className="login-hero">
           <img className="logo logo-float" src={`${import.meta.env.BASE_URL}design/app-logo.svg`} alt="" width={76} height={76} />

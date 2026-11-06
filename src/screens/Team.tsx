@@ -1,6 +1,7 @@
 import { Archive, ChevronDown, ChevronUp, Link2, TriangleAlert } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { BossCard } from '../components/BossCard'
+import { CountUp } from '../components/CountUp'
 import { Photo } from '../components/Photo'
 import { EmptyState, SpritePlate, TypePills, cx } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
@@ -11,6 +12,7 @@ import { activeCap, capColumn, optionsOf } from '../lib/options'
 import { dexKey, findMon, useDex, type UMon } from '../lib/unbound'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type Catch, type PlayerId, type TeamView } from '../lib/types'
+import { useListEntrance } from '../lib/list-entrance'
 import { monName, speciesName } from '../lib/text'
 
 export function Team({ onWiki }: { onWiki: (id: string) => void }) {
@@ -51,12 +53,12 @@ export function Team({ onWiki }: { onWiki: (id: string) => void }) {
         <section className="cap-board" aria-label="Level cap">
           <div>
             <small>Level cap</small>
-            <b>{cap.level}</b>
+            <CountUp value={cap.level} />
             <span>{cap.label}</span>
           </div>
           <div>
             <small>Next cap</small>
-            <b>{upcoming ? upcoming.level : '—'}</b>
+            {upcoming ? <CountUp value={upcoming.level} /> : <b>—</b>}
             <span>{upcoming ? upcoming.label : 'No further cap'}</span>
           </div>
         </section>
@@ -126,12 +128,14 @@ function Party({
 }) {
   const app = useApp()
   const dex = useDex()
+  const gridRef = useRef<HTMLDivElement>(null)
+  useListEntrance(gridRef, rows.map((row) => row.id).join('|'))
   if (!rows.length && empty) {
     return <EmptyState title="No team yet. Catch something on Route 1!" trainer={owner} />
   }
   if (!rows.length) return <EmptyState title={`${PLAYERS[owner].name} doesn’t have anyone in the team yet.`} trainer={owner} />
   return (
-    <div className="grid2 stagger">
+    <div className="grid2" ref={gridRef}>
       {rows.map((row, index) => {
         const partner = catches.find((item) => item.player !== row.player && item.route === row.route)
         const partnerId = row.player === 'fisi' ? 'seri' : 'fisi'
@@ -140,7 +144,7 @@ function Party({
         const flagged = warned ? [...warned].some((warning) => warning.startsWith(name)) : split && editable
         const overBy = capLevel != null && row.level != null && row.level > capLevel ? row.level - capLevel : 0
         return (
-          <article key={row.id} className={cx('tcard', flagged && 'warn', overBy > 0 && 'over')} style={{ ['--tc' as string]: 'var(--me)', ['--i' as string]: index, viewTransitionName: `team-${row.id}` }}>
+          <article key={row.id} data-enter={index < 12 ? '' : undefined} className={cx('tcard', flagged && 'warn', overBy > 0 && 'over')} style={{ ['--tc' as string]: 'var(--me)', viewTransitionName: `team-${row.id}` }}>
             <div className="art">
               <span className="lv"><small>Lv</small>{row.level ?? '–'}</span>
               {overBy > 0 && <span className="cap"><TriangleAlert aria-hidden="true" />+{overBy}</span>}
