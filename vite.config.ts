@@ -42,6 +42,8 @@ export default defineConfig({
         clientsClaim: true,
         cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,svg,png,webp,json,woff,woff2,ttf,ico,webmanifest}'],
+        // A leftover full Inter variable TTF must not be precached. Sora stays; headings use it offline.
+        globIgnores: ['**/Inter-Variable*.ttf'],
         navigateFallback: 'index.html',
         navigateFallbackDenylist: [/^https:\/\/raw\.githubusercontent\.com\//],
         runtimeCaching: [

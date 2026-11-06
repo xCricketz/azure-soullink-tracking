@@ -70,7 +70,12 @@ export function decisionCopy(input: {
   placeName: string | null
   where: string
   catchLevel?: number
+  /** Cherish Ball placed the row. The species was not on the wiki list. */
+  giftFromBall?: boolean
 }): string | null {
+  if (input.decision === 'gift' && input.giftFromBall) {
+    return `${input.placeName ?? 'Gift'}. Cherish Ball at this place. The species is not the listed gift, so confirm this row on its own.`
+  }
   if (input.decision === 'gift') {
     return `${input.placeName ?? 'Gift'}. Wiki match, best effort where the note is unclear.`
   }

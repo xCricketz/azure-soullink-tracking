@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url'
 import { appCookiePath, entryChoice, durableAuthStorage, memoryCookieJar, memoryStore } from '../src/lib/auth-persist.ts'
 import { genericGiftFromId, matchGiftSlot, trackerRoutes } from '../src/lib/gift-slots.ts'
 import { buildRouteList } from '../src/lib/pairs.ts'
-import { confirmFailureText, planSave, type RouteOption } from '../src/lib/save/plan.ts'
+import { confirmAllIds, confirmFailureText, planSave, type RouteOption } from '../src/lib/save/plan.ts'
+import { decisionCopy } from '../src/lib/save/locations.ts'
 import { boxMon, boxSlot, buildSave } from '../src/lib/save/synthetic.ts'
 import { routeTitleByKey } from '../src/data/routes.ts'
 import type { Catch } from '../src/lib/types.ts'
@@ -176,37 +177,62 @@ test('a randomized Cherish Ball uses the gift slot, and a Poké Ball stays on Be
   })
   const parsed = parseSave(sav, { table, dexNames: dex })
   const routeOptions = trackerRoutes().map((route) => ({ name: route.name, en: route.en, order: route.order, group: route.group }))
-  for (const randomizerSpecies of [true, false]) {
-    const plan = planSave(parsed, {
-      me: 'seri',
-      catches: [],
-      previousNats: [],
-      randomizerSpecies,
-      routes: routeOptions,
-      areas: [],
-    })
-    const bySlot = new Map(plan.mons.map((mon) => [mon.slot, mon]))
-    assert.equal(bySlot.get(0)?.name, 'Kyurem')
-    assert.equal(bySlot.get(0)?.suggestedRoute, 'starter')
-    assert.equal(bySlot.get(1)?.name, 'Dialga')
-    assert.equal(bySlot.get(1)?.suggestedRoute, 'icicle-cave')
-    assert.equal(bySlot.get(2)?.name, 'Floette')
-    assert.equal(bySlot.get(2)?.suggestedRoute, 'route-1')
-    assert.equal(bySlot.get(3)?.name, 'Hydreigon')
-    assert.equal(bySlot.get(3)?.suggestedRoute, 'gift-bellin-gentleman')
-    assert.equal(bySlot.get(3)?.decision, 'gift')
-    assert.notEqual(bySlot.get(3)?.suggestedRoute, 'bellin-town')
-    const hooh = bySlot.get(4)
-    assert.equal(hooh?.name, 'Ho-Oh')
-    assert.equal(hooh?.suggestedRoute, 'gift-frozen-heights')
-    assert.equal(hooh?.decision, 'gift')
-    assert.equal(hooh?.confidence, 'guess')
-    assert.equal(hooh?.placeName, 'Frozen Heights – Gift')
-    assert.notEqual(hooh?.suggestedRoute, 'frozen-heights')
-    assert.equal(bySlot.get(5)?.name, 'Rattata')
-    assert.equal(bySlot.get(5)?.suggestedRoute, 'bellin-town')
-    assert.equal(bySlot.get(5)?.decision, null)
-  }
+  const randomized = planSave(parsed, {
+    me: 'seri',
+    catches: [],
+    previousNats: [],
+    randomizerSpecies: true,
+    routes: routeOptions,
+    areas: [],
+  })
+  const bySlot = new Map(randomized.mons.map((mon) => [mon.slot, mon]))
+  assert.equal(bySlot.get(0)?.name, 'Kyurem')
+  assert.equal(bySlot.get(0)?.suggestedRoute, 'starter')
+  assert.equal(bySlot.get(1)?.name, 'Dialga')
+  assert.equal(bySlot.get(1)?.suggestedRoute, 'icicle-cave')
+  assert.equal(bySlot.get(2)?.name, 'Floette')
+  assert.equal(bySlot.get(2)?.suggestedRoute, 'route-1')
+  const hydreigon = bySlot.get(3)
+  assert.equal(hydreigon?.name, 'Hydreigon')
+  assert.equal(hydreigon?.suggestedRoute, 'gift-bellin-gentleman')
+  assert.equal(hydreigon?.decision, 'gift')
+  assert.equal(hydreigon?.confidence, 'guess')
+  assert.equal(hydreigon?.giftFromBall, true)
+  const hooh = bySlot.get(4)
+  assert.equal(hooh?.name, 'Ho-Oh')
+  assert.equal(hooh?.suggestedRoute, 'gift-frozen-heights')
+  assert.equal(hooh?.decision, 'gift')
+  assert.equal(hooh?.confidence, 'guess')
+  assert.equal(hooh?.placeName, 'Frozen Heights – Gift')
+  assert.equal(bySlot.get(5)?.name, 'Rattata')
+  assert.equal(bySlot.get(5)?.suggestedRoute, 'bellin-town')
+  assert.equal(bySlot.get(5)?.decision, null)
+  const chosen = Object.fromEntries(randomized.mons.map((mon) => [mon.id, mon.suggestedRoute ?? '']))
+  const ready = confirmAllIds(randomized.mons, chosen, new Map())
+  assert.equal(ready.includes(hydreigon?.id ?? ''), false)
+  assert.equal(ready.includes(hooh?.id ?? ''), false)
+  assert.equal(ready.includes(bySlot.get(0)?.id ?? ''), true)
+  const ballCopy = decisionCopy({
+    decision: 'gift',
+    mapSectionId: 89,
+    ownOT: true,
+    placeName: 'Bellin Town – Gift egg',
+    where: 'Bellin Town, met at Lv 10',
+    giftFromBall: true,
+  })
+  assert.equal(ballCopy?.includes('Wiki match'), false)
+  assert.match(ballCopy ?? '', /Cherish Ball/)
+  const plain = planSave(parsed, {
+    me: 'seri',
+    catches: [],
+    previousNats: [],
+    randomizerSpecies: false,
+    routes: routeOptions,
+    areas: [],
+  })
+  const plainBySlot = new Map(plain.mons.map((mon) => [mon.slot, mon]))
+  assert.equal(plainBySlot.get(3)?.suggestedRoute, 'bellin-town')
+  assert.equal(plainBySlot.get(4)?.suggestedRoute, 'frozen-heights')
   const gift = genericGiftFromId('gift-frozen-heights')
   assert.equal(gift?.en, 'Frozen Heights – Gift')
   assert.equal(routeTitleByKey('gift-frozen-heights'), 'Frozen Heights – Gift')
@@ -240,4 +266,50 @@ test('a randomized Cherish Ball uses the gift slot, and a Poké Ball stays on Be
     randomizerSpecies: true,
     met: { category: 'area', location: 89, level: 4, ball: 3 },
   }), null)
+})
+
+test('a non-randomized Cherish Ball needs the listed species', () => {
+  const sav = buildSave({
+    indexA: 6,
+    indexB: 1,
+    mutate: (sectors) => {
+      boxMon(sectors, boxSlot(0, 0), null, 0, 553, 1000, 5001, { location: 105, level: 36, ball: 15 })
+      boxMon(sectors, boxSlot(0, 1), null, 0, 817, 1000, 5002, { location: 89, level: 40, ball: 15 })
+      boxMon(sectors, boxSlot(0, 2), null, 0, 688, 1000, 5003, { location: 89, level: 10, ball: 15 })
+    },
+  })
+  const parsed = parseSave(sav, { table, dexNames: dex })
+  const routeOptions = trackerRoutes().map((route) => ({ name: route.name, en: route.en, order: route.order, group: route.group }))
+  const plain = planSave(parsed, {
+    me: 'fisi',
+    catches: [],
+    previousNats: [],
+    randomizerSpecies: false,
+    routes: routeOptions,
+    areas: [],
+  })
+  const bySlot = new Map(plain.mons.map((mon) => [mon.slot, mon]))
+  assert.equal(bySlot.get(0)?.name, 'Emboar')
+  assert.equal(bySlot.get(0)?.suggestedRoute, 'route-5')
+  assert.equal(bySlot.get(1)?.name, 'Trevenant')
+  assert.equal(bySlot.get(1)?.suggestedRoute, 'bellin-town')
+  assert.equal(bySlot.get(2)?.name, 'Hydreigon')
+  assert.equal(bySlot.get(2)?.suggestedRoute, 'bellin-town')
+  const randomized = planSave(parsed, {
+    me: 'fisi',
+    catches: [],
+    previousNats: [],
+    randomizerSpecies: true,
+    routes: routeOptions,
+    areas: [],
+  })
+  const randomizedHydreigon = randomized.mons.find((mon) => mon.slot === 2)
+  assert.equal(randomizedHydreigon?.suggestedRoute, 'gift-bellin-gentleman')
+  assert.equal(randomizedHydreigon?.confidence, 'guess')
+  const ready = confirmAllIds(
+    randomized.mons,
+    Object.fromEntries(randomized.mons.map((mon) => [mon.id, mon.suggestedRoute ?? ''])),
+    new Map(),
+  )
+  assert.equal(ready.includes(randomizedHydreigon?.id ?? ''), false)
 })
