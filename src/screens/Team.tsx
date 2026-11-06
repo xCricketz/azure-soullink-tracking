@@ -3,8 +3,10 @@ import { useMemo, useState } from 'react'
 import { Photo } from '../components/Photo'
 import { EmptyState, SpritePlate, TypePills, cx } from '../components/ui'
 import { routeTitleByKey } from '../data/routes'
+import { nextCap } from '../lib/caps'
 import { teamOf } from '../lib/edits'
-import { activeCap } from '../lib/options'
+import { capWarningText, capWarnings } from '../lib/level-warn'
+import { activeCap, capColumn, optionsOf } from '../lib/options'
 import { dexKey, findMon, useDex, type UMon } from '../lib/unbound'
 import { useApp } from '../state/context'
 import { PLAYERS, otherPlayer, type Catch, type PlayerId, type TeamView } from '../lib/types'
@@ -18,8 +20,10 @@ export function Team({ onWiki }: { onWiki: (id: string) => void }) {
   const warnings = useMemo(() => teamWarnings(app.me, app.catches, app.settings.dupeClause, app.settings.typeClause, dex), [app, dex])
   const mine = teamOf(app.catches, app.me)
   const theirs = teamOf(app.catches, partner)
+  const options = optionsOf(app.run)
   const cap = activeCap(app.run)
-  const over = cap ? mine.filter((row) => (row.level ?? 0) > cap.level) : []
+  const upcoming = cap ? nextCap(app.run?.badges ?? 0, capColumn(options.difficulty), options.mansionDone) : null
+  const over = capWarnings(mine.map((row) => ({ name: monName(row), level: row.level, onTeam: true })), cap?.level ?? null)
   const aliveCount = (player: PlayerId) => app.catches.filter((row) => row.player === player && row.status === 'alive').length
 
   return (
@@ -35,10 +39,27 @@ export function Team({ onWiki }: { onWiki: (id: string) => void }) {
           <div><b>Seri</b><small>{aliveCount('seri')} alive</small></div>
         </div>
       </div>
-      {over.length > 0 && cap && (
+      {cap && (
+        <section className="cap-board" aria-label="Level cap">
+          <div>
+            <small>Level cap</small>
+            <b>{cap.level}</b>
+            <span>{cap.label}</span>
+          </div>
+          <div>
+            <small>Next cap</small>
+            <b>{upcoming ? upcoming.level : '—'}</b>
+            <span>{upcoming ? upcoming.label : 'No further cap'}</span>
+          </div>
+        </section>
+      )}
+      {over.length > 0 && (
         <div className="banner" role="status">
           <TriangleAlert aria-hidden="true" />
-          <span><b>{monName(over[0])}</b> is over the level cap ({over[0].level} / {cap.level}). The cap does not block the team.</span>
+          <span>
+            {over.map((warning) => <span key={warning.name}>{capWarningText(warning)} </span>)}
+            The cap does not remove them from the team.
+          </span>
         </div>
       )}
       <div className="seg" role="group" aria-label="Team view">

@@ -4,7 +4,8 @@ import { placeByKey, routeTitleByKey } from '../data/routes'
 import { genericGiftFromId, listedRoute, trackerRoutes } from '../lib/gift-slots'
 import { decisionCopy } from '../lib/save/locations'
 import { loadAreas } from '../lib/unbound'
-import { optionsOf } from '../lib/options'
+import { capWarningText, capWarnings } from '../lib/level-warn'
+import { activeCap, optionsOf } from '../lib/options'
 import { formatPlaytime } from '../lib/save/explain'
 import { readImportedIds, readImportedNats, writeImportedIds, writeImportedNats } from '../lib/save/memory'
 import { confirmStoryHint, readStoryHint, storyFromSave, type StorySuggestion } from '../lib/save/story-hint'
@@ -265,6 +266,10 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
         break
       }
       const result = await app.saveCatch(draftFor(mon))
+      if (result === 'saved' && mon.where === 'party') {
+        const hit = capWarnings([{ name: mon.nickname || mon.name, level: mon.level, onTeam: true }], activeCap(app.run)?.level ?? null)
+        if (hit[0]) pushToast(capWarningText(hit[0]))
+      }
       if (result !== 'saved') {
         if (result === 'death') {
           pushToast(`${mon.nickname || mon.name} on ${routeTitleByKey(route)} needs the faint confirmed. It is not in Routes until you do.`)
@@ -299,6 +304,10 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const fromSave = suggestions.filter((mon) => mon.place === 'route')
   const needsDecision = suggestions.filter((mon) => mon.place === 'needs-decision')
   const ready = plan ? confirmAllIds(suggestions, routes, decisions, done) : []
+  const overCap = capWarnings(
+    suggestions.filter((mon) => mon.where === 'party').map((mon) => ({ name: mon.nickname || mon.name, level: mon.level, onTeam: true })),
+    activeCap(app.run)?.level ?? null,
+  )
   const knownCount = plan && previousIds.length > 0 ? plan.mons.length - suggestions.length : 0
   const highlightNew = previousIds.length > 0 || previous.length > 0
 
@@ -382,6 +391,14 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
             {previous.length === 0 && previousIds.length === 0 && <p className="import-help">No earlier import is stored on this phone, so nothing is marked new yet.</p>}
             {options.ngPlus && <p className="import-help">New Game Plus keeps the Pokédex, so the dex count is not used to decide this is a new run.</p>}
             {options.randomizerSpecies && <p className="import-help">Species randomizer is on, so encounter lists are not used to guess a route.</p>}
+            {overCap.length > 0 && (
+              <div className="banner" role="status" data-cap-warn="import">
+                <span>
+                  {overCap.map((warning) => <span key={warning.name}>{capWarningText(warning)} </span>)}
+                  Confirming still logs them. The cap does not block the team.
+                </span>
+              </div>
+            )}
             {knownCount > 0 && (
               <p className="import-help" data-known={knownCount}>
                 {knownCount} already imported. Left as logged. Moving a Pokémon between boxes is not a new catch.

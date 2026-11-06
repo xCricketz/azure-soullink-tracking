@@ -31,6 +31,14 @@ export function capFor(badges: number, mode: CapMode, mansion: boolean): CapStep
   return { label: picked.label, level: mode === 'difficult' ? picked.difficult : picked.vanilla }
 }
 
+/** The next step after the badges you have. Champion (8 badges) has no further cap. */
+export function nextCap(badges: number, mode: CapMode, mansion: boolean): CapStep | null {
+  const count = Math.max(0, Math.min(8, badges))
+  if (count >= 8) return null
+  if (count === 4 && !mansion) return capFor(4, mode, true)
+  return capFor(count + 1, mode, count + 1 >= 5)
+}
+
 /** One-tap suggestion: the cap for the current badges, when it is not already set. */
 export function suggestedCap(badges: number, mode: CapMode, mansion: boolean, saved: number | null | undefined): CapStep | null {
   const step = capFor(badges, mode, mansion)
