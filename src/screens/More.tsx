@@ -1,7 +1,8 @@
-import { ChartColumn, ChevronRight, Download, FlaskConical, Gauge, Moon, RotateCcw, ScrollText, Shuffle, Smartphone, Sparkles, Sun, Upload } from 'lucide-react'
+import { ChartColumn, ChevronRight, Download, FlaskConical, Gauge, Moon, RotateCcw, ScrollText, Shuffle, Skull, Smartphone, Sparkles, Sun, Upload } from 'lucide-react'
 import { useState } from 'react'
 import { DifficultyPicker } from '../components/DifficultyPicker'
 import { ImportSheet, SaveFileControl } from '../components/ImportSheet'
+import { RunStory } from '../components/RunStory'
 import { InstallHint } from '../components/InstallHint'
 import { Photo } from '../components/Photo'
 import { BottomSheet, Dialog } from '../components/ui'
@@ -26,6 +27,7 @@ export function More({ onDex }: { onDex?: () => void }) {
   const [newText, setNewText] = useState('')
   const [switchOpen, setSwitchOpen] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
+  const [storyOpen, setStoryOpen] = useState(false)
   const [incoming, setIncoming] = useState<File | null>(null)
   const [detectOpen, setDetectOpen] = useState(false)
   const [detected, setDetected] = useState<SaveRunOptions | null>(null)
@@ -302,6 +304,11 @@ export function More({ onDex }: { onDex?: () => void }) {
           <span className="rt">Import save<small>Read a .sav on this phone · nothing is uploaded</small></span>
           <ChevronRight className="chev" size={18} aria-hidden="true" />
         </SaveFileControl>
+        <button className="row" type="button" onClick={() => setStoryOpen(true)}>
+          <span className="ricon dead"><Skull size={18} aria-hidden="true" /></span>
+          <span className="rt">Run timeline<small>Faints, causes, and the order of catches</small></span>
+          <ChevronRight className="chev" size={18} aria-hidden="true" />
+        </button>
         <button className="row" type="button" onClick={() => setInstallOpen(true)}>
           <span className="ricon alive"><Download size={18} aria-hidden="true" /></span>
           <span className="rt">Install the app<small>Add to the home screen</small></span>
@@ -324,6 +331,9 @@ export function More({ onDex }: { onDex?: () => void }) {
         <button className="btn btn-primary" type="button" onClick={() => { void app.saveRules(rules); setRulesOpen(false) }}>Save rules</button>
       }>
         <textarea value={rules} onChange={(event) => setRules(event.target.value)} rows={10} aria-label="Rules" />
+      </BottomSheet>
+      <BottomSheet open={storyOpen} title="Run timeline" onClose={() => setStoryOpen(false)}>
+        <RunStory catches={app.catches} />
       </BottomSheet>
       <BottomSheet open={installOpen} title="Install the app" onClose={() => setInstallOpen(false)}>
         <InstallHint />
