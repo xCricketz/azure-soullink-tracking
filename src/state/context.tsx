@@ -30,6 +30,8 @@ import {
   type SyncState,
 } from '../lib/types'
 import { optionsOf } from '../lib/options'
+import { evolvedSpecies } from '../lib/evolution'
+import { writeIdentityLink } from '../lib/save/memory'
 import { confirmFailureText } from '../lib/save/plan'
 import { KEEP_LIFECYCLE, lifecycleFromDraft, mergeSameCatch, routeTakenReason, takenCatchLabel, type LifecycleIntent, type LoggedCatch } from '../lib/catch-clash'
 
@@ -55,6 +57,8 @@ export interface AppContextValue {
   saveOptions: (patch: Partial<RunOptions>) => Promise<void>
   signOut: () => Promise<void>
   saveCatch: (draft: CatchDraft) => Promise<'saved' | 'death' | 'invalid' | 'error'>
+  linkIdentity: (route: string, identity: string) => void
+  updateSpecies: (id: string, next: { pokemon: string; dexId: number; form: string | null }) => Promise<void>
   setStatus: (id: string, status: Status) => Promise<void>
   deleteCatch: (id: string) => Promise<void>
   place: (id: string, where: 'team' | 'box') => Promise<void>
@@ -646,6 +650,24 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     return 'saved'
   }, [commit, me])
 
+  const linkIdentity = useCallback((route: string, identity: string) => {
+    const active = runRef.current
+    if (!active) return
+    const row = catchesRef.current.find((item) => item.player === me && item.route === route)
+    if (!row) return
+    writeIdentityLink(active.id, identity, row.id)
+  }, [me])
+
+  const updateSpecies = useCallback(async (id: string, next: { pokemon: string; dexId: number; form: string | null }) => {
+    const row = catchesRef.current.find((item) => item.id === id)
+    if (!row || row.player !== me) return
+    const updated = evolvedSpecies(
+      { ...row, updated_at: new Date().toISOString() },
+      { toName: next.pokemon, toDex: next.dexId, toForm: next.form },
+    )
+    await commit(updated, row, `Evolved: ${row.pokemon ?? 'Pokémon'} → ${next.pokemon}`, { name: next.pokemon, nickname: row.nickname ?? '' })
+  }, [commit, me])
+
   const setStatus = useCallback(async (id: string, status: Status) => {
     const row = catchesRef.current.find((item) => item.id === id)
     if (!row || row.player !== me || row.status === status) return
@@ -940,6 +962,8 @@ export function AppProvider({ me, children }: { me: PlayerId; children: ReactNod
     saveOptions,
     signOut,
     saveCatch,
+    linkIdentity,
+    updateSpecies,
     setStatus,
     deleteCatch,
     place,

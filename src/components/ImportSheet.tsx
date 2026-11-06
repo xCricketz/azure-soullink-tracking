@@ -7,7 +7,8 @@ import { loadAreas } from '../lib/unbound'
 import { capWarningText, capWarnings } from '../lib/level-warn'
 import { activeCap, optionsOf } from '../lib/options'
 import { formatPlaytime } from '../lib/save/explain'
-import { readImportedIds, readImportedNats, writeImportedIds, writeImportedNats } from '../lib/save/memory'
+import { evolutionProposals } from '../lib/evolution'
+import { readIdentityLinks, readImportedIds, readImportedNats, writeImportedIds, writeImportedNats } from '../lib/save/memory'
 import { confirmStoryHint, readStoryHint, storyFromSave, type StorySuggestion } from '../lib/save/story-hint'
 import { confirmAllIds, liveDecisions, planSave, routeClash, type AreaHint, type PlannedMon, type RouteDecision } from '../lib/save/plan'
 import type { ParsedSave } from '../lib/save/unbound-save'
@@ -280,6 +281,7 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
         return
       }
       settledRoutes.current.set(route, mon.name)
+      app.linkIdentity(route, mon.identity)
       written.push(mon.nat)
       finished.push(id)
       identities.push(mon.identity)
@@ -304,6 +306,11 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const fromSave = suggestions.filter((mon) => mon.place === 'route')
   const needsDecision = suggestions.filter((mon) => mon.place === 'needs-decision')
   const ready = plan ? confirmAllIds(suggestions, routes, decisions, done) : []
+  const evolutions = evolutionProposals(
+    (plan?.mons ?? []).map((mon) => ({ identity: mon.identity, name: mon.name, nat: mon.nat, form: null })),
+    app.run ? readIdentityLinks(app.run.id) : [],
+    app.catches,
+  )
   const overCap = capWarnings(
     suggestions.filter((mon) => mon.where === 'party').map((mon) => ({ name: mon.nickname || mon.name, level: mon.level, onTeam: true })),
     activeCap(app.run)?.level ?? null,
@@ -403,6 +410,20 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
               <p className="import-help" data-known={knownCount}>
                 {knownCount} already imported. Left as logged. Moving a Pokémon between boxes is not a new catch.
               </p>
+            )}
+            {evolutions.length > 0 && (
+              <section className="import-block" data-import-group="evolved">
+                <h3>Evolved</h3>
+                <p className="import-help">Same Pokémon, new species. Confirming updates the name only. Status and faint notes stay.</p>
+                {evolutions.map((row) => (
+                  <article key={row.identity} className="import-mon" data-evolved={`${row.fromName} → ${row.toName}`}>
+                    <p><b>Evolved: {row.fromName} → {row.toName}</b></p>
+                    <button className="btn btn-sm" type="button" disabled={busy} onClick={() => void app.updateSpecies(row.catchId, { pokemon: row.toName, dexId: row.toDex, form: row.toForm })}>
+                      Update {row.toName}
+                    </button>
+                  </article>
+                ))}
+              </section>
             )}
             {plan.missing.length > 0 && (
               <section className="import-block" data-import-group="missing">

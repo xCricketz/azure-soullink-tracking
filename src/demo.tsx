@@ -144,6 +144,8 @@ function DemoProvider({ onExit, children }: { onExit: () => void; children: Reac
       deny()
       return 'invalid'
     },
+    linkIdentity: () => deny(),
+    updateSpecies: async () => deny(),
     setStatus: async () => deny(),
     deleteCatch: async () => deny(),
     place: async () => deny(),
