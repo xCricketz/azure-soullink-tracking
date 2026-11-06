@@ -1,5 +1,6 @@
 import { Archive, Ban, Heart, Minus, Plus, Search, Skull, X } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
+import { useListEntrance } from '../lib/list-entrance'
 import { DifficultyPicker } from '../components/DifficultyPicker'
 import { InstallHint } from '../components/InstallHint'
 import { LinkCard } from '../components/LinkCard'
@@ -38,6 +39,7 @@ const CHIPS: { id: RouteFilter; label: string }[] = [
 export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onWiki: (id: string) => void }) {
   const app = useApp()
   const [filter, setFilter] = useState<RouteFilter>('all')
+  const listRef = useRef<HTMLDivElement>(null)
   const [query, setQuery] = useState('')
   const [searching, setSearching] = useState(false)
   const [detail, setDetail] = useState<string | null>(null)
@@ -45,6 +47,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
   const [editor, setEditor] = useState<'badges' | 'cap' | null>(null)
   const rows = useMemo(() => pairRows(app.catches, app.customRoutes), [app.catches, app.customRoutes])
   const visible = rows.filter((row) => matchesFilter(row, filter) && matchesQuery(row, query))
+  useListEntrance(listRef, visible.slice(0, 12).map((row) => row.route.name).join('|'))
   const detailRow = rows.find((row) => row.route.name === detail)
   const quickRow = rows.find((row) => row.route.name === quick)
   const mine = quickRow ? quickRow[app.me] : undefined
@@ -134,13 +137,13 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
           </div>
         </>
       ) : null}
-      <div className="list stagger">
+      <div className="list" ref={listRef}>
         {visible.map((row, index) => {
           const previous = visible[index - 1]
           const showGroup = !query && filter === 'all' && row.route.group !== previous?.route.group
           const number = rows.findIndex((item) => item.route.name === row.route.name) + 1
           return (
-            <div key={row.route.name} style={{ ['--i' as string]: Math.min(index, 8) }}>
+            <div key={row.route.name} data-enter={index < 12 ? '' : undefined}>
               {showGroup && <h3 className="group-label">{groupTitle(row.route.group)}</h3>}
               <LinkCard
                 route={row.route}
