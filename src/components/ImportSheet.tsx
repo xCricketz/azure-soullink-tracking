@@ -307,9 +307,16 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
   const needsDecision = suggestions.filter((mon) => mon.place === 'needs-decision')
   const ready = plan ? confirmAllIds(suggestions, routes, decisions, done) : []
   const evolutions = evolutionProposals(
-    (plan?.mons ?? []).map((mon) => ({ identity: mon.identity, name: mon.name, nat: mon.nat, form: null })),
+    (plan?.mons ?? []).map((mon) => ({
+      identity: mon.identity,
+      name: mon.name,
+      nat: mon.nat,
+      form: null,
+      route: routes[mon.id] || mon.suggestedRoute,
+    })),
     app.run ? readIdentityLinks(app.run.id) : [],
     app.catches,
+    app.me,
   )
   const overCap = capWarnings(
     suggestions.filter((mon) => mon.where === 'party').map((mon) => ({ name: mon.nickname || mon.name, level: mon.level, onTeam: true })),
@@ -414,10 +421,13 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
             {evolutions.length > 0 && (
               <section className="import-block" data-import-group="evolved">
                 <h3>Evolved</h3>
-                <p className="import-help">Same Pokémon, new species. Confirming updates the name only. Status and faint notes stay.</p>
+                <p className="import-help">Same Pokémon, new species. Confirming updates the name only. Status and faint notes stay. Likely means this phone has no saved identity, but the catch on that route can evolve into this species.</p>
                 {evolutions.map((row) => (
-                  <article key={row.identity} className="import-mon" data-evolved={`${row.fromName} → ${row.toName}`}>
-                    <p><b>Evolved: {row.fromName} → {row.toName}</b></p>
+                  <article key={row.identity} className="import-mon" data-evolved={`${row.fromName} → ${row.toName}`} data-confidence={row.confidence}>
+                    <p>
+                      <b>Evolved: {row.fromName} → {row.toName}</b>
+                      {row.confidence === 'likely' && <span className="conf l">Likely</span>}
+                    </p>
                     <button className="btn btn-sm" type="button" disabled={busy} onClick={() => void app.updateSpecies(row.catchId, { pokemon: row.toName, dexId: row.toDex, form: row.toForm })}>
                       Update {row.toName}
                     </button>
