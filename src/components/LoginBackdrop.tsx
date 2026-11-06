@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { readVantaEnv, vantaFallbackReason, wavesTooSlow } from '../lib/vanta-fallback'
+import { readVantaEnv, vantaFallbackReason, vantaScale, wavesTooSlow } from '../lib/vanta-fallback'
 
-/** Sunrise Meadow sky. Soft, slow, and light enough to sit behind white cards. */
+/** Sunrise Meadow sky. Soft, slow, and light enough to sit behind frosted cards. */
 const WAVES = {
   mouseControls: false,
   touchControls: false,
@@ -20,13 +20,22 @@ const WAVES = {
 type Effect = {
   destroy: () => void
   animationLoop: () => void
+  resize?: () => void
   req?: number
   prevNow?: number
+  renderer?: { setPixelRatio: (n: number) => void }
 }
 
-export function LoginBackdrop() {
+/** One Waves layer. Mount it once at the login root and once at the signed-in app root. */
+export function AppWaves({ onLive }: { onLive?: (live: boolean) => void }) {
   const host = useRef<HTMLDivElement>(null)
   const [live, setLive] = useState(false)
+  const onLiveRef = useRef(onLive)
+  onLiveRef.current = onLive
+
+  useEffect(() => {
+    onLiveRef.current?.(live)
+  }, [live])
 
   useEffect(() => {
     const reason = vantaFallbackReason(readVantaEnv())
@@ -34,6 +43,7 @@ export function LoginBackdrop() {
     let effect: Effect | null = null
     let gone = false
     let sampleId = 0
+    let startId = 0
 
     function pause() {
       if (!effect?.req) return
@@ -49,49 +59,69 @@ export function LoginBackdrop() {
       if (document.hidden) pause()
       else resume()
     }
+    function capPixels() {
+      const dpr = window.devicePixelRatio || 1
+      const narrow = window.innerWidth < 600
+      const ratio = Math.min(dpr, 1.5)
+      effect?.renderer?.setPixelRatio(ratio)
+      if (narrow && effect?.renderer) effect.renderer.setPixelRatio(Math.min(dpr / vantaScale(dpr, true), 1.5))
+    }
 
-    void (async () => {
-      try {
-        const THREE = await import('three')
-        const mod = await import('vanta/dist/vanta.waves.min')
-        if (gone || !host.current) return
-        effect = mod.default({ el: host.current, THREE, ...WAVES })
-        setLive(true)
-        document.addEventListener('visibilitychange', onHide)
-        if (document.hidden) pause()
-        let frames = 0
-        let sampleStart = performance.now()
-        const sample = (now: number) => {
-          if (gone || !effect) return
-          if (document.hidden) {
-            frames = 0
-            sampleStart = now
-            sampleId = window.requestAnimationFrame(sample)
-            return
-          }
-          frames += 1
-          const elapsed = now - sampleStart
-          if (elapsed >= 2000) {
-            if (wavesTooSlow(frames, elapsed)) {
-              effect.destroy()
-              effect = null
-              setLive(false)
-              document.removeEventListener('visibilitychange', onHide)
+    startId = window.requestAnimationFrame(() => {
+      void (async () => {
+        try {
+          const THREE = await import('three')
+          const mod = await import('vanta/dist/vanta.waves.min')
+          if (gone || !host.current) return
+          const narrow = window.innerWidth < 600
+          const dpr = window.devicePixelRatio || 1
+          const scale = vantaScale(dpr, narrow)
+          effect = mod.default({
+            el: host.current,
+            THREE,
+            ...WAVES,
+            scale: narrow ? WAVES.scale : scale,
+            scaleMobile: narrow ? scale : WAVES.scaleMobile,
+          })
+          capPixels()
+          setLive(true)
+          document.addEventListener('visibilitychange', onHide)
+          if (document.hidden) pause()
+          let frames = 0
+          let sampleStart = performance.now()
+          const sample = (now: number) => {
+            if (gone || !effect) return
+            if (document.hidden) {
+              frames = 0
+              sampleStart = now
+              sampleId = window.requestAnimationFrame(sample)
+              return
             }
-            return
+            frames += 1
+            const elapsed = now - sampleStart
+            if (elapsed >= 3000) {
+              if (wavesTooSlow(frames, elapsed)) {
+                effect.destroy()
+                effect = null
+                setLive(false)
+                document.removeEventListener('visibilitychange', onHide)
+              }
+              return
+            }
+            sampleId = window.requestAnimationFrame(sample)
           }
           sampleId = window.requestAnimationFrame(sample)
+        } catch {
+          setLive(false)
+          effect?.destroy()
+          effect = null
         }
-        sampleId = window.requestAnimationFrame(sample)
-      } catch {
-        setLive(false)
-        effect?.destroy()
-        effect = null
-      }
-    })()
+      })()
+    })
 
     return () => {
       gone = true
+      window.cancelAnimationFrame(startId)
       window.cancelAnimationFrame(sampleId)
       document.removeEventListener('visibilitychange', onHide)
       effect?.destroy()
@@ -107,3 +137,5 @@ export function LoginBackdrop() {
     </div>
   )
 }
+
+export const LoginBackdrop = AppWaves

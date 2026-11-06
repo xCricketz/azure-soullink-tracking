@@ -1,7 +1,7 @@
 export type PlayerId = 'fisi' | 'seri'
 export type Status = 'alive' | 'boxed' | 'dead' | 'missed'
 export type ThemeChoice = 'dark' | 'light' | 'system'
-export type TabId = 'routes' | 'team' | 'grave' | 'wiki' | 'map' | 'more'
+export type TabId = 'routes' | 'team' | 'grave' | 'wiki' | 'map' | 'notes' | 'more'
 export type CapMode = 'vanilla' | 'difficult'
 export type Difficulty = 'vanilla' | 'difficult' | 'expert' | 'insane'
 export type SpeciesClause = 'off' | 'player' | 'both'

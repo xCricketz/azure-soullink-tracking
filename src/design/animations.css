@@ -29,7 +29,7 @@
 
 /* ---------- 3. Dock indicator morph ---------- */
 /* .dock-ind translates to the active slot (spring); inner <span> squashes/stretches mid-flight. */
-.dock-ind{position:absolute;top:8px;bottom:8px;left:8px;width:calc((100% - 16px) / 5);
+.dock-ind{position:absolute;top:8px;bottom:8px;left:4px;width:calc((100% - 8px) / 6);
   transform:translate3d(calc(var(--i,0) * 100%),0,0);transition:transform var(--dur-3) var(--ease-spring-soft)}
 .dock-ind>span{position:absolute;inset:0;border-radius:20px;background:linear-gradient(180deg,var(--me-tint),transparent 140%),var(--surface);
   box-shadow:0 0 0 1px color-mix(in srgb,var(--me) 38%,transparent),0 0 22px -4px var(--me-glow)}
