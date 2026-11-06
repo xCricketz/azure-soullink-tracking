@@ -1,4 +1,5 @@
 import raw from '../data/dex.json'
+import formSprites from '../data/form-sprites.json'
 import { norm } from './text'
 
 export interface Mon {
@@ -95,18 +96,50 @@ export function spriteUrl(id: number): string {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 }
 
+function homeUrl(id: number): string {
+  return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`
+}
+
+const FORM_IDS = formSprites as Record<string, number>
+
+export const REGIONAL_FORMS = ['Alolan', 'Galarian', 'Hisuian', 'Paldean'] as const
+
+export function isRegionalForm(form?: string | null): boolean {
+  return Boolean(form && (REGIONAL_FORMS as readonly string[]).includes(form))
+}
+
+/** PokeAPI Pokémon id for a regional form, when that form has its own art. */
+export function formSpriteId(nat: number, form?: string | null): number | null {
+  if (!isRegionalForm(form)) return null
+  const id = FORM_IDS[`${nat}|${form}`]
+  return typeof id === 'number' ? id : null
+}
+
+/** Short label shown only when the form has no sprite of its own. */
+export function formBadge(form?: string | null): string | null {
+  if (form === 'Alolan') return 'Alola'
+  if (form === 'Galarian') return 'Galar'
+  if (form === 'Hisuian') return 'Hisui'
+  if (form === 'Paldean') return 'Paldea'
+  return null
+}
+
+/** Leading URLs that belong to the form. Past this index the list is the base species. */
+export function formSpriteCount(nat: number, form?: string | null): number {
+  return formSpriteId(nat, form) ? 3 : 0
+}
+
 export function platinumSpriteUrl(id: number): string {
   return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-iv/platinum/${id}.png`
 }
 
-/** Newest art first, then Home, then the default sprite. */
-export function spriteSources(id: number): string[] {
+/** Newest art first, then Home, then the default sprite. A regional form uses its own id, then the base species. */
+export function spriteSources(id: number, form?: string | null): string[] {
   if (id < 1) return []
-  return [
-    artworkUrl(id),
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`,
-    spriteUrl(id),
-  ]
+  const base = [artworkUrl(id), homeUrl(id), spriteUrl(id)]
+  const formId = formSpriteId(id, form)
+  if (!formId) return base
+  return [artworkUrl(formId), homeUrl(formId), spriteUrl(formId), ...base]
 }
 
 export function artworkUrl(id: number): string {

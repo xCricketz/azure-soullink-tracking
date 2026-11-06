@@ -47,9 +47,9 @@ export function Graveyard() {
               }}
             >
               <div className="pair">
-                <Side label="Fisi" nick={row.fisi ? monName(row.fisi) : '—'} dex={row.fisi?.dex_id} species={row.fisi ? speciesName(row.fisi) : null} player="fisi" />
+                <Side label="Fisi" nick={row.fisi ? monName(row.fisi) : '—'} dex={row.fisi?.dex_id} form={row.fisi?.form} species={row.fisi ? speciesName(row.fisi) : null} player="fisi" />
                 <div className="brk"><Link2 aria-hidden="true" /><Link2 aria-hidden="true" /></div>
-                <Side label="Seri" nick={row.seri ? monName(row.seri) : '—'} dex={row.seri?.dex_id} species={row.seri ? speciesName(row.seri) : null} player="seri" />
+                <Side label="Seri" nick={row.seri ? monName(row.seri) : '—'} dex={row.seri?.dex_id} form={row.seri?.form} species={row.seri ? speciesName(row.seri) : null} player="seri" />
               </div>
               <h3>{monName(row.fisi)} & {monName(row.seri)}</h3>
               <div className="where">{routeTitle(row.route)}{when ? ` · fell ${formatDate(when)}` : ''}</div>
@@ -109,11 +109,11 @@ export function Graveyard() {
   )
 }
 
-function Side({ label, nick, dex, species, player }: { label: string; nick: string; dex?: number | null; species?: string | null; player: 'fisi' | 'seri' }) {
+function Side({ label, nick, dex, form, species, player }: { label: string; nick: string; dex?: number | null; form?: string | null; species?: string | null; player: 'fisi' | 'seri' }) {
   return (
     <div className="side">
       <span className={`who ${player === 'fisi' ? 'fisi-l' : 'seri-l'}`}>{label.toUpperCase()}</span>
-      <SpritePlate id={dex} alt={species ?? label} grave size="md" />
+      <SpritePlate id={dex} form={form} alt={species ?? label} grave size="md" />
       <b>{nick}</b>
     </div>
   )

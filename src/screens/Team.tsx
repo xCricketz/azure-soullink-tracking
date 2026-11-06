@@ -155,7 +155,7 @@ function Party({
                 disabled={!row.dex_id}
                 onClick={() => row.dex_id && onWiki(dexKey(row.dex_id, row.form))}
               >
-                <SpritePlate id={row.dex_id} alt={speciesName(row)} size="lg" types={findMon(dex, row.dex_id, row.form)?.types} />
+                <SpritePlate id={row.dex_id} form={row.form} alt={speciesName(row)} size="lg" types={findMon(dex, row.dex_id, row.form)?.types} />
               </button>
             </div>
             <div className="nm">
@@ -173,7 +173,7 @@ function Party({
                   aria-label={`${monName(partner)} in the Pokédex`}
                   onClick={() => onWiki(dexKey(partner.dex_id as number, partner.form))}
                 >
-                  <SpritePlate id={partner.dex_id} alt="" size="sm" types={findMon(dex, partner.dex_id, partner.form)?.types} />
+                  <SpritePlate id={partner.dex_id} form={partner.form} alt="" size="sm" types={findMon(dex, partner.dex_id, partner.form)?.types} />
                 </button>
               )}
               <span>{PLAYERS[partnerId].possessive} {partner ? monName(partner) : '…'}</span>
@@ -236,7 +236,7 @@ function Reserves({ onWiki }: { onWiki: (id: string) => void }) {
             disabled={!row.dex_id}
             onClick={() => row.dex_id && onWiki(dexKey(row.dex_id, row.form))}
           >
-            <SpritePlate id={row.dex_id} alt={speciesName(row)} size="sm" />
+            <SpritePlate id={row.dex_id} form={row.form} alt={speciesName(row)} size="sm" />
           </button>
           <div>
             <strong>{monName(row)}</strong>

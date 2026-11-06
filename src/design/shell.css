@@ -465,18 +465,44 @@ input, textarea, select { font-size: 16px; }
 
 .app > .bgt, .login-app > .bgt { position: fixed; inset: 0; z-index: 0; }
 .app > .scroll, .login-app > .scroll, .app > .dock, .app > .fab, .app > .demo-bar { z-index: 1; }
-
-.app[data-waves="on"] :is(.lcard, .tcard, .group, .hero, .boss-card, .tomb, .run-note, .banner, .hdr.sticky, .note-composer, .cap-board > div),
-.login-app[data-waves="on"] .pcard {
-  background: color-mix(in srgb, var(--surface) 78%, transparent);
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
-  backdrop-filter: blur(14px) saturate(1.15);
+.app[data-waves="on"],
+.login-app[data-waves="on"],
+.app[data-waves="on"] > .scroll,
+.login-app[data-waves="on"] > .scroll {
+  background: transparent;
 }
+
+.app[data-waves="on"] :is(.lcard, .tcard, .group, .hero, .boss-card, .tomb, .run-note, .banner, .hdr.sticky, .note-composer, .cap-board > div, .dock),
+.login-app[data-waves="on"] :is(.pcard, .dock) {
+  background: rgba(255, 255, 255, 0.66);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  backdrop-filter: blur(12px) saturate(1.2);
+}
+.app[data-waves="on"] .dk { color: var(--text-muted); }
+.app[data-waves="on"] .dk.on { color: var(--text); }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .app[data-waves="on"] :is(.lcard, .tcard, .group, .hero, .boss-card, .tomb, .run-note, .banner, .hdr.sticky, .note-composer),
-  .login-app[data-waves="on"] .pcard {
-    background: color-mix(in srgb, var(--surface) 94%, transparent);
+  .app[data-waves="on"] :is(.lcard, .tcard, .group, .hero, .boss-card, .tomb, .run-note, .banner, .hdr.sticky, .note-composer, .dock),
+  .login-app[data-waves="on"] :is(.pcard, .dock) {
+    background: rgba(255, 255, 255, 0.94);
   }
+}
+[data-theme="dark"] .app[data-waves="on"] :is(.lcard, .tcard, .group, .hero, .boss-card, .tomb, .run-note, .banner, .hdr.sticky, .note-composer, .dock),
+[data-theme="dark"] .login-app[data-waves="on"] :is(.pcard, .dock) {
+  background: rgba(16, 22, 43, 0.72);
+}
+
+.form-badge {
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  z-index: 3;
+  padding: 0 4px;
+  border-radius: 6px;
+  background: rgba(18, 32, 74, 0.86);
+  color: #fff;
+  font: 700 9px/14px var(--font-body);
+  letter-spacing: 0.02em;
+  pointer-events: none;
 }
 
 .notes-screen { padding: 0 var(--page-x) 24px; display: flex; flex-direction: column; gap: 12px; }

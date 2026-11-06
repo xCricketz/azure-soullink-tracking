@@ -1,5 +1,10 @@
 export type VantaSkip = 'reduced-motion' | 'no-webgl'
 
+/** Device console line. Always starts with `waves:` so a phone log is easy to filter. */
+export function logWaves(message: string) {
+  console.info(`waves: ${message}`)
+}
+
 /**
  * Static gradient only when the person asked for less motion, WebGL is missing,
  * or Waves fail to start. Core count and device memory do not skip the effect.

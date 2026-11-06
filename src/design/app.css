@@ -331,7 +331,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* ---------- background templates (.bgt on .screen; z-index:-1; static layers + max 2 drifting clouds) ---------- */
 .bgt{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.bgt.is-waves .sun,.bgt.is-waves .cloud{opacity:0}
+.bgt.is-waves .sun,.bgt.is-waves .cloud,.bgt.is-waves::before,.bgt.is-waves::after{display:none;content:none}
+.bgt.is-waves{background:linear-gradient(165deg,#3d8bff 0%,#7c4dff 48%,#ff4f86 100%)}
 .bgt canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .bgt::before,.bgt::after{content:"";position:absolute;inset:0}
 .bgt .cloud{position:absolute;width:150px;height:46px;border-radius:30px;background:rgba(255,255,255,.78);filter:none;box-shadow:0 10px 24px -8px rgba(60,120,220,.25)}

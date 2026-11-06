@@ -227,7 +227,7 @@ export function Routes({ onLog, onWiki }: { onLog: (route?: string) => void; onW
                             aria-label={`${speciesName(row)} in the Pokédex`}
                             onClick={() => { setDetail(null); onWiki(dexKey(row.dex_id as number, row.form)) }}
                           >
-                            <SpritePlate id={row.dex_id} alt={speciesName(row)} dim={row.status === 'dead'} />
+                            <SpritePlate id={row.dex_id} form={row.form} alt={speciesName(row)} dim={row.status === 'dead'} />
                           </button>
                         )}
                         <div>
