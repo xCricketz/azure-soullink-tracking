@@ -33,6 +33,8 @@ export interface GiftMatch {
   label: string
   kind: GiftKind
   confidence: 'likely' | 'guess'
+  /** Wiki species (or a hatched egg). Ball means the Cherish Ball heuristic, with the randomizer on. */
+  basis: 'wiki' | 'ball'
 }
 
 function sameName(left: string, right: string): boolean {
@@ -43,12 +45,13 @@ function speciesHit(source: GiftSource, name: string): boolean {
   return name.length > 0 && source.species.some((species) => sameName(species, name))
 }
 
-function toMatch(source: GiftSource): GiftMatch {
+function toMatch(source: GiftSource, basis: 'wiki' | 'ball'): GiftMatch {
   return {
     id: source.id,
     label: source.label,
     kind: source.kind,
     confidence: source.bestEffort ? 'guess' : 'likely',
+    basis,
   }
 }
 
@@ -67,10 +70,11 @@ function giftOrEggAt(location: number): GiftSource[] {
  * Hatched eggs match an egg source in the met town. Species gifts need own OT,
  * the same met location, and a listed species. Trades need the species and
  * either met location 254 or another trainer's id in that town.
- * A Cherish Ball skips the species list when the randomizer is on, or when
- * that met location has exactly one gift or egg. A level-10 Bellin gift that
- * was received as the Pokémon, not hatched from the egg, still uses the egg slot. No listed source
- * becomes a guessed "<Place> – Gift" slot. Two sources that both fit are left alone.
+ * A Cherish Ball skips the species list only when the species randomizer is on.
+ * With the randomizer off, the species has to be on that source's list.
+ * A level-10 Bellin gift that was received as the Pokémon, not hatched from the egg,
+ * uses the egg slot when the randomizer is on. No listed source then becomes a guessed
+ * "<Place> – Gift" slot. Two sources that both fit are left alone.
  */
 export function matchGiftSlot(mon: GiftCandidate): GiftMatch | null {
   if (mon.isEgg) return null
@@ -93,18 +97,19 @@ export function matchGiftSlot(mon: GiftCandidate): GiftMatch | null {
   })
   const namedHits = hits.filter((source) => speciesHit(source, name))
   const picked = hits.length === 1 ? hits[0] : namedHits.length === 1 ? namedHits[0] : null
-  if (picked) return toMatch(picked)
-  if (!receivedGift(mon)) return null
+  if (picked) return toMatch(picked, 'wiki')
+  if (!receivedGift(mon) || !mon.randomizerSpecies) return null
   const present = giftOrEggAt(mon.met.location)
   const pool = present.filter((source) => source.level == null || source.level === mon.met.level)
-  const waiveSpecies = Boolean(mon.randomizerSpecies) || present.length === 1
-  if (waiveSpecies && pool.length === 1) return toMatch(pool[0])
-  if (waiveSpecies) {
-    const named = pool.filter((source) => speciesHit(source, name))
-    if (named.length === 1) return toMatch(named[0])
-  }
+  if (pool.length === 1) return toMatch(pool[0], speciesHit(pool[0], name) ? 'wiki' : 'ball')
+  const named = pool.filter((source) => speciesHit(source, name))
+  if (named.length === 1) return toMatch(named[0], 'wiki')
   if (present.length === 0) return genericGiftMatch(mon.met.location)
   return null
+}
+
+export function isGiftRoute(id: string): boolean {
+  return GIFT_SOURCES.some((source) => source.id === id) || genericGiftFromId(id) != null
 }
 
 export function genericGiftId(placeKey: string): string {
@@ -141,7 +146,7 @@ function genericGiftMatch(location: number): GiftMatch | null {
   if (!key) return null
   const route = genericGiftDef(key)
   if (!route) return null
-  return { id: route.name, label: route.en, kind: 'gift', confidence: 'guess' }
+  return { id: route.name, label: route.en, kind: 'gift', confidence: 'guess', basis: 'ball' }
 }
 
 export function giftRouteDefs(): RouteDef[] {

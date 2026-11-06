@@ -1,6 +1,6 @@
 import type { PlayerId } from '../types'
 import { MAP_SECTIONS, readLocation, type DecisionKind, type LocationReading, type MapConfidence, type MapsecTable } from './locations'
-import { matchGiftSlot } from '../gift-slots'
+import { isGiftRoute, matchGiftSlot } from '../gift-slots'
 import { STARTER_SLOT, classifyStarter } from './run-options'
 import { identityOf } from './save-diff'
 import type { Mon, ParsedSave } from './unbound-save'
@@ -59,6 +59,8 @@ export interface PlannedMon {
   decision: DecisionKind | null
   confidence: MapConfidence | null
   placeName: string | null
+  /** Cherish Ball heuristic, not a wiki species. The row copy must not call it a wiki match. */
+  giftFromBall: boolean
   /** Only the earliest Shadow Base level-10 starter. Map section 88 is not a starter. */
   starterRule: 'S1' | null
   ownOT: boolean
@@ -226,6 +228,7 @@ function planOne(
     decision: unknown ? 'unmapped' : located.decision,
     confidence: located.confidence,
     placeName: located.placeName,
+    giftFromBall: gift?.basis === 'ball',
     starterRule: starter.isStarter ? starter.rule : null,
     ownOT: mon.ownOT,
     duplicate: false,
@@ -358,6 +361,7 @@ export function liveDecisions(
 /**
  * Every new Pokémon with a chosen route, including the Starter slot and gifts.
  * Duplicates, unknown species, and rows with no route stay out.
+ * A gift slot marked Guess is confirmed one by one, not by Confirm all.
  */
 export function confirmAllIds(
   mons: PlannedMon[],
@@ -367,7 +371,9 @@ export function confirmAllIds(
 ): string[] {
   const done = new Set(doneIds)
   return mons.filter((mon) => {
-    if (!mon.newSinceImport || mon.unknown || mon.nat == null || done.has(mon.id) || !chosen[mon.id]) return false
+    const route = chosen[mon.id]
+    if (!mon.newSinceImport || mon.unknown || mon.nat == null || done.has(mon.id) || !route) return false
+    if (mon.confidence === 'guess' && isGiftRoute(route)) return false
     return !decisions.get(mon.id)?.duplicate
   }).map((mon) => mon.id)
 }
