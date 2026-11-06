@@ -387,10 +387,10 @@ export function ImportSheet({ open, onClose, incoming = null }: { open: boolean;
             )}
             <p className="import-help">
               Reading this file does not change the run. Each route is a suggestion from the met location. Confirm a row to log that catch, or use Confirm all for every suggested route that is still the first catch.
-              Likely and Guess are weaker matches. Change them before Confirm all if they look wrong.
+              Likely and Guess are weaker matches. A gift slot marked Guess stays out of Confirm all, so confirm that row on its own.
               Unmapped places, trades, events, and hatched Pokémon stay under Needs your decision until you confirm them one at a time.
               A route holds one catch. Evolution keeps the first place. A soft reset leaves no trace, so the save cannot tell a first catch from a later one.
-              A Cherish Ball is a gift. It uses the listed gift at that place, or a guessed Gift slot when none is listed, so the wild encounter stays open. Gyms have no map section of their own.
+              A Cherish Ball is a gift. With the species randomizer on, it can use the gift at that place even when the species differs. Without the randomizer, it needs a species from that gift's list. Gyms have no map section of their own.
               Party Pokémon join the team until it is full. Box Pokémon are logged as boxed.
               Shiny is an unverified guess (xor under 16). It is not confirmed. Box levels are worked out from EXP. A mint would not show.
               {!save.checksumsOk && ' One save slot failed its checksum, so this is the other slot.'}
@@ -551,6 +551,7 @@ function placeCopy(mon: PlannedMon, live: RouteDecision): string {
     placeName: mon.placeName,
     where,
     catchLevel: mon.catchLevel,
+    giftFromBall: mon.giftFromBall,
   })
   if (ruled) return ruled
   if (mon.decision === 'hatched') return `Hatched at ${mon.placeName ?? 'this place'}. The save stores the hatch place, not a catch route. Confirm all skips this.`
